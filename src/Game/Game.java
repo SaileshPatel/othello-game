@@ -59,18 +59,22 @@ public class Game
 		JFrame mainFrame = new JFrame();	
 		JPanel visualBoard = new JPanel();
 		
-		mainFrame.setLayout(new BorderLayout());		// Create main frame to hold the board
-		((JPanel)mainFrame.getContentPane()).setBorder(new EmptyBorder(0, 0, 0, 0));
+		// Create main frame to hold the board
+		mainFrame.setLayout(new BorderLayout());
+		((JPanel)mainFrame.getContentPane())
+		.setBorder(new EmptyBorder(0, 0, 0, 0));
 		mainFrame.setSize(800, 800);
 		
 		visualBoard.setLayout(new GridLayout(rows,columns));
-		mainFrame.add(visualBoard); //Created mainframe and added the board container to it
+		//Created mainframe and added the board container to it
+		mainFrame.add(visualBoard);
 		
 	
 		Color tileColour = null;
 		
 		for (int i = 0; i < rows; i++){ 
-			if ((i%2) == 0){	//alternate the colour of the individual tile for each row
+			//alternate the colour of the individual tile for each row
+			if ((i%2) == 0){
 				tileColour = colour1; 
 			}else{
 				tileColour = colour2;
@@ -80,16 +84,18 @@ public class Game
 				
 				JPanel tile = new JPanel();	//Create individual tile
 				tile.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-				tile.setBackground(tileColour);		//Add colour to the tile
+				tile.setBackground(tileColour);	//Add colour to the tile
 				
 				
 				if(tileColour.equals(colour1)){
-					tileColour = colour2;				//alternate the colour of the individual tiles for each column
+					//alternate the colour of the individual tiles for each column
+					tileColour = colour2;
 				}else{
 					tileColour = colour1;
 				}
 				
-				visualBoard.add(tile);				//add tile to the board
+				//add tile to the board
+				visualBoard.add(tile);
 				
 			}
 		
