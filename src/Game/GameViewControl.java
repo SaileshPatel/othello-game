@@ -2,16 +2,14 @@ package Game;
 
 public class GameViewControl
 {
-	private final Game game;
-	private final Piece piece;
-	private final Player player;
-	private Position position;
+	private final BoardView board;
+	public final Piece piece;
+	private volatile Position position;
 	
-	public GameViewControl(final Game game, final Piece piece, Player player)
+	public GameViewControl(final BoardView board, final Piece piece)
 	{
-		this.game = game;
+		this.board = board;
 		this.piece = piece;
-		this.player = player;
 	}
 	/**
 	 * FOR GAME to use!!
@@ -52,7 +50,7 @@ public class GameViewControl
 	public final BoardView getBoard()
 	{
 		//TODO return proxy board instead
-		return game.getBoard();
+		return board;
 	}
 	
 }
