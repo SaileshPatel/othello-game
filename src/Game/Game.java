@@ -30,6 +30,9 @@ public class Game
 	private int columns = 8;
 	private Color colour1 = Color.GRAY;
 	private Color colour2 = Color.GRAY;
+	private JPanel boardTiles[][] = new JPanel[rows][columns];
+	 
+	
 	
 	/**
 	 * The {@link GameBoard} of <code>this</code> game.
@@ -96,6 +99,7 @@ public class Game
 				
 				//add tile to the board
 				visualBoard.add(tile);
+				boardTiles[i][j] = tile;
 				
 			}
 		
@@ -108,6 +112,23 @@ public class Game
 	} //Game(GameBoard)
 	//=========================================================================
 	//Methods.
+	
+	/**
+	 * 
+	 * 
+	 * 
+	 */
+	private void updateGUI (GameBoard board) {
+		
+		
+		
+		
+	}
+	
+	
+	
+	
+	
 	/**
 	 * 
 	 * <p>
