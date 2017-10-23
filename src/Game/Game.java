@@ -3,6 +3,7 @@ package Game;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.util.Optional;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -28,8 +29,10 @@ public class Game
 	//Fields.
 	private int rows = 8;
 	private int columns = 8;
-	private Color colour1 = Color.GRAY;
-	private Color colour2 = Color.GRAY;
+	private Color colour1 = new Color(0,150,0);
+	private Color colour2 = new Color(0,150,0);
+	private static final Color PLAYER1_TOKEN_COLOR = Color.BLACK;
+	private static final Color PLAYER2_TOKEN_COLOR = Color.WHITE;
 	private JPanel boardTiles[][] = new JPanel[rows][columns];
 	 
 	
@@ -118,7 +121,31 @@ public class Game
 	 * 
 	 * 
 	 */
-	private void updateGUI (GameBoard board) {
+	private void updateGUI (BoardView board) {
+		int size = board.size();
+		
+		for(int x=0; x<size;x++) {
+			for(int y=0; y<size;y++) {
+				Optional<Piece> piece = board.view(new Position(x,y));
+				
+				if( piece == null ) {
+					//Set tile colour to background colour
+					boardTiles[x][y].setBackground(colour1);
+				} else {
+					//Probably a more efficient way to do this but we don't know how to use enums
+				switch (piece.get()) {
+					case PIECE_A:
+						boardTiles[x][y].setBackground(PLAYER1_TOKEN_COLOR);
+						break;	
+					case PIECE_B:
+						boardTiles[x][y].setBackground(PLAYER2_TOKEN_COLOR);
+						break;
+					}
+				}
+			}
+
+		}
+		
 		
 		
 		
