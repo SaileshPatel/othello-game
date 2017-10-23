@@ -124,7 +124,9 @@ public class Game
 			while(!control.ready());
 			board.put(control.getPosition(), control.piece);
 		} //if
-	}
+		
+		//add updateGUI method
+	} //turn()
 	/**
 	 * Begin playing the game.
 	 * 
@@ -142,7 +144,8 @@ public class Game
 		{
 			turn(player1);
 			turn(player2);
-		}
+		} //while
+		
 	} //play()
 	/**
 	 * 
