@@ -13,11 +13,11 @@ import java.awt.*;
 public class Main {
 	private static int rows = 8;
 	private static int columns = 8;
-	private static Color colour1 = Color.WHITE;
-	private static Color colour2 = Color.WHITE;
+	private static Color colour1 = Color.GRAY;
+	private static Color colour2 = Color.GRAY;
 	
 	public static void main(String[] args) {
-		
+
 
 		
 			
