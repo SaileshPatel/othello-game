@@ -117,8 +117,8 @@ public class Game
 	//Methods.
 	
 	/**
-	 * 
-	 * 
+	 * Update the GUI to show the current state of a gameboard object
+	 * @param board The board to render
 	 * 
 	 */
 	private void updateGUI (BoardView board) {
@@ -143,17 +143,8 @@ public class Game
 					}
 				}
 			}
-
-		}
-		
-		
-		
-		
-		
+		}	
 	}
-	
-	
-	
 	
 	
 	/**
