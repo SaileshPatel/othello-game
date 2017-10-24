@@ -19,6 +19,10 @@ public class Main {
 	public static void main(String[] args) {
 		// param does not work
 		GameBoard board = new GameBoard(8);
+		
+		
+//		board.put(new Position(1,1), Piece.PIECE_A);
+//		board.put(new Position(5,5), Piece.PIECE_B);
 		Game game = new Game(board);
 		Player player1 = new Player(game.getControl());
 		player1.run();

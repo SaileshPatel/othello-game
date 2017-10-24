@@ -17,5 +17,5 @@ public interface BoardView {
 	
 	public Set<Position> legalMoves(Piece piece);
 	
-	public Optional<Piece> view(Position boardPosition);
+	public Piece view(Position boardPosition);
 }
