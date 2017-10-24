@@ -3,6 +3,11 @@ package Game;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * The GameBoard is where actions are completed. 
+ * @author saileshpatel
+ *
+ */
 public class GameBoard implements BoardView{
 	private Piece[][] grid;
 	
