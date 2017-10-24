@@ -15,6 +15,7 @@ public class Main {
 	public static void main(String[] args) {
 		GameBoard board = new GameBoard(8);
 		Game game = new Game(board);
+		game.play();
 	}
 	
 

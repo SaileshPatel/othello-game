@@ -3,6 +3,11 @@ package Game;
 import java.util.Optional;
 import java.util.Set;
 
+/**
+ * This is the BoardView. This will eventually be used to control the board. 
+ * 
+ *
+ */
 public interface BoardView {
 	public Boolean isEnd();
 	
