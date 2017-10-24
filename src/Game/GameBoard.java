@@ -240,9 +240,11 @@ public class GameBoard implements BoardView{
 	}
 
 	@Override
-	public Optional<Piece> view(Position boardPosition) {
+	public Piece view(Position boardPosition) {
 		// TODO Auto-generated method stub
-		return null;
+		Piece temp;
+		temp = grid[boardPosition.row][boardPosition.col];
+		return temp;
 	}
 
 	public void flip(int x, int y){
