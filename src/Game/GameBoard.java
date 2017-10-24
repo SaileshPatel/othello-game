@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * The GameBoard is where actions are completed. 
- * @author saileshpatel
+ * @author Charlie Sims
  *
  */
 public class GameBoard implements BoardView{

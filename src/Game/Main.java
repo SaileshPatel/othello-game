@@ -20,6 +20,8 @@ public class Main {
 		// param does not work
 		GameBoard board = new GameBoard(8);
 		Game game = new Game(board);
+		Player player1 = new Player(game.getControl());
+		player1.run();
 	}
 	
 
