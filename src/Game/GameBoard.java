@@ -1,7 +1,6 @@
 package Game;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -14,6 +13,11 @@ public class GameBoard implements BoardView{
 
 	public GameBoard(int size){
 		grid = new Piece[size][size];
+		grid[size/2][size/2] = Piece.PIECE_A;
+		grid[size/2][size/2-1] = Piece.PIECE_B;
+		grid[size/2-1][size/2-1] = Piece.PIECE_A;
+		grid[size/2-1][size/2] = Piece.PIECE_B;
+		
 	}
 
 	public void put(Position position, Piece piece){
