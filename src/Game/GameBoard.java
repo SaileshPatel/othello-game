@@ -1,5 +1,6 @@
 package Game;
 
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -29,7 +30,7 @@ public class GameBoard implements BoardView{
 				}
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -41,14 +42,201 @@ public class GameBoard implements BoardView{
 
 	@Override
 	public int countFlips() {
+		//In the nicest way WTF does this do?
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public Set<Position> legalMoves(Piece piece) {
-		// TODO Auto-generated method stub
+		Set<Position> validMoves = new HashSet<Position>();
+		//validMoves.add(new Position(1,2));
+		try {
+			int x;
+			int y;
+			Piece temp = piece;
+
+			for (int i = 0;i < grid.length; i++){
+				x = i;
+				for (int j = 0;j < grid.length; j++){
+					y = j;
+					if(locationValid(x,y,temp)){
+						validMoves.add(new Position(x,y));
+					}
+
+
+				}
+			}
+			return validMoves;
+
+		} catch (Exception e) {
+			e.getMessage();
+		} finally {
+
+		}
+
 		return null;
+	}
+
+	private boolean locationValid(int x, int y, Piece temp){
+		int tempRepeats;
+		
+		for (int i = 0;i < y; i++){
+			//if piece is equal/null
+			if(grid[x][y-i-1] == null || grid[x][y-i-1] == temp){
+				//if piece is equal
+				if (grid[x][y-i-1] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+		//DOWN
+		for (int i = 0;i < grid.length - y - 1; i++){
+			//if piece is equal/null
+			if(grid[x][y+i+1] == null || grid[x][y+i+1] == temp){
+				//if piece is equal
+				if (grid[x][y+i+1] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+
+		//LEFT
+		for (int i = 0;i < x; i++){
+			//if piece is equal/null
+			if(grid[x-(i+1)][y] == null || grid[x-(i+1)][y] == temp){
+				//if piece is equal
+				if (grid[x-(i+1)][y] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+
+		//RIGHT
+		for (int i = 0;i < grid.length - x - 1; i++){
+			//if piece is equal/null
+			if(grid[x+(i+1)][y] == null || grid[x+(i+1)][y] == temp){
+				//if piece is equal
+				if (grid[x+(i+1)][y] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+
+		//Top left
+		if(x < y){
+			tempRepeats = x;
+		} else {
+			tempRepeats = y;
+		}
+		for (int i = 0;i < tempRepeats; i++){
+			//if piece is equal/null
+			if(grid[x-(i+1)][y-(i+1)] == null || grid[x-(i+1)][y-(i+1)] == temp){
+				//if piece is equal
+				if (grid[x-(i+1)][y-(i+1)] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+
+		//top right
+		if(grid.length - x < y){
+			tempRepeats = grid.length - x - 1;
+		} else {
+			tempRepeats = y;
+		}
+		for (int i = 0;i < tempRepeats; i++){
+			//if piece is equal/null
+			if(grid[x+(i+1)][y-(i+1)] == null || grid[x+(i+1)][y-(i+1)] == temp){
+				//if piece is equal
+				if (grid[x+(i+1)][y-(i+1)] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+
+
+
+		//down Right
+		if(grid.length - x < grid.length - y){
+			tempRepeats = grid.length - x - 1;
+		} else {
+			tempRepeats = grid.length - y - 1;
+		}
+		for (int i = 0;i < tempRepeats; i++){
+			//if piece is equal/null
+			if(grid[x+(i+1)][y+(i+1)] == null || grid[x+(i+1)][y+(i+1)] == temp){
+				//if piece is equal
+				if (grid[x+(i+1)][y+(i+1)] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+
+		//down Left
+		if(x < grid.length - y){
+			tempRepeats = x;
+		} else {
+			tempRepeats = grid.length - y - 1;
+		}
+		for (int i = 0;i < tempRepeats; i++){
+			//if piece is equal/null
+			if(grid[x-(i+1)][y+(i+1)] == null || grid[x-(i+1)][y+(i+1)] == temp){
+				//if piece is equal
+				if (grid[x-(i+1)][y+(i+1)] == temp){
+					//if it has already passed over the other color
+					if(i > 0){
+						//flip pieces in the middle
+
+						return true;
+					}
+				}
+				break;
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -63,7 +251,7 @@ public class GameBoard implements BoardView{
 		Check that no index out of bounds occur, you have the try catch but better to be sure now
 		Might be a way to use this for the validation
 		Not going to validation until this works 100% since code reuse may be needed
-		*/
+		 */
 		Piece temp = grid[x][y];
 		int tempRepeats; //used to work out how many times in a diagonal to go
 		try{
@@ -160,7 +348,7 @@ public class GameBoard implements BoardView{
 					break;
 				}
 			}
-			
+
 			//top right
 			if(grid.length - x < y){
 				tempRepeats = grid.length - x - 1;
@@ -183,7 +371,7 @@ public class GameBoard implements BoardView{
 					break;
 				}
 			}
-			
+
 
 			//down Right
 			if(grid.length - x < grid.length - y){
@@ -207,7 +395,7 @@ public class GameBoard implements BoardView{
 					break;
 				}
 			}
-			
+
 			//down Left
 			if(x < grid.length - y){
 				tempRepeats = x;
