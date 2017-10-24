@@ -49,6 +49,14 @@ public class Game
 	 * 
 	 */
 	private GameViewControl player2;
+	/**
+	 * 
+	 */
+	private Player p1;
+	/**
+	 * 
+	 */
+	private Player p2;
 	//=========================================================================
 	//Constructors.
 	/**
