@@ -120,6 +120,8 @@ public class Game
 		if(board == null)
 			throw new NullPointerException();
 		this.board = board;
+		
+		updateGUI(board);
 	} //Game(GameBoard)
 	//=========================================================================
 	//Methods.
@@ -191,6 +193,7 @@ public class Game
 		{
 			turn(player1);
 			turn(player2);
+			updateGUI(board);
 		} //while
 		
 	} //play()
