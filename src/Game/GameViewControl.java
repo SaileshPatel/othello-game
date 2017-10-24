@@ -2,6 +2,11 @@ package Game;
 
 public class GameViewControl
 {
+	/**
+	 * A flag which indicates if it is the current controllers
+	 * turn.
+	 */
+	private volatile boolean isTurn;
 	private final BoardView board;
 	public final Piece piece;
 	private volatile Position position;
@@ -25,9 +30,34 @@ public class GameViewControl
 			return true;
 		}
 	}
-	
+	/**
+	 * Check to see if it is currently <code>this</code> controllers turn,
+	 * 
+	 * @return <code>true</code> if it is currently <code>this</code>
+	 * 			controllers turn, otherwise, return <code>false</code>.
+	 */
+	public final boolean isTurn()
+	{
+		return isTurn;
+	}
+	/**
+	 * FOR GAME to use!!
+	 * 
+	 * Set the {@link #isTurn} flag to <code>turn</code>.
+	 */
+	public final void notifyTurn()
+	{
+		isTurn = true;
+	}
+	/**
+	 * Set the position and set the {@link #turn} flag to <code>false</code>.
+	 * 
+	 * @param row The row of the position.
+	 * @param col The column of the position.
+	 */
 	public final void setPosition(int row, int col)
 	{
+		isTurn = false;
 		position = new Position(row, col);
 	}
 	/**
