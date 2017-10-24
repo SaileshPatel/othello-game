@@ -126,14 +126,14 @@ public class Game
 		
 		for(int x=0; x<size;x++) {
 			for(int y=0; y<size;y++) {
-				Optional<Piece> piece = board.view(new Position(x,y));
+				Piece piece = board.view(new Position(x,y));
 				
 				if( piece == null ) {
 					//Set tile colour to background colour
 					boardTiles[x][y].setBackground(colour1);
 				} else {
 					//Probably a more efficient way to do this but we don't know how to use enums
-				switch (piece.get()) {
+				switch (piece) {
 					case PIECE_A:
 						boardTiles[x][y].setBackground(PLAYER1_TOKEN_COLOR);
 						break;	
