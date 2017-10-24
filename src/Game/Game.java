@@ -1,5 +1,15 @@
 package Game;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.util.Optional;
+
+import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
 /**
  * The {@code Game} is a class which models a game of Othello, which has the
  * responsibility of managing and maintaining the flow of the game session.
@@ -17,6 +27,16 @@ public class Game
 {
 	//=========================================================================
 	//Fields.
+	private int rows = 8;
+	private int columns = 8;
+	private Color colour1 = new Color(0,150,0);
+	private Color colour2 = new Color(0,150,0);
+	private static final Color PLAYER1_TOKEN_COLOR = Color.BLACK;
+	private static final Color PLAYER2_TOKEN_COLOR = Color.WHITE;
+	private JPanel boardTiles[][] = new JPanel[rows][columns];
+	 
+	
+	
 	/**
 	 * The {@link GameBoard} of <code>this</code> game.
 	 */
@@ -29,6 +49,14 @@ public class Game
 	 * 
 	 */
 	private GameViewControl player2;
+	/**
+	 * 
+	 */
+	private Player p1;
+	/**
+	 * 
+	 */
+	private Player p2;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -40,12 +68,93 @@ public class Game
 	public Game(final GameBoard board)
 			throws NullPointerException
 	{
+		
+		
+		JFrame mainFrame = new JFrame();	
+		JPanel visualBoard = new JPanel();
+		
+		// Create main frame to hold the board
+		mainFrame.setLayout(new BorderLayout());
+		((JPanel)mainFrame.getContentPane())
+		.setBorder(new EmptyBorder(0, 0, 0, 0));
+		mainFrame.setSize(800, 800);
+		
+		visualBoard.setLayout(new GridLayout(rows,columns));
+		//Created mainframe and added the board container to it
+		mainFrame.add(visualBoard);
+		
+	
+		Color tileColour = null;
+		
+		for (int i = 0; i < rows; i++){ 
+			//alternate the colour of the individual tile for each row
+			if ((i%2) == 0){
+				tileColour = colour1; 
+			}else{
+				tileColour = colour2;
+			}
+			
+			for (int j = 0; j < columns; j++){
+				
+				JPanel tile = new JPanel();	//Create individual tile
+				tile.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+				tile.setBackground(tileColour);	//Add colour to the tile
+				
+				
+				if(tileColour.equals(colour1)){
+					//alternate the colour of the individual tiles for each column
+					tileColour = colour2;
+				}else{
+					tileColour = colour1;
+				}
+				
+				//add tile to the board
+				visualBoard.add(tile);
+				boardTiles[i][j] = tile;
+				
+			}
+		
+		}
+		mainFrame.setVisible(true);
+		
 		if(board == null)
 			throw new NullPointerException();
 		this.board = board;
 	} //Game(GameBoard)
 	//=========================================================================
 	//Methods.
+	
+	/**
+	 * Update the GUI to show the current state of a gameboard object
+	 * @param board The board to render
+	 * 
+	 */
+	private void updateGUI (BoardView board) {
+		int size = board.size();
+		
+		for(int x=0; x<size;x++) {
+			for(int y=0; y<size;y++) {
+				Optional<Piece> piece = board.view(new Position(x,y));
+				
+				if( piece == null ) {
+					//Set tile colour to background colour
+					boardTiles[x][y].setBackground(colour1);
+				} else {
+					//Probably a more efficient way to do this but we don't know how to use enums
+				switch (piece.get()) {
+					case PIECE_A:
+						boardTiles[x][y].setBackground(PLAYER1_TOKEN_COLOR);
+						break;	
+					case PIECE_B:
+						boardTiles[x][y].setBackground(PLAYER2_TOKEN_COLOR);
+						break;
+					}
+				}
+			}
+		}	
+	}
+	
+	
 	/**
 	 * 
 	 * <p>
@@ -62,7 +171,9 @@ public class Game
 			while(!control.ready());
 			board.put(control.getPosition(), control.piece);
 		} //if
-	}
+		
+		//add updateGUI method
+	} //turn()
 	/**
 	 * Begin playing the game.
 	 * 
@@ -80,7 +191,8 @@ public class Game
 		{
 			turn(player1);
 			turn(player2);
-		}
+		} //while
+		
 	} //play()
 	/**
 	 * 
