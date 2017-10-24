@@ -52,11 +52,11 @@ public class Game
 	/**
 	 * 
 	 */
-	private Player p1 = new Player(player1);
+	private Player p1;
 	/**
 	 * 
 	 */
-	private Player p2 = new Player(player2);
+	private Player p2;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -212,8 +212,10 @@ public class Game
 	{
 		if(player1 == null)
 			return player1 = new GameViewControl(getBoard(), Piece.PIECE_A);
+			p1 = new Player(player1);
 		if(player2 == null)
 			return player2 = new GameViewControl(getBoard(), Piece.PIECE_B);
+			p2 = new Player(player2);
 		throw new IllegalStateException();
 	} //getControl()
 	/**
