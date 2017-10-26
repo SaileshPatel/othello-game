@@ -167,14 +167,14 @@ public class Game
 	 */
 	private void turn(final GameViewControl control)
 	{
-		if(!board.legalMoves(control.piece).isEmpty())
+		//if(!board.legalMoves(control.piece).isEmpty())
 		{
-			//notify controller about turn (TBA).
+			control.notifyTurn();
 			while(!control.ready());
 			board.put(control.getPosition(), control.piece);
 		} //if
 		
-		//add updateGUI method
+		updateGUI(board);
 	} //turn()
 	/**
 	 * Begin playing the game.

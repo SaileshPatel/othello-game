@@ -11,8 +11,9 @@ import java.util.Scanner;
  * @version 24/10/2017
  *
  */
-public class Player implements Participant{
+public class Player implements Participant, Runnable {
 	
+	private static final Scanner input = new Scanner(System.in);
 	private GameViewControl gvc;
 	private Scanner scan;
 	
@@ -35,6 +36,7 @@ public class Player implements Participant{
 	public void setPosition(int row, int col){
 		gvc.setPosition(row, col);
 	}
+<<<<<<< HEAD
 	
 	
 	public void run(){
@@ -46,6 +48,19 @@ public class Player implements Participant{
 		int v1 = scan.nextInt();
 		int v2 = scan.nextInt();
 
+=======
+	@Override
+	public final void run()
+	{
+		
+		for(;;)
+		{
+			while(!gvc.isTurn());
+			int row = input.nextInt();
+			int col = input.nextInt();
+			setPosition(row, col);
+		}
+>>>>>>> production
 	}
 	
 }

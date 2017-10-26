@@ -13,5 +13,8 @@ public class Position {
 		this.row = row;
 		this.col = col;
 	}
+<<<<<<< HEAD
 	
+=======
+>>>>>>> production
 }

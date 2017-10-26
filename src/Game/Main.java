@@ -24,8 +24,16 @@ public class Main {
 //		board.put(new Position(1,1), Piece.PIECE_A);
 //		board.put(new Position(5,5), Piece.PIECE_B);
 		Game game = new Game(board);
+<<<<<<< HEAD
 		Player player1 = new Player(game.getControl());
 		player1.run();
+=======
+		Runnable p1 = new Player(game.getControl());
+		Runnable p2 = new Player(game.getControl());
+		new Thread(p1).start();
+		new Thread(p2).start();
+		game.play();
+>>>>>>> production
 	}
 	
 
