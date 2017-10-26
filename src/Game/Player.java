@@ -36,19 +36,7 @@ public class Player implements Participant, Runnable {
 	public void setPosition(int row, int col){
 		gvc.setPosition(row, col);
 	}
-<<<<<<< HEAD
-	
-	
-	public void run(){
-		// put a loop
-		// read input
-			// check if it's valid
-		boolean valid = true;
-		Scanner scan = new Scanner(System.in);
-		int v1 = scan.nextInt();
-		int v2 = scan.nextInt();
 
-=======
 	@Override
 	public final void run()
 	{
@@ -60,7 +48,6 @@ public class Player implements Participant, Runnable {
 			int col = input.nextInt();
 			setPosition(row, col);
 		}
->>>>>>> production
 	}
 	
 }
