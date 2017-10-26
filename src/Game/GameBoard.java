@@ -272,7 +272,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x][y-(j+1)].flip();
+								grid[x][y-(j+1)] = grid[x][y-(j+1)].flip();
 							}
 						}
 					}
@@ -289,7 +289,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x][y+(j+1)].flip();
+								grid[x][y+(j+1)] = grid[x][y+(j+1)].flip();
 							}
 						}
 					}
@@ -307,7 +307,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x-(i+1)][y].flip();
+								grid[x-(i+1)][y] = grid[x-(i+1)][y].flip();
 							}
 						}
 					}
@@ -325,7 +325,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x+(i+1)][y].flip();
+								grid[x+(i+1)][y] = grid[x+(i+1)][y].flip();
 							}
 						}
 					}
@@ -348,7 +348,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x-(i+1)][y-(i+1)].flip();
+								grid[x-(i+1)][y-(i+1)] = grid[x-(i+1)][y-(i+1)].flip();
 							}
 						}
 					}
@@ -371,7 +371,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x+(i+1)][y-(i+1)].flip();
+								grid[x+(i+1)][y-(i+1)] = grid[x+(i+1)][y-(i+1)].flip();
 							}
 						}
 					}
@@ -395,7 +395,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x+(i+1)][y+(i+1)].flip();
+								grid[x+(i+1)][y+(i+1)] = grid[x+(i+1)][y+(i+1)].flip();
 							}
 						}
 					}
@@ -418,7 +418,7 @@ public class GameBoard implements BoardView{
 						if(i > 0){
 							//flip pieces in the middle
 							for (int j = 0;j < i;j++){
-								grid[x-(i+1)][y+(i+1)].flip();
+								grid[x-(i+1)][y+(i+1)] = grid[x-(i+1)][y+(i+1)].flip();
 							}
 						}
 					}
