@@ -22,6 +22,7 @@ public class GameBoard implements BoardView{
 
 	public void put(Position position, Piece piece){
 		grid[position.row][position.col] = piece;
+		flip(position.row,position.col);
 	}
 
 	@Override
