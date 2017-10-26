@@ -14,12 +14,9 @@ import javax.swing.border.EmptyBorder;
  * The {@code Game} is a class which models a game of Othello, which has the
  * responsibility of managing and maintaining the flow of the game session.
  * 
- * <>
  * 
- * </p>
- * 
- * @author 	John Berg 159014260
- * @author 	<Add your name here EastWood>
+ * @author 	John Berg 
+ * @author 	Eastwood
  * @since 	18/10/2017
  * @version 19/10/2017
  */

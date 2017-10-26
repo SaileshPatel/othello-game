@@ -6,7 +6,7 @@ import java.util.Set;
 /**
  * The GameBoard is where actions are completed. 
  * @author Charlie Sims
- *
+ * @since 23/10/2017
  */
 public class GameBoard implements BoardView{
 	private Piece[][] grid;

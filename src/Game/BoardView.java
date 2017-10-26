@@ -5,7 +5,9 @@ import java.util.Set;
 
 /**
  * This is the BoardView. This will eventually be used to control the board. 
- * 
+ * @author John Berg
+ * @author James Shorthouse
+ * @since 23/10/2017
  *
  */
 public interface BoardView {

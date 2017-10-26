@@ -1,5 +1,10 @@
 package Game;
 
+/**
+ * This class controls the game play which is then fed to the Game class 
+ * @author John Berg
+ *
+ */
 public class GameViewControl
 {
 	/**
@@ -19,7 +24,7 @@ public class GameViewControl
 	/**
 	 * FOR GAME to use!!
 	 * 
-	 * @return
+	 * @return whether Game is ready to be played or not
 	 */
 	public final boolean ready()
 	{
@@ -50,7 +55,7 @@ public class GameViewControl
 		isTurn = true;
 	}
 	/**
-	 * Set the position and set the {@link #turn} flag to <code>false</code>.
+	 * Set the position and set the {@link GameViewControl#isTurn() isTurn} flag to <code>false</code>.
 	 * 
 	 * @param row The row of the position.
 	 * @param col The column of the position.
@@ -63,7 +68,7 @@ public class GameViewControl
 	/**
 	 * FOR GAME to use!!
 	 * 
-	 * @return
+	 * @return the position of the game
 	 */
 	public final Position getPosition()
 	{

@@ -7,8 +7,9 @@ import java.util.Scanner;
  * 
  * @author Sailesh Patel
  * @author Zak Hirsi
+ * @author John Berg
  * @since 23/10/2017
- * @version 24/10/2017
+ * @version 26/10/2017
  *
  */
 public class Player implements Participant, Runnable {
