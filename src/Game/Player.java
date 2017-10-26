@@ -11,8 +11,9 @@ import java.util.Scanner;
  * @version 24/10/2017
  *
  */
-public class Player implements Participant{
+public class Player implements Participant, Runnable {
 	
+	private static final Scanner input = new Scanner(System.in);
 	private GameViewControl gvc;
 	
 	// wait for text box to be implemented
@@ -34,12 +35,16 @@ public class Player implements Participant{
 	public void setPosition(int row, int col){
 		gvc.setPosition(row, col);
 	}
-	
-	/**
-	 * This method returns the position of the player. 
-	 * @return the position of the player
-	 */
-	public Position getPosition(){
-		return gvc.getPosition();
+	@Override
+	public final void run()
+	{
+		
+		for(;;)
+		{
+			while(!gvc.isTurn());
+			int row = input.nextInt();
+			int col = input.nextInt();
+			setPosition(row, col);
+		}
 	}
 }
