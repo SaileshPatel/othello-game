@@ -8,6 +8,7 @@ import java.awt.*;
  * Main game GUI. Creates the board using a grid layout.  
  * 
  * @author 	Zakeria Hirsi
+ * @author 	John Berg 159014269
  */
 
 public class Main {
