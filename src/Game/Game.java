@@ -3,6 +3,8 @@ package Game;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Optional;
 
 import javax.swing.BorderFactory;
@@ -113,7 +115,38 @@ public class Game
 		
 		}
 		mainFrame.setVisible(true);
-		
+		mainFrame.addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e)
+			{
+			}
+			@Override
+			public void windowIconified(WindowEvent e)
+			{
+			}
+			@Override
+			public void windowDeiconified(WindowEvent e)
+			{
+			}
+			@Override
+			public void windowDeactivated(WindowEvent e)
+			{
+			}
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				System.exit(0);
+			}
+			@Override
+			public void windowClosed(WindowEvent e)
+			{
+			}
+			@Override
+			public void windowActivated(WindowEvent e)
+			{
+			}
+		});
 		if(board == null)
 			throw new NullPointerException();
 		this.board = board;
