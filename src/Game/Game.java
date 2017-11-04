@@ -7,9 +7,19 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Optional;
 
+
+
+
+
+
+
+
+
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -19,8 +29,9 @@ import javax.swing.border.EmptyBorder;
  * 
  * @author 	John Berg 
  * @author 	Eastwood
+ * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 19/10/2017
+ * @version 04/11/2017
  */
 public class Game
 {
@@ -67,11 +78,12 @@ public class Game
 	public Game(final GameBoard board)
 			throws NullPointerException
 	{
-		
-		
 		JFrame mainFrame = new JFrame();	
 		JPanel visualBoard = new JPanel();
-		
+		JLabel textBox;
+		JPanel colLabels = new JPanel();
+		JPanel rowLabels = new JPanel();
+			
 		// Create main frame to hold the board
 		mainFrame.setLayout(new BorderLayout());
 		((JPanel)mainFrame.getContentPane())
@@ -79,9 +91,33 @@ public class Game
 		mainFrame.setSize(800, 800);
 		
 		visualBoard.setLayout(new GridLayout(rows,columns));
-		//Created mainframe and added the board container to it
-		mainFrame.add(visualBoard);
+		colLabels.setLayout(new GridLayout(1, columns));
+		rowLabels.setLayout(new GridLayout(rows, 1));
 		
+		//offsets the small corner at the top left
+		colLabels.setBorder(new EmptyBorder(0,18,0,0));
+		
+		//Created mainframe and added the board container to it
+		mainFrame.add(visualBoard, BorderLayout.CENTER);
+		//labels are added to the mainframe
+		mainFrame.add(colLabels, BorderLayout.NORTH);
+		mainFrame.add(rowLabels, BorderLayout.WEST);
+		
+		
+
+		//adds labels to each row box
+		for(int i = 0; i < rows; i++) {
+			Integer numToDisplay = i+1;
+			textBox = new JLabel("  " + numToDisplay.toString() + "  ", SwingConstants.CENTER);
+			rowLabels.add(textBox);
+		}
+		
+		//adds labels to each column box
+		for(int i = 0; i < columns; i++) {
+			Integer numToDisplay = i+1;
+			textBox = new JLabel(numToDisplay.toString(), SwingConstants.CENTER);
+			colLabels.add(textBox);
+		}
 	
 		Color tileColour = null;
 		

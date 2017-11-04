@@ -8,8 +8,9 @@ import java.util.Scanner;
  * @author Sailesh Patel
  * @author Zak Hirsi
  * @author John Berg
+ * @author Arvinder Chatha
  * @since 23/10/2017
- * @version 26/10/2017
+ * @version 04/11/2017
  *
  */
 public class Player implements Participant, Runnable {
@@ -45,8 +46,8 @@ public class Player implements Participant, Runnable {
 		for(;;)
 		{
 			while(!gvc.isTurn());
-			int row = input.nextInt();
-			int col = input.nextInt();
+			int row = input.nextInt() - 1; //-1 to align with game board
+			int col = input.nextInt() - 1;
 			setPosition(row, col);
 		}
 	}
