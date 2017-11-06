@@ -232,8 +232,9 @@ public class Game
 			Position temp;
 			Set<Position> validMoves;
 			control.notifyTurn();
-			while(!control.ready());
 			do{
+
+				while(!control.ready());
 				validMoves = board.legalMoves(control.piece);
 				temp = control.getPosition();
 				if(validMoves.contains(temp)){
@@ -241,7 +242,7 @@ public class Game
 				}
 				
 			} while (!valid);
-			board.put(control.getPosition(), control.piece);
+			board.put(temp, control.piece);
 		} //if
 		
 		updateGUI(board);

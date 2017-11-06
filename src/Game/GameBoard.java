@@ -179,7 +179,7 @@ public class GameBoard implements BoardView{
 			if(grid.length - x < y){
 				tempRepeats = grid.length - x - 1;
 			} else {
-				tempRepeats = y;
+				tempRepeats = y - 1;
 			}
 			for (int i = 0;i < tempRepeats; i++){
 				//if piece is equal/null
@@ -240,7 +240,7 @@ public class GameBoard implements BoardView{
 			}
 
 		}	catch(Exception e){
-			System.out.println(e.getMessage());
+			System.out.println(e.toString());
 		}	finally {
 
 		}
@@ -360,10 +360,11 @@ public class GameBoard implements BoardView{
 			}
 
 			//top right
+			
 			if(grid.length - x < y){
 				tempRepeats = grid.length - x - 1;
 			} else {
-				tempRepeats = y;
+				tempRepeats = y - 1;
 			}
 			for (int i = 0;i < tempRepeats; i++){
 				//if piece is equal/null
@@ -381,7 +382,7 @@ public class GameBoard implements BoardView{
 					break;
 				}
 			}
-
+			
 
 			//down Right
 			if(grid.length - x < grid.length - y){
