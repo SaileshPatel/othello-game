@@ -83,163 +83,164 @@ public class GameBoard implements BoardView{
 		return null;
 	}
 
-	private boolean locationValid(int x, int y, Piece temp){
-		int tempRepeats;
-		
-		for (int i = 0;i < y; i++){
-			//if piece is equal/null
-			if(grid[x][y-i-1] == null || grid[x][y-i-1] == temp){
-				//if piece is equal
-				if (grid[x][y-i-1] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
+	private boolean locationValid(int x, int y, Piece player){
 
-						return true;
+		Piece temp = player;
+		int tempRepeats; //used to work out how many times in a diagonal to go
+		try{
+			
+			//UP
+			for (int i = 0;i < y; i++){
+				//if piece is equal/null
+				if(grid[x][y-i-1] == null || grid[x][y-i-1] == temp){
+					//if piece is equal
+					if (grid[x][y-i-1] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
-		//DOWN
-		for (int i = 0;i < grid.length - y - 1; i++){
-			//if piece is equal/null
-			if(grid[x][y+i+1] == null || grid[x][y+i+1] == temp){
-				//if piece is equal
-				if (grid[x][y+i+1] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//DOWN
+			for (int i = 0;i < grid.length - y - 1; i++){
+				//if piece is equal/null
+				if(grid[x][y+i+1] == null || grid[x][y+i+1] == temp){
+					//if piece is equal
+					if (grid[x][y+i+1] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
 
-		//LEFT
-		for (int i = 0;i < x; i++){
-			//if piece is equal/null
-			if(grid[x-(i+1)][y] == null || grid[x-(i+1)][y] == temp){
-				//if piece is equal
-				if (grid[x-(i+1)][y] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//LEFT
+			for (int i = 0;i < x; i++){
+				//if piece is equal/null
+				if(grid[x-(i+1)][y] == null || grid[x-(i+1)][y] == temp){
+					//if piece is equal
+					if (grid[x-(i+1)][y] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
 
-		//RIGHT
-		for (int i = 0;i < grid.length - x - 1; i++){
-			//if piece is equal/null
-			if(grid[x+(i+1)][y] == null || grid[x+(i+1)][y] == temp){
-				//if piece is equal
-				if (grid[x+(i+1)][y] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//RIGHT
+			for (int i = 0;i < grid.length - x - 1; i++){
+				//if piece is equal/null
+				if(grid[x+(i+1)][y] == null || grid[x+(i+1)][y] == temp){
+					//if piece is equal
+					if (grid[x+(i+1)][y] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
 
-		//Top left
-		if(x < y){
-			tempRepeats = x;
-		} else {
-			tempRepeats = y;
-		}
-		for (int i = 0;i < tempRepeats; i++){
-			//if piece is equal/null
-			if(grid[x-(i+1)][y-(i+1)] == null || grid[x-(i+1)][y-(i+1)] == temp){
-				//if piece is equal
-				if (grid[x-(i+1)][y-(i+1)] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//Top left
+			if(x < y){
+				tempRepeats = x;
+			} else {
+				tempRepeats = y;
+			}
+			for (int i = 0;i < tempRepeats; i++){
+				//if piece is equal/null
+				if(grid[x-(i+1)][y-(i+1)] == null || grid[x-(i+1)][y-(i+1)] == temp){
+					//if piece is equal
+					if (grid[x-(i+1)][y-(i+1)] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
 
-		//top right
-		if(grid.length - x < y){
-			tempRepeats = grid.length - x - 1;
-		} else {
-			tempRepeats = y;
-		}
-		for (int i = 0;i < tempRepeats; i++){
-			//if piece is equal/null
-			if(grid[x+(i+1)][y-(i+1)] == null || grid[x+(i+1)][y-(i+1)] == temp){
-				//if piece is equal
-				if (grid[x+(i+1)][y-(i+1)] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//top right
+			if(grid.length - x < y){
+				tempRepeats = grid.length - x - 1;
+			} else {
+				tempRepeats = y;
+			}
+			for (int i = 0;i < tempRepeats; i++){
+				//if piece is equal/null
+				if(grid[x+(i+1)][y-(i+1)] == null || grid[x+(i+1)][y-(i+1)] == temp){
+					//if piece is equal
+					if (grid[x+(i+1)][y-(i+1)] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
 
 
-
-		//down Right
-		if(grid.length - x < grid.length - y){
-			tempRepeats = grid.length - x - 1;
-		} else {
-			tempRepeats = grid.length - y - 1;
-		}
-		for (int i = 0;i < tempRepeats; i++){
-			//if piece is equal/null
-			if(grid[x+(i+1)][y+(i+1)] == null || grid[x+(i+1)][y+(i+1)] == temp){
-				//if piece is equal
-				if (grid[x+(i+1)][y+(i+1)] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//down Right
+			if(grid.length - x < grid.length - y){
+				tempRepeats = grid.length - x - 1;
+			} else {
+				tempRepeats = grid.length - y - 1;
+			}
+			for (int i = 0;i < tempRepeats; i++){
+				//if piece is equal/null
+				if(grid[x+(i+1)][y+(i+1)] == null || grid[x+(i+1)][y+(i+1)] == temp){
+					//if piece is equal
+					if (grid[x+(i+1)][y+(i+1)] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
-		}
 
-		//down Left
-		if(x < grid.length - y){
-			tempRepeats = x;
-		} else {
-			tempRepeats = grid.length - y - 1;
-		}
-		for (int i = 0;i < tempRepeats; i++){
-			//if piece is equal/null
-			if(grid[x-(i+1)][y+(i+1)] == null || grid[x-(i+1)][y+(i+1)] == temp){
-				//if piece is equal
-				if (grid[x-(i+1)][y+(i+1)] == temp){
-					//if it has already passed over the other color
-					if(i > 0){
-						//flip pieces in the middle
-
-						return true;
+			//down Left
+			if(x < grid.length - y){
+				tempRepeats = x;
+			} else {
+				tempRepeats = grid.length - y - 1;
+			}
+			for (int i = 0;i < tempRepeats; i++){
+				//if piece is equal/null
+				if(grid[x-(i+1)][y+(i+1)] == null || grid[x-(i+1)][y+(i+1)] == temp){
+					//if piece is equal
+					if (grid[x-(i+1)][y+(i+1)] == temp){
+						//if it has already passed over the other color
+						if(i > 0){
+							//flip pieces in the middle
+							return true;
+						}
 					}
+					break;
 				}
-				break;
 			}
+
+		}	catch(Exception e){
+			System.out.println(e.getMessage());
+		}	finally {
+			
 		}
 		return false;
 	}
