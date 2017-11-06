@@ -42,13 +42,26 @@ public class Player implements Participant, Runnable {
 	@Override
 	public final void run()
 	{
-		
+
 		for(;;)
 		{
 			while(!gvc.isTurn());
+			
+			String color = "";
+			
+			switch (gvc.getPiece()) {
+			case PIECE_A:
+				color = "Black";
+				break;
+			case PIECE_B:
+				color = "White";
+				break;
+			}
+			
+			System.out.print( color + "'s turn (x, y): " );
 			int row = input.nextInt() - 1; //-1 to align with game board
 			int col = input.nextInt() - 1;
-			setPosition(row, col);
+			setPosition(col, row);
 		}
 	}
 	
