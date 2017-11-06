@@ -238,7 +238,7 @@ public class Game
 				validMoves = board.legalMoves(control.piece);
 				temp = control.getPosition();
 				
-				if(temp.col > 7 && temp.row > 7 && validMoves.contains(temp)){
+				if(temp.col < columns && temp.row < rows && validMoves.contains(temp)){
 					valid = true;
 				} else {
 					System.out.println("Error please place a valid location.");
@@ -251,6 +251,7 @@ public class Game
 		
 		updateGUI(board);
 	} //turn()
+	
 	/**
 	 * Begin playing the game.
 	 * 
