@@ -6,14 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Optional;
-
-
-
-
-
-
-
-
+import java.util.Set;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -235,8 +228,19 @@ public class Game
 	{
 		//if(!board.legalMoves(control.piece).isEmpty())
 		{
+			boolean valid = false;
+			Position temp;
+			Set<Position> validMoves;
 			control.notifyTurn();
 			while(!control.ready());
+			do{
+				validMoves = board.legalMoves(control.piece);
+				temp = control.getPosition();
+				if(validMoves.contains(temp)){
+					valid = true;
+				}
+				
+			} while (!valid);
 			board.put(control.getPosition(), control.piece);
 		} //if
 		
