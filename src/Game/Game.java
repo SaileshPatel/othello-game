@@ -231,14 +231,18 @@ public class Game
 			boolean valid = false;
 			Position temp;
 			Set<Position> validMoves;
-			control.notifyTurn();
 			do{
 
+				control.notifyTurn();
 				while(!control.ready());
 				validMoves = board.legalMoves(control.piece);
 				temp = control.getPosition();
-				if(validMoves.contains(temp)){
+				
+				if(temp.col > 7 && temp.row > 7 && validMoves.contains(temp)){
 					valid = true;
+				} else {
+					System.out.println("Error please place a valid location.");
+					
 				}
 				
 			} while (!valid);
