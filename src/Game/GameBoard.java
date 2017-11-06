@@ -17,7 +17,7 @@ public class GameBoard implements BoardView{
 		grid[size/2][size/2-1] = Piece.PIECE_B;
 		grid[size/2-1][size/2-1] = Piece.PIECE_A;
 		grid[size/2-1][size/2] = Piece.PIECE_B;
-		
+
 	}
 
 	public void put(Position position, Piece piece){
@@ -65,8 +65,10 @@ public class GameBoard implements BoardView{
 				x = i;
 				for (int j = 0;j < grid.length; j++){
 					y = j;
-					if(locationValid(x,y,temp)){
-						validMoves.add(new Position(x,y));
+					if(grid[x][y] == null){
+						if(locationValid(x,y,temp)){
+							validMoves.add(new Position(x,y));
+						}
 					}
 
 
@@ -88,7 +90,7 @@ public class GameBoard implements BoardView{
 		Piece temp = player;
 		int tempRepeats; //used to work out how many times in a diagonal to go
 		try{
-			
+
 			//UP
 			for (int i = 0;i < y; i++){
 				//if piece is equal/null
@@ -240,7 +242,7 @@ public class GameBoard implements BoardView{
 		}	catch(Exception e){
 			System.out.println(e.getMessage());
 		}	finally {
-			
+
 		}
 		return false;
 	}
