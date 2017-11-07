@@ -240,6 +240,9 @@ public class Game
 				
 				if(temp.col < columns && temp.row < rows && validMoves.contains(temp)){
 					valid = true;
+				} else if(validMoves.isEmpty()){
+					System.out.println("No valid moves, ending turn.");
+					return;					
 				} else {
 					System.out.println("Error please place a valid location.");
 					
