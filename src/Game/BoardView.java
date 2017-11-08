@@ -11,13 +11,35 @@ import java.util.Set;
  *
  */
 public interface BoardView {
+	/**
+	 * This method determines if the game has ended
+	 * @return true if ended, otherwise false
+	 */
 	public Boolean isEnd();
 	
+	/**
+	 * This method returns the size of the board
+	 * @return the size of the board
+	 */
 	public int size();
 	
+	/**
+	 * This method counts the number of flips needed
+	 * @return the number of flips needed
+	 */
 	public int countFlips();
 	
+	/**
+	 * This method determines all legal moves a player can take
+	 * @param piece the Piece to determine legal moves from
+	 * @return a set of legal Positions to move to
+	 */
 	public Set<Position> legalMoves(Piece piece);
 	
+	/**
+	 * This method allows the board to view the position of a Piece
+	 * @param boardPosition 
+	 * @return a piece
+	 */
 	public Piece view(Position boardPosition);
 }

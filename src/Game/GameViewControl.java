@@ -78,10 +78,18 @@ public class GameViewControl
 		
 	}
 	
+	/**
+	 * This method returns the current piece
+	 * @return the piece in player
+	 */
 	public Piece getPiece() {
 		return piece;
 	}
 	
+	/**
+	 * Returns the current board in play
+	 * @return a view of the board
+	 */
 	public final BoardView getBoard()
 	{
 		//TODO return proxy board instead

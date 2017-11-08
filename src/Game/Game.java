@@ -231,6 +231,10 @@ public class Game
 			boolean valid = false;
 			Position temp;
 			Set<Position> validMoves;
+			if (board.isEnd()){
+				System.out.println("The game has ended!");
+				System.exit(0);
+			}
 			do{
 
 				control.notifyTurn();
