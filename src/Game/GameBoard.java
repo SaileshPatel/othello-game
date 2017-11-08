@@ -47,7 +47,6 @@ public class GameBoard implements BoardView{
 
 	@Override
 	public int countFlips() {
-		//In the nicest way WTF does this do?
 		// TODO Auto-generated method stub
 		return 0;
 	}
