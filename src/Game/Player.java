@@ -58,7 +58,7 @@ public class Player implements Participant, Runnable {
 				break;
 			}
 			
-			System.out.print( color + "'s turn (x, y): " );
+			System.out.print( color + "'s turn (x y): " );
 			int row = input.nextInt() - 1; //-1 to align with game board
 			int col = input.nextInt() - 1;
 			setPosition(col, row);
