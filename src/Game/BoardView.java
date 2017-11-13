@@ -27,7 +27,7 @@ public interface BoardView {
 	 * This method counts the number of flips needed
 	 * @return the number of flips needed
 	 */
-	public int countFlips();
+	public int countFlips(int x, int y, Piece player);
 	
 	/**
 	 * This method determines all legal moves a player can take
