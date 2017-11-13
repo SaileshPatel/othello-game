@@ -48,14 +48,32 @@ public class GameBoard implements BoardView{
 	@Override
 	public int countFlips(int x, int y, Piece player) {
 		int temp = 0;
-		temp += flipTest(x, y, 0, 1, player);
-		temp += flipTest(x, y, 1, 1, player);
-		temp += flipTest(x, y, -1, 1, player);
-		temp += flipTest(x, y, 0, -1, player);
-		temp += flipTest(x, y, 1, -1, player);
-		temp += flipTest(x, y, -1, -1, player);
-		temp += flipTest(x, y, 1, 0, player);
-		temp += flipTest(x, y, -1, 0, player);
+		boolean[] direction = new boolean[]{true,true,true,true};
+		if (x < 2)
+			direction[0] = false;
+		else if (x > grid.length - 3)
+			direction[2] = false;
+		if (y < 2)
+			direction[1] = false;
+		else if (y > grid.length - 3)
+			direction[3] = false;
+
+		if(direction[0])
+			temp += flipTest(x,y,0,-1,player);
+		if(direction[0] && direction[1])
+			temp += flipTest(x,y,1,-1,player);
+		if(direction[1])
+			temp += flipTest(x,y,1,0,player);
+		if(direction[1] && direction[2])
+			temp += flipTest(x,y,1,1,player);
+		if(direction[2])
+			temp += flipTest(x,y,0,1,player);
+		if(direction[2] && direction[3])
+			temp += flipTest(x,y,-1,1,player);
+		if(direction[3])
+			temp += flipTest(x,y,-1,0,player);
+		if(direction[3] && direction[0])
+			temp += flipTest(x,y,-1,-1,player);
 		return temp;
 	}
 
@@ -94,14 +112,32 @@ public class GameBoard implements BoardView{
 
 	private boolean locationValid(int x, int y, Piece player){
 		int temp = 0;
-		temp += flipTest(x, y, 0, 1, player);
-		temp += flipTest(x, y, 1, 1, player);
-		temp += flipTest(x, y, -1, 1, player);
-		temp += flipTest(x, y, 0, -1, player);
-		temp += flipTest(x, y, 1, -1, player);
-		temp += flipTest(x, y, -1, -1, player);
-		temp += flipTest(x, y, 1, 0, player);
-		temp += flipTest(x, y, -1, 0, player);
+		boolean[] direction = new boolean[]{true,true,true,true};
+		if (x < 2)
+			direction[0] = false;
+		else if (x > grid.length - 3)
+			direction[2] = false;
+		if (y < 2)
+			direction[1] = false;
+		else if (y > grid.length - 3)
+			direction[3] = false;
+
+		if(direction[0])
+			temp += flipTest(x,y,0,-1,player);
+		if(direction[0] && direction[1])
+			temp += flipTest(x,y,1,-1,player);
+		if(direction[1])
+			temp += flipTest(x,y,1,0,player);
+		if(direction[1] && direction[2])
+			temp += flipTest(x,y,1,1,player);
+		if(direction[2])
+			temp += flipTest(x,y,0,1,player);
+		if(direction[2] && direction[3])
+			temp += flipTest(x,y,-1,1,player);
+		if(direction[3])
+			temp += flipTest(x,y,-1,0,player);
+		if(direction[3] && direction[0])
+			temp += flipTest(x,y,-1,-1,player);
 		if (temp == 0){
 			return false;
 		}
@@ -117,17 +153,35 @@ public class GameBoard implements BoardView{
 	}
 
 	public void flip(int x, int y){
-		
-		flipLine(x,y,0,1);
-		flipLine(x,y,1,1);
-		flipLine(x,y,-1,1);
-		flipLine(x,y,0,-1);
-		flipLine(x,y,1,-1);
-		flipLine(x,y,-1,-1);
-		flipLine(x,y,1,0);
-		flipLine(x,y,-1,0);
+		//left up right down
+		boolean[] direction = new boolean[]{true,true,true,true};
+		if (x < 2)
+			direction[0] = false;
+		else if (x > grid.length - 3)
+			direction[2] = false;
+		if (y < 2)
+			direction[1] = false;
+		else if (y > grid.length - 3)
+			direction[3] = false;
+
+		if(direction[0])
+			flipLine(x,y,0,-1);
+		if(direction[0] && direction[1])
+			flipLine(x,y,1,-1);
+		if(direction[1])
+			flipLine(x,y,1,0);
+		if(direction[1] && direction[2])
+			flipLine(x,y,1,1);
+		if(direction[2])
+			flipLine(x,y,0,1);
+		if(direction[2] && direction[3])
+			flipLine(x,y,-1,1);
+		if(direction[3])
+			flipLine(x,y,-1,0);
+		if(direction[3] && direction[0])
+			flipLine(x,y,-1,-1);
 	}
-	
+
 	/**
 	 * 
 	 * @param x position in the array
@@ -153,12 +207,12 @@ public class GameBoard implements BoardView{
 				i++;
 			}
 		} catch (Exception e){
-			
+
 		} finally {
-			
+
 		}
 	}
-	
+
 	private int flipTest(int x, int y, int up, int right, Piece type){
 		int i = 1;
 		Piece temp;
@@ -174,11 +228,11 @@ public class GameBoard implements BoardView{
 				i++;
 			}
 		} catch (Exception e){
-			
+
 		} finally {
-			
+
 		}
 		return 0;
 	}
-	
+
 }
