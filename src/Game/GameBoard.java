@@ -206,11 +206,9 @@ public class GameBoard implements BoardView{
 				}
 				i++;
 			}
-		} catch (Exception e){
+		} catch (IndexOutOfBoundsException e){
 
-		} finally {
-
-		}
+		} 
 	}
 
 	private int flipTest(int x, int y, int up, int right, Piece type){
@@ -227,9 +225,7 @@ public class GameBoard implements BoardView{
 				}
 				i++;
 			}
-		} catch (Exception e){
-
-		} finally {
+		} catch (IndexOutOfBoundsException e){
 
 		}
 		return 0;
