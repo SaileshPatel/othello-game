@@ -1,4 +1,4 @@
-package Game;
+package othello.game.board;
 
 import java.util.Optional;
 import java.util.Set;
@@ -42,4 +42,10 @@ public interface BoardView {
 	 * @return a piece
 	 */
 	public Piece view(Position boardPosition);
+	/**
+	 * Get the {@link BoardView} of <code>this</code>.
+	 * 
+	 * @return The {@link BoardView} representing <code>this</code>.
+	 */
+	public BoardView getView();
 }

@@ -1,4 +1,4 @@
-package Game;
+package othello.game.board;
 
 /**
  * The {@code Position} class with the responsibility of representing a

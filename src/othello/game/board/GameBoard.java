@@ -1,4 +1,4 @@
-package Game;
+package othello.game.board;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -182,5 +182,9 @@ public class GameBoard implements BoardView{
 		}
 		return 0;
 	}
-
+	@Override
+	public final BoardView getView()
+	{
+		return new ProxyGameBoard(this);
+	}
 }
