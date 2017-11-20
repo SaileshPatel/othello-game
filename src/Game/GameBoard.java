@@ -123,7 +123,6 @@ public class GameBoard implements BoardView{
 
 	public void flip(int x, int y){
 		//left up right down
-		boolean[] direction = new boolean[]{true,true,true,true};
 
 			flipLine(x,y,0,-1);
 			flipLine(x,y,1,-1);
