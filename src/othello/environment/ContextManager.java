@@ -1,6 +1,6 @@
 package othello.environment;
 
-public interface GameContext
+public final class ContextManager
 {
 
 }
