@@ -2,6 +2,12 @@ package othello.game.board;
 
 import java.util.Set;
 
+/**
+ * 
+ * @author	John
+ * @since	20/11/2017
+ * @version 20/11/2017
+ */
 public final class ProxyGameBoard implements BoardView
 {
 	private final BoardView board;

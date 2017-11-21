@@ -4,7 +4,9 @@ package othello;
  * Main game GUI. Creates the board using a grid layout.  
  * 
  * @author 	Zakeria Hirsi
- * @author 	John Berg 159014269
+ * @author 	159014269 John Berg
+ * @since	??/10/2017
+ * @version 20/11/2017
  */
 
 public class Main {

@@ -8,6 +8,12 @@ import othello.game.board.Piece;
 import othello.game.command.GameCommand;
 import othello.game.player.Participant;
 
+/**
+ * 
+ * @author 	John
+ * @since 	20/11/2017
+ * @version 21/11/2017
+ */
 public final class GameSession
 {
 	private final Game game;
@@ -25,16 +31,20 @@ public final class GameSession
 	}
 	private void notifyCurrent()
 	{
-		playerMap.get(game.getCurrent()).notifyTurn(this);
+		playerMap.get(current()).notifyTurn(this);
 	}
 	public final void accept(final GameCommand command)
 	{
-		if(playerMap.get(game.getCurrent()).equals(command.getSource()))
+		if(playerMap.get(current()).equals(command.getSource()))
 			command.execute(game);
 		notifyCurrent();
 	}
 	public final BoardView getBoard()
 	{
 		return game.getBoard();
+	}
+	public final Piece current()
+	{
+		return game.getCurrent();
 	}
 }

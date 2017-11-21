@@ -1,4 +1,4 @@
-package othello.environment;
+package othello.environment.context;
 
 public enum GameState implements GameContext
 {
