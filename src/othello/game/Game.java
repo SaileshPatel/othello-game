@@ -60,9 +60,10 @@ public class Game
 	}
 	/**
 	 * 
-	 * @param board
-	 * @param currentPiece
-	 * @throws NullPointerException
+	 * @param board The {@link GameBoard} ...
+	 * @param currentPiece The {@link Piece}
+	 * @throws NullPointerException If either <code>board</code> or
+	 * 			<code>currentPiece</code> is <code>null</code>.
 	 * @see GameBoard
 	 * @see Piece
 	 */
