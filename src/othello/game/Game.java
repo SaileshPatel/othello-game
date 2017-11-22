@@ -7,7 +7,7 @@ import othello.game.board.Position;
 
 /**
  * The {@code Game} is a class which models a game of Othello, which has the
- * responsibility of managing and maintaining the flow of the game session.
+ * responsibility of managing and maintaining the flow of the game.
  * 
  * 
  * @author 	159014260 John Berg 
@@ -15,6 +15,8 @@ import othello.game.board.Position;
  * @author  Arvinder Chatha
  * @since 	18/10/2017
  * @version 20/11/2017
+ * @see GameBoard
+ * @see Piece
  */
 public class Game
 {
@@ -22,28 +24,61 @@ public class Game
 	//Fields.
 	/**
 	 * The {@link GameBoard} of <code>this</code> game.
+	 * 
+	 * @see GameBoard
 	 */
 	private final GameBoard board;
 	/**
-	 * The ...
+	 * The {@link Piece} object which represents the {@link Piece} of the
+	 * current player.
+	 * 
+	 * @see Piece
 	 */
 	private Piece current;
 	//=========================================================================
 	//Constructors.
 	/**
+	 * Create a {@code Game} object by specifying a {@link GameBoard} that
+	 * a {@code Game} should be played on.
+	 * 
+	 * <p>
+	 * The current {@link Piece} will be set to {@link Piece#PIECE_A} as
+	 * {@link Piece#PIECE_A} should go first.
+	 * </p>
 	 * 
 	 * @param board The {@link GameBoard} for <code>this</code> game.
 	 * @throws NullPointerException If <code>board</code> is
 	 * 			<code>null</code>.
+	 * @see GameBoard
 	 */
 	public Game(final GameBoard board)
-			throws NullPointerException
+			throws
+			NullPointerException
+	{
+		//May throw NullPointerException.
+		this(board, Piece.PIECE_A);
+	}
+	/**
+	 * 
+	 * @param board
+	 * @param currentPiece
+	 * @throws NullPointerException
+	 * @see GameBoard
+	 * @see Piece
+	 */
+	public Game(
+			final GameBoard board,
+			final Piece currentPiece)
+			throws
+			NullPointerException
 	{
 		if(board == null)
 			throw new NullPointerException();
+		if(currentPiece == null)
+			throw new NullPointerException();
 		this.board = board;
-		current = Piece.PIECE_A;
-	} //Game(GameBoard)
+		current = currentPiece;
+	}
 	//=========================================================================
 	//Methods.
 	/**
@@ -52,6 +87,10 @@ public class Game
 	 * <p>
 	 * If a {@link Piece} does not have any legal moves, then the turn will
 	 * go back to the current {@link Piece} object's turn.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>For internal use only!</b>
 	 * </p>
 	 */
 	private void nextTurn()
@@ -71,7 +110,10 @@ public class Game
 	}
 	/**
 	 * 
-	 * @param position
+	 * @param position The {@link Position} to place the {@link Piece} of the
+	 * 			current player's {@link Piece}.
+	 * @see #getCurrent()
+	 * @see Position
 	 */
 	public final void put(final Position position)
 	{
@@ -81,6 +123,11 @@ public class Game
 	/**
 	 * Get the {@link Piece} representing the first player.
 	 * 
+	 * <p>
+	 * The first player will always have {@link Piece#PIECE_A} as their
+	 * {@link Piece}.
+	 * </p>
+	 * 
 	 * @return The {@link Piece} of the first player.
 	 */
 	public final Piece getPlayer1()
@@ -89,6 +136,11 @@ public class Game
 	}
 	/**
 	 * Get the {@link Piece} representing the second player.
+	 * 
+	 * <p>
+	 * The second player will always have {@link Piece#PIECE_B} as their
+	 * {@link Piece}.
+	 * </p>
 	 * 
 	 * @return The {@link Piece} of the second player.
 	 */
