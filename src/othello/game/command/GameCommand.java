@@ -23,7 +23,7 @@ import othello.game.Game;
  * 
  * @author 	159014260 John Berg
  * @since 	20/11/2017
- * @version 20/11/2017
+ * @version 22/11/2017
  * @see #GameCommand(Object)
  * @see #execute(Game)
  * @see Game
@@ -38,7 +38,15 @@ public abstract class GameCommand
 	 */
 	private static final String NULL_SOURCE =
 			"Issuer of the GameCommand was null";
+	/**
+	 * The {@link String} which describes what issued the {@code GameCommand}.
+	 */
 	private static final String ISSUED_BY = " issued by: ";
+	/**
+	 * The {@link String} which marks the end of the {@link String}
+	 * representation of {@code GameCommand}.
+	 */
+	private static final String END_OF_HEADER = ";";
 	//=========================================================================
 	//Fields.
 	/**
@@ -109,6 +117,6 @@ public abstract class GameCommand
 	@Override
 	public String toString()
 	{
-		return getClass().getSimpleName() + ISSUED_BY + source.toString();
+		return getClass().getSimpleName() + ISSUED_BY + source.toString() + END_OF_HEADER;
 	}
 }
