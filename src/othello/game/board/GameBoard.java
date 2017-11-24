@@ -21,7 +21,14 @@ public class GameBoard implements BoardView{
 
 	}
 
-	public void put(Position position, Piece piece){
+	public void put(Position position, Piece piece) throws InvalidMoveException{
+		
+		Set<Position> validMoves = legalMoves(piece);
+		if(!validMoves.contains(position)){
+			throw new InvalidMoveException(position, piece);
+		}
+		
+		
 		grid[position.row][position.col] = piece;
 		flip(position.row,position.col);
 	}
