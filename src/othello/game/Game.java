@@ -59,9 +59,11 @@ public class Game
 		this(board, Piece.PIECE_A);
 	}
 	/**
+	 * Crtea a {@link }
 	 * 
-	 * @param board The {@link GameBoard} ...
-	 * @param currentPiece The {@link Piece}
+	 * 
+	 * @param board The {@link GameBoard} which will be used to play the {@link Game}.
+	 * @param currentPiece The {@link Piece} for which player's turn it currently is.
 	 * @throws NullPointerException If either <code>board</code> or
 	 * 			<code>currentPiece</code> is <code>null</code>.
 	 * @see GameBoard
