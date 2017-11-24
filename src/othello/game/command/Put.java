@@ -1,6 +1,8 @@
 package othello.game.command;
 
 import othello.game.Game;
+import othello.game.GameException;
+import othello.game.board.InvalidMoveException;
 import othello.game.board.Position;
 
 /**
@@ -67,15 +69,24 @@ public class Put extends GameCommand
 	 * @see Game
 	 * @see Game#put(Position)
 	 * @see GameCommand#execute(Game)
+	 * @see GameException
 	 */
 	@Override
 	public void execute(final Game game)
 			throws
+			GameException,
 			NullPointerException
 	{
 		if(game == null)
 			throw new NullPointerException(NULL_GAME_RECIEVER);
-		game.put(position);
+		try
+		{
+			game.put(position);
+		}
+		catch(final InvalidMoveException e)
+		{
+			throw new GameException(e);
+		}
 	}
 	/**
 	 * Get the {@link String}} representation of <code>this</code> {@code Put}

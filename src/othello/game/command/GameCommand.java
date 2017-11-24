@@ -1,5 +1,6 @@
 package othello.game.command;
 import othello.game.Game;
+import othello.game.GameException;
 
 /**
  * The {@code GameCommand} class is an abstract class which represents a
@@ -84,9 +85,13 @@ public abstract class GameCommand
 	 * Execute the command.
 	 * 
 	 * @param game The {@link Game} object to execute the command on.
+	 * @throws GameException If <code>game</code> throws an exception.
 	 * @see Game
+	 * @see GameException
 	 */
-	public abstract void execute(final Game game);
+	public abstract void execute(final Game game)
+			throws
+			GameException;
 	//=========================================================================
 	//Methods.
 	/**

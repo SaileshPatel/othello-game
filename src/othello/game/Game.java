@@ -2,6 +2,7 @@ package othello.game;
 
 import othello.game.board.BoardView;
 import othello.game.board.GameBoard;
+import othello.game.board.InvalidMoveException;
 import othello.game.board.Piece;
 import othello.game.board.Position;
 
@@ -124,6 +125,8 @@ public class Game
 	 * @see Position
 	 */
 	public final void put(final Position position)
+			throws
+			InvalidMoveException
 	{
 		board.put(position, getCurrent());
 		nextTurn();

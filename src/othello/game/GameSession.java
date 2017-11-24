@@ -34,8 +34,12 @@ public final class GameSession
 		playerMap.get(current()).notifyTurn(this);
 	}
 	public final void accept(final GameCommand command)
+			throws
+			GameException,
+			NullPointerException
 	{
 		if(playerMap.get(current()).equals(command.getSource()))
+			//May throw GameException.
 			command.execute(game);
 		notifyCurrent();
 	}
