@@ -42,7 +42,7 @@ public interface BoardView {
 	 * @param boardPosition 
 	 * @return a piece
 	 */
-	public Piece view(Position boardPosition);
+	public Optional<Piece> view(Position boardPosition);
 	/**
 	 * Get the {@link BoardView} of <code>this</code>.
 	 * 
