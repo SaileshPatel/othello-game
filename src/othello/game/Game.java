@@ -112,6 +112,11 @@ public class Game
 		return board.isEnd();
 	}
 	/**
+	 * Put the current {@link Piece} at a specific {@link Position}.
+	 * 
+	 * <p>
+	 * 
+	 * </p>
 	 * 
 	 * @param position The {@link Position} to place the {@link Piece} of the
 	 * 			current player's {@link Piece}.
@@ -161,7 +166,8 @@ public class Game
 		return current;
 	}
 	/**
-	 * 
+	 * Get the {@link BoardView} of the board which is contained in
+	 * <code>this</code> {@code Game}.
 	 * 
 	 * @return A {@link BoardView} object of the {@link GameBoard} for
 	 * 			<code>this</code> game.
