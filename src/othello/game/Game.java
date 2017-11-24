@@ -10,6 +10,12 @@ import othello.game.board.Position;
  * The {@code Game} is a class which models a game of Othello, which has the
  * responsibility of managing and maintaining the flow of the game.
  * 
+ * <p>
+ * The {@code Game} provides the capability to get information regarding the
+ * current {@link Piece} which is to make a move, additionally some methods
+ * allow for interaction with the {@link GameBoard} class using the current
+ * {@link Piece}.
+ * </p>
  * 
  * @author 	159014260 John Berg 
  * @author 	Eastwood
@@ -60,11 +66,19 @@ public class Game
 		this(board, Piece.PIECE_A);
 	}
 	/**
-	 * Crtea a {@link }
+	 * Create a {@code Game} by with a specific {@link GameBoard} and the
+	 * {@link Piece} which current turn it is.
 	 * 
+	 * <p>
+	 * This constructor can be used to load games which are partially completed
+	 * or to create custom games and game modes with specially created
+	 * {@link GameBoard} and non-fixed first players.
+	 * </p>
 	 * 
-	 * @param board The {@link GameBoard} which will be used to play the {@link Game}.
-	 * @param currentPiece The {@link Piece} for which player's turn it currently is.
+	 * @param board The {@link GameBoard} which will be used to play the
+	 * 			{@link Game}.
+	 * @param currentPiece The {@link Piece} for which player's turn it
+	 * 			currently is.
 	 * @throws NullPointerException If either <code>board</code> or
 	 * 			<code>currentPiece</code> is <code>null</code>.
 	 * @see GameBoard
@@ -116,17 +130,23 @@ public class Game
 	 * Put the current {@link Piece} at a specific {@link Position}.
 	 * 
 	 * <p>
-	 * 
+	 * After a move has been completed, the {@code Game} will move the the
+	 * next turn.
 	 * </p>
 	 * 
 	 * @param position The {@link Position} to place the {@link Piece} of the
 	 * 			current player's {@link Piece}.
+	 * @throws InvalidMoveException If the current {@link Piece} cannot be
+	 * 			placed at <code>position</code>.
+	 * @throws NullPointerException If <code>position</code> is
+	 * 			<code>null</code>.
 	 * @see #getCurrent()
 	 * @see Position
 	 */
 	public final void put(final Position position)
 			throws
-			InvalidMoveException
+			InvalidMoveException,
+			NullPointerException
 	{
 		board.put(position, getCurrent());
 		nextTurn();

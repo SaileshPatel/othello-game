@@ -2,6 +2,8 @@ package othello.game;
 
 /**
  * 
+ * 
+ * 
  * @author 	159014260 John Berg
  * @since	24/11/2017
  * @version 24/11/2017
@@ -36,6 +38,8 @@ public class GameException extends Exception
 	//=========================================================================
 	//Overriden methods.
 	/**
+	 * 
+	 * 
 	 * @return The {@link String} representation of the cause.
 	 */
 	@Override
