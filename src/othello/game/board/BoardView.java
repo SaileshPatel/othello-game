@@ -16,7 +16,7 @@ public interface BoardView {
 	 * This method determines if the game has ended
 	 * @return true if ended, otherwise false
 	 */
-	public Boolean isEnd();
+	public boolean isEnd();
 	
 	/**
 	 * This method returns the size of the board
