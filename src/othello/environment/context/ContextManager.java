@@ -13,6 +13,18 @@ public final class ContextManager
 	{
 		
 	}
+	public final void push()
+	{
+		
+	}
+	public final GameContext peek()
+	{
+		return null;
+	}
+	public final void pop()
+	{
+		
+	}
 	public static final ContextManager get()
 	{
 		return instance != null? instance: (instance = new ContextManager());
