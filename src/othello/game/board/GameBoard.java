@@ -126,7 +126,7 @@ public class GameBoard implements BoardView{
 	public Optional<Piece> view(Position pos) {
 		// TODO Auto-generated method stub
 		
-			Optional<Piece> temp = Optional.of(grid[pos.row][pos.col]);
+		Optional<Piece> temp = Optional.ofNullable(grid[pos.row][pos.col]);
 		return temp;
 		
 	}
