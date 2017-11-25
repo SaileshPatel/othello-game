@@ -1,6 +1,7 @@
 package othello.game.board;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 /**
@@ -34,7 +35,7 @@ public class GameBoard implements BoardView{
 	}
 
 	@Override
-	public Boolean isEnd() {
+	public boolean isEnd() {
 		// TODO Auto-generated method stub
 		for (int i = 0;i < grid.length;i++){
 			for (int j = 0;j < grid.length;j++){
@@ -122,11 +123,12 @@ public class GameBoard implements BoardView{
 	}
 
 	@Override
-	public Piece view(Position boardPosition) {
+	public Optional<Piece> view(Position pos) {
 		// TODO Auto-generated method stub
-		Piece temp;
-		temp = grid[boardPosition.row][boardPosition.col];
+		
+			Optional<Piece> temp = Optional.of(grid[pos.row][pos.col]);
 		return temp;
+		
 	}
 
 	public void flip(int x, int y){
