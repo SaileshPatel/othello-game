@@ -30,12 +30,19 @@ public class Othello extends Game {
 	
 		game = new com.othellog4.game.Game(gameBoard);
 		
+		p1 = new Player();
+		p2 = new Player();
+		
 		session = new GameSession(game, p1, p2);
+		
+		boardRenderer = new BoardRenderer(spriteBatch, session);
 	}
 
 	@Override
 	public void render () {
 		super.render();
+		boardRenderer.render();
+		
 	
 		//Gdx.gl.glClearColor(1, 0, 0, 1);
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -46,6 +53,11 @@ public class Othello extends Game {
 	
 	public SpriteBatch getSpriteBatch() {
 		return spriteBatch;
+	}
+	
+	@Override
+	public void resize(int width, int height) {
+		boardRenderer.resize(width, height);
 	}
 	
 //	@Override
