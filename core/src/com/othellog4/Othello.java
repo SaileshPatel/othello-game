@@ -5,22 +5,38 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.othellog4.game.GameSession;
+import com.othellog4.game.board.GameBoard;
+import com.othellog4.game.player.Player;
+import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
 
 public class Othello extends Game {
 	private SpriteBatch spriteBatch;
+	private GameBoard gameBoard;
+	private Player p1;
+	private Player p2;
+	private GameSession session;
+	private com.othellog4.game.Game game;
+	private BoardRenderer boardRenderer;
 	
 	@Override
 	public void create () {
 		spriteBatch = new SpriteBatch();
 		//Settings.load()
 		//Assets.load()
-		setScreen(new GameScreen(this));
+		//setScreen(new GameScreen(this));
+		gameBoard = new GameBoard(8);
+	
+		game = new com.othellog4.game.Game(gameBoard);
+		
+		session = new GameSession(game, p1, p2);
 	}
 
 	@Override
 	public void render () {
 		super.render();
+	
 		//Gdx.gl.glClearColor(1, 0, 0, 1);
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		//spriteBatch.begin();
