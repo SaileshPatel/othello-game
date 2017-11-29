@@ -1,9 +1,9 @@
-package othello.game.command;
+package com.othellog4.game.command;
 
-import othello.game.Game;
-import othello.game.GameException;
-import othello.game.board.InvalidMoveException;
-import othello.game.board.Position;
+import com.othellog4.game.Game;
+import com.othellog4.game.GameException;
+import com.othellog4.game.board.InvalidMoveException;
+import com.othellog4.game.board.Position;
 
 /**
  * The {@code Put} class is a subclass of the {@link GameCommand} class, which

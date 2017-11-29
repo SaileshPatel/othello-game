@@ -1,6 +1,6 @@
-package othello.game.command;
-import othello.game.Game;
-import othello.game.GameException;
+package com.othellog4.game.command;
+import com.othellog4.game.Game;
+import com.othellog4.game.GameException;
 
 /**
  * The {@code GameCommand} class is an abstract class which represents a

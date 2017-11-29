@@ -1,4 +1,4 @@
-package othello.environment.resources;
+package com.othellog4.environment.resources;
 
 /**
  * 

@@ -1,8 +1,8 @@
-package othello.game.player;
+package com.othellog4.game.player;
 
 import java.util.Scanner;
 
-import othello.game.GameSession;
+import com.othellog4.game.GameSession;
 
 /**
  * The player class interacts with the Game view the GameView Control 

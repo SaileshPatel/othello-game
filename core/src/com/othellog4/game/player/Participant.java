@@ -1,6 +1,6 @@
-package othello.game.player;
+package com.othellog4.game.player;
 
-import othello.game.GameSession;
+import com.othellog4.game.GameSession;
 
 /**
  * 

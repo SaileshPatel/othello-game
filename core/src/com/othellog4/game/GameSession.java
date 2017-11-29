@@ -1,12 +1,12 @@
-package othello.game;
+package com.othellog4.game;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import othello.game.board.BoardView;
-import othello.game.board.Piece;
-import othello.game.command.GameCommand;
-import othello.game.player.Participant;
+import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.Piece;
+import com.othellog4.game.command.GameCommand;
+import com.othellog4.game.player.Participant;
 
 /**
  * The {@code GameSession} class models a game session of a game of Othello,

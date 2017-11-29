@@ -1,4 +1,4 @@
-package othello.game;
+package com.othellog4.game;
 
 /**
  * The {@code GameException} class is a wrapper class for the

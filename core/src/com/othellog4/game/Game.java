@@ -1,10 +1,10 @@
-package othello.game;
+package com.othellog4.game;
 
-import othello.game.board.BoardView;
-import othello.game.board.GameBoard;
-import othello.game.board.InvalidMoveException;
-import othello.game.board.Piece;
-import othello.game.board.Position;
+import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.GameBoard;
+import com.othellog4.game.board.InvalidMoveException;
+import com.othellog4.game.board.Piece;
+import com.othellog4.game.board.Position;
 
 /**
  * The {@code Game} is a class which models a game of Othello, which has the

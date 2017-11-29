@@ -1,4 +1,4 @@
-package othello.game.board;
+package com.othellog4.game.board;
 
 public class InvalidMoveException extends Exception {
 	

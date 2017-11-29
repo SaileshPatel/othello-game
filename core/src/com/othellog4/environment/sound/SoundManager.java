@@ -1,4 +1,4 @@
-package othello.environment.sound;
+package com.othellog4.environment.sound;
 
 /**
  * 

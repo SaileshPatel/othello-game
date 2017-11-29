@@ -1,4 +1,4 @@
-package othello.game.board;
+package com.othellog4.game.board;
 
 /**
  * This class contains enums which represents Pieces on the board.

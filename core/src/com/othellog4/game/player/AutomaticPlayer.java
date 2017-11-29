@@ -1,6 +1,6 @@
-package othello.game.player;
+package com.othellog4.game.player;
 
-import othello.game.GameSession;
+import com.othellog4.game.GameSession;
 
 /**
  * This is the AI class. It will eventually have some AI implementation in order to make smart decisions
