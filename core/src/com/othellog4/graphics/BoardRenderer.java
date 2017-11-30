@@ -28,17 +28,17 @@ public class BoardRenderer {
 	final int boardPadding = 60;
 	final int boardBackgroundPadding = 30;
 	final int piecePaddingPercent = 8;
-	final int lineWidth = 10;
+	final int lineWidth = 5;
 
-	private int boardSize;
-	private int boardWidth;
-	private int piecePaddingActual, pieceSizeActual;
-	private int columnWidth;
-	private int startingPosX;
-	private int startingPosY;
-	private int boardBackgroundX;
-	private int boardBackgroundY;
-	private int boardBackgroundWidth;
+	private float boardSize;
+	private float boardWidth;
+	private float piecePaddingActual, pieceSizeActual;
+	private float columnWidth;
+	private float startingPosX;
+	private float startingPosY;
+	private float boardBackgroundX;
+	private float boardBackgroundY;
+	private float boardBackgroundWidth;
 
 	private ProxyGameBoard board;
 
@@ -106,16 +106,21 @@ public class BoardRenderer {
 		shape.setColor(0.27f, 0.12f, 0.02f, 1);
 		shape.rect(0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
+		// Dark green background
 		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
 		shape.setColor(0.02f, 0.4f, 0.043f, 1);
+		// Light green inner
 		shape.rect(startingPosX,startingPosY - boardWidth,boardWidth,boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
-		int startingY = startingPosY - boardWidth;
-		for(int x = 1; x < boardSize ; x++){
-			shape.rect((int)(startingPosX + (x*columnWidth) - (0.5*lineWidth)),startingY,lineWidth,boardWidth);
+		//shape.setColor(1.00f, 0.2f, 0.022f, 1);
+		float startingY = startingPosY - boardWidth;
+		
+		//Draw board lines
+		for(int x = 0; x <= boardSize ; x++){
+			shape.rect((startingPosX + (x*columnWidth) - (lineWidth/2))-0.5f,startingY,lineWidth,boardWidth);
 		}
-		for (int y = 1 ; y < boardSize; y++){
-			shape.rect(startingPosX,(int)(startingY + (y*columnWidth) - (0.5*lineWidth)),boardWidth,lineWidth);
+		for (int y = 0 ; y <= boardSize; y++){
+			shape.rect(startingPosX,(startingY + (y*columnWidth) - (lineWidth/2))-0.5f,boardWidth,lineWidth);
 			
 		}
 		System.out.println(boardBackgroundX + " " + boardBackgroundY);
