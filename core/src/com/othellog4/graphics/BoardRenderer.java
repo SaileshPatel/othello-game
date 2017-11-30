@@ -25,10 +25,10 @@ public class BoardRenderer {
 
 	final int GAME_WORLD_WIDTH = 1600;
 	final int GAME_WORLD_HEIGHT = 900;
-	final int boardPadding = 60;
-	final int boardBackgroundPadding = 30;
-	final int piecePaddingPercent = 8;
-	final int lineWidth = 5;
+	final float boardPadding = 60;
+	final float boardBackgroundPadding = 30;
+	final float piecePaddingPercent = 8;
+	final float lineWidth = 5;
 
 	private float boardSize;
 	private float boardWidth;
@@ -117,10 +117,10 @@ public class BoardRenderer {
 		
 		//Draw board lines
 		for(int x = 0; x <= boardSize ; x++){
-			shape.rect((startingPosX + (x*columnWidth) - (lineWidth/2))-0.5f,startingY,lineWidth,boardWidth);
+			shape.rect((startingPosX + (x*columnWidth) - (lineWidth/2)),startingY,lineWidth,boardWidth);
 		}
 		for (int y = 0 ; y <= boardSize; y++){
-			shape.rect(startingPosX,(startingY + (y*columnWidth) - (lineWidth/2))-0.5f,boardWidth,lineWidth);
+			shape.rect(startingPosX,(startingY + (y*columnWidth) - (lineWidth/2)),boardWidth,lineWidth);
 			
 		}
 		System.out.println(boardBackgroundX + " " + boardBackgroundY);
