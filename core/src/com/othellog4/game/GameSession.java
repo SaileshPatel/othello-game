@@ -1,8 +1,5 @@
 package com.othellog4.game;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
@@ -57,13 +54,9 @@ public final class GameSession
 	 */
 	private final Game game;
 	/**
-	 * The {@link Map} which maps {@link Piece} objects to the corresponding
-	 * {@link Participant} object.
 	 * 
-	 * @see Piece
-	 * @see Participant
 	 */
-	private final Map<Piece, Participant> playerMap;
+	private final TurnManager turnManager;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -73,27 +66,20 @@ public final class GameSession
 	 * 
 	 * @param game The {@link Game} class which the created {@code GameSession}
 	 * 			will use to 
-	 * @param player1 The {@link Participant} which correspond to
-	 * 			{@link Piece#PIECE_A}.
-	 * @param player2 The {@link Participant} which correspond to
-	 * 			{@link Piece#PIECE_B}.
+	 * @param turnManager ...
 	 * @throws NullPointerException If either <code>game</code>,
-	 * 			<code>player1</code> or <code>player2</code> is
-	 * 			<code>null</code>.
+	 * 			<code>turnManager</code> is <code>null</code>.
 	 * @see Game
 	 * @see Participant
 	 */
 	public GameSession(
 			final Game game,
-			final Participant player1,
-			final Participant player2)
+			final TurnManager turnManager)
 			throws
 			NullPointerException
 	{
 		this.game = game;
-		playerMap = new HashMap<>();
-		playerMap.put(game.getPlayer1(), player1);
-		playerMap.put(game.getPlayer2(), player2);
+		this.turnManager = turnManager;
 		notifyCurrent();
 	}
 	//=========================================================================
@@ -108,7 +94,7 @@ public final class GameSession
 	 */
 	private void notifyCurrent()
 	{
-		playerMap.get(current()).notifyTurn(this);
+		turnManager.playerOf(current()).notifyTurn(this);
 	}
 	/**
 	 * Accept a {@link GameCommand} to be executed on the {@link Game} in
@@ -135,7 +121,7 @@ public final class GameSession
 			GameException,
 			NullPointerException
 	{
-		if(playerMap.get(current()).equals(command.getSource()))
+		if(turnManager.playerOf(current()).equals(command.getSource()))
 			//May throw GameException.
 			command.execute(game);
 		notifyCurrent();

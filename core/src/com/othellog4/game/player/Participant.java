@@ -51,7 +51,7 @@ public interface Participant
 	 * 			returned if <code>this</code> {@code Participant} is not
 	 * 			controllable.
 	 */
-	public Optional<? extends Control> getControl();
+	public Optional<Control> getControl();
 	//=========================================================================
 	//Inner classes.
 	/**

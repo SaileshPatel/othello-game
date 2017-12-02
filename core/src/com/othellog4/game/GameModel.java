@@ -1,6 +1,7 @@
 package com.othellog4.game;
 
 import java.util.Observable;
+import java.util.Optional;
 
 import com.othellog4.game.board.BoardView;
 import com.othellog4.game.player.Participant;
@@ -18,15 +19,15 @@ public class GameModel extends Observable
 	/**
 	 * 
 	 */
+	private final Game game;
+	/**
+	 * 
+	 */
+	private final TurnManager turnManager;
+	/**
+	 * 
+	 */
 	private final GameSession session;
-	/**
-	 * 
-	 */
-	private final Participant player1;
-	/**
-	 * 
-	 */
-	private final Participant player2;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -37,9 +38,9 @@ public class GameModel extends Observable
 			final Participant player1,
 			Participant player2)
 	{
-		this.session = new GameSession(game, player1, player2);
-		this.player1 = player1;
-		this.player2 = player2;
+		this.game = game;
+		this.turnManager = new TurnManager(game, player1, player2);
+		this.session = new GameSession(game, turnManager);
 	}
 	//=========================================================================
 	//Methods.
@@ -49,10 +50,20 @@ public class GameModel extends Observable
 	 * @param y
 	 */
 	public final void put(int x, int y)
+			throws
+			GameException
 	{
-		//control = current.getControl();
-		//if(control.isPresent())
-		//	control.put(x, y);
+		final Optional<Participant.Control> control = getCurrent().getControl();
+		if(control.isPresent())
+			control.get().put(x, y);
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final Participant getCurrent()
+	{
+		return turnManager.playerOf(session.current());
 	}
 	/**
 	 * 
@@ -60,7 +71,7 @@ public class GameModel extends Observable
 	 */
 	public final Participant getPlayer1()
 	{
-		return player1;
+		return turnManager.playerOf(game.getPlayer1());
 	}
 	/**
 	 * 
@@ -68,7 +79,7 @@ public class GameModel extends Observable
 	 */
 	public final Participant getPlayer2()
 	{
-		return player2;
+		return turnManager.playerOf(game.getPlayer1());
 	}
 	/**
 	 * 
