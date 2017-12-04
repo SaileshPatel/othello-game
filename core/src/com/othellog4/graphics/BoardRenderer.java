@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.game.GameSession;
+import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.board.Position;
@@ -43,7 +44,6 @@ public class BoardRenderer {
 	private ProxyGameBoard board;
 
 	Batch spriteBatch;
-	GameSession session;
 	OrthographicCamera cam;
 	Viewport viewport;
 	Texture image;
@@ -52,9 +52,8 @@ public class BoardRenderer {
 	Texture blackPiece;
 	Texture emptyPiece;
 
-	public BoardRenderer(Batch spriteBatch, GameSession session) {
+	public BoardRenderer(Batch spriteBatch, BoardView board) {
 		this.spriteBatch = spriteBatch;
-		this.session = session;
 
 		image = new Texture("badlogic.jpg");
 		whitePiece = new Texture("whitepiece.png");
@@ -68,7 +67,7 @@ public class BoardRenderer {
 		viewport = new FitViewport(GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT, cam);
 		viewport.apply();
 
-		board = (ProxyGameBoard) session.getBoard();
+		this.board = (ProxyGameBoard) board;
 
 		boardWidth = GAME_WORLD_HEIGHT - (2 * boardPadding);
 		boardSize = board.size();

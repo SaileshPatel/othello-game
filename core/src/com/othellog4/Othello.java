@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.othellog4.game.GameModel;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.player.Player;
@@ -16,7 +17,7 @@ public class Othello extends Game {
 	private GameBoard gameBoard;
 	private Player p1;
 	private Player p2;
-	private GameSession session;
+	private GameModel model;
 	private com.othellog4.game.Game game;
 	private BoardRenderer boardRenderer;
 	
@@ -33,9 +34,9 @@ public class Othello extends Game {
 		p1 = new Player();
 		p2 = new Player();
 		
-		session = new GameSession(game, p1, p2);
+		model = new GameModel(game, p1, p2);
 		
-		boardRenderer = new BoardRenderer(spriteBatch, session);
+		boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
 	}
 
 	@Override
