@@ -8,6 +8,10 @@ import com.othellog4.game.player.Participant;
 
 /**
  * 
+ * <p>
+ * The {@code GameModel} functions as a boundry object.
+ * </p>
+ * 
  * @author 	159014260 John Berg
  * @since 	01/12/2017
  * @version 01/12/2017
@@ -17,7 +21,7 @@ public class GameModel extends Observable
 	//========================================================================
 	//Fields.
 	/**
-	 * 
+	 * The {@link Game} of the {@code GameModel} which is being played.
 	 */
 	private final Game game;
 	/**
@@ -32,6 +36,10 @@ public class GameModel extends Observable
 	//Constructors.
 	/**
 	 * 
+	 * 
+	 * @param game 
+	 * @param player1 The {@link Participant} representing the first player.
+	 * @param player2 The {@link Participant} representing the second player.
 	 */
 	public GameModel(
 			final Game game,
@@ -41,13 +49,32 @@ public class GameModel extends Observable
 		this.game = game;
 		this.turnManager = new TurnManager(game, player1, player2);
 		this.session = new GameSession(game, turnManager);
+		this.game.addListener(this::update);
 	}
 	//=========================================================================
 	//Methods.
 	/**
 	 * 
-	 * @param x
-	 * @param y
+	 */
+	private void update(final Game game)
+	{
+		super.setChanged();
+		super.notifyObservers(this);
+	}
+	/**
+	 * ...
+	 * 
+	 * @return <code>true</code> if {@code GameModel} is ...
+	 */
+	public final boolean isWaiting()
+	{
+		return getCurrent().getControl().isPresent();
+	}
+	/**
+	 * 
+	 * @param x The column of the board.
+	 * @param y The row of the board.
+	 * @throws GameException
 	 */
 	public final void put(int x, int y)
 			throws
@@ -58,32 +85,54 @@ public class GameModel extends Observable
 			control.get().put(x, y);
 	}
 	/**
+	 * Get the {@link Participant} which current turn it is.
 	 * 
-	 * @return
+	 * <p>
+	 * The current {@link Participant} is the {@link Piece} object returned
+	 * from the {@link Game} of <code>this</code>.
+	 * </p>
+	 * 
+	 * @return The {@link Participant} which currently has it's turn.
 	 */
 	public final Participant getCurrent()
 	{
 		return turnManager.playerOf(session.current());
 	}
 	/**
+	 * Get the {@link Participant} which is the first {@link Player} in
+	 * <code>this</code>.
 	 * 
-	 * @return
+	 * <p>
+	 * The first player is the {@link Participant} which is associated with
+	 * {@link Game#getPlaye1()}.
+	 * </p>
+	 * 
+	 * @return The {@link Participant} which is the first player.
 	 */
 	public final Participant getPlayer1()
 	{
 		return turnManager.playerOf(game.getPlayer1());
 	}
 	/**
+	 * Get the {@link Participant} which is the second {@link Player} in
+	 * <code>this</code>.
 	 * 
-	 * @return
+	 * <p>
+	 * The second player is the {@link Participant} which is associated
+	 * with {@link Game#getPlaye2()}.
+	 * </p>
+	 * 
+	 * @return The {@link Participant} which is the second player.
 	 */
 	public final Participant getPlayer2()
 	{
 		return turnManager.playerOf(game.getPlayer1());
 	}
 	/**
+	 * Get the {@link BardView} of the current {@link GameSession}.
 	 * 
-	 * @return
+	 * @return The {@link BoardView} the current {@link GameSession} in
+	 * 			<code>this</code> {@code GameModel}.
 	 */
 	public final BoardView getBoard()
 	{

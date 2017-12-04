@@ -1,5 +1,8 @@
 package com.othellog4.game;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.InvalidMoveException;
@@ -42,6 +45,12 @@ public class Game
 	 * @see Piece
 	 */
 	private Piece current;
+	/**
+	 * The {@link Set} of {@link GameListener} objects to update.
+	 * 
+	 * @see GameListener
+	 */
+	private final Set<GameListener> listeners;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -96,6 +105,7 @@ public class Game
 			throw new NullPointerException();
 		this.board = board;
 		current = currentPiece;
+		listeners = new HashSet<>();
 	}
 	//=========================================================================
 	//Methods.
@@ -115,6 +125,25 @@ public class Game
 	{
 		if(!board.legalMoves(current.flip()).isEmpty())
 			current = current.flip();
+		update();
+	}
+	/**
+	 * Update all the {@link GameListener} objects in <code>this</code>
+	 * {@code Game}.
+	 * 
+	 * <p>
+	 * This method should be called every time an action which will affect the
+	 * {@link GameBoard} is executed.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>For internal use only!</b>
+	 * </p>
+	 */
+	private synchronized void update()
+	{
+		for(final GameListener listener: listeners)
+			listener.update(this);
 	}
 	/**
 	 * Check if the game is over.
@@ -150,6 +179,28 @@ public class Game
 	{
 		board.put(position, getCurrent());
 		nextTurn();
+	}
+	/**
+	 * Add a {@link GameListener} to be updated about events that occur in
+	 * <code>this</code> {@code Game}.
+	 * 
+	 * @param listener The {@link GameListener} to be added to
+	 * 			<code>this</code>.
+	 */
+	public final synchronized void addListener(final GameListener listener)
+	{
+		listeners.add(listener);
+	}
+	/**
+	 * Remove a {@link GameListener} existing in <code>this</code>
+	 * {@code Game}.
+	 * 
+	 * @param listener The {@link GameListener} to be removed from
+	 * 			<code>this</code>.
+	 */
+	public final synchronized void removeListener(final GameListener listener)
+	{
+		listeners.remove(listener);
 	}
 	/**
 	 * Get the {@link Piece} representing the first player.

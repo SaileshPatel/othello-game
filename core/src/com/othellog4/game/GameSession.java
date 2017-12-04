@@ -65,12 +65,14 @@ public final class GameSession
 	 * represent the first and second player respectively.
 	 * 
 	 * @param game The {@link Game} class which the created {@code GameSession}
-	 * 			will use to 
-	 * @param turnManager ...
+	 * 			will use to make moves, and retrieve information from.
+	 * @param turnManager The {@link TurnManager} which associates a
+	 * 			{@link Participant} with the corresponding {@link Piece}.
 	 * @throws NullPointerException If either <code>game</code>,
 	 * 			<code>turnManager</code> is <code>null</code>.
 	 * @see Game
 	 * @see Participant
+	 * @see TurnManager
 	 */
 	public GameSession(
 			final Game game,
@@ -78,9 +80,14 @@ public final class GameSession
 			throws
 			NullPointerException
 	{
+		if(game == null)
+			throw new NullPointerException();
+		if(turnManager == null)
+			throw new NullPointerException();
 		this.game = game;
 		this.turnManager = turnManager;
-		notifyCurrent();
+		game.addListener(this::notifyCurrent);
+		notifyCurrent(null);
 	}
 	//=========================================================================
 	//Methods.
@@ -92,7 +99,7 @@ public final class GameSession
 	 * <b>For internal use only!</b>
 	 * </p>
 	 */
-	private void notifyCurrent()
+	private void notifyCurrent(final Game game)
 	{
 		turnManager.playerOf(current()).notifyTurn(this);
 	}
@@ -124,7 +131,6 @@ public final class GameSession
 		if(turnManager.playerOf(current()).equals(command.getSource()))
 			//May throw GameException.
 			command.execute(game);
-		notifyCurrent();
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the
