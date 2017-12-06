@@ -14,12 +14,13 @@ import com.othellog4.screens.GameScreen;
 
 public class Othello extends Game {
 	private SpriteBatch spriteBatch;
-	private GameBoard gameBoard;
+	//private GameBoard gameBoard;
 	private Player p1;
 	private Player p2;
 	private GameModel model;
-	private com.othellog4.game.Game game;
-	private BoardRenderer boardRenderer;
+	private GameScreen screen;
+	//private com.othellog4.game.Game game;
+	//private BoardRenderer boardRenderer;
 	
 	@Override
 	public void create () {
@@ -27,23 +28,23 @@ public class Othello extends Game {
 		//Settings.load()
 		//Assets.load()
 		//setScreen(new GameScreen(this));
-		gameBoard = new GameBoard(8);
-	
-		game = new com.othellog4.game.Game(gameBoard);
-		
+		//gameBoard = new GameBoard(8);
+		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new Player();
 		p2 = new Player();
-		
-		model = new GameModel(game, p1, p2);
-		
-		boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
+		model = new GameModel(
+				new com.othellog4.game.Game(new GameBoard(8)),
+				p1,
+				p2);
+		screen = new GameScreen(model);
+		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
 	}
 
 	@Override
 	public void render () {
 		super.render();
-		boardRenderer.render();
-		
+		//boardRenderer.render();
+		screen.draw();
 	
 		//Gdx.gl.glClearColor(1, 0, 0, 1);
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -58,7 +59,8 @@ public class Othello extends Game {
 	
 	@Override
 	public void resize(int width, int height) {
-		boardRenderer.resize(width, height);
+		//boardRenderer.resize(width, height);
+		screen.resize(width, height);
 	}
 	
 //	@Override
