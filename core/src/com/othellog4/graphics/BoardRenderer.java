@@ -49,6 +49,7 @@ public class BoardRenderer {
 	private float pieceYPositions[];
 	
 	private Position posUnderMouse;
+	private boolean drawHighlight;
 
 	private ProxyGameBoard board;
 
@@ -57,9 +58,7 @@ public class BoardRenderer {
 	Viewport viewport;
 	Texture image;
 	ShapeRenderer shape;
-	Texture whitePiece;
-	Texture blackPiece;
-	Texture emptyPiece;
+	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
 
 	public BoardRenderer(Batch spriteBatch, BoardView board) {
 		this.spriteBatch = spriteBatch;
@@ -68,6 +67,9 @@ public class BoardRenderer {
 		whitePiece = new Texture("whitepiece.png");
 		blackPiece = new Texture("blackpiece.png");
 		emptyPiece = new Texture("emptypiece.png");
+		pieceHighlight = new Texture("piecehighlight.png");
+		
+		drawHighlight = true;
 
 		shape = new ShapeRenderer();
 
@@ -139,15 +141,11 @@ public class BoardRenderer {
 			shape.rect(startingPosX,(startingY + (y*columnWidth) - (lineWidth/2)),boardWidth,lineWidth);
 			
 		}
-		
 		shape.end();
-
+		
 		spriteBatch.begin();
-
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				
-				
 				Texture actualPiece = null;
 				Optional<Piece> optional = board.view(Position.at(x, y));
 				
@@ -162,12 +160,17 @@ public class BoardRenderer {
 					case PIECE_B:
 						actualPiece = whitePiece;
 						break;
-
 					}
 				}
 				spriteBatch.draw(actualPiece, pieceXPositions[x],
 						pieceYPositions[y], pieceSizeActual, pieceSizeActual);
 			}
+		}
+		
+		//Draw highlight
+		if(drawHighlight && posUnderMouse != null) {
+			spriteBatch.draw(pieceHighlight, pieceXPositions[posUnderMouse.col],
+					pieceYPositions[posUnderMouse.row], pieceSizeActual, pieceSizeActual);
 		}
 
 		spriteBatch.end();
@@ -220,6 +223,14 @@ public class BoardRenderer {
 			posUnderMouse = Position.at(xPos, yPos);
 			return;
 		}
+	}
+	
+	/**
+	 * Set whether a highlight should be drawn under the mouse cursor
+	 * @param bool Draw highlight
+	 */
+	public void setDrawHighlight(boolean bool) {
+		drawHighlight = bool;
 	}
 	
 	/**
