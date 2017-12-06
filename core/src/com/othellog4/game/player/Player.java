@@ -82,7 +82,7 @@ public class Player implements Participant
 	 * @return The {@link Optional} with a value always.
 	 */
 	@Override
-	public final Optional<? extends Participant.Control> getControl()
+	public final Optional<Participant.Control> getControl()
 	{
 		return Optional.of(control);
 	}
