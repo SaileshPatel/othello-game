@@ -14,7 +14,9 @@ import com.othellog4.game.GameException;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
 
+
 public class GameScreen extends ScreenAdapter implements Observer {
+	private boolean isPressed = false;
 	Othello game;
 	SpriteBatch spriteBatch;
 	BoardRenderer boardRenderer;
@@ -27,11 +29,11 @@ public class GameScreen extends ScreenAdapter implements Observer {
 		//Board created in main menu
 		spriteBatch = new SpriteBatch();
 		boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
-		boardRenderer.resize(700, 700);
-		new Thread(() -> {
-			for(;;)
-				update();
-		}).start();
+//		boardRenderer.resize(700, 700);
+//		new Thread(() -> {
+//			for(;;)
+//				update();
+//		}).start();
 	}
 	
 	public void updatedGameSession() {
@@ -41,26 +43,33 @@ public class GameScreen extends ScreenAdapter implements Observer {
 	{
 		boardRenderer.resize(width, height);
 	}
-	public void update() {
+	public void update(final float delta) {
 		boardRenderer.update();
-		if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+		if(!isPressed)
 		{
-			final Position position = boardRenderer.getPosUnderMouse();
-			if(position != null)
-				try
-				{
-					model.put(position.col, position.row);
-				}
-				catch (GameException e)
-				{
-					e.printStackTrace();
-				}
+			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			{
+				isPressed = true;
+				final Position position = boardRenderer.getPosUnderMouse();
+				if(position != null)
+					try
+					{
+						model.put(position.col, position.row);
+					}
+					catch (GameException e)
+					{
+						e.printStackTrace();
+					}
+			}
 		}
+		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			isPressed = false;
 		//System.out.println(boardRenderer.getPosUnderMouse());
 		
 	}
-	
-	public void draw() {
+	@Override
+	public void render(final float delta) {
+		update(delta);
 		boardRenderer.render();
 	}
 	@Override
