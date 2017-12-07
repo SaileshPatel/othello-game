@@ -27,7 +27,6 @@ public class Othello extends Game {
 		spriteBatch = new SpriteBatch();
 		//Settings.load()
 		//Assets.load()
-		//setScreen(new GameScreen(this));
 		//gameBoard = new GameBoard(8);
 		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new Player();
@@ -37,22 +36,14 @@ public class Othello extends Game {
 				p1,
 				p2);
 		screen = new GameScreen(model);
+		setScreen(screen);
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
 	}
 
 	@Override
 	public void render () {
 		super.render();
-		//boardRenderer.render();
-		screen.draw();
-	
-		//Gdx.gl.glClearColor(1, 0, 0, 1);
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		//spriteBatch.begin();
-		//spriteBatch.draw(img, 0, 0);
-		//spriteBatch.end();
 	}
-	
 	public SpriteBatch getSpriteBatch() {
 		return spriteBatch;
 	}
