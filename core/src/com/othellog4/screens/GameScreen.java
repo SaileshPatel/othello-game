@@ -15,35 +15,54 @@ import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
 
 
-public class GameScreen extends ScreenAdapter implements Observer {
+public abstract class GameScreen extends ScreenAdapter implements Observer {
+	//=========================================================================
+	//Fields.
 	private boolean isPressed = false;
-	Othello game;
-	SpriteBatch spriteBatch;
-	BoardRenderer boardRenderer;
+	private Othello game;
+	private SpriteBatch spriteBatch;
+	private BoardRenderer boardRenderer;
 	private GameModel model;
-	
-	public GameScreen(final GameModel model) {
-		
+	//=========================================================================
+	//Constructors.
+	public GameScreen(final GameModel model, Othello game) {
 		this.model = model;
 		this.model.addObserver(this);
-		//Board created in main menu
+		this.game = game;
 		spriteBatch = new SpriteBatch();
 		boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
-//		boardRenderer.resize(700, 700);
-//		new Thread(() -> {
-//			for(;;)
-//				update();
-//		}).start();
 	}
-	
-	public void updatedGameSession() {
-		
+	//=========================================================================
+	//Methods.
+	/**
+	 * 
+	 * @param message
+	 */
+	protected void printMessage(final String message)
+	{
+		//TODO implement
 	}
+	/**
+	 * 
+	 * @param position
+	 * @return
+	 */
+	protected abstract boolean checkInput(final Position position);
+	protected abstract void postRender();
+	/**
+	 * 
+	 * @param width
+	 * @param height
+	 */
 	public final void resize(int width, int height)
 	{
 		boardRenderer.resize(width, height);
 	}
-	public void update(final float delta) {
+	/**
+	 * 
+	 * @param delta
+	 */
+	public final void update(final float delta) {
 		boardRenderer.update();
 		if(!isPressed)
 		{
@@ -52,28 +71,30 @@ public class GameScreen extends ScreenAdapter implements Observer {
 				isPressed = true;
 				final Position position = boardRenderer.getPosUnderMouse();
 				if(position != null)
-					try
-					{
-						model.put(position.col, position.row);
-					}
-					catch (GameException e)
-					{
-						e.printStackTrace();
-					}
+					if(checkInput(position))
+						try
+						{
+							model.put(position.col, position.row);
+						}
+						catch (GameException e)
+						{
+							printMessage(e.toString());
+						}
 			}
 		}
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
-		//System.out.println(boardRenderer.getPosUnderMouse());
-		
 	}
+	//=========================================================================
+	//Overidden methods.
 	@Override
-	public void render(final float delta) {
+	public final void render(final float delta) {
 		update(delta);
 		boardRenderer.render();
+		postRender();
 	}
 	@Override
-	public void update(Observable o, Object arg) {
+	public final void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 	}
 }
