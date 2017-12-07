@@ -11,6 +11,7 @@ import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.player.Player;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
+import com.othellog4.screens.NormalGameScreen;
 
 public class Othello extends Game {
 	private SpriteBatch spriteBatch;
@@ -35,7 +36,7 @@ public class Othello extends Game {
 				new com.othellog4.game.Game(new GameBoard(8)),
 				p1,
 				p2);
-		screen = new GameScreen(model);
+		screen = new NormalGameScreen(model, this);
 		setScreen(screen);
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
 	}
