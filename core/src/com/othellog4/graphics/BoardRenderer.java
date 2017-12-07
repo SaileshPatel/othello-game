@@ -254,4 +254,15 @@ public class BoardRenderer {
 			pieceYPositions[y] = startingPosY - piecePaddingActual - (columnWidth * y) - pieceSizeActual;
 		}
 	}
+	
+	/**
+	 * Dispose of textures when application closes
+	 */
+	@Override
+	public void finalize() {
+		whitePiece.dispose();
+		blackPiece.dispose();
+		emptyPiece.dispose();
+		pieceHighlight.dispose();
+	}
 }
