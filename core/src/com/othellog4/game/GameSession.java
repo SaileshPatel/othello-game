@@ -101,7 +101,8 @@ public final class GameSession
 	 */
 	private void notifyCurrent(final Game game)
 	{
-		turnManager.playerOf(current()).notifyTurn(this);
+		if(!this.game.isGameOver())
+			turnManager.playerOf(current()).notifyTurn(this);
 	}
 	/**
 	 * Accept a {@link GameCommand} to be executed on the {@link Game} in
