@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -43,8 +44,13 @@ public class Othello extends Game {
 				p1,
 				p2);
 		screen = new NormalGameScreen(model, this);
+		
 		setScreen(screen);
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
+		Music music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
+		music.setLooping(true);
+		music.play();
+		
 	}
 
 	@Override
