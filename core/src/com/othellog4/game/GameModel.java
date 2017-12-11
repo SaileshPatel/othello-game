@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Optional;
 
 import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.Piece;
 import com.othellog4.game.player.Participant;
 
 /**
@@ -127,6 +128,33 @@ public class GameModel extends Observable
 	public final Participant getPlayer2()
 	{
 		return turnManager.playerOf(game.getPlayer1());
+	}
+	/**
+	 * Get the {@link Piece} of the current player.
+	 * 
+	 * @return The {@link Piece} of the current player.
+	 */
+	public final Piece getCurrentPiece()
+	{
+		return session.current();
+	}
+	/**
+	 * Get the {@link Piece} object which represents the first player.
+	 * 
+	 * @return The {@link Piece} which represents the first player.
+	 */
+	public final Piece getPlayer1Piece()
+	{
+		return game.getPlayer1();
+	}
+	/**
+	 * Get the {@link Piece} object which represents the second player.
+	 * 
+	 * @return The {@link Piece} which represents the second player.
+	 */
+	public final Piece getPlayer2Piece()
+	{
+		return game.getPlayer2();
 	}
 	/**
 	 * Get the {@link BardView} of the current {@link GameSession}.
