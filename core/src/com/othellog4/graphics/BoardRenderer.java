@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.othellog4.Othello;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.GameBoard;
@@ -26,8 +28,6 @@ import com.othellog4.game.board.ProxyGameBoard;
  */
 public class BoardRenderer {
 
-	final int GAME_WORLD_WIDTH = 1600;
-	final int GAME_WORLD_HEIGHT = 900;
 	final float boardPadding = 60;
 	final float boardBackgroundPadding = 30;
 	final float piecePaddingPercent = 8;
@@ -50,8 +50,12 @@ public class BoardRenderer {
 	
 	private Position posUnderMouse;
 	private boolean drawHighlight;
+	
+	private boolean[][] tutorialHighlights;
 
 	private ProxyGameBoard board;
+	
+	private float timer;
 
 	Batch spriteBatch;
 	OrthographicCamera cam;
@@ -64,37 +68,41 @@ public class BoardRenderer {
 		this.spriteBatch = spriteBatch;
 
 		image = new Texture("badlogic.jpg");
-		whitePiece = new Texture("whitepiece.png");
-		blackPiece = new Texture("blackpiece.png");
-		emptyPiece = new Texture("emptypiece.png");
-		pieceHighlight = new Texture("piecehighlight.png");
+		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
+		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
+		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
+		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
 		
 		drawHighlight = true;
 
 		shape = new ShapeRenderer();
 
 		cam = new OrthographicCamera();
-		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
-		viewport = new FitViewport(GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT, cam);
+		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
+		viewport = new FitViewport(Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, cam);
 		viewport.apply();
 
 		this.board = (ProxyGameBoard) board;
 		
 		pieceXPositions = new float[board.size()];
 		pieceYPositions = new float[board.size()];
+		
+		tutorialHighlights = new boolean[board.size()][board.size()];
 
-		boardWidth = GAME_WORLD_HEIGHT - (2 * boardPadding);
+		boardWidth = Othello.GAME_WORLD_HEIGHT - (2 * boardPadding);
 		boardSize = board.size();
 		columnWidth = boardWidth / boardSize;
 		piecePaddingActual = (columnWidth * piecePaddingPercent) / 100;
 		pieceSizeActual = columnWidth - (2 * piecePaddingActual);
 
-		startingPosX = (GAME_WORLD_WIDTH / 2) - (boardWidth / 2);
-		startingPosY = (GAME_WORLD_HEIGHT / 2) + (boardWidth / 2);
+		startingPosX = (Othello.GAME_WORLD_WIDTH / 2) - (boardWidth / 2);
+		startingPosY = (Othello.GAME_WORLD_HEIGHT / 2) + (boardWidth / 2);
 
-		boardBackgroundWidth = GAME_WORLD_HEIGHT - (2 * boardBackgroundPadding);
-		boardBackgroundX = (GAME_WORLD_WIDTH / 2) - (boardBackgroundWidth / 2);
-		boardBackgroundY = (GAME_WORLD_HEIGHT / 2) - (boardBackgroundWidth / 2);
+		boardBackgroundWidth = Othello.GAME_WORLD_HEIGHT - (2 * boardBackgroundPadding);
+		boardBackgroundX = (Othello.GAME_WORLD_WIDTH / 2) - (boardBackgroundWidth / 2);
+		boardBackgroundY = (Othello.GAME_WORLD_HEIGHT / 2) - (boardBackgroundWidth / 2);
+		
+		timer = 0f;
 		
 		generatePieceCoordinates();
 
@@ -102,7 +110,7 @@ public class BoardRenderer {
 
 	public void resize(int width, int height) {
 		viewport.update(width, height);
-		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
+		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
 	}
 	
 	public void update() {
@@ -110,8 +118,10 @@ public class BoardRenderer {
 		//System.out.println(posUnderMouse);
 	}
 
-	public void render() {
+	public void render(float delta) {
+		timer += delta;
 		cam.update();
+		viewport.apply();
 		spriteBatch.setProjectionMatrix(cam.combined);
 		shape.setProjectionMatrix(cam.combined);
 
@@ -122,7 +132,7 @@ public class BoardRenderer {
 
 		shape.begin(ShapeType.Filled);
 		shape.setColor(0.27f, 0.12f, 0.02f, 1);
-		shape.rect(0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
+		shape.rect(0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
 		// Dark green background
 		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
@@ -150,7 +160,7 @@ public class BoardRenderer {
 				Optional<Piece> optional = board.view(Position.at(x, y));
 				
 				if (optional.isPresent() == false) {
-					actualPiece = emptyPiece;
+					//actualPiece = emptyPiece;
 				} else {
 					Piece piece = (Piece) optional.get();
 					switch (piece) {
@@ -161,13 +171,23 @@ public class BoardRenderer {
 						actualPiece = whitePiece;
 						break;
 					}
+					
+					spriteBatch.draw(actualPiece, pieceXPositions[x],
+							pieceYPositions[y], pieceSizeActual, pieceSizeActual);
 				}
-				spriteBatch.draw(actualPiece, pieceXPositions[x],
-						pieceYPositions[y], pieceSizeActual, pieceSizeActual);
+
+				
+				// Draw tutorial highlight
+				//spriteBatch.setColor(1.0f, 1.0f, 1.0f, Math.abs(((float) Math.sin(timer*3 +1))));
+				if(tutorialHighlights[x][y]) {
+					spriteBatch.draw(pieceHighlight, pieceXPositions[x],
+							pieceYPositions[y], pieceSizeActual, pieceSizeActual);
+				}
+				//spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 		}
 		
-		//Draw highlight
+		//Draw mouse highlight
 		if(drawHighlight && posUnderMouse != null) {
 			spriteBatch.draw(pieceHighlight, pieceXPositions[posUnderMouse.col],
 					pieceYPositions[posUnderMouse.row], pieceSizeActual, pieceSizeActual);
@@ -252,6 +272,18 @@ public class BoardRenderer {
 		}
 		for(int y=0; y<pieceYPositions.length; y++) {
 			pieceYPositions[y] = startingPosY - piecePaddingActual - (columnWidth * y) - pieceSizeActual;
+		}
+	}
+	
+	public void addPieceHighlight(Position pos) {
+		tutorialHighlights[pos.col][pos.row] = true;
+	}
+	
+	public void resetAllPieceHighlights() {
+		for(int x=0; x<tutorialHighlights.length; x++) {
+			for(int y=0; y<tutorialHighlights[0].length; y++) {
+				tutorialHighlights[x][y] = false;
+			}
 		}
 	}
 	

@@ -20,8 +20,8 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 	//Fields.
 	private boolean isPressed = false;
 	private Othello game;
-	private SpriteBatch spriteBatch;
-	private BoardRenderer boardRenderer;
+	protected SpriteBatch spriteBatch;
+	protected BoardRenderer boardRenderer;
 	private GameModel model;
 	//=========================================================================
 	//Constructors.
@@ -29,7 +29,7 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		this.model = model;
 		this.model.addObserver(this);
 		this.game = game;
-		spriteBatch = new SpriteBatch();
+		spriteBatch = game.getSpriteBatch();
 		boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
 	}
 	//=========================================================================
@@ -48,13 +48,14 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 	 * @return
 	 */
 	protected abstract boolean checkInput(final Position position);
-	protected abstract void postRender();
+	protected abstract void postRender(float delta);
+	protected abstract void postUpdate(float delta);
 	/**
 	 * 
 	 * @param width
 	 * @param height
 	 */
-	public final void resize(int width, int height)
+	public void resize(int width, int height)
 	{
 		boardRenderer.resize(width, height);
 	}
@@ -84,14 +85,15 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		}
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
+		postUpdate(delta);
 	}
 	//=========================================================================
 	//Overidden methods.
 	@Override
-	public final void render(final float delta) {
+	public final void render(float delta) {
 		update(delta);
-		boardRenderer.render();
-		postRender();
+		boardRenderer.render(delta);
+		postRender(delta);
 	}
 	@Override
 	public final void update(Observable o, Object arg) {
