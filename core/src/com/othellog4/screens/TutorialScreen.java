@@ -239,6 +239,12 @@ public class TutorialScreen extends GameScreen {
 	
 	private void stateInit() {
 		currentState = sequence.getCurrentState();
+		
+		// If new state is empty, tutorial has finished, return to main menu
+		if(currentState == null) {
+			game.setScreen(new MainMenuScreen(game));
+		}
+		
 		if(currentState instanceof HighlightableState) {
 			System.out.println("Highlightable state!");
 			for(Position pos: ((HighlightableState) currentState).getHighlightPositions()) {

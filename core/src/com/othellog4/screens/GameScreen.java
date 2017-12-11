@@ -19,7 +19,7 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 	//=========================================================================
 	//Fields.
 	private boolean isPressed = false;
-	private Othello game;
+	protected Othello game;
 	protected SpriteBatch spriteBatch;
 	protected BoardRenderer boardRenderer;
 	private GameModel model;
@@ -30,7 +30,7 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		this.model.addObserver(this);
 		this.game = game;
 		spriteBatch = game.getSpriteBatch();
-		boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
+		boardRenderer = new BoardRenderer(spriteBatch, model);
 	}
 	//=========================================================================
 	//Methods.
