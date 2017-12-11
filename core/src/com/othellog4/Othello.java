@@ -82,7 +82,7 @@ public class Othello extends Game {
 		getScreen().resize(width, height);
 	}
 	public void switchToGame() {
-		setScreen(screen);
+		setScreen(normalScreen);
 	}
 	
 	public void switchToTutorial() {

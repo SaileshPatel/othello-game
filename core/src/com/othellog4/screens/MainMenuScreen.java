@@ -1,12 +1,18 @@
 package com.othellog4.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
@@ -18,7 +24,7 @@ import com.othellog4.Othello;
  * @version 09/12/2017
  */
 public class MainMenuScreen extends ScreenAdapter {
-	private static final int PLAYBUTTON_WIDTH = 265;
+	private static final int PLAYBUTTON_WIDTH = 300;
 	private static final int PLAYBUTTON_HEIGHT = 45;	 
 	private static final int TUTORIALBUTTON_WIDTH = 195;
 	private static final int TUTORIALBUTTON_HEIGHT = 45;
@@ -38,11 +44,38 @@ public class MainMenuScreen extends ScreenAdapter {
 	Texture background;
 	Texture OthelloText;
 	
+	private BitmapFont titleFont;
+	private BitmapFont optionsFont;
+	
 	OrthographicCamera cam;
 	Viewport viewport;
 	
 	public MainMenuScreen (Othello othello) {
 		this.othello = othello;
+		
+		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
+		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
+		titleparameter.size = 170; // Size in px
+		titleparameter.spaceY = -25; // Vertical spacing
+		titleFont = titlegenerator.generateFont(titleparameter);
+		titleFont.setUseIntegerPositions(false);
+		titlegenerator.dispose();
+		titleFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		titleFont.setColor(0f, 0f, 0f, 1f);
+		titleFont.setColor(0f, 0f, 0f, 1f);
+		
+		
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 64; // Size in px
+		parameter.spaceY = -25; // Vertical spacing
+		optionsFont = generator.generateFont(parameter);
+		optionsFont.setUseIntegerPositions(false);
+		generator.dispose();
+		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		optionsFont.setColor(1f, 1f, 1f, 1f);
+
+		
 		playButton = new Texture("NewGameActive.png");
 		playButtonInactive = new Texture("NewGame.png");
 		tutorialButton = new Texture("TutorialActive.png");
@@ -67,40 +100,59 @@ public class MainMenuScreen extends ScreenAdapter {
 		othello.getSpriteBatch().begin();
 		othello.getSpriteBatch().draw(background, 0,0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 		
-		//System.out.println(Gdx.input.getX()+", " +  Gdx.input.getY());
-		othello.getSpriteBatch().draw(OthelloText, 400, 100);
+		titleFont.setColor(1f,1f,1f,1f);
+		titleFont.draw(othello.getSpriteBatch(), "Othello", 365, 250, 1000, Align.left , true);
+		
+		//othello.getSpriteBatch().draw(OthelloText, 400, 100);
 		Vector2 mousePos = getUnprojectedMousePos();
-		if (mousePos.x < 850 + PLAYBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 320 && mousePos.y < 360) {
-			othello.getSpriteBatch().draw(playButton, 850, 360);
+		
+
+		if (mousePos.x < 850 + PLAYBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 350 && mousePos.y < 400) {
+			//othello.getSpriteBatch().draw(playButton, 850, 360);
+			optionsFont.setColor(0.83f,0.94f,0.68f,1f);
+			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 400, 500, Align.left , true);
+			
 			if(Gdx.input.isTouched()) {
+				System.out.println("print");
 				this.dispose();
 				othello.switchToGame();
 			}
 			
 		}else {
-			othello.getSpriteBatch().draw(playButtonInactive, 850, 360);
+			//othello.getSpriteBatch().draw(playButtonInactive, 850, 360);
+			optionsFont.setColor(1f,1f,1f,1f);
+			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 400, 500, Align.left , true);
+			
+
 		}
 		
-		if (Gdx.input.getX() < 850 + TUTORIALBUTTON_WIDTH && Gdx.input.getX() > 850 && Gdx.input.getY() > 380 && Gdx.input.getY() < 420) {
-			othello.getSpriteBatch().draw(tutorialButton, 850, 300);
+		if (mousePos.x < 850 + TUTORIALBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 300 && mousePos.y < 340) {
+			//othello.getSpriteBatch().draw(tutorialButton, 850, 300);
+			optionsFont.setColor(0.83f,0.94f,0.68f,1f);
+			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 340, 500, Align.left , true);
 			if(Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToTutorial();
 			}
 			
 		}else {
-			othello.getSpriteBatch().draw(tutorialButtonInactive, 850, 300);
+			//othello.getSpriteBatch().draw(tutorialButtonInactive, 850, 300);
+			optionsFont.setColor(1f,1f,1f,1f);
+			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 340, 500, Align.left , true);
 		}
 
 		
-		if (Gdx.input.getX() < 850 + EXITBUTTOON_WIDTH && Gdx.input.getX() > 850 && Gdx.input.getY() > 448 && Gdx.input.getY() < 480) {
-			othello.getSpriteBatch().draw(exitButton, 850, 240);
+		if (mousePos.x < 850 + TUTORIALBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 240 && mousePos.y < 280) {
+			//othello.getSpriteBatch().draw(exitButton, 850, 240);
+			optionsFont.setColor(0.83f,0.94f,0.68f,1f);
+			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left , true);
 			if(Gdx.input.isTouched()) {
 				Gdx.app.exit();
 			}
 			
 		}else {
-			othello.getSpriteBatch().draw(exitButtonInactive, 850, 240);
+			optionsFont.setColor(1f,1f,1f,1f);
+			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left , true);
 		}
 	
 		othello.getSpriteBatch().end();
