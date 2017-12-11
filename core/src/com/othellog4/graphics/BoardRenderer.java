@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
+import com.othellog4.game.GameModel;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.GameBoard;
@@ -54,6 +55,7 @@ public class BoardRenderer {
 	private boolean[][] tutorialHighlights;
 
 	private ProxyGameBoard board;
+	private GameModel model;
 	
 	private float timer;
 
@@ -64,8 +66,9 @@ public class BoardRenderer {
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
 
-	public BoardRenderer(Batch spriteBatch, BoardView board) {
+	public BoardRenderer(Batch spriteBatch, GameModel model) {
 		this.spriteBatch = spriteBatch;
+		this.model = model;
 
 		image = new Texture("badlogic.jpg");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
@@ -82,7 +85,7 @@ public class BoardRenderer {
 		viewport = new FitViewport(Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, cam);
 		viewport.apply();
 
-		this.board = (ProxyGameBoard) board;
+		this.board = (ProxyGameBoard) model.getBoard();
 		
 		pieceXPositions = new float[board.size()];
 		pieceYPositions = new float[board.size()];
@@ -187,12 +190,24 @@ public class BoardRenderer {
 			}
 		}
 		
+		Texture hoverTexture = null;
+		
+		switch(model.getCurrentPiece()) {
+			case PIECE_A:
+				hoverTexture = blackPiece;
+				break;
+			case PIECE_B:
+				hoverTexture = whitePiece;
+				break;
+		}
+		
 		//Draw mouse highlight
-		if(drawHighlight && posUnderMouse != null) {
-			spriteBatch.draw(pieceHighlight, pieceXPositions[posUnderMouse.col],
+		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 0.5f);
+		if(drawHighlight && posUnderMouse != null && !board.view(posUnderMouse).isPresent()) {
+			spriteBatch.draw(hoverTexture, pieceXPositions[posUnderMouse.col],
 					pieceYPositions[posUnderMouse.row], pieceSizeActual, pieceSizeActual);
 		}
-
+		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		spriteBatch.end();
 
 	}

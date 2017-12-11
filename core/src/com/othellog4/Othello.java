@@ -45,7 +45,8 @@ public class Othello extends Game {
 		//gameBoard = new GameBoard(8);
 		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new Player();
-		p2 = new AutomaticPlayer(AIStrategy.RANDOM_SELECTION);
+//		p2 = new AutomaticPlayer(AIStrategy.RANDOM_SELECTION);
+		p2 = new Player();
 		
 		model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8)),
