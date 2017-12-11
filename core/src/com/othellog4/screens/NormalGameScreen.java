@@ -25,9 +25,16 @@ public final class NormalGameScreen extends GameScreen
 		return true;
 	}
 
+	
 	@Override
-	protected void postRender()
-	{
+	protected void postRender(float delta) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	protected void postUpdate(float delta) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

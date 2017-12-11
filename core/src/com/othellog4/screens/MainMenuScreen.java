@@ -81,7 +81,7 @@ public class MainMenuScreen extends ScreenAdapter {
 			othello.getSpriteBatch().draw(tutorialButton, 850, 300);
 			if(Gdx.input.isTouched()) {
 				this.dispose();
-				othello.switchToGame();
+				othello.switchToTutorial();
 			}
 			
 		}else {
