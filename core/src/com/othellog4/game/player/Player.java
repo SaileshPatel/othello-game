@@ -97,7 +97,7 @@ public class Player implements Participant
 	 * @since	1/12/2017
 	 * @version 1/12/2017
 	 */
-	public static final class Control implements Participant.Control
+	private static final class Control implements Participant.Control
 	{
 		//=====================================================================
 		//Fields.
@@ -145,8 +145,23 @@ public class Player implements Participant
 			 */
 			final GameSession session = player.session;
 			if(session != null)
-				session.accept(new Put(player, x, y));
-			player.session = null;
+			{
+				//The session must be cleared before attempting to place a piece
+				player.session = null;
+				try
+				{
+					session.accept(new Put(player, x, y));
+				} //try
+				catch(GameException e)
+				{
+					/*
+					 * Restore the session before throwing the exception, so that
+					 * it is possible to attempt another turn.
+					 */
+					player.session = session;
+					throw e;
+				} //catch
+			} //if
 		}
 	}
 }

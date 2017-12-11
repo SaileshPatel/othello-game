@@ -1,14 +1,21 @@
 package com.othellog4;
 
+import java.util.Optional;
+
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.GameBoard;
+import com.othellog4.game.player.AIStrategy;
+import com.othellog4.game.player.AutomaticPlayer;
+import com.othellog4.game.player.Participant;
 import com.othellog4.game.player.Player;
+import com.othellog4.game.player.Participant.Control;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
 import com.othellog4.screens.NormalGameScreen;
@@ -17,8 +24,8 @@ import com.othellog4.screens.TutorialScreen;
 public class Othello extends Game {
 	private SpriteBatch spriteBatch;
 	//private GameBoard gameBoard;
-	private Player p1;
-	private Player p2;
+	private Participant p1;
+	private Participant p2;
 	private GameModel model;
 	private GameScreen screen;
 	//private com.othellog4.game.Game game;
@@ -34,14 +41,19 @@ public class Othello extends Game {
 		//gameBoard = new GameBoard(8);
 		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new Player();
-		p2 = new Player();
+		p2 = new AutomaticPlayer(AIStrategy.RANDOM_SELECTION);
 		model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8)),
 				p1,
 				p2);
+		
 		screen = new TutorialScreen(model, this);
 		setScreen(screen);
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
+		Music music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
+		music.setLooping(true);
+		music.play();
+		
 	}
 
 	@Override
