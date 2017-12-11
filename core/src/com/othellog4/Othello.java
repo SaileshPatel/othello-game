@@ -28,7 +28,7 @@ public class Othello extends Game {
 	private Participant p1;
 	private Participant p2;
 	private GameModel model;
-	private GameScreen screen;
+	private GameScreen normalScreen;
 	private TutorialScreen tutorialScreen;
 
 	private MainMenuScreen menuScreen;
@@ -52,7 +52,7 @@ public class Othello extends Game {
 				p1,
 				p2);
 		
-		screen = new NormalGameScreen(model, this);
+		normalScreen = new NormalGameScreen(model, this);
 		tutorialScreen = new TutorialScreen(model, this);
 
 		menuScreen = new MainMenuScreen(this);
@@ -79,7 +79,7 @@ public class Othello extends Game {
 	@Override
 	public void resize(int width, int height) {
 		//boardRenderer.resize(width, height);
-		screen.resize(width, height);
+		getScreen().resize(width, height);
 	}
 	public void switchToGame() {
 		setScreen(screen);

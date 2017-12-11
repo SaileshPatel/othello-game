@@ -58,7 +58,10 @@ public class MainMenuScreen extends ScreenAdapter {
 	}
 	
 	public void render(float delta) {
-		cam.update();	
+		cam.update();
+		viewport.apply();
+		othello.getSpriteBatch().setProjectionMatrix(cam.combined);
+		//shape.setProjectionMatrix(cam.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		othello.getSpriteBatch().begin();
@@ -66,7 +69,8 @@ public class MainMenuScreen extends ScreenAdapter {
 		
 		//System.out.println(Gdx.input.getX()+", " +  Gdx.input.getY());
 		othello.getSpriteBatch().draw(OthelloText, 400, 100);
-		if (Gdx.input.getX() < 850 + PLAYBUTTON_WIDTH && Gdx.input.getX() > 850 && Gdx.input.getY() > 320 && Gdx.input.getY() < 360) {
+		Vector2 mousePos = getUnprojectedMousePos();
+		if (mousePos.x < 850 + PLAYBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 320 && mousePos.y < 360) {
 			othello.getSpriteBatch().draw(playButton, 850, 360);
 			if(Gdx.input.isTouched()) {
 				this.dispose();
@@ -103,6 +107,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
 	}
 	
+	@Override
 	public void resize(int width, int height) {
 		viewport.update(width, height);
 		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
