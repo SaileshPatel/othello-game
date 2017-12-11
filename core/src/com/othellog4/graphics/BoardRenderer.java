@@ -68,10 +68,10 @@ public class BoardRenderer {
 		this.spriteBatch = spriteBatch;
 
 		image = new Texture("badlogic.jpg");
-		whitePiece = new Texture("whitepiece.png");
-		blackPiece = new Texture("blackpiece.png");
-		emptyPiece = new Texture("emptypiece.png");
-		pieceHighlight = new Texture("piecehighlight.png");
+		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
+		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
+		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
+		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
 		
 		drawHighlight = true;
 
