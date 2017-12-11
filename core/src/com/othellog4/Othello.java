@@ -18,6 +18,7 @@ import com.othellog4.game.player.Player;
 import com.othellog4.game.player.Participant.Control;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
+import com.othellog4.screens.MainMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
 
 public class Othello extends Game {
@@ -27,6 +28,7 @@ public class Othello extends Game {
 	private Participant p2;
 	private GameModel model;
 	private GameScreen screen;
+	private MainMenuScreen menuScreen;
 	//private com.othellog4.game.Game game;
 	//private BoardRenderer boardRenderer;
 	
@@ -39,16 +41,19 @@ public class Othello extends Game {
 		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new Player();
 		p2 = new AutomaticPlayer(AIStrategy.RANDOM_SELECTION);
+		
 		model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8)),
 				p1,
 				p2);
 		screen = new NormalGameScreen(model, this);
-		
-		setScreen(screen);
+		menuScreen = new MainMenuScreen(this);
+		setScreen(menuScreen);
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
+		
 		Music music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
 		music.setLooping(true);
+		music.setVolume(0.2f);
 		music.play();
 		
 	}
@@ -66,7 +71,9 @@ public class Othello extends Game {
 		//boardRenderer.resize(width, height);
 		screen.resize(width, height);
 	}
-	
+	public void switchToGame() {
+		setScreen(screen);
+	}
 //	@Override
 //	public void dispose () {
 //		batch.dispose();
