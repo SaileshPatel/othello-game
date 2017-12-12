@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.height = 720;
 		config.width = 1280;
-		//config.addIcon("icon/icon.png", Files.FileType.Internal);
+		config.addIcon("icon/icon.png", Files.FileType.Internal);
 		new LwjglApplication(new Othello(), config);
 	}
 }
