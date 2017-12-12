@@ -99,6 +99,7 @@ public class TutorialScreen extends GameScreen {
 		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
 		viewport = new FitViewport(Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, cam);
 		viewport.apply();
+		shape.setProjectionMatrix(cam.combined);
 		
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Overpass-Regular.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
