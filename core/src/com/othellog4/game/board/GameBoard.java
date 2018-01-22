@@ -19,7 +19,7 @@ public class GameBoard implements BoardView{
 		grid[size/2][size/2-1] = Piece.PIECE_B;
 		grid[size/2-1][size/2-1] = Piece.PIECE_A;
 		grid[size/2-1][size/2] = Piece.PIECE_B;
-		for (int i = 0; i < corners; i++){
+		/*for (int i = 0; i < corners; i++){
 			for (int j = 0; j < corners; j++){
 				grid[i][j] = Piece.PIECE_NULL; 
 			}
@@ -38,7 +38,7 @@ public class GameBoard implements BoardView{
 			for (int j = 0; j < corners; j++){
 				grid[size - 1 - i][size - 1 - j] = Piece.PIECE_NULL; 
 			}
-		}
+		}*/
 
 	}
 
