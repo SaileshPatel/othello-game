@@ -49,7 +49,7 @@ public class Othello extends Game {
 		p2 = new Player();
 		
 		model = new GameModel(
-				new com.othellog4.game.Game(new GameBoard(8)),
+				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
 				p2);
 		
@@ -84,14 +84,14 @@ public class Othello extends Game {
 	}
 	public void switchToGame() {
 		setScreen(new NormalGameScreen(new GameModel(
-				new com.othellog4.game.Game(new GameBoard(8)),
+				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
 				p2), this));
 	}
 	
 	public void switchToTutorial() {
 		setScreen(new TutorialScreen(new GameModel(
-				new com.othellog4.game.Game(new GameBoard(8)),
+				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
 				p2), this));
 	}

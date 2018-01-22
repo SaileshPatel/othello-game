@@ -20,6 +20,12 @@ public enum Piece {
 		public Piece flip(){
 			return PIECE_A;
 		}
+	},
+	PIECE_NULL{
+		@Override
+		public Piece flip(){
+			return PIECE_NULL;
+		}
 	};
 	
 	/**
