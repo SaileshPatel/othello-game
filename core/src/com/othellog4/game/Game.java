@@ -123,9 +123,13 @@ public class Game
 	 */
 	private void nextTurn()
 	{
-		if(!board.legalMoves(current.flip()).isEmpty())
+		if(isGameOver())
+			update(GameEvent.END);
+		else if(!board.legalMoves(current.flip()).isEmpty())
+		{
 			current = current.flip();
-		update(GameEvent.NEXT_TURN);
+			update(GameEvent.NEXT_TURN);
+		}
 	}
 	/**
 	 * Update all the {@link GameListener} objects in <code>this</code>

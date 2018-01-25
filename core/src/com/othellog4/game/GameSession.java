@@ -87,7 +87,7 @@ public final class GameSession
 		this.game = game;
 		this.turnManager = turnManager;
 		game.addListener(this::notifyCurrent);
-		notifyCurrent(null);
+		notifyCurrent(GameEvent.NEXT_TURN);
 	}
 	//=========================================================================
 	//Methods.

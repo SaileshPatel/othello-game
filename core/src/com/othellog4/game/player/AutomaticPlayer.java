@@ -6,6 +6,7 @@ import com.othellog4.game.GameException;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.Position;
 import com.othellog4.game.command.Put;
+import com.othellog4.game.player.ai.EvaluationStrategy;
 import com.othellog4.game.player.ai.SearchStrategy;
 
 /**
@@ -24,14 +25,21 @@ public class AutomaticPlayer implements Participant
 	/**
 	 * 
 	 */
+	private final EvaluationStrategy eval;
+	/**
+	 * 
+	 */
 	private final SearchStrategy strategy;
 	/**
 	 * 
-	 * @param strategy
+	 * @param search
 	 */
-	public AutomaticPlayer(final SearchStrategy strategy)
+	public AutomaticPlayer(
+			final EvaluationStrategy eval,
+			final SearchStrategy search)
 	{
-		this.strategy = strategy;
+		this.eval = eval;
+		this.strategy = search;
 	}
 	//=========================================================================
 	//Overriden methods.
@@ -43,9 +51,10 @@ public class AutomaticPlayer implements Participant
 	{
 		try
 		{
-			final Position position = strategy.evaluate(
+			final Position position = strategy.search(
+					session.getBoard(),
 					session.current(),
-					session.getBoard());
+					eval); 
 			session.accept(new Put(this, position.col, position.row));
 		}
 		catch(final GameException e)
