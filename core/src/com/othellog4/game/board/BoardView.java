@@ -5,10 +5,10 @@ import java.util.Set;
 
 /**
  * This is the BoardView. This will eventually be used to control the board. 
- * @author 	John Berg
+ * @author 	159014260 John Berg
  * @author 	James Shorthouse
  * @since 	23/10/2017
- * @version 21/11/2017
+ * @version 25/01/2017
  *
  */
 public interface BoardView {
@@ -23,13 +23,19 @@ public interface BoardView {
 	 * @return the size of the board
 	 */
 	public int size();
-	
+	/**
+	 * Count the number of {@link Piece} object which exist on the
+	 * {@link BoardView}.
+	 * 
+	 * @param piece The {@link Piece} object to be counted.
+	 * @return The number of instances of that <code>piece</code>.
+	 */
+	public int count(final Piece piece);
 	/**
 	 * This method counts the number of flips needed
 	 * @return the number of flips needed
 	 */
 	public int countFlips(int x, int y, Piece player);
-	
 	/**
 	 * This method determines all legal moves a player can take
 	 * @param piece the Piece to determine legal moves from
@@ -39,8 +45,9 @@ public interface BoardView {
 	
 	/**
 	 * This method allows the board to view the position of a Piece
-	 * @param boardPosition 
-	 * @return a piece
+	 * @param boardPosition The {@link Position} object representing a
+	 * 			position on the {@code BoardView}.
+	 * @return The {@link Piece} object at the position.
 	 */
 	public Optional<Piece> view(Position boardPosition);
 	/**
