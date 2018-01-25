@@ -36,7 +36,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	15901426 John Berg
  * @since 	20/11/2017
- * @version 25/11/2017
+ * @version 25/01/2018
  * @see Game
  * @see Participant
  * @see Piece
@@ -99,9 +99,9 @@ public final class GameSession
 	 * <b>For internal use only!</b>
 	 * </p>
 	 */
-	private void notifyCurrent(final Game game)
+	private void notifyCurrent(final GameEvent event)
 	{
-		if(!this.game.isGameOver())
+		if(event == GameEvent.NEXT_TURN)
 			turnManager.playerOf(current()).notifyTurn(this);
 	}
 	/**

@@ -24,7 +24,7 @@ import com.othellog4.game.board.Position;
  * @author 	Eastwood
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 20/11/2017
+ * @version 25/01/2018
  * @see GameBoard
  * @see Piece
  */
@@ -125,7 +125,7 @@ public class Game
 	{
 		if(!board.legalMoves(current.flip()).isEmpty())
 			current = current.flip();
-		update();
+		update(GameEvent.NEXT_TURN);
 	}
 	/**
 	 * Update all the {@link GameListener} objects in <code>this</code>
@@ -139,11 +139,13 @@ public class Game
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
+	 * 
+	 * @param event The {@link GameEvent} which was triggered.
 	 */
-	private synchronized void update()
+	private synchronized void update(final GameEvent event)
 	{
 		for(final GameListener listener: listeners)
-			listener.update(this);
+			listener.update(event);
 	}
 	/**
 	 * Check if the game is over.
@@ -153,7 +155,9 @@ public class Game
 	 */
 	public final boolean isGameOver()
 	{
-		return board.isEnd();
+		return board.legalMoves(getCurrent().flip()).isEmpty()
+				&& board.legalMoves(getCurrent()).isEmpty()
+				|| board.isEnd();
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
@@ -203,6 +207,14 @@ public class Game
 		listeners.remove(listener);
 	}
 	/**
+	 * Remove all {@link GameListener} objects existing in <code>this</code>
+	 * {@code Game} object.
+	 */
+	public final synchronized void removeAllListeners()
+	{
+		listeners.clear();
+	}
+	/**
 	 * Get the {@link Piece} representing the first player.
 	 * 
 	 * <p>
@@ -250,30 +262,4 @@ public class Game
 	{
 		return board.getView();
 	} //getBoard()
-	//=========================================================================
-	//Overidden methods.
-	/**
-	 * 
-	 */
-	@Override
-	public final boolean equals(Object o)
-	{
-		return false;
-	} //equals(Object)
-	/**
-	 * 
-	 */
-	@Override
-	public final int hashCode()
-	{
-		return 0;
-	} //hashCode()
-	/**
-	 * 
-	 */
-	@Override
-	public final String toString()
-	{
-		return "";
-	} //toString()
 } //Game
