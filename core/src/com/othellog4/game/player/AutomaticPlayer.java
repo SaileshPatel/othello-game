@@ -6,6 +6,7 @@ import com.othellog4.game.GameException;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.Position;
 import com.othellog4.game.command.Put;
+import com.othellog4.game.player.ai.SearchStrategy;
 
 /**
  * This is the AI class. It will eventually have some AI implementation in
@@ -23,12 +24,12 @@ public class AutomaticPlayer implements Participant
 	/**
 	 * 
 	 */
-	private final GameStrategy strategy;
+	private final SearchStrategy strategy;
 	/**
 	 * 
 	 * @param strategy
 	 */
-	public AutomaticPlayer(final GameStrategy strategy)
+	public AutomaticPlayer(final SearchStrategy strategy)
 	{
 		this.strategy = strategy;
 	}
