@@ -7,7 +7,6 @@ import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.InvalidMoveException;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.board.Position;
-
 import static org.junit.Assert.*;
 
 /**
@@ -143,7 +142,7 @@ public class GameTest
 	@Test
 	public final void testRemoveListener_NotExisitng()
 	{
-		game.removeListener((Game g) -> fail());
+		game.removeListener((GameEvent e) -> fail());
 	}
 	/**
 	 * 
@@ -153,7 +152,7 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
-		final GameListener listener = (Game g) -> fail();
+		final GameListener listener = (GameEvent e) -> fail();
 		game.addListener(listener);
 		game.removeListener(listener);
 		game.put(LEGAL_MOVE);
@@ -166,7 +165,7 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
-		final GameListener listener = (Game g) -> fail();
+		final GameListener listener = (GameEvent e) -> fail();
 		game.addListener(listener);
 		game.removeAllListeners();
 		game.put(LEGAL_MOVE);
