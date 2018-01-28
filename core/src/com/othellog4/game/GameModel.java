@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Optional;
 
 import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.player.Participant;
 
@@ -22,13 +23,9 @@ public class GameModel extends Observable
 	//========================================================================
 	//Fields.
 	/**
-	 * The {@link Game} of the {@code GameModel} which is being played.
-	 */
-	private final Game game;
-	/**
 	 * 
 	 */
-	private final TurnManager turnManager;
+	private final GameManager manager;
 	/**
 	 * 
 	 */
@@ -45,12 +42,11 @@ public class GameModel extends Observable
 	public GameModel(
 			final Game game,
 			final Participant player1,
-			Participant player2)
+			final Participant player2)
 	{
-		this.game = game;
-		this.turnManager = new TurnManager(game, player1, player2);
-		this.session = new GameSession(game, turnManager);
-		this.game.addListener(this::update);
+		manager = new GameManager(game, player1, player2);
+		this.session = new GameSession(manager);
+		manager.game().addListener(this::update);
 	}
 	//=========================================================================
 	//Methods.
@@ -61,6 +57,35 @@ public class GameModel extends Observable
 	{
 		super.setChanged();
 		super.notifyObservers(this);
+	}
+	/**
+	 * 
+	 */
+	public final void start()
+	{
+		session.begin();
+	}
+	/**
+	 * 
+	 */
+	public final void pause()
+	{
+		//TODO impl
+	}
+	/**
+	 * 
+	 */
+	public final void quit()
+	{
+		//TODO implement
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final boolean isPlaying()
+	{
+		return session.isPlaying();
 	}
 	/**
 	 * ...
@@ -97,7 +122,7 @@ public class GameModel extends Observable
 	 */
 	public final Participant getCurrent()
 	{
-		return turnManager.playerOf(session.current());
+		return manager.playerOf(session.current());
 	}
 	/**
 	 * Get the {@link Participant} which is the first {@link Player} in
@@ -112,7 +137,7 @@ public class GameModel extends Observable
 	 */
 	public final Participant getPlayer1()
 	{
-		return turnManager.playerOf(game.getPlayer1());
+		return manager.player1();
 	}
 	/**
 	 * Get the {@link Participant} which is the second {@link Player} in
@@ -127,7 +152,7 @@ public class GameModel extends Observable
 	 */
 	public final Participant getPlayer2()
 	{
-		return turnManager.playerOf(game.getPlayer1());
+		return manager.player2();
 	}
 	/**
 	 * Get the {@link Piece} of the current player.
@@ -145,7 +170,7 @@ public class GameModel extends Observable
 	 */
 	public final Piece getPlayer1Piece()
 	{
-		return game.getPlayer1();
+		return manager.game().getPlayer1();
 	}
 	/**
 	 * Get the {@link Piece} object which represents the second player.
@@ -154,7 +179,7 @@ public class GameModel extends Observable
 	 */
 	public final Piece getPlayer2Piece()
 	{
-		return game.getPlayer2();
+		return manager.game().getPlayer2();
 	}
 	/**
 	 * Get the {@link BardView} of the current {@link GameSession}.
@@ -165,5 +190,22 @@ public class GameModel extends Observable
 	public final BoardView getBoard()
 	{
 		return session.getBoard();
+	}
+	//=========================================================================
+	//Static methods.
+	/**
+	 * 
+	 * @param player1
+	 * @param player2
+	 * @return
+	 */
+	public static GameModel newGame(
+			final Participant player1,
+			final Participant player2)
+	{
+		return new GameModel(
+				new Game(new GameBoard(8, 8)),
+				player1,
+				player2);
 	}
 }

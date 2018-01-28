@@ -47,16 +47,13 @@ public final class GameSession
 	//=========================================================================
 	//Fields.
 	/**
-	 * The {@link Game} instance that {@code GameSession} is using to forward
-	 * queries.
-	 * 
-	 * @see Game
+	 * The flag which indicates if the game session is active.
 	 */
-	private final Game game;
+	private boolean playing;
 	/**
 	 * 
 	 */
-	private final TurnManager turnManager;
+	private final GameManager manager;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -74,20 +71,15 @@ public final class GameSession
 	 * @see Participant
 	 * @see TurnManager
 	 */
-	public GameSession(
-			final Game game,
-			final TurnManager turnManager)
+	public GameSession(final GameManager manager)
 			throws
 			NullPointerException
 	{
-		if(game == null)
+		if(manager == null)
 			throw new NullPointerException();
-		if(turnManager == null)
-			throw new NullPointerException();
-		this.game = game;
-		this.turnManager = turnManager;
-		game.addListener(this::notifyCurrent);
-		notifyCurrent(GameEvent.NEXT_TURN);
+		playing = false;
+		this.manager = manager;
+		this.manager.game().addListener(this::notifyCurrent);
 	}
 	//=========================================================================
 	//Methods.
@@ -102,7 +94,19 @@ public final class GameSession
 	private void notifyCurrent(final GameEvent event)
 	{
 		if(event == GameEvent.NEXT_TURN)
-			turnManager.playerOf(current()).notifyTurn(this);
+			manager.current().notifyTurn(this);
+	}
+	/**
+	 * Start the game session which will begin the process of the game.
+	 * 
+	 * <p>
+	 * May receive updated implementation later.
+	 * </p>
+	 */
+	public final void begin()
+	{
+		playing = true;
+		notifyCurrent(GameEvent.NEXT_TURN);
 	}
 	/**
 	 * Accept a {@link GameCommand} to be executed on the {@link Game} in
@@ -129,9 +133,17 @@ public final class GameSession
 			GameException,
 			NullPointerException
 	{
-		if(turnManager.playerOf(current()).equals(command.getSource()))
+		if(manager.playerOf(current()).equals(command.getSource()))
 			//May throw GameException.
-			command.execute(game);
+			command.execute(manager.game());
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final boolean isPlaying()
+	{
+		return playing;
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the
@@ -142,7 +154,7 @@ public final class GameSession
 	 */
 	public final BoardView getBoard()
 	{
-		return game.getBoard();
+		return manager.game().getBoard();
 	}
 	/**
 	 * Get the {@link Piece} of the current player.
@@ -152,6 +164,6 @@ public final class GameSession
 	 */
 	public final Piece current()
 	{
-		return game.getCurrent();
+		return manager.game().getCurrent();
 	}
 }
