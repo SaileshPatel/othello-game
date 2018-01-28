@@ -73,7 +73,16 @@ public class GameBoard implements BoardView{
 		// TODO Auto-generated method stub
 		return grid.length;
 	}
-
+	@Override
+	public final int count(final Piece piece)
+	{
+		int acc = 0;
+		for(int i = 0; i < size(); ++i)
+			for(int j = 0; j < size(); ++j)
+				if(view(Position.at(i, j)).orElse(null) == piece)
+						++acc;
+		return acc;
+	}
 	@Override
 	public int countFlips(int x, int y, Piece player) {
 		int temp = 0;

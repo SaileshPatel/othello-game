@@ -97,6 +97,15 @@ public class GameModel extends Observable
 		return getCurrent().getControl().isPresent();
 	}
 	/**
+	 * Get the current game.
+	 * 
+	 * @return The current turn of the game.
+	 */
+	public final int turn()
+	{
+		return manager.game().turn();
+	}
+	/**
 	 * 
 	 * @param x The column of the board.
 	 * @param y The row of the board.

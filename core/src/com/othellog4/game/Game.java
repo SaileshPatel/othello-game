@@ -33,7 +33,8 @@ public class Game
 	//=========================================================================
 	//Fields.
 	/**
-	 * 
+	 * The <code>int</code> which represent the number of the turn of
+	 * <code>this</code> {@code Game}. 
 	 */
 	private int turn;
 	/**
