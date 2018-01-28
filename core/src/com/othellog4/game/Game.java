@@ -33,6 +33,10 @@ public class Game
 	//=========================================================================
 	//Fields.
 	/**
+	 * 
+	 */
+	private int turn;
+	/**
 	 * The {@link GameBoard} of <code>this</code> game.
 	 * 
 	 * @see GameBoard
@@ -103,6 +107,7 @@ public class Game
 			throw new NullPointerException();
 		if(currentPiece == null)
 			throw new NullPointerException();
+		turn = 0;
 		this.board = board;
 		current = currentPiece;
 		listeners = new HashSet<>();
@@ -128,6 +133,7 @@ public class Game
 		else if(!board.legalMoves(current.flip()).isEmpty())
 		{
 			current = current.flip();
+			++turn;
 			update(GameEvent.NEXT_TURN);
 		}
 	}
@@ -162,6 +168,15 @@ public class Game
 		return board.legalMoves(getCurrent().flip()).isEmpty()
 				&& board.legalMoves(getCurrent()).isEmpty()
 				|| board.isEnd();
+	}
+	/**
+	 * Get the current turn of <code>this</code> {@code Game}.
+	 * 
+	 * @return The current turn of <code>this</code> {@code Game}.
+	 */
+	public final int turn()
+	{
+		return turn;
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
