@@ -76,12 +76,12 @@ public class GameBoard implements BoardView{
 	@Override
 	public final int count(final Piece piece)
 	{
-		int acc = 0;
+		int count = 0;
 		for(int i = 0; i < size(); ++i)
 			for(int j = 0; j < size(); ++j)
 				if(view(Position.at(i, j)).orElse(null) == piece)
-						++acc;
-		return acc;
+						++count;
+		return count;
 	}
 	@Override
 	public int countFlips(int x, int y, Piece player) {
