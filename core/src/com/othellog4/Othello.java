@@ -83,10 +83,13 @@ public class Othello extends Game {
 		getScreen().resize(width, height);
 	}
 	public void switchToGame() {
-		setScreen(new NormalGameScreen(new GameModel(
+		final GameModel model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
-				p2), this));
+				p2);
+		setScreen(new NormalGameScreen(model, this));
+		model.start();
+		
 	}
 	
 	public void switchToTutorial() {
