@@ -131,7 +131,7 @@ public class GameModel extends Observable
 	 */
 	public final Participant getCurrent()
 	{
-		return manager.playerOf(session.current());
+		return manager.current();
 	}
 	/**
 	 * Get the {@link Participant} which is the first {@link Player} in
