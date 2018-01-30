@@ -1,6 +1,6 @@
 package com.othellog4.game;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.othellog4.game.board.BoardView;
@@ -111,7 +111,7 @@ public class Game
 		turn = 0;
 		this.board = board;
 		current = currentPiece;
-		listeners = new HashSet<>();
+		listeners = new LinkedHashSet<>();
 	}
 	//=========================================================================
 	//Methods.
