@@ -41,6 +41,9 @@ public final class GameBoard implements BoardView{
 		}*/
 
 	}
+	public GameBoard(Piece[][] prebuilt){
+		grid = prebuilt.clone();
+	}
 
 	public void put(Position position, Piece piece) throws InvalidMoveException{
 		
@@ -218,4 +221,15 @@ public final class GameBoard implements BoardView{
 	{
 		return new ProxyGameBoard(this);
 	}
+	
+	public Piece winning(){
+		int a = count(Piece.PIECE_A);
+		int b = count(Piece.PIECE_B);
+		if(a == b)
+			return null;
+		if(a < b)
+			return Piece.PIECE_B;
+		return Piece.PIECE_A;
+	}
+	
 }
