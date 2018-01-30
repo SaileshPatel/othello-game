@@ -10,7 +10,7 @@ import java.util.Set;
  * @since 	23/10/2017
  * @version 20/11/2017
  */
-public class GameBoard implements BoardView{
+public final class GameBoard implements BoardView{
 	private Piece[][] grid;
 
 	public GameBoard(int size, int corners){
@@ -57,16 +57,8 @@ public class GameBoard implements BoardView{
 	@Override
 	public boolean isEnd() {
 		// TODO Auto-generated method stub
-		for (int i = 0;i < grid.length;i++){
-			for (int j = 0;j < grid.length;j++){
-				if(grid[i][j] == null){
-					return false;
+		return legalMoves(Piece.PIECE_A).isEmpty() && legalMoves(Piece.PIECE_B).isEmpty();
 				}
-			}
-		}
-
-		return true;
-	}
 
 	@Override
 	public int size() {
