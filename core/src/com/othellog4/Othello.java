@@ -11,11 +11,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.GameBoard;
-import com.othellog4.game.player.AIStrategy;
 import com.othellog4.game.player.AutomaticPlayer;
 import com.othellog4.game.player.Participant;
 import com.othellog4.game.player.Player;
 import com.othellog4.game.player.Participant.Control;
+import com.othellog4.game.player.ai.SearchStrategies;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
 import com.othellog4.screens.MainMenuScreen;
@@ -81,10 +81,13 @@ public class Othello extends Game {
 		getScreen().resize(width, height);
 	}
 	public void switchToGame() {
-		setScreen(new NormalGameScreen(new GameModel(
+		final GameModel model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
-				p2), this));
+				p2);
+		setScreen(new NormalGameScreen(model, this));
+		model.start();
+		
 	}
 	
 	public void switchToTutorial() {

@@ -74,7 +74,7 @@ public final class ProxyGameBoard implements BoardView
 	 * Get the size of the {@link GameBoard}.
 	 * 
 	 * <p>
-	 * Delegates the call to {@link GameBoard}
+	 * Delegates the call to {@link GameBoard}.
 	 * </p>
 	 * 
 	 * @return The result of {@link GameBoard#size()}.
@@ -84,6 +84,20 @@ public final class ProxyGameBoard implements BoardView
 	public int size()
 	{
 		return board.size();
+	}
+	/**
+	 * Count the number of {@link Piece} objects.
+	 * 
+	 * <p>
+	 * Delegates call to {@link GameBoard}.
+	 * </p>
+	 * 
+	 * @param piece The {@link Piece} object to be counted.
+	 * @return The total number of <code>piece</code> instances.
+	 */
+	public final int count(final Piece piece)
+	{
+		return board.count(piece);
 	}
 	/**
 	 * Count the flips which would be the result of a specific move.

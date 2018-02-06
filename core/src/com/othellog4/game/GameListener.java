@@ -11,7 +11,7 @@ package com.othellog4.game;
  * 
  * @author 	159014260 John
  * @since	03/12/2017
- * @version 03/12/2017
+ * @version 25/01/2018
  */
 @FunctionalInterface
 public interface GameListener
@@ -26,7 +26,7 @@ public interface GameListener
 	 * Must be implemented.
 	 * </p>
 	 * 
-	 * @param game The {@link Game} which issued the update.
+	 * @param event The {@link GamEvent} which has been triggered.
 	 */
-	public void update(final Game game);
+	public void update(final GameEvent event);
 }

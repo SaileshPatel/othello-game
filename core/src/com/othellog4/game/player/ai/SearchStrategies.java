@@ -1,4 +1,4 @@
-package com.othellog4.game.player;
+package com.othellog4.game.player.ai;
 
 import java.util.Set;
 
@@ -13,7 +13,7 @@ import com.othellog4.game.board.Position;
  * @since 	08/12/2017
  * @version 08/12/2017
  */
-public enum AIStrategy implements GameStrategy
+public enum SearchStrategies implements SearchStrategy
 {
 	//=========================================================================
 	//Enum constants.
@@ -35,9 +35,10 @@ public enum AIStrategy implements GameStrategy
 		 * 
 		 */
 		@Override
-		public final Position evaluate(
+		public final Position search(
+				final BoardView board,
 				final Piece piece,
-				final BoardView board)
+				final EvaluationStrategy eval)
 		{
 			final Set<Position> legalMoves = board.legalMoves(piece);
 			//Temporary array for storing the positions.

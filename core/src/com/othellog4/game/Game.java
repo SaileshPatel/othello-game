@@ -1,6 +1,6 @@
 package com.othellog4.game;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import com.othellog4.game.board.BoardView;
@@ -24,7 +24,7 @@ import com.othellog4.game.board.Position;
  * @author 	Eastwood
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 20/11/2017
+ * @version 25/01/2018
  * @see GameBoard
  * @see Piece
  */
@@ -32,6 +32,11 @@ public class Game
 {
 	//=========================================================================
 	//Fields.
+	/**
+	 * The <code>int</code> which represent the number of the turn of
+	 * <code>this</code> {@code Game}. 
+	 */
+	private int turn;
 	/**
 	 * The {@link GameBoard} of <code>this</code> game.
 	 * 
@@ -45,6 +50,10 @@ public class Game
 	 * @see Piece
 	 */
 	private Piece current;
+	/**
+	 * 
+	 */
+	private GameState state;
 	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 * 
@@ -103,12 +112,38 @@ public class Game
 			throw new NullPointerException();
 		if(currentPiece == null)
 			throw new NullPointerException();
+		turn = 0;
 		this.board = board;
 		current = currentPiece;
-		listeners = new HashSet<>();
+		state = GameState.initial();
+		listeners = new LinkedHashSet<>();
 	}
 	//=========================================================================
 	//Methods.
+	/**
+	 * 
+	 */
+	public final void start()
+	{
+		state = state.start();
+		update(GameEvent.BEGIN);
+	}
+	/**
+	 * 
+	 */
+	public final void pause()
+	{
+		state = state.pause();
+		update(GameEvent.PAUSED);
+	}
+	/**
+	 * 
+	 */
+	public final void end()
+	{
+		state = state.end();
+		update(GameEvent.END);
+	}
 	/**
 	 * Go to the next turn.
 	 * 
@@ -123,9 +158,14 @@ public class Game
 	 */
 	private void nextTurn()
 	{
-		if(!board.legalMoves(current.flip()).isEmpty())
+		if(isGameOver())
+			update(GameEvent.END);
+		else if(!board.legalMoves(current.flip()).isEmpty())
+		{
 			current = current.flip();
-		update();
+			++turn;
+			update(GameEvent.NEXT_TURN);
+		}
 	}
 	/**
 	 * Update all the {@link GameListener} objects in <code>this</code>
@@ -139,11 +179,13 @@ public class Game
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
+	 * 
+	 * @param event The {@link GameEvent} which was triggered.
 	 */
-	private synchronized void update()
+	private synchronized void update(final GameEvent event)
 	{
 		for(final GameListener listener: listeners)
-			listener.update(this);
+			listener.update(event);
 	}
 	/**
 	 * Check if the game is over.
@@ -153,7 +195,18 @@ public class Game
 	 */
 	public final boolean isGameOver()
 	{
-		return board.isEnd();
+		if(board.isEnd())
+			state = GameState.GAME_OVER;
+		return state == GameState.GAME_OVER;
+	}
+	/**
+	 * Get the current turn of <code>this</code> {@code Game}.
+	 * 
+	 * @return The current turn of <code>this</code> {@code Game}.
+	 */
+	public final int turn()
+	{
+		return turn;
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
@@ -203,6 +256,14 @@ public class Game
 		listeners.remove(listener);
 	}
 	/**
+	 * Remove all {@link GameListener} objects existing in <code>this</code>
+	 * {@code Game} object.
+	 */
+	public final synchronized void removeAllListeners()
+	{
+		listeners.clear();
+	}
+	/**
 	 * Get the {@link Piece} representing the first player.
 	 * 
 	 * <p>
@@ -240,6 +301,14 @@ public class Game
 		return current;
 	}
 	/**
+	 * 
+	 * @return
+	 */
+	public final GameState getCurrentState()
+	{
+		return state;
+	}
+	/**
 	 * Get the {@link BoardView} of the board which is contained in
 	 * <code>this</code> {@code Game}.
 	 * 
@@ -250,30 +319,4 @@ public class Game
 	{
 		return board.getView();
 	} //getBoard()
-	//=========================================================================
-	//Overidden methods.
-	/**
-	 * 
-	 */
-	@Override
-	public final boolean equals(Object o)
-	{
-		return false;
-	} //equals(Object)
-	/**
-	 * 
-	 */
-	@Override
-	public final int hashCode()
-	{
-		return 0;
-	} //hashCode()
-	/**
-	 * 
-	 */
-	@Override
-	public final String toString()
-	{
-		return "";
-	} //toString()
 } //Game
