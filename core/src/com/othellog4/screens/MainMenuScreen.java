@@ -104,10 +104,10 @@ public class MainMenuScreen extends ScreenAdapter {
 
 		// othello.getSpriteBatch().draw(OthelloText, 400, 100);
 		Vector2 mousePos = getUnprojectedMousePos();
-		if (mousePos.x < 850 + PLAYBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 350 && mousePos.y < 400) {
+		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
 			// othello.getSpriteBatch().draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 400, 500, Align.left, true);
+			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 460, 500, Align.left, true);
 
 			if (Gdx.input.isTouched()) {
 				this.dispose();
@@ -117,14 +117,14 @@ public class MainMenuScreen extends ScreenAdapter {
 		} else {
 			// othello.getSpriteBatch().draw(playButtonInactive, 850, 360);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 400, 500, Align.left, true);
+			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 460, 500, Align.left, true);
 
 		}
 
-		if (mousePos.x < 850 + TUTORIALBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 300 && mousePos.y < 340) {
+		if (mousePos.x > 850 && mousePos.x < 1082  && mousePos.y > 350 && mousePos.y < 400) {
 			// othello.getSpriteBatch().draw(tutorialButton, 850, 300);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 340, 500, Align.left, true);
+			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 400, 500, Align.left, true);
 			if (Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToTutorial();
@@ -133,10 +133,32 @@ public class MainMenuScreen extends ScreenAdapter {
 		} else {
 			// othello.getSpriteBatch().draw(tutorialButtonInactive, 850, 300);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 340, 500, Align.left, true);
+			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 400, 500, Align.left, true);
 		}
+		
+		if (mousePos.x > 850 && mousePos.x < 1080 && mousePos.y > 290 && mousePos.y < 340) {
+			// othello.getSpriteBatch().draw(tutorialButton, 850, 300);
+			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			optionsFont.draw(othello.getSpriteBatch(), "Options", 850, 340, 500, Align.left, true);
+			if (Gdx.input.isTouched()) {
+				this.dispose();
+				othello.switchToOption();
+			}
 
-		if (mousePos.x < 850 + TUTORIALBUTTON_WIDTH && mousePos.x > 850 && mousePos.y > 240 && mousePos.y < 280) {
+		} else {
+			// othello.getSpriteBatch().draw(tutorialButtonInactive, 850, 300);
+			optionsFont.setColor(1f, 1f, 1f, 1f);
+			optionsFont.draw(othello.getSpriteBatch(), "Options", 850, 340, 500, Align.left, true);
+		}
+		
+		
+		
+		System.out.println(mousePos.x + " " + mousePos.y);
+		
+		
+		
+
+		if (mousePos.x >850 && mousePos.x < 960 && mousePos.y > 240 && mousePos.y < 280) {
 			// othello.getSpriteBatch().draw(exitButton, 850, 240);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);

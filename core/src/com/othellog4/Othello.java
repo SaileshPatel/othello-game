@@ -101,6 +101,10 @@ public class Othello extends Game {
 		setScreen(new MainMenuScreen(this));
 	}
 	
+	public void switchToOption(){
+		setScreen (new OptionScreen (this));
+	}
+	
 	public void playMusic() {
 		music.setLooping(true);
 		music.setVolume(0.1f);
