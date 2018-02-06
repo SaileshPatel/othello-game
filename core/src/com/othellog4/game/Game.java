@@ -163,30 +163,6 @@ class Game
 	//=========================================================================
 	//Methods.
 	/**
-	 * 
-	 */
-	public final void start()
-	{
-		state = state.start();
-		update(GameEvent.BEGIN);
-	}
-	/**
-	 * 
-	 */
-	public final void pause()
-	{
-		state = state.pause();
-		update(GameEvent.PAUSED);
-	}
-	/**
-	 * 
-	 */
-	public final void end()
-	{
-		state = state.end();
-		update(GameEvent.END);
-	}
-	/**
 	 * Go to the next turn.
 	 * 
 	 * <p>
@@ -208,6 +184,19 @@ class Game
 			++turn;
 			update(GameEvent.NEXT_TURN);
 		}
+	}
+	/**
+	 * Set the {@link GameState} of <code>this</code> {@code Game}.
+	 * 
+	 * <p>
+	 * For internal use only!
+	 * </p>
+	 * 
+	 * @param state The {@link GameState} to set the current state to.
+	 */
+	private void setState(final GameState state)
+	{
+		this.state = state;
 	}
 	/**
 	 * Update all the {@link GameListener} objects in <code>this</code>
@@ -249,6 +238,30 @@ class Game
 	public final int turn()
 	{
 		return turn;
+	}
+	/**
+	 * 
+	 */
+	public final void start()
+	{
+		setState(state.start());
+		update(GameEvent.BEGIN);
+	}
+	/**
+	 * 
+	 */
+	public final void pause()
+	{
+		setState(state.pause());
+		update(GameEvent.PAUSED);
+	}
+	/**
+	 * 
+	 */
+	public final void end()
+	{
+		setState(state.end());
+		update(GameEvent.END);
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
