@@ -26,11 +26,15 @@ package com.othellog4.game;
  * {@code GameState}.
  * </p>
  * 
+ * <p>
+ * {@code GameState} is package private.
+ * </p>
+ * 
  * @author 	159014260 John Berg
  * @since 	05/02/2017
  * @version 05/02/2017
  */
-public enum GameState 
+enum GameState 
 {
 	//=========================================================================
 	//Enum constants.

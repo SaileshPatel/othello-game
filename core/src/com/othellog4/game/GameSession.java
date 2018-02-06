@@ -44,12 +44,6 @@ import com.othellog4.game.player.Participant;
  */
 public final class GameSession
 {
-	//=========================================================================
-	//Fields.
-	/**
-	 * The flag which indicates if the game session is active.
-	 */
-	private boolean playing;
 	/**
 	 * 
 	 */
@@ -77,7 +71,6 @@ public final class GameSession
 	{
 		if(manager == null)
 			throw new NullPointerException();
-		playing = false;
 		this.manager = manager;
 		this.manager.game().addListener(this::notifyCurrent);
 	}
@@ -93,20 +86,9 @@ public final class GameSession
 	 */
 	private void notifyCurrent(final GameEvent event)
 	{
-		if(event == GameEvent.NEXT_TURN)
+		if(event == GameEvent.BEGIN
+				|| event == GameEvent.NEXT_TURN)
 			manager.current().notifyTurn(this);
-	}
-	/**
-	 * Start the game session which will begin the process of the game.
-	 * 
-	 * <p>
-	 * May receive updated implementation later.
-	 * </p>
-	 */
-	public final void begin()
-	{
-		playing = true;
-		notifyCurrent(GameEvent.NEXT_TURN);
 	}
 	/**
 	 * Accept a {@link GameCommand} to be executed on the {@link Game} in
@@ -136,14 +118,6 @@ public final class GameSession
 		if(manager.playerOf(current()).equals(command.getSource()))
 			//May throw GameException.
 			command.execute(manager.game());
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public final boolean isPlaying()
-	{
-		return playing;
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the

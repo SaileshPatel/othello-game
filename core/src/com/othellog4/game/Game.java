@@ -51,6 +51,10 @@ public class Game
 	 */
 	private Piece current;
 	/**
+	 * 
+	 */
+	private GameState state;
+	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 * 
 	 * @see GameListener
@@ -111,10 +115,35 @@ public class Game
 		turn = 0;
 		this.board = board;
 		current = currentPiece;
+		state = GameState.initial();
 		listeners = new LinkedHashSet<>();
 	}
 	//=========================================================================
 	//Methods.
+	/**
+	 * 
+	 */
+	public final void start()
+	{
+		state = state.start();
+		update(GameEvent.BEGIN);
+	}
+	/**
+	 * 
+	 */
+	public final void pause()
+	{
+		state = state.pause();
+		update(GameEvent.PAUSED);
+	}
+	/**
+	 * 
+	 */
+	public final void end()
+	{
+		state = state.end();
+		update(GameEvent.END);
+	}
 	/**
 	 * Go to the next turn.
 	 * 
@@ -166,9 +195,9 @@ public class Game
 	 */
 	public final boolean isGameOver()
 	{
-		return board.legalMoves(getCurrent().flip()).isEmpty()
-				&& board.legalMoves(getCurrent()).isEmpty()
-				|| board.isEnd();
+		if(board.isEnd())
+			state = GameState.GAME_OVER;
+		return state == GameState.GAME_OVER;
 	}
 	/**
 	 * Get the current turn of <code>this</code> {@code Game}.
@@ -270,6 +299,14 @@ public class Game
 	public final Piece getCurrent()
 	{
 		return current;
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final GameState getCurrentState()
+	{
+		return state;
 	}
 	/**
 	 * Get the {@link BoardView} of the board which is contained in

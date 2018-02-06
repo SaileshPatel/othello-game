@@ -10,12 +10,14 @@ package com.othellog4.game;
  */
 public enum GameEvent
 {
+	BEGIN,
+	PAUSED,
+	/**
+	 * Signal the end of a game.
+	 */
+	END,
 	/**
 	 * Signals the event of the next turn.
 	 */
 	NEXT_TURN,
-	/**
-	 * Signal the end of a game.
-	 */
-	END
 }

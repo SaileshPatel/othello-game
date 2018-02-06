@@ -63,7 +63,7 @@ public class GameModel extends Observable
 	 */
 	public final void start()
 	{
-		session.begin();
+		manager.game().start();
 	}
 	/**
 	 * 
@@ -85,7 +85,7 @@ public class GameModel extends Observable
 	 */
 	public final boolean isPlaying()
 	{
-		return session.isPlaying();
+		return manager.game().getCurrentState() == GameState.PLAYING;
 	}
 	/**
 	 * ...
