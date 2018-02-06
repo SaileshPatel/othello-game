@@ -20,6 +20,7 @@ import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
 import com.othellog4.screens.MainMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
+import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.TutorialScreen;
 
 public class Othello extends Game {
@@ -32,11 +33,12 @@ public class Othello extends Game {
 	private TutorialScreen tutorialScreen;
 
 	private MainMenuScreen menuScreen;
+	private OptionScreen optionScreen;
 	//private com.othellog4.game.Game game;
 	//private BoardRenderer boardRenderer;
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
-	
+	public Music music;
 	@Override
 	public void create () {
 		spriteBatch = new SpriteBatch();
@@ -55,18 +57,14 @@ public class Othello extends Game {
 		
 		normalScreen = new NormalGameScreen(model, this);
 		tutorialScreen = new TutorialScreen(model, this);
-
+		optionScreen = new OptionScreen(this);
 		menuScreen = new MainMenuScreen(this);
-		setScreen(menuScreen);
+		setScreen(optionScreen);
 		
 		
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
-		
-		Music music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
-		music.setLooping(true);
-		music.setVolume(0.2f);
-		music.play();
-		
+		music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
+		playMusic();
 	}
 
 	@Override
@@ -94,6 +92,25 @@ public class Othello extends Game {
 				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
 				p2), this));
+	}
+	
+	public void switchToMenu() {
+		setScreen(new MainMenuScreen(this));
+	}
+	
+	public void playMusic() {
+		music.setLooping(true);
+		music.setVolume(0.1f);
+		music.play();	
+		
+	}
+	
+	public void setMusic(float volume) {
+		music.setVolume(volume);
+	}
+	
+	public float getMusic() {
+		return music.getVolume();
 	}
 	
 //	@Override
