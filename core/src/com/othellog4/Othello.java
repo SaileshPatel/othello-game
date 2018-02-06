@@ -59,7 +59,7 @@ public class Othello extends Game {
 		tutorialScreen = new TutorialScreen(model, this);
 		optionScreen = new OptionScreen(this);
 		menuScreen = new MainMenuScreen(this);
-		setScreen(optionScreen);
+		setScreen(menuScreen);
 		
 		
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());

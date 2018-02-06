@@ -153,7 +153,6 @@ public class MainMenuScreen extends ScreenAdapter {
 		
 		
 		
-		System.out.println(mousePos.x + " " + mousePos.y);
 		
 		
 		
