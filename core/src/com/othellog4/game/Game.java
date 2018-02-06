@@ -24,16 +24,21 @@ import com.othellog4.game.board.Position;
  * {@code Game} is package private.
  * </p>
  * 
- * @author 	159014260 John Berg 
- * @author 	Eastwood
+ * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 25/01/2018
+ * @version 06/02/2018
  * @see GameBoard
  * @see Piece
  */
 class Game
 {
+	//========================================================================
+	//Static fields.
+	/**
+	 * 
+	 */
+	private static final int FIRST_TURN = 0;
 	//=========================================================================
 	//Fields.
 	/**
@@ -55,7 +60,10 @@ class Game
 	 */
 	private Piece current;
 	/**
+	 * The current {@link GameState} which represent the state of
+	 * <code>this</code> {@code Game} object.
 	 * 
+	 * @see GameState.
 	 */
 	private GameState state;
 	/**
@@ -112,11 +120,41 @@ class Game
 			throws
 			NullPointerException
 	{
+		//May throw NullPointerException.
+		this(board, currentPiece, FIRST_TURN);
+	}
+	/**
+	 * Create a {@code Game} by with a specific {@link GameBoard} and the
+	 * {@link Piece} which current turn it is.
+	 * 
+	 * <p>
+	 * This constructor can be used to load games which are partially completed
+	 * or to create custom games and game modes with specially created
+	 * {@link GameBoard} and non-fixed first players.
+	 * </p>
+	 * 
+	 * @param board The {@link GameBoard} which will be used to play the
+	 * 			{@link Game}.
+	 * @param currentPiece The {@link Piece} for which player's turn it
+	 * 			currently is.
+	 * @param turn The current turn of the {@code Game}.
+	 * @throws NullPointerException If either <code>board</code> or
+	 * 			<code>currentPiece</code> is <code>null</code>.
+	 * @see GameBoard
+	 * @see Piece
+	 */
+	public Game(
+			final GameBoard board,
+			final Piece currentPiece,
+			final int turn)
+			throws
+			NullPointerException
+	{
 		if(board == null)
 			throw new NullPointerException();
 		if(currentPiece == null)
 			throw new NullPointerException();
-		turn = 0;
+		this.turn = turn;
 		this.board = board;
 		current = currentPiece;
 		state = GameState.initial();
