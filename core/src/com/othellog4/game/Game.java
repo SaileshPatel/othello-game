@@ -20,7 +20,6 @@ import com.othellog4.game.board.Position;
  * {@link Piece}.
  * </p>
  * 
- * 
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
@@ -33,7 +32,7 @@ public class Game
 	//========================================================================
 	//Static fields.
 	/**
-	 * 
+	 * The <code>int</code> which represent the first turn of the {@code Game}.
 	 */
 	private static final int FIRST_TURN = 0;
 	//=========================================================================
@@ -237,7 +236,8 @@ public class Game
 		return turn;
 	}
 	/**
-	 * 
+	 * Run <code>this</code> {@code Game} by setting the <code>this</code>
+	 * game to the {@link GameState#PLAYING}.
 	 */
 	public final void start()
 	{
@@ -245,7 +245,8 @@ public class Game
 		update(GameEvent.BEGIN);
 	}
 	/**
-	 * 
+	 * Suspend <code>this</code> {@code Game} by setting the <code>this</code>
+	 * game to the {@link GameState#PAUSED}.
 	 */
 	public final void pause()
 	{
@@ -253,7 +254,8 @@ public class Game
 		update(GameEvent.PAUSED);
 	}
 	/**
-	 * 
+	 * End <code>this</code> {@code Game} by setting the <code>this</code>
+	 * game to the {@link GameState#GAME_OVER}.
 	 */
 	public final void end()
 	{
@@ -353,8 +355,10 @@ public class Game
 		return current;
 	}
 	/**
+	 * Get the current {@link GameState} object of <code>this</code>
+	 * {@code Game} object.
 	 * 
-	 * @return
+	 * @return The current {@link GameState}.
 	 */
 	public final GameState getCurrentState()
 	{
