@@ -20,6 +20,10 @@ import com.othellog4.game.board.Position;
  * {@link Piece}.
  * </p>
  * 
+ * <p>
+ * {@code Game} is package private.
+ * </p>
+ * 
  * @author 	159014260 John Berg 
  * @author 	Eastwood
  * @author  Arvinder Chatha
@@ -28,7 +32,7 @@ import com.othellog4.game.board.Position;
  * @see GameBoard
  * @see Piece
  */
-public class Game
+class Game
 {
 	//=========================================================================
 	//Fields.
