@@ -122,6 +122,9 @@ public abstract class GameCommand
 	@Override
 	public String toString()
 	{
-		return getClass().getSimpleName() + ISSUED_BY + source.toString() + END_OF_HEADER;
+		return getClass().getSimpleName()
+				+ ISSUED_BY
+				+ source.toString()
+				+ END_OF_HEADER;
 	}
 }

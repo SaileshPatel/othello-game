@@ -44,8 +44,11 @@ import com.othellog4.game.player.Participant;
  */
 public final class GameSession
 {
+	//=========================================================================
+	//Fields.
 	/**
-	 * 
+	 * The {@link GameManager} which manages the mapping between
+	 * {@link Participant} and {@link Piece} objects.
 	 */
 	private final GameManager manager;
 	//=========================================================================

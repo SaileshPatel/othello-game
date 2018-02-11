@@ -56,6 +56,14 @@ public class Game
 	 */
 	private Piece current;
 	/**
+	 * The {@link GameConclusion} of the {@code Game}.
+	 * 
+	 * <p>
+	 * Must be set to signal the conclusion.
+	 * </p>
+	 */
+	private GameConclusion conclusion;
+	/**
 	 * The current {@link GameState} which represent the state of
 	 * <code>this</code> {@code Game} object.
 	 * 
@@ -152,6 +160,7 @@ public class Game
 			throw new NullPointerException();
 		this.turn = turn;
 		this.board = board;
+		conclusion = null;
 		current = currentPiece;
 		state = GameState.initial();
 		listeners = new LinkedHashSet<>();
@@ -170,7 +179,7 @@ public class Game
 	 * <b>For internal use only!</b>
 	 * </p>
 	 */
-	private void nextTurn()
+	private void advance()
 	{
 		if(isGameOver())
 			update(GameEvent.END);
@@ -215,6 +224,26 @@ public class Game
 			listener.update(event);
 	}
 	/**
+	 * Set the {@link GameConclusion} of <code>this</code>
+	 * {@link GameConclusion}.
+	 * 
+	 * <p>
+	 * Once a {@link GameConclusion} has not been set, it cannot be set again.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>For internal use only!</b>
+	 * </p>
+	 * 
+	 * @param conclusion The {@link GameConclusion} of <code>this</code>
+	 * 			{@code Game}.
+	 */
+	private void conclude(final GameConclusion conclusion)
+	{
+		if(this.conclusion == null)
+			this.conclusion = conclusion;
+	}
+	/**
 	 * Check if the game is over.
 	 * 
 	 * @return <code>true</code> if the game has ended, otherwise, returns
@@ -222,9 +251,14 @@ public class Game
 	 */
 	public final boolean isGameOver()
 	{
-		if(board.isEnd())
-			state = GameState.GAME_OVER;
-		return state == GameState.GAME_OVER;
+		if(conclusion != null)
+			return true;
+		else if(board.isEnd())
+		{
+			setState(GameState.GAME_OVER);
+			conclude(GameConclusion.winner(board.winning()));
+		}
+		return getCurrentState() == GameState.GAME_OVER;
 	}
 	/**
 	 * Get the current turn of <code>this</code> {@code Game}.
@@ -260,6 +294,7 @@ public class Game
 	public final void end()
 	{
 		setState(state.end());
+		conclude(GameConclusion.winner(board.winning()));
 		update(GameEvent.END);
 	}
 	/**
@@ -284,8 +319,22 @@ public class Game
 			InvalidMoveException,
 			NullPointerException
 	{
-		board.put(position, getCurrent());
-		nextTurn();
+		if(GameState.PLAYING == getCurrentState())
+		{
+			board.put(position, getCurrent());
+			advance();
+		}
+	}
+	/**
+	 * Surrenders the game.
+	 * 
+	 * @param piece The {@link Piece} object which surrenders.
+	 */
+	public final void surrender(final Piece piece)
+	{
+		setState(GameState.GAME_OVER);
+		conclude(GameConclusion.loser(piece));
+		update(GameEvent.END);
 	}
 	/**
 	 * Add a {@link GameListener} to be updated about events that occur in
@@ -355,6 +404,26 @@ public class Game
 		return current;
 	}
 	/**
+	 * Get the {@link GameConclusion} of <code>this</code> {@code Game}.
+	 * 
+	 * <p>
+	 * If the {@link Game#isGameOver()} returns <code>false</code>, then
+	 * <code>this</code> {@code Game} has no conclusion.
+	 * </p>
+	 * 
+	 * @return The {@link GameConclusion} of <code>this</code> {@code Game}.
+	 * @throws IllegalStateException If the {@code Game} has not been
+	 * 			concluded.
+	 */
+	public final GameConclusion getConclusion()
+			throws
+			IllegalStateException
+	{
+		if(conclusion == null)
+			throw new IllegalStateException();
+		return conclusion;
+	}
+	/**
 	 * Get the current {@link GameState} object of <code>this</code>
 	 * {@code Game} object.
 	 * 
@@ -374,5 +443,5 @@ public class Game
 	public final BoardView getBoard()
 	{
 		return board.getView();
-	} //getBoard()
-} //Game
+	}
+}

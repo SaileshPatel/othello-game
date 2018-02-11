@@ -61,6 +61,42 @@ public class GameTest
 		//Must ...
 		fail();
 	}
+	@Test
+	public final void testIsDraw()
+	{
+		fail();
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public final void testTurn_Beginning()
+	{
+		fail();
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public final void testTurn_NextTurn()
+	{
+		fail();
+	}
+	@Test
+	public final void testStart_Beginning()
+	{
+		
+	}
+	@Test
+	public final void testPause()
+	{
+		fail();
+	}
+	@Test
+	public final void testEnd()
+	{
+		fail();
+	}
 	/**
 	 * 
 	 */
@@ -142,7 +178,7 @@ public class GameTest
 	@Test
 	public final void testRemoveListener_NotExisitng()
 	{
-		game.removeListener((GameEvent e) -> fail());
+		game.removeListener(e -> fail());
 	}
 	/**
 	 * 
@@ -152,7 +188,7 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
-		final GameListener listener = (GameEvent e) -> fail();
+		final GameListener listener = e -> fail();
 		game.addListener(listener);
 		game.removeListener(listener);
 		game.put(LEGAL_MOVE);
@@ -165,7 +201,7 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
-		final GameListener listener = (GameEvent e) -> fail();
+		final GameListener listener = e -> fail();
 		game.addListener(listener);
 		game.removeAllListeners();
 		game.put(LEGAL_MOVE);
@@ -204,6 +240,43 @@ public class GameTest
 	{
 		game.put(LEGAL_MOVE);
 		assertEquals(Piece.PIECE_B, game.getCurrent());
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public final void testGetCurrentGameState_Beginning()
+	{
+		assertEquals(GameState.READY, game.getCurrentState());
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public final void testGetCurrentGameState_Started()
+	{
+		game.start();
+		assertEquals(GameState.PLAYING, game.getCurrentState());
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public final void testGetCurrentGameState_Paused()
+	{
+		game.start();
+		game.pause();
+		assertEquals(GameState.PAUSED, game.getCurrentState());
+	}
+	/**
+	 * 
+	 */
+	@Test
+	public final void testGetCurrentGameState_Ended()
+	{
+		game.start();
+		game.end();
+		assertEquals(GameState.GAME_OVER, game.getCurrentState());
 	}
 	/**
 	 * 
