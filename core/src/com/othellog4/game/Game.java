@@ -20,16 +20,21 @@ import com.othellog4.game.board.Position;
  * {@link Piece}.
  * </p>
  * 
- * @author 	159014260 John Berg 
- * @author 	Eastwood
+ * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 25/01/2018
+ * @version 06/02/2018
  * @see GameBoard
  * @see Piece
  */
 public class Game
 {
+	//========================================================================
+	//Static fields.
+	/**
+	 * The <code>int</code> which represent the first turn of the {@code Game}.
+	 */
+	private static final int FIRST_TURN = 0;
 	//=========================================================================
 	//Fields.
 	/**
@@ -50,6 +55,21 @@ public class Game
 	 * @see Piece
 	 */
 	private Piece current;
+	/**
+	 * The {@link GameConclusion} of the {@code Game}.
+	 * 
+	 * <p>
+	 * Must be set to signal the conclusion.
+	 * </p>
+	 */
+	private GameConclusion conclusion;
+	/**
+	 * The current {@link GameState} which represent the state of
+	 * <code>this</code> {@code Game} object.
+	 * 
+	 * @see GameState.
+	 */
+	private GameState state;
 	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 * 
@@ -104,13 +124,45 @@ public class Game
 			throws
 			NullPointerException
 	{
+		//May throw NullPointerException.
+		this(board, currentPiece, FIRST_TURN);
+	}
+	/**
+	 * Create a {@code Game} by with a specific {@link GameBoard} and the
+	 * {@link Piece} which current turn it is.
+	 * 
+	 * <p>
+	 * This constructor can be used to load games which are partially completed
+	 * or to create custom games and game modes with specially created
+	 * {@link GameBoard} and non-fixed first players.
+	 * </p>
+	 * 
+	 * @param board The {@link GameBoard} which will be used to play the
+	 * 			{@link Game}.
+	 * @param currentPiece The {@link Piece} for which player's turn it
+	 * 			currently is.
+	 * @param turn The current turn of the {@code Game}.
+	 * @throws NullPointerException If either <code>board</code> or
+	 * 			<code>currentPiece</code> is <code>null</code>.
+	 * @see GameBoard
+	 * @see Piece
+	 */
+	public Game(
+			final GameBoard board,
+			final Piece currentPiece,
+			final int turn)
+			throws
+			NullPointerException
+	{
 		if(board == null)
 			throw new NullPointerException();
 		if(currentPiece == null)
 			throw new NullPointerException();
-		turn = 0;
+		this.turn = turn;
 		this.board = board;
+		conclusion = null;
 		current = currentPiece;
+		state = GameState.initial();
 		listeners = new LinkedHashSet<>();
 	}
 	//=========================================================================
@@ -127,7 +179,7 @@ public class Game
 	 * <b>For internal use only!</b>
 	 * </p>
 	 */
-	private void nextTurn()
+	private void advance()
 	{
 		if(isGameOver())
 			update(GameEvent.END);
@@ -137,6 +189,19 @@ public class Game
 			++turn;
 			update(GameEvent.NEXT_TURN);
 		}
+	}
+	/**
+	 * Set the {@link GameState} of <code>this</code> {@code Game}.
+	 * 
+	 * <p>
+	 * For internal use only!
+	 * </p>
+	 * 
+	 * @param state The {@link GameState} to set the current state to.
+	 */
+	private void setState(final GameState state)
+	{
+		this.state = state;
 	}
 	/**
 	 * Update all the {@link GameListener} objects in <code>this</code>
@@ -159,6 +224,26 @@ public class Game
 			listener.update(event);
 	}
 	/**
+	 * Set the {@link GameConclusion} of <code>this</code>
+	 * {@link GameConclusion}.
+	 * 
+	 * <p>
+	 * Once a {@link GameConclusion} has not been set, it cannot be set again.
+	 * </p>
+	 * 
+	 * <p>
+	 * <b>For internal use only!</b>
+	 * </p>
+	 * 
+	 * @param conclusion The {@link GameConclusion} of <code>this</code>
+	 * 			{@code Game}.
+	 */
+	private void conclude(final GameConclusion conclusion)
+	{
+		if(this.conclusion == null)
+			this.conclusion = conclusion;
+	}
+	/**
 	 * Check if the game is over.
 	 * 
 	 * @return <code>true</code> if the game has ended, otherwise, returns
@@ -166,9 +251,14 @@ public class Game
 	 */
 	public final boolean isGameOver()
 	{
-		return board.legalMoves(getCurrent().flip()).isEmpty()
-				&& board.legalMoves(getCurrent()).isEmpty()
-				|| board.isEnd();
+		if(conclusion != null)
+			return true;
+		else if(board.isEnd())
+		{
+			setState(GameState.GAME_OVER);
+			conclude(GameConclusion.winner(board.winning()));
+		}
+		return getCurrentState() == GameState.GAME_OVER;
 	}
 	/**
 	 * Get the current turn of <code>this</code> {@code Game}.
@@ -178,6 +268,34 @@ public class Game
 	public final int turn()
 	{
 		return turn;
+	}
+	/**
+	 * Run <code>this</code> {@code Game} by setting the <code>this</code>
+	 * game to the {@link GameState#PLAYING}.
+	 */
+	public final void start()
+	{
+		setState(state.start());
+		update(GameEvent.BEGIN);
+	}
+	/**
+	 * Suspend <code>this</code> {@code Game} by setting the <code>this</code>
+	 * game to the {@link GameState#PAUSED}.
+	 */
+	public final void pause()
+	{
+		setState(state.pause());
+		update(GameEvent.PAUSED);
+	}
+	/**
+	 * End <code>this</code> {@code Game} by setting the <code>this</code>
+	 * game to the {@link GameState#GAME_OVER}.
+	 */
+	public final void end()
+	{
+		setState(state.end());
+		conclude(GameConclusion.winner(board.winning()));
+		update(GameEvent.END);
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
@@ -201,8 +319,22 @@ public class Game
 			InvalidMoveException,
 			NullPointerException
 	{
-		board.put(position, getCurrent());
-		nextTurn();
+		if(GameState.PLAYING == getCurrentState())
+		{
+			board.put(position, getCurrent());
+			advance();
+		}
+	}
+	/**
+	 * Surrenders the game.
+	 * 
+	 * @param piece The {@link Piece} object which surrenders.
+	 */
+	public final void surrender(final Piece piece)
+	{
+		setState(GameState.GAME_OVER);
+		conclude(GameConclusion.loser(piece));
+		update(GameEvent.END);
 	}
 	/**
 	 * Add a {@link GameListener} to be updated about events that occur in
@@ -272,6 +404,36 @@ public class Game
 		return current;
 	}
 	/**
+	 * Get the {@link GameConclusion} of <code>this</code> {@code Game}.
+	 * 
+	 * <p>
+	 * If the {@link Game#isGameOver()} returns <code>false</code>, then
+	 * <code>this</code> {@code Game} has no conclusion.
+	 * </p>
+	 * 
+	 * @return The {@link GameConclusion} of <code>this</code> {@code Game}.
+	 * @throws IllegalStateException If the {@code Game} has not been
+	 * 			concluded.
+	 */
+	public final GameConclusion getConclusion()
+			throws
+			IllegalStateException
+	{
+		if(conclusion == null)
+			throw new IllegalStateException();
+		return conclusion;
+	}
+	/**
+	 * Get the current {@link GameState} object of <code>this</code>
+	 * {@code Game} object.
+	 * 
+	 * @return The current {@link GameState}.
+	 */
+	public final GameState getCurrentState()
+	{
+		return state;
+	}
+	/**
 	 * Get the {@link BoardView} of the board which is contained in
 	 * <code>this</code> {@code Game}.
 	 * 
@@ -281,5 +443,5 @@ public class Game
 	public final BoardView getBoard()
 	{
 		return board.getView();
-	} //getBoard()
-} //Game
+	}
+}
