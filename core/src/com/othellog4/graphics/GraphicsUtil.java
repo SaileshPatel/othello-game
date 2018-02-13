@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 /**
  * Utility class containing commonly used functions
  * @author  James Shorthouse
- * @version 03/02/2018
+ * @version 12/02/2018
  *
  */
 public class GraphicsUtil {
@@ -34,7 +34,9 @@ public class GraphicsUtil {
 	 * @return            created bitmap font
 	 */
 	public static BitmapFont generateFont(String path, int size, int vertSpacing) {
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Overpass-Regular.ttf"));
+		FreeTypeFontGenerator.setMaxTextureSize(2048); //TODO move this somewhere else
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
+		
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size; // Size in px
 		parameter.spaceY = vertSpacing;
@@ -57,4 +59,24 @@ public class GraphicsUtil {
 	public static BitmapFont generateFont(String path, int size) {
 		return generateFont(path, size, 0);
 	}
+	
+	public static float smoothAnimationBetween(float time, float start, float duration, float power) {
+		float percent = (time - start) / duration;
+		if(percent < 0) return 0f;
+		if(percent > 1) return 1f;
+		
+		float smoothed = (float) ((Math.pow(percent, power)) / (Math.pow(percent, power) + Math.pow(1-percent, power)));
+		
+		return smoothed;
+	}
+	
+	public static float smoothAnimationBetween(float time, float start, float duration) {
+		return smoothAnimationBetween(time, start, duration, 2);
+	}
+	
+//	public static float easeOutAnimationBetween(float time, float start, float duration) {
+//		float percent = (time - start) / duration;
+//		
+//		return (float) Math.sin(percent * (Math.PI/2));
+//	}
 }
