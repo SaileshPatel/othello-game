@@ -1,5 +1,6 @@
 package com.othellog4.game.board;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -10,7 +11,7 @@ import java.util.Set;
  * @since 	23/10/2017
  * @version 20/11/2017
  */
-public final class GameBoard implements BoardView{
+public final class GameBoard implements BoardView, Cloneable, Serializable {
 	private Piece[][] grid;
 
 	public GameBoard(int size, int corners){
@@ -42,9 +43,37 @@ public final class GameBoard implements BoardView{
 
 	}
 	public GameBoard(Piece[][] prebuilt){
-		grid = prebuilt.clone();
+		grid = new Piece[prebuilt.length][];
+		for(int i = 0; i < prebuilt.length; ++i)
+			grid[i] = prebuilt[i].clone();;
 	}
-
+	/**
+	 * Copy constructor.
+	 * 
+	 * 
+	 * 
+	 * @param board
+	 */
+	public GameBoard(final GameBoard board)
+	{
+		this(board.grid);
+	}
+	/**
+	 * Check if <code>this</code> {@code GameBoard} is in a draw.
+	 * 
+	 * <p>
+	 * A draw occurs when there are the same amount of {@code Piece#PIECE_A}
+	 * objects as there are {@link Piece#PIECE_B} objects.
+	 * </p>
+	 * 
+	 * @return <code>true</code> If the state of <code>this</code>
+	 * 			{@code GameBoard} is a draw.
+	 */
+	@Override
+	public final boolean isDraw()
+	{
+		return winning() == null;
+	}
 	public void put(Position position, Piece piece) throws InvalidMoveException{
 		
 		Set<Position> validMoves = legalMoves(piece);
@@ -221,7 +250,15 @@ public final class GameBoard implements BoardView{
 	{
 		return new ProxyGameBoard(this);
 	}
-	
+	/**
+	 * Get the {@link Piece} object which is winning, based on the current
+	 * state of <code>this</code> {@code GameBoard}.
+	 * 
+	 * @return The {@link Piece} object which has the most instances on
+	 * 			<code>this</code> {@code GameBoard}. Returns <code>null</code>
+	 * 			if the state of the board is a draw.
+	 */
+	@Override
 	public Piece winning(){
 		int a = count(Piece.PIECE_A);
 		int b = count(Piece.PIECE_B);
@@ -231,5 +268,69 @@ public final class GameBoard implements BoardView{
 			return Piece.PIECE_B;
 		return Piece.PIECE_A;
 	}
-	
+	/**
+	 * Get the {@link Piece} object which is losing, based on the current
+	 * state of <code>this</code> {@code GameBoard}.
+	 * 
+	 * @return The {@link Piece} object which has the least instances on
+	 * 			<code>this</code> {@code GameBoard}. Returns <code>null</code>
+	 * 			if the state of the board is a draw.
+	 */
+	@Override
+	public final Piece losing()
+	{
+		final Piece piece = winning().flip();
+		return piece == null? null: piece.flip();
+	}
+	/**
+	 * Try placing a {@link Piece} object at a specified {@link Position},
+	 * without modifying <code>this</code> {@code GameBoard} object.
+	 * 
+	 * <p>
+	 * This method will return a projection of <code>this</code>
+	 * {@code GameBoard} object, which represents <code>this</code>
+	 * {@code GameBoard} if a {@link Piece} were to be placed at the specified
+	 * {@link Position}.
+	 * </p>
+	 * 
+	 * @param pos
+	 * @param piece
+	 * @return A projection of <code>this</code> {@code GameBoard} which
+	 * 			represents the outcome of placing the <code>piece</code> at
+	 * 			<code>pos</code>.
+	 * @throws InvalidMoveException 
+	 */
+	@Override
+	public final GameBoard tryPut(
+			final Position pos,
+			final Piece piece)
+			throws
+			InvalidMoveException
+	{
+		final GameBoard board = clone();
+		board.put(pos, piece);
+		return board;
+	}
+	/**
+	 * Clone <code>this</code> {@code GameBoard}.
+	 * 
+	 * <p>
+	 * Clones will have no referential equality with the original
+	 * {@code GameBoard}.
+	 * </p>
+	 * 
+	 * <p>
+	 * Modifications made to the original {@code GameBoard} will not affect
+	 * the clone, ot vice versa.
+	 * </p>
+	 * 
+	 * @return The {@code GameBoard} object which is a clone of
+	 * 			<code>this</code> {@code GameBoard}.
+	 * 			
+	 */
+	@Override
+	public final GameBoard clone()
+	{
+		return new GameBoard(this);
+	}
 }

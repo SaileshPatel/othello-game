@@ -71,6 +71,21 @@ public final class ProxyGameBoard implements BoardView
 		return board.isEnd();
 	}
 	/**
+	 * Check if the state of the board is a draw.
+	 * 
+	 * <p>
+	 * Delegates the call to {@link GameBoard}.
+	 * </p>
+	 * 
+	 * @return <code>true</code> if the state of the board is a draw,
+	 * 			otherwise, returns <code>true</code>.
+	 */
+	@Override
+	public final boolean isDraw()
+	{
+		return board.isDraw();
+	}
+	/**
 	 * Get the size of the {@link GameBoard}.
 	 * 
 	 * <p>
@@ -123,6 +138,28 @@ public final class ProxyGameBoard implements BoardView
 		return board.countFlips(x, y, player);
 	}
 	/**
+	 * Try making a move without affecting the real board.
+	 * 
+	 * <p>
+	 * Delegates the call to {@link GameBoard}.
+	 * </p>
+	 * 
+	 * @param pos The {@link Position} on the board.
+	 * @param piece The {@link Piece} to be placed.
+	 * @return The {@link BoardView} which reflects the attempted move.
+	 * @throws InvalidMoveException If
+	 * 			{@link GameBoard#tryPut(Position, Piece)} throws.
+	 */
+	@Override
+	public final BoardView tryPut(
+			final Position pos,
+			final Piece piece)
+			throws
+			InvalidMoveException
+	{
+		return board.tryPut(pos, piece);
+	}
+	/**
 	 * Get the legal {@link Position} objects which represent the positions on
 	 * the {@link GameBoard} which are legal positions for a specific
 	 * {@link Piece}.
@@ -143,6 +180,36 @@ public final class ProxyGameBoard implements BoardView
 			NullPointerException
 	{
 		return board.legalMoves(piece);
+	}
+	/**
+	 * Get the {@link Piece} which is winning.
+	 * 
+	 * <p>
+	 * Delegates the call to {@link GameBoard}.
+	 * </p>
+	 * 
+	 * @return The {@link Piece} which has the most instances on the board.
+	 * 			Returns <code>null</code> if it is a draw.
+	 */
+	@Override
+	public final Piece winning()
+	{
+		return board.winning();
+	}
+	/**
+	 * Get the {@link Piece} which is losing.
+	 * 
+	 * <p>
+	 * Delegates the call to {@link GameBoard}.
+	 * </p>
+	 * 
+	 * @return The {@link Piece} which has the least instances on the board.
+	 * 			Returns <code>null</code> if it is a draw.
+	 */
+	@Override
+	public final Piece losing()
+	{
+		return board.losing();
 	}
 	/**
 	 * Get the {@link Piece} object at a specific {@link Position}.

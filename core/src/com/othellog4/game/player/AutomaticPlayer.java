@@ -4,67 +4,102 @@ import java.util.Optional;
 
 import com.othellog4.game.GameException;
 import com.othellog4.game.GameSession;
-import com.othellog4.game.board.Position;
 import com.othellog4.game.command.Put;
+import com.othellog4.game.player.ai.DelayStrategy;
 import com.othellog4.game.player.ai.EvaluationStrategy;
 import com.othellog4.game.player.ai.SearchStrategy;
+import com.othellog4.game.player.ai.Tactic;
 
 /**
- * This is the AI class. It will eventually have some AI implementation in
- * order to make smart decisions.
+ * The {@code AutomaticPlayer} class is a representation of a player which is
+ * controlled by the computer.
+ * 
+ * <p>
+ * The {@code AutomaticPlayer} class is emulating the decision making of a
+ * human, and hence is an AI.
+ * </p>
+ * 
+ * <p>
+ * The {@code AutomaticPlayer} class is immutable.
+ * </p>
  * 
  * @author 	Sailesh Patel
  * @author 	Zak Hirsi
  * @since 	23/10/2017
- * @version 21/11/2017
+ * @version 15/02/2017
  */
-public class AutomaticPlayer implements Participant
+public final class AutomaticPlayer implements Participant
 {
 	//=========================================================================
 	//Fields.
 	/**
-	 * 
+	 * The {@link Tactic} object which <code>this</code>
+	 * {@code AutomaticPlayer} object will be using to search for possible
+	 * moves.
 	 */
-	private final EvaluationStrategy eval;
+	private final Tactic tactic;
 	/**
-	 * 
+	 * The {@link DelayStrategy} which defines how much delay <code>this</code>
+	 * {@code AutomaticPlayer} object will be waiting before completing a move.
 	 */
-	private final SearchStrategy strategy;
+	private final DelayStrategy delay;
+	//=========================================================================
+	//Constructors.
 	/**
+	 * Construct a new {@code AutomaticPlayer} object by specifying the
+	 * desired {@link EvaluationStrategy}, {@link SearchStrategy} and a
+	 * {@link DelayStrategy} which will be used when emulating decision making.
 	 * 
-	 * @param search
+	 * @param eval The {@link EvaluationStrategy} used to evaluate a
+	 * 			{@link BoardView}.
+	 * @param search The {@link SearchStrategy} used to search a
+	 * 			{@link BoardView}.
+	 * @param delay The {@link DelayStrategy} used to potentially delay the
+	 * 			response of the {@code AutomaticPlayer} object.
 	 */
 	public AutomaticPlayer(
 			final EvaluationStrategy eval,
-			final SearchStrategy search)
+			final SearchStrategy search,
+			final DelayStrategy delay)
 	{
-		this.eval = eval;
-		this.strategy = search;
+		tactic = new Tactic(eval, search);
+		this.delay = delay;
 	}
 	//=========================================================================
 	//Overriden methods.
 	/**
+	 * Notify <code>this</code> {@code AutomaticPlayer} that the
+	 * {@link GameSession} is waiting for a move.
 	 * 
+	 * @param session The {@link GameSession} which <code>this</code>
+	 * 			{@code AutomaticPlayer} object will be processing
+	 * 			a turn for. 
 	 */
 	@Override
-	public final void notifyTurn(GameSession session)
+	public final void notifyTurn(final GameSession session)
 	{
-		try
+		delay.delay(tactic.plan(
+				session.getBoard(),
+				session.current(),
+				p ->
 		{
-			final Position position = strategy.search(
-					session.getBoard(),
-					session.current(),
-					eval); 
-			session.accept(new Put(this, position.col, position.row));
-		}
-		catch(final GameException e)
-		{
-			//We might want to change this for later verions.
-			System.err.println(e);
-		}
+			try
+			{
+				session.accept(new Put(this, p.col, p.row));
+			}
+			catch(final GameException e)
+			{
+				//We might want to change this for later verions.
+				System.err.println(e);
+			}
+		}));
 	}
 	/**
+	 * No {@link Participant.Control} object is available for the
+	 * {@code AutomaticPlayer} class.
 	 * 
+	 * @return {@link Optional#empty()} as an {@code AutomaticPlayer} object
+	 * 			cannot be controlled.
 	 */
 	@Override
 	public final Optional<Participant.Control> getControl()
