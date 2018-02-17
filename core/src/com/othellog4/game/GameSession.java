@@ -58,8 +58,6 @@ public final class GameSession
 	 * of the {@code GameSession}, and two {@link Participant} objects which
 	 * represent the first and second player respectively.
 	 * 
-	 * @param game The {@link Game} class which the created {@code GameSession}
-	 * 			will use to make moves, and retrieve information from.
 	 * @param turnManager The {@link TurnManager} which associates a
 	 * 			{@link Participant} with the corresponding {@link Piece}.
 	 * @throws NullPointerException If either <code>game</code>,
@@ -120,7 +118,7 @@ public final class GameSession
 	{
 		if(manager.playerOf(current()).equals(command.getSource()))
 			//May throw GameException.
-			command.execute(manager.game());
+			manager.execute(command);
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the

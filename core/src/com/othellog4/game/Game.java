@@ -294,7 +294,9 @@ public class Game
 	public final void end()
 	{
 		setState(state.end());
-		conclude(GameConclusion.winner(board.winning()));
+		conclude(board.isDraw()
+				?GameConclusion.draw()
+				:GameConclusion.winner(board.winning()));
 		update(GameEvent.END);
 	}
 	/**

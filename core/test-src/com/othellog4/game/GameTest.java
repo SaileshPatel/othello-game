@@ -56,10 +56,16 @@ public class GameTest
 	 * 
 	 */
 	@Test
+	public final void testIsGameOver_NotGameOver()
+	{
+		assertFalse(game.isGameOver());
+	}
+	@Test
 	public final void testIsGameOver()
 	{
-		//Must ...
-		fail();
+		game.start();
+		game.end();
+		assertTrue(game.isGameOver());
 	}
 	@Test
 	public final void testIsDraw()
@@ -82,10 +88,67 @@ public class GameTest
 	{
 		fail();
 	}
+	/**
+	 * Test the {@link Game#start()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#start()} method makes the
+	 * {@link Game} object be in the  {@link GameState#PLAYING} state.
+	 * </p>
+	 */
 	@Test
 	public final void testStart_Beginning()
 	{
-		
+		game.start();
+		assertEquals(GameState.PLAYING, game.getCurrentState());
+	}
+	/**
+	 * Test the {@link Game#start()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#start()} method throws
+	 * an {@link IllegalStateException} when the {@link Game} object is in
+	 * the {@link GameState#PLAYING} state.
+	 * </p>
+	 */
+	@Test(expected = IllegalStateException.class)
+	public final void testStart_Playing()
+	{
+		game.start();
+		game.start();
+	}
+	/**
+	 * Test the {@link Game#start()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#start()} method makes the
+	 * {@link Game} object be in the  {@link GameState#PLAYING} state, when the
+	 * {@link Game} object was in the {@link GameState#PLAYING} state.
+	 * </p>
+	 */
+	@Test
+	public final void testStart_Paused()
+	{
+		game.start();
+		game.pause();
+		game.start();
+		assertEquals(GameState.PLAYING, game.getCurrentState());
+	}
+	/**
+	 * Test the {@link Game#start()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#start()} method throws
+	 * an {@link IllegalStateException} when the {@link Game} object is in
+	 * the {@link GameState#GAME_OVER} state.
+	 * </p>
+	 */
+	@Test(expected = IllegalStateException.class)
+	public final void testStart_GameOver()
+	{
+		game.start();
+		game.end();
+		game.start();
 	}
 	@Test
 	public final void testPause()
@@ -98,23 +161,54 @@ public class GameTest
 		fail();
 	}
 	/**
+	 * Test the {@link Game#put(Position)} method of the {@link Game} class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#put(Position)} method
+	 * causes no changes to the board when the {@link Game} is not in the
+	 * {@link GameState#PLAYING} state.
+	 * </p>
+	 */
+	@Test
+	public final void testPut_NotStarted()
+			throws
+			InvalidMoveException
+	{
+		game.put(LEGAL_MOVE);
+		assertFalse(game.getBoard().view(LEGAL_MOVE).isPresent());
+	}
+	/**
+	 * Test the {@link Game#put(Position)} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#put(Position)} method
+	 * throws a {@link NullPointerException} when provided a <code>null</code>
+	 * argument.
+	 * </p>
 	 */
 	@Test(expected = NullPointerException.class)
 	public final void testPut_NullArg()
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		game.put(null);
 	}
 	/**
+	 * Test the {@link Game#put(Position)} method of the {@link Game} class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#put(Position)} method
+	 * throws an {@link InvalidMoveException} when provided a {@link Position}
+	 * argument which is outside to board.
+	 * </p>
 	 */
 	@Test(expected = InvalidMoveException.class)
 	public final void testPut_OutsideBoard()
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		game.put(OUTSIDE_BOARD);
 	}
 	/**
@@ -125,6 +219,7 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		game.put(INVALID_MOVE);
 	}
 	/**
@@ -135,6 +230,7 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		game.put(LEGAL_MOVE);
 		game.put(LEGAL_MOVE);
 	}
@@ -146,7 +242,9 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		game.put(LEGAL_MOVE);
+		assertTrue(game.getBoard().view(LEGAL_MOVE).isPresent());
 	}
 	/**
 	 * 
@@ -155,14 +253,6 @@ public class GameTest
 	public final void testAddListener_NullArg()
 	{
 		game.addListener(null);
-	}
-	/**
-	 * 
-	 */
-	@Test
-	public final void testAddListener_Success()
-	{
-		fail();
 	}
 	/**
 	 * 
@@ -228,9 +318,10 @@ public class GameTest
 	@Test
 	public final void testGetCurrent_Player1()
 	{
-		assertEquals(Piece.PIECE_A, game.getCurrent());
+		assertEquals(game.getPlayer1(), game.getCurrent());
 	}
 	/**
+	 * 
 	 * 
 	 */
 	@Test
@@ -238,11 +329,18 @@ public class GameTest
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		game.put(LEGAL_MOVE);
-		assertEquals(Piece.PIECE_B, game.getCurrent());
+		assertEquals(game.getPlayer2(), game.getCurrent());
 	}
 	/**
+	 * Test the {@link Game#getCurrentState()} method of the {@link Game}
+	 * class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#getCurrentState()}
+	 * returns {@link GameState#READY}, before the game has been started.
+	 * </p>
 	 */
 	@Test
 	public final void testGetCurrentGameState_Beginning()
@@ -250,7 +348,13 @@ public class GameTest
 		assertEquals(GameState.READY, game.getCurrentState());
 	}
 	/**
+	 * Test the {@link Game#getCurrentState()} method of the {@link Game}
+	 * class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#getCurrentState()}
+	 * returns {@link GameState#PLAYING}, once the game has been started.
+	 * </p>
 	 */
 	@Test
 	public final void testGetCurrentGameState_Started()
@@ -259,7 +363,13 @@ public class GameTest
 		assertEquals(GameState.PLAYING, game.getCurrentState());
 	}
 	/**
+	 * Test the {@link Game#getCurrentState()} method of the {@link Game}
+	 * class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#getCurrentState()}
+	 * returns {@link GameState#PAUSED}, when the game has been paused.
+	 * </p>
 	 */
 	@Test
 	public final void testGetCurrentGameState_Paused()
@@ -269,7 +379,13 @@ public class GameTest
 		assertEquals(GameState.PAUSED, game.getCurrentState());
 	}
 	/**
+	 * Test the {@link Game#getCurrentState()} method of the {@link Game}
+	 * class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#getCurrentState()}
+	 * returns {@link GameState#GAME_OVER}, once the game has been ended.
+	 * </p>
 	 */
 	@Test
 	public final void testGetCurrentGameState_Ended()
@@ -277,13 +393,5 @@ public class GameTest
 		game.start();
 		game.end();
 		assertEquals(GameState.GAME_OVER, game.getCurrentState());
-	}
-	/**
-	 * 
-	 */
-	@Test
-	public final void testGetBoardView()
-	{
-		fail();
 	}
 }

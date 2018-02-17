@@ -53,7 +53,7 @@ public class GameException extends Exception
 	//Overriden methods.
 	/**
 	 * Get the {@link String} of the cause of <code>this</code>
-	 * {@link GameExceptionTest}.
+	 * {@link GameException}.
 	 * 
 	 * @return The {@link String} representation of the cause.
 	 */
