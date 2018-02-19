@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 /**
  * Utility class containing commonly used functions
  * @author  James Shorthouse
- * @version 12/02/2018
+ * @version 19/02/2018
  *
  */
 public class GraphicsUtil {
@@ -60,23 +60,35 @@ public class GraphicsUtil {
 		return generateFont(path, size, 0);
 	}
 	
-	public static float smoothAnimationBetween(float time, float start, float duration, float power) {
+	/**
+	 * Calculate a smoothed position value for an animated object given the animation progress
+	 * @param time      the current time into the animation
+	 * @param start     the start time of the animation
+	 * @param duration  the duration of the animation
+	 * @param steepness the steepness of the smoothing
+	 * @return          smoothed position as a value between 0 and 1
+	 */
+	public static float smoothAnimationBetween(float time, float start, float duration, float steepness) {
 		float percent = (time - start) / duration;
+		// If animation hasn't started or has finished, return 1 or 0 respectively.
 		if(percent < 0) return 0f;
 		if(percent > 1) return 1f;
 		
-		float smoothed = (float) ((Math.pow(percent, power)) / (Math.pow(percent, power) + Math.pow(1-percent, power)));
+		// Apply smoothing function derived from https://math.stackexchange.com/a/121755
+		float smoothed = (float) ((Math.pow(percent, steepness)) / (Math.pow(percent, steepness) + 
+				Math.pow(1-percent, steepness)));
 		
 		return smoothed;
 	}
 	
+	/**
+	 * Calculate a smoothed position value for an animated object given the animation progress
+	 * @param time      the current time into the animation
+	 * @param start     the start time of the animation
+	 * @param duration  the duration of the animation
+	 * @return          smoothed position as a value between 0 and 1
+	 */
 	public static float smoothAnimationBetween(float time, float start, float duration) {
-		return smoothAnimationBetween(time, start, duration, 2);
+		return smoothAnimationBetween(time, start, duration, 2); // Use 2 as default steepness
 	}
-	
-//	public static float easeOutAnimationBetween(float time, float start, float duration) {
-//		float percent = (time - start) / duration;
-//		
-//		return (float) Math.sin(percent * (Math.PI/2));
-//	}
 }
