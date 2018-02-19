@@ -10,13 +10,11 @@ import com.othellog4.game.board.Position;
 import static org.junit.Assert.*;
 
 /**
- * 
- * 
- * 
+ * The {@code GameTest} class is a Junit test suit for the {@link Game} class.
  * 
  * @author 	159014260 John Berg
  * @since 	25/01/2018
- * @version 25/01/2018
+ * @version 19/02/2018
  */
 public class GameTest
 {
@@ -212,7 +210,13 @@ public class GameTest
 		game.put(OUTSIDE_BOARD);
 	}
 	/**
+	 * Test the {@link Game#put(Position)} method of the {@link Game} class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#put(Position)} method
+	 * throws an {@link InvalidMoveException} when provided a {@link Position}
+	 * argument which is an invalid position.
+	 * </p>
 	 */
 	@Test(expected = InvalidMoveException.class)
 	public final void testPut_InvalidPosition()
@@ -246,6 +250,11 @@ public class GameTest
 		game.put(LEGAL_MOVE);
 		assertTrue(game.getBoard().view(LEGAL_MOVE).isPresent());
 	}
+	@Test
+	public final void testSurrender()
+	{
+		fail();
+	}
 	/**
 	 * 
 	 */
@@ -271,33 +280,54 @@ public class GameTest
 		game.removeListener(e -> fail());
 	}
 	/**
+	 * Test the {@link Game#removeAllListeners()} method of the {@link Game}
+	 * class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#removeAllListeners()}
+	 * method removes the specified {@link GameListener} object from the
+	 * {@link Game} object.
+	 * </p>
 	 */
 	@Test
 	public final void testRemoveListener_Success()
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		final GameListener listener = e -> fail();
 		game.addListener(listener);
 		game.removeListener(listener);
 		game.put(LEGAL_MOVE);
 	}
 	/**
+	 * Test the {@link Game#removeAllListeners()} method of the {@link Game}
+	 * class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#removeAllListeners()}
+	 * method removes all {@link GameListener} objects from the {@link Game}
+	 * object.
+	 * </p>
 	 */
 	@Test
 	public final void testRemoveAllListeners()
 			throws
 			InvalidMoveException
 	{
+		game.start();
 		final GameListener listener = e -> fail();
 		game.addListener(listener);
 		game.removeAllListeners();
 		game.put(LEGAL_MOVE);
 	}
 	/**
+	 * Test the {@link Game#getPlayer1()} method of the {@link Game} class.
 	 * 
+	 * <p>
+	 * This method should only pass if the {@link Game#getPlayer1()} method
+	 * returns {@link Piece#PIECE_A}.
+	 * </p>
 	 */
 	@Test
 	public final void testGetPlayer1()
@@ -305,7 +335,12 @@ public class GameTest
 		assertEquals(Piece.PIECE_A, game.getPlayer1());
 	}
 	/**
+	 * Test the {@link Game#getPlayer1()} method of the {@link Game} class.
 	 * 
+	 * <p>
+	 * This method should only pass if the {@link Game#getPlayer2()} method
+	 * returns {@link Piece#PIECE_B}.
+	 * </p>
 	 */
 	@Test
 	public final void testGetPlayer2()
@@ -313,7 +348,13 @@ public class GameTest
 		assertEquals(Piece.PIECE_B, game.getPlayer2());
 	}
 	/**
+	 * Test the {@link Game#getCurrent()} method of the {@link Game} class.
 	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#getCurrent()} method
+	 * return the {@link Piece} object which is {@link Game#getPlayer1()} when
+	 * the current turn is the first players turn.
+	 * </p>
 	 */
 	@Test
 	public final void testGetCurrent_Player1()
@@ -321,8 +362,13 @@ public class GameTest
 		assertEquals(game.getPlayer1(), game.getCurrent());
 	}
 	/**
+	 * Test the {@link Game#getCurrent()} method of the {@link Game} class.
 	 * 
-	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#getCurrent()} method
+	 * return the {@link Piece} object which is {@link Game#getPlayer2()} when
+	 * the current turn is the second players turn.
+	 * </p>
 	 */
 	@Test
 	public final void testGetCurrent_Player2()
@@ -393,5 +439,10 @@ public class GameTest
 		game.start();
 		game.end();
 		assertEquals(GameState.GAME_OVER, game.getCurrentState());
+	}
+	@Test
+	public final void testGetConclusion()
+	{
+		fail();
 	}
 }
