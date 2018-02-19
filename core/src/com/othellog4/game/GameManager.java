@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.othellog4.game.board.Piece;
+import com.othellog4.game.command.GameCommand;
+import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
 
 /**
@@ -18,7 +20,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	159014260 John Berg
  * @since	02/12/2017
- * @since	03/12/2017
+ * @since	17/12/2017
  */
 public final class GameManager
 {
@@ -33,13 +35,25 @@ public final class GameManager
 	/**
 	 * The {@link Game} which <code>this</code> {@code GameManager} is
 	 * managing the mapping of {@link Participant} objects for.
+	 * 
+	 * @see Game
 	 */
 	private final Game game;
 	/**
 	 * The {@link Map} which maps {@link Piece} objects to the corresponding
 	 * {@link Participant}.
+	 * 
+	 * @see Piece
+	 * @see Participant
 	 */
 	private final Map<Piece, Participant> playerMap;
+	/**
+	 * The {@link GameExtension} objects which are managed by <code>this</code>
+	 * {@code GameManager}.
+	 * 
+	 * @see GameExtension
+	 */
+	private final GameExtension[] extensions;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -56,6 +70,8 @@ public final class GameManager
 	 * 			which correspond to the first and second player.
 	 * @param player1 The {@link Participant} representing the first player.
 	 * @param player2 The {@link Participant} representing the first player.
+	 * @param extensions The array of {@link GameExtension} objects which
+	 * 			provide additional functionality.
 	 * @throws NullPointerException If <code>game</code>, <code>player1</code>
 	 * 			or <code>player2</code> is <code>null</code>.
 	 * @see Game
@@ -66,7 +82,8 @@ public final class GameManager
 	public GameManager(
 			final Game game,
 			final Participant player1,
-			final Participant player2)
+			final Participant player2,
+			final GameExtension... extensions)
 	{
 		if(game == null)
 			throw new NullPointerException();
@@ -75,12 +92,53 @@ public final class GameManager
 		if(player2 == null)
 			throw new NullPointerException();
 		this.game = game;
+		this.game.addListener(this::update);
 		playerMap = new HashMap<>(MAP_CAPACITY);
 		playerMap.put(game.getPlayer1(), player1);
 		playerMap.put(game.getPlayer2(), player2);
+		this.extensions = extensions;
 	}
 	//=========================================================================
 	//Methods.
+	/**
+	 * Update all the {@link GameExtension} objects in <code>this</code>
+	 * {@code GameManager} about a {@link GameEvent}.
+	 * 
+	 * @param event The {@link GameEvent} object to notify all
+	 * 			{@link GameExtension} objects about.
+	 */
+	private void update(final GameEvent event)
+	{
+		for(final GameExtension e: extensions)
+			e.onEvent(event, this);
+	}
+	/**
+	 * Update all the {@link GameExtension} objects in <code>this</code>
+	 * {@code GameManager} about a {@link GameCommand}.
+	 * 
+	 * @param command The {@link GameCommand} object to notify all
+	 * 			{@link GameExtension} object about.
+	 */
+	private void update(final GameCommand command)
+	{
+		for(final GameExtension e: extensions)
+			e.onCommand(command, this);
+	}
+	/**
+	 * Execute a {@link GameCommand} on the {@link Game} managed by
+	 * <code>this</code> {@code GameManager}.
+	 * 
+	 * @param command The {@link GameCommand} to execute.
+	 * @throws GameException If the execution of the {@link GameCommand}
+	 * 			throws a {@link GameException}.
+	 */
+	public final void execute(final GameCommand command)
+			throws
+			GameException
+	{
+		update(command);
+		command.execute(game());
+	}
 	/**
 	 * Get the first {@link Participant} of the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.

@@ -15,6 +15,7 @@ import com.othellog4.game.player.AutomaticPlayer;
 import com.othellog4.game.player.Participant;
 import com.othellog4.game.player.Player;
 import com.othellog4.game.player.Participant.Control;
+import com.othellog4.game.player.ai.DelayStrategies;
 import com.othellog4.game.player.ai.SearchStrategies;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
@@ -46,9 +47,16 @@ public class Othello extends Game {
 		//Assets.load()
 		//gameBoard = new GameBoard(8);
 		//game = new com.othellog4.game.Game(new GameBoard(8));
-		p1 = new Player();
+		p1 = new AutomaticPlayer(
+				null,
+				SearchStrategies.RANDOM_SELECTION,
+				DelayStrategies.WAIT_ONE_SEC);
 //		p2 = new AutomaticPlayer(AIStrategy.RANDOM_SELECTION);
-		p2 = new Player();
+//		p2 = new Player();
+		p2 = new AutomaticPlayer(
+				null,
+				SearchStrategies.RANDOM_SELECTION,
+				DelayStrategies.WAIT_ONE_SEC);
 		
 		model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8 , 0)),

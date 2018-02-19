@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 06/02/2018
+ * @version 19/02/2018
  * @see GameBoard
  * @see Piece
  */
@@ -34,7 +34,17 @@ public class Game
 	/**
 	 * The <code>int</code> which represent the first turn of the {@code Game}.
 	 */
-	private static final int FIRST_TURN = 0;
+	private static final int FIRST_TURN = 1;
+	/**
+	 * The {@link String} constant which represents the message for when a
+	 * {@link Position} is <code>null</code>.
+	 */
+	private static final String NULL_POSITION = "Position cannot be null";
+	/**
+	 * The {@link String} constant which represents the message for when a
+	 * {@link Piece} is <code>null</code>.
+	 */
+	private static final String NULL_PIECE = "Piece cannot be null";
 	//=========================================================================
 	//Fields.
 	/**
@@ -294,7 +304,9 @@ public class Game
 	public final void end()
 	{
 		setState(state.end());
-		conclude(GameConclusion.winner(board.winning()));
+		conclude(board.isDraw()
+				?GameConclusion.draw()
+				:GameConclusion.winner(board.winning()));
 		update(GameEvent.END);
 	}
 	/**
@@ -319,6 +331,8 @@ public class Game
 			InvalidMoveException,
 			NullPointerException
 	{
+		if(position == null)
+			throw new NullPointerException(NULL_POSITION);
 		if(GameState.PLAYING == getCurrentState())
 		{
 			board.put(position, getCurrent());
@@ -329,9 +343,15 @@ public class Game
 	 * Surrenders the game.
 	 * 
 	 * @param piece The {@link Piece} object which surrenders.
+	 * @throws NullPointerException If <code>piece</code> is <code>null</code>.
+	 * @see Piece
 	 */
 	public final void surrender(final Piece piece)
+			throws
+			NullPointerException
 	{
+		if(piece == null)
+			throw new NullPointerException(NULL_PIECE);
 		setState(GameState.GAME_OVER);
 		conclude(GameConclusion.loser(piece));
 		update(GameEvent.END);
