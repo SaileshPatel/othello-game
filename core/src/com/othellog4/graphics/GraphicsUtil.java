@@ -22,7 +22,7 @@ public class GraphicsUtil {
 	 */
 	public static Texture createMipMappedTex(String filePath) {
 		Texture tex = new Texture(Gdx.files.internal(filePath), true);
-		tex.setFilter(TextureFilter.MipMapLinearNearest, TextureFilter.Nearest);
+		tex.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.Linear);
 		return tex;
 	}
 	
@@ -40,6 +40,7 @@ public class GraphicsUtil {
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size; // Size in px
 		parameter.spaceY = vertSpacing;
+		//parameter.genMipMaps = true;
 		BitmapFont font = generator.generateFont(parameter);
 		generator.dispose();
 		
