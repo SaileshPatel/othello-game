@@ -22,6 +22,7 @@ public final class NormalGameScreen extends GameScreen
 	@Override
 	protected boolean checkInput(Position position)
 	{
+		game.setScreen(new EndGameScreen(game, this, 0, 123, 50, 32));
 		return true;
 	}
 
