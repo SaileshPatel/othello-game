@@ -122,6 +122,9 @@ public class Othello extends Game {
 	
 	public void setMusic(float volume) {
 		music.setVolume(volume);
+		System.out.println(volume);
+		//TO DO
+		//change the decibel scale
 	}
 	
 	public float getMusic() {

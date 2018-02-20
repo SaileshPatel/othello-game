@@ -108,10 +108,10 @@ public class MainMenuScreen extends ScreenAdapter {
 			// othello.getSpriteBatch().draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 460, 500, Align.left, true);
-
+			
 			if (Gdx.input.isTouched()) {
-				this.dispose();
-				othello.switchToGame();
+//				this.dispose();
+//				othello.switchToGame();
 			}
 
 		} else {
