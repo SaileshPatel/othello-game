@@ -1,8 +1,10 @@
 package com.othellog4.game;
 
 import java.util.HashMap;
-
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Stream;
 
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
@@ -53,7 +55,7 @@ public final class GameManager
 	 * 
 	 * @see GameExtension
 	 */
-	private final GameExtension[] extensions;
+	private final Set<GameExtension> extensions;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -96,7 +98,8 @@ public final class GameManager
 		playerMap = new HashMap<>(MAP_CAPACITY);
 		playerMap.put(game.getPlayer1(), player1);
 		playerMap.put(game.getPlayer2(), player2);
-		this.extensions = extensions;
+		this.extensions = new LinkedHashSet<>();
+		Stream.of(extensions).forEach(this.extensions::add);
 	}
 	//=========================================================================
 	//Methods.
