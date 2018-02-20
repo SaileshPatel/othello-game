@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.Optional;
 
 import com.othellog4.game.board.BoardView;
-import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.player.Participant;
 
@@ -60,6 +59,31 @@ public class GameModel extends Observable
 	}
 	/**
 	 * 
+	 * @return
+	 */
+	public final boolean isPlaying()
+	{
+		return manager.game().getCurrentState() == GameState.PLAYING;
+	}
+	/**
+	 * ...
+	 * 
+	 * @return <code>true</code> if {@code GameModel} is ...
+	 */
+	public final boolean isWaiting()
+	{
+		return getCurrent().getControl().isPresent();
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final int turn()
+	{
+		return manager.game().turn();
+	}
+	/**
+	 * 
 	 */
 	public final void start()
 	{
@@ -78,32 +102,6 @@ public class GameModel extends Observable
 	public final void quit()
 	{
 		//TODO implement
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public final boolean isPlaying()
-	{
-		return manager.game().getCurrentState() == GameState.PLAYING;
-	}
-	/**
-	 * ...
-	 * 
-	 * @return <code>true</code> if {@code GameModel} is ...
-	 */
-	public final boolean isWaiting()
-	{
-		return getCurrent().getControl().isPresent();
-	}
-	/**
-	 * Get the current game.
-	 * 
-	 * @return The current turn of the game.
-	 */
-	public final int turn()
-	{
-		return manager.game().turn();
 	}
 	/**
 	 * 
@@ -200,21 +198,12 @@ public class GameModel extends Observable
 	{
 		return session.getBoard();
 	}
-	//=========================================================================
-	//Static methods.
 	/**
 	 * 
-	 * @param player1
-	 * @param player2
 	 * @return
 	 */
-	public static GameModel newGame(
-			final Participant player1,
-			final Participant player2)
+	public final GameScore score()
 	{
-		return new GameModel(
-				new Game(new GameBoard(8, 8)),
-				player1,
-				player2);
+		return manager.score();
 	}
 }

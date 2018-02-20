@@ -87,8 +87,7 @@ public final class GameSession
 	 */
 	private void notifyCurrent(final GameEvent event)
 	{
-		if(event == GameEvent.BEGIN
-				|| event == GameEvent.NEXT_TURN)
+		if(event == GameEvent.BEGIN || event == GameEvent.NEXT_TURN)
 			manager.current().notifyTurn(this);
 	}
 	/**
