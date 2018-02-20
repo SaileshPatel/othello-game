@@ -188,6 +188,14 @@ public final class GameManager
 		return playerMap.get(piece);
 	}
 	/**
+	 * 
+	 * @return
+	 */
+	public final GameScore score()
+	{
+		return new GameScore(this);
+	}
+	/**
 	 * Get the {@link Game} which <code>this</code> {@code GameManager} is
 	 * managing.
 	 * 

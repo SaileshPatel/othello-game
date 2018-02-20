@@ -65,25 +65,21 @@ public class EndGameScreen extends ScreenAdapter{
 	private float animTextBackgroundHeight = animTextBackgroundStartingHeight;
 	private float animTextStartingYPos;
 	private float animTextYPos;
-//	private float animMascotAlpha = 0f;
-//	private float animTextStatsAlpha = 0f;
 	
-//	private float animTextStatsTimeAlpha = 0;
-//	private float animTextStatsFlipsAlpha = 0;
-//	private float animTextStatsPiecesAlpha = 0;
-	
-	private int mascotWidth = 500;
+	private int mascotWidth = 600;
 	private float mascotStartingXPos = 0 - mascotWidth;
-	private float mascotFinalXPos = 100;
+	private float mascotFinalXPos = 50;
 	private float animMascotXPos = mascotStartingXPos;
 	private float animTextStatsTimeXPos = Othello.GAME_WORLD_WIDTH;
 	private float animTextStatsFlipsXPos = Othello.GAME_WORLD_WIDTH;
 	private float animTextStatsPiecesXPos = Othello.GAME_WORLD_WIDTH;
 	private float animTextStatsTotalXPos = Othello.GAME_WORLD_WIDTH;
+	private float animEnterAlpha = 0;
 	
 	private float textHeight;
 	
 	Texture mascot;
+	Texture enterKey;
 	
 	private String textTimeTaken;
 	private String textNumPieces;
@@ -94,11 +90,18 @@ public class EndGameScreen extends ScreenAdapter{
 	private float statsTextTop = 550;
 	private float statsTextSpacing = 100;
 	
+	float ENTER_HEIGHT = 125;
+	float enterWidth;
+	
 	private boolean animationFinished = false;
 	
-	public EndGameScreen(Othello game, GameScreen screen, boolean won, int timeTaken, int numFlips, int numPieces) {
+	public EndGameScreen(Othello game, GameScreen screen, int winState, int timeTaken, int numFlips, int numPieces) {
+		int WIN = 0;
+		int LOSE = 1;
+		int DRAW = 2;
+		int ABANDON = 3;
+		
 		this.screen = screen;
-		this.won = won;
 		this.timeTaken = timeTaken;
 		this.numFlips = numFlips;
 		this.numPieces = numPieces;
@@ -113,30 +116,37 @@ public class EndGameScreen extends ScreenAdapter{
 		viewport.apply();
 		shape.setProjectionMatrix(cam.combined);
 		
-		largeFont = GraphicsUtil.generateFont("Overpass-Regular.ttf", 200, -25);
-		//largeFont.getData().markupEnabled = true;
-		largeFont.setUseIntegerPositions(false);
-		//largeFont = new BitmapFont(Gdx.files.internal("testfont.fnt"));
-		//largeFont.setUseIntegerPositions(false);
-		//largeFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
+		largeFont = GraphicsUtil.generateFont("fonts/overpass-bold.otf", 200, 0);
 		
-		smallFont = GraphicsUtil.generateFont("Overpass-Regular.ttf", 75, -25);
-		mediumFont = GraphicsUtil.generateFont("Overpass-Regular.ttf", 100, -25);
-		
-		largeFont = new BitmapFont(Gdx.files.internal("testfont.fnt"));
+		smallFont = GraphicsUtil.generateFont("fonts/overpass-regular.otf", 75, -25);
+		mediumFont = GraphicsUtil.generateFont("fonts/overpass-regular.otf", 100, -25);
 		
 		gradientTop = new Color(0.0f, 0.0f, 0.0f, 0.8f);
 		gradientBottom = new Color(0.0f, 0.0f, 0.0f, 0.5f);
 		
-		if(won) {
-			messageText = "You Win!";
+		enterKey = GraphicsUtil.createMipMappedTex("key_icons/enter.png");
+		enterWidth = ((float) ENTER_HEIGHT / (float) enterKey.getHeight()) * enterKey.getWidth();
+		
+		if(winState == DRAW) {
+			messageText = "DRAW!";
+			messageColor = new Color(0.3f, 0.3f, 0.3f, 1f);
+			mascot = GraphicsUtil.createMipMappedTex("mascot/end_screen/draw.png");
+			
+		} else if (winState == ABANDON) {
+			messageText = "ABANDONED!";
+			messageColor = new Color(0.6f, 0.3f, 0.3f, 1f);
+			mascot = GraphicsUtil.createMipMappedTex("mascot/end_screen/abandon.png");
+			mascotFinalXPos = 0;
+		}
+		else if(winState == WIN) {
+			messageText = "YOU WIN!";
 			messageColor = new Color(0.3f, 0.72f, 0.03f, 1f);
-			mascot = GraphicsUtil.createMipMappedTex("mascot/default.png");
+			mascot = GraphicsUtil.createMipMappedTex("mascot/end_screen/win.png");
 			
 		} else {
-			messageText = "You Lose!";
+			messageText = "YOU LOSE!";
 			messageColor = new Color(1f, 0.27f, 0.18f, 1f);
-			mascot = GraphicsUtil.createMipMappedTex("mascot/shocked.png");
+			mascot = GraphicsUtil.createMipMappedTex("mascot/end_screen/lose.png");
 		}
 		
 		// Convert time from seconds to standard format
@@ -242,25 +252,8 @@ public class EndGameScreen extends ScreenAdapter{
 			animTextYPos = ((Othello.GAME_WORLD_HEIGHT / 2) - (textHeight / 2) - ((animTextBackgroundStartingHeight - textHeight) /2))
 					+ animTextStartingYPos;
 			
-			//animTextStatsAlpha = GraphicsUtil.smoothAnimationBetween(elapsedTime, stage4End, stage5Duration);
-			
-//			if(elapsedTime < stage4End + mascotEntryDuration) {
-//				System.out.println((GraphicsUtil.smoothAnimationBetween(elapsedTime, stage4End, mascotEntryDuration) * 
-//						(mascotStartingXPos + mascotFinalXPos)) + mascotStartingXPos);
-//				animMascotXPos = (GraphicsUtil.smoothAnimationBetween(elapsedTime, stage4End, mascotEntryDuration) * 
-//						(Math.abs(mascotStartingXPos) + Math.abs(mascotFinalXPos))) + mascotStartingXPos;
-//			} else {
-//				animMascotXPos = mascotFinalXPos;
-//			}
-			
 			animMascotXPos = (GraphicsUtil.smoothAnimationBetween(elapsedTime, stage5Start, mascotEntryDuration) * 
 					(Math.abs(mascotStartingXPos) + Math.abs(mascotFinalXPos))) + mascotStartingXPos;
-			
-//			if(elapsedTime < stage4End + textEntryDuration) {
-//				animTextStatsFlipsXPos = 
-//			} else {
-//				animTextStatsFlipsXPos = 
-//			}
 			
 			animTextStatsTimeXPos = statsTextX +
 					((1-GraphicsUtil.smoothAnimationBetween(elapsedTime, stage5Start, textEntryDuration)) * 
@@ -277,13 +270,17 @@ public class EndGameScreen extends ScreenAdapter{
 			animTextStatsTotalXPos = statsTextX +
 					((1-GraphicsUtil.smoothAnimationBetween(elapsedTime, stage5Start + (textEntryOffset * 4), textEntryDuration)) * 
 					(Othello.GAME_WORLD_WIDTH - statsTextX));
-					
-			
 		}
+		
+		
 		
 		if(Gdx.input.isKeyPressed(Input.Keys.ENTER) && elapsedTime > animEndTime) {
 			// Return to main menu
 			game.setScreen(new MainMenuScreen(game));
+		}
+		
+		if(elapsedTime > animEndTime) {
+			animEnterAlpha = Math.abs(((float) Math.sin((elapsedTime - animEndTime)*2)));
 		}
 	}
 	
@@ -307,15 +304,15 @@ public class EndGameScreen extends ScreenAdapter{
 		
 		// Render end screen
 		batch.setProjectionMatrix(cam.combined);
-		//batch.enableBlending(); //TODO move this
 		batch.begin();
-		//Texture mascot = GraphicsUtil.createMipMappedTex("mascot/default.png");
 		largeFont.setColor(1f, 1f, 1f, animTextAlpha);
 		largeFont.draw(batch, messageText, messageX, animTextYPos);
 		
 		// Temporary negative width to draw mascot flipped
-		batch.draw(mascot, animMascotXPos + mascotWidth, 50f, -mascotWidth, mascotWidth);
-		
+		batch.draw(mascot, animMascotXPos, 25f, mascotWidth, mascotWidth);
+		batch.setColor(1.0f, 1.0f, 1.0f, animEnterAlpha);
+		batch.draw(enterKey, (Othello.GAME_WORLD_WIDTH - 50) - enterWidth, 50, enterWidth, ENTER_HEIGHT);
+		batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		smallFont.draw(batch, textTimeTaken, animTextStatsTimeXPos, statsTextTop);
 		smallFont.draw(batch, textNumFlips, animTextStatsFlipsXPos, statsTextTop - statsTextSpacing);
 		smallFont.draw(batch, textNumPieces, animTextStatsPiecesXPos, statsTextTop - statsTextSpacing * 2);
