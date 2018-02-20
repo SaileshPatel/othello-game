@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.Optional;
 
 import com.othellog4.game.board.BoardView;
-import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.player.Participant;
 
@@ -26,10 +25,6 @@ public class GameModel extends Observable
 	 * 
 	 */
 	private final GameManager manager;
-	/**
-	 * 
-	 */
-	private final GameSession session;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -45,7 +40,7 @@ public class GameModel extends Observable
 			final Participant player2)
 	{
 		manager = new GameManager(game, player1, player2);
-		this.session = new GameSession(manager);
+		new GameSession(manager);
 		manager.game().addListener(this::update);
 	}
 	//=========================================================================
@@ -57,6 +52,31 @@ public class GameModel extends Observable
 	{
 		super.setChanged();
 		super.notifyObservers(this);
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final boolean isPlaying()
+	{
+		return manager.game().getCurrentState() == GameState.PLAYING;
+	}
+	/**
+	 * ...
+	 * 
+	 * @return <code>true</code> if {@code GameModel} is ...
+	 */
+	public final boolean isWaiting()
+	{
+		return getCurrent().getControl().isPresent();
+	}
+	/**
+	 * 
+	 * @return
+	 */
+	public final int turn()
+	{
+		return manager.game().turn();
 	}
 	/**
 	 * 
@@ -78,32 +98,6 @@ public class GameModel extends Observable
 	public final void quit()
 	{
 		//TODO implement
-	}
-	/**
-	 * 
-	 * @return
-	 */
-	public final boolean isPlaying()
-	{
-		return manager.game().getCurrentState() == GameState.PLAYING;
-	}
-	/**
-	 * ...
-	 * 
-	 * @return <code>true</code> if {@code GameModel} is ...
-	 */
-	public final boolean isWaiting()
-	{
-		return getCurrent().getControl().isPresent();
-	}
-	/**
-	 * Get the current game.
-	 * 
-	 * @return The current turn of the game.
-	 */
-	public final int turn()
-	{
-		return manager.game().turn();
 	}
 	/**
 	 * 
@@ -170,7 +164,7 @@ public class GameModel extends Observable
 	 */
 	public final Piece getCurrentPiece()
 	{
-		return session.current();
+		return manager.game().getCurrent();
 	}
 	/**
 	 * Get the {@link Piece} object which represents the first player.
@@ -198,23 +192,14 @@ public class GameModel extends Observable
 	 */
 	public final BoardView getBoard()
 	{
-		return session.getBoard();
+		return manager.game().getBoard();
 	}
-	//=========================================================================
-	//Static methods.
 	/**
 	 * 
-	 * @param player1
-	 * @param player2
 	 * @return
 	 */
-	public static GameModel newGame(
-			final Participant player1,
-			final Participant player2)
+	public final GameScore score()
 	{
-		return new GameModel(
-				new Game(new GameBoard(8, 8)),
-				player1,
-				player2);
+		return manager.score();
 	}
 }

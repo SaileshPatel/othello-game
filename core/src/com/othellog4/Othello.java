@@ -16,6 +16,8 @@ import com.othellog4.game.player.Participant;
 import com.othellog4.game.player.Player;
 import com.othellog4.game.player.Participant.Control;
 import com.othellog4.game.player.ai.DelayStrategies;
+import com.othellog4.game.player.ai.EvaluationStrategies;
+import com.othellog4.game.player.ai.EvaluationStrategy;
 import com.othellog4.game.player.ai.SearchStrategies;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.screens.GameScreen;
@@ -48,14 +50,13 @@ public class Othello extends Game {
 		//gameBoard = new GameBoard(8);
 		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new AutomaticPlayer(
-				null,
-				SearchStrategies.RANDOM_SELECTION,
+				EvaluationStrategies.WINNER,
+				SearchStrategies.BEST_IMMIDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
-//		p2 = new AutomaticPlayer(AIStrategy.RANDOM_SELECTION);
-//		p2 = new Player();
+		//p1 = new Player();
 		p2 = new AutomaticPlayer(
-				null,
-				SearchStrategies.RANDOM_SELECTION,
+				EvaluationStrategies.COUNT,
+				SearchStrategies.BEST_IMMIDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
 		
 		model = new GameModel(
@@ -122,6 +123,9 @@ public class Othello extends Game {
 	
 	public void setMusic(float volume) {
 		music.setVolume(volume);
+	
+		//TO DO
+		//change the decibel scale
 	}
 	
 	public float getMusic() {
