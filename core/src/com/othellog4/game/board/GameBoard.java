@@ -59,6 +59,35 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		this(board.grid);
 	}
 	/**
+	 * Write a {@link Piece} object to a specified location of
+	 * <code>this</code> {@code GameBoard}.
+	 * 
+	 * @param col The column index.
+	 * @param row The row index.
+	 * @param piece The {@link Piece} object to write to the location.
+	 */
+	private void write(
+			final int col,
+			final int row,
+			final Piece piece)
+	{
+		grid[col][row] = piece;
+	}
+	/**
+	 * Read the {@link Piece} object of a specified location of
+	 * <code>this</code> {@code GameBoard}.
+	 * 
+	 * @param col The column index.
+	 * @param row The row index.
+	 * @return The {@link Piece} object at the specified location.
+	 */
+	private Piece read(
+			final int col,
+			final int row)
+	{
+		return grid[col][row];
+	}
+	/**
 	 * Check if <code>this</code> {@code GameBoard} is in a draw.
 	 * 
 	 * <p>
@@ -82,8 +111,8 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		}
 		
 		
-		grid[position.row][position.col] = piece;
-		flip(position.row,position.col);
+		write(position.col, position.row, piece);
+		flip(position.col,position.row);
 	}
 
 	@Override
@@ -110,7 +139,6 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	@Override
 	public int countFlips(int x, int y, Piece player) {
 		int temp = 0;
-		
 		temp += flipTest(x,y,0,-1,player);
 		temp += flipTest(x,y,1,-1,player);
 		temp += flipTest(x,y,1,0,player);
@@ -126,62 +154,22 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	@Override
 	public Set<Position> legalMoves(Piece piece) {
 		Set<Position> validMoves = new HashSet<Position>();
-		//validMoves.add(new Position(1,2));
-		try {
-			int x;
-			int y;
-			Piece temp = piece;
-
-			for (int i = 0;i < grid.length; i++){
-				x = i;
-				for (int j = 0;j < grid.length; j++){
-					y = j;
-					if(grid[x][y] == null){
-						if(locationValid(x,y,temp)){
-							validMoves.add(new Position(x,y));
-						}
-					}
-
-
-				}
-			}
-			return validMoves;
-
-		} catch (Exception e) {
-			e.getMessage();
-		} finally {
-
-		}
-
-		return null;
+		for (int x = 0; x < grid.length; x++)
+			for (int y = 0; y < grid.length; y++)
+				if(read(x, y) == null && locationValid(x,y,piece))
+					validMoves.add(Position.at(x,y));
+		return validMoves;
 	}
 
 	private boolean locationValid(int x, int y, Piece player){
-		int temp = 0;
-		
-
-			temp += flipTest(x,y,0,-1,player);
-			temp += flipTest(x,y,1,-1,player);
-			temp += flipTest(x,y,1,0,player);
-			temp += flipTest(x,y,1,1,player);
-			temp += flipTest(x,y,0,1,player);
-			temp += flipTest(x,y,-1,1,player);
-			temp += flipTest(x,y,-1,0,player);
-			temp += flipTest(x,y,-1,-1,player);
-			
-		if (temp == 0){
-			return false;
-		}
-		return true;
+		return countFlips(x, y, player) != 0;
 	}
 
 	@Override
 	public Optional<Piece> view(Position pos) {
 		// TODO Auto-generated method stub
 		
-		Optional<Piece> temp = Optional.ofNullable(grid[pos.row][pos.col]);
-		return temp;
-		
+		return Optional.ofNullable(read(pos.col, pos.row));
 	}
 
 	public void flip(int x, int y){
@@ -205,45 +193,33 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	 * @param right1 for up 0 for no chance and -1 for down
 	 */
 	private void flipLine(int x, int y, int up, int right){
-		int i = 1;
-		Piece type = grid[x][y];
-		Piece temp;
-		try {
-			while (true){
-				temp = grid[x + (up * i)][y + (right * i)];
-				if(temp != type.flip()){
-					if(temp == type){
-						for (int j = 1;j < i;j++){
-							grid[x + (up * j)][y + (right * j)] = type;
-						}
-					}
-					break;
-				}
-				i++;
-			}
-		} catch (IndexOutOfBoundsException e){
-
-		} 
-	}
-
-	private int flipTest(int x, int y, int up, int right, Piece type){
-		int i = 1;
-		Piece temp;
-		try {
-			while (true){
-				temp = grid[x + (up * i)][y + (right * i)];
-				if(temp != type.flip()){
-					if(temp == type){
-						return i-1;
-					}
-					break;
-				}
-				i++;
-			}
-		} catch (IndexOutOfBoundsException e){
-
+		
+		if(0 <= x && x < size() && 0 <= y && y < size())
+		{
+			final Piece start = read(x, y);
+			for(int i = 1, flips = flipTest(x, y, up, right, start);
+					i <= flips; ++i)
+				write(x + right * i, y + up * i, start);
 		}
-		return 0;
+	}
+	private int flipTest(int x, int y, int up, int right, Piece type){
+		
+		int flips = 0;
+		for(int i = 1;; ++i)
+		{
+			final int xPos = x + right * i;
+			final int yPos = y + up * i;
+			if(!(0 <= xPos && xPos < size()) || !(0 <= yPos && yPos < size()))
+				return 0;
+			final Piece piece = read(xPos, yPos);
+			if(type.flip() == piece)
+				++flips;
+			else if(type == piece)
+				break;
+			else if(piece == null)
+				return 0;
+		}
+		return flips;
 	}
 	@Override
 	public final BoardView getView()
@@ -321,7 +297,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	 * 
 	 * <p>
 	 * Modifications made to the original {@code GameBoard} will not affect
-	 * the clone, ot vice versa.
+	 * the clone, or vice versa.
 	 * </p>
 	 * 
 	 * @return The {@code GameBoard} object which is a clone of
