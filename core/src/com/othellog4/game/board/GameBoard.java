@@ -59,6 +59,21 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		this(board.grid);
 	}
 	/**
+	 * Check if a specified location composed of two <code>int</code> values,
+	 * is a valid position on <code>this</code> {@code GameBoard}.
+	 * 
+	 * @param col The column index.
+	 * @param row The row index.
+	 * @return <code>true</code> if and only if <code>col</code> and
+	 * 			<code>row</code> are between the range of <code>0</code> and
+	 * 			the value returned from {@link GameBoard#size()}, otherwise,
+	 * 			returns <code>false</code>.
+	 */
+	private boolean onBoard(final int col, final int row)
+	{
+		return 0 <= col && col < size() && 0 <= row && row < size();
+	}
+	/**
 	 * Write a {@link Piece} object to a specified location of
 	 * <code>this</code> {@code GameBoard}.
 	 * 
@@ -104,15 +119,10 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		return winning() == null;
 	}
 	public void put(Position position, Piece piece) throws InvalidMoveException{
-		
-		Set<Position> validMoves = legalMoves(piece);
-		if(!validMoves.contains(position)){
+		if(!legalMoves(piece).contains(position))
 			throw new InvalidMoveException(position, piece);
-		}
-		
-		
+		flip(position.col,position.row, piece);
 		write(position.col, position.row, piece);
-		flip(position.col,position.row);
 	}
 
 	@Override
@@ -172,17 +182,17 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		return Optional.ofNullable(read(pos.col, pos.row));
 	}
 
-	public void flip(int x, int y){
+	public void flip(int x, int y, final Piece piece){
 		//left up right down
 
-			flipLine(x,y,0,-1);
-			flipLine(x,y,1,-1);
-			flipLine(x,y,1,0);
-			flipLine(x,y,1,1);
-			flipLine(x,y,0,1);
-			flipLine(x,y,-1,1);
-			flipLine(x,y,-1,0);
-			flipLine(x,y,-1,-1);
+			flipLine(x,y,0,-1, piece);
+			flipLine(x,y,1,-1, piece);
+			flipLine(x,y,1,0, piece);
+			flipLine(x,y,1,1, piece);
+			flipLine(x,y,0,1, piece);
+			flipLine(x,y,-1,1, piece);
+			flipLine(x,y,-1,0, piece);
+			flipLine(x,y,-1,-1, piece);
 	}
 
 	/**
@@ -192,24 +202,25 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	 * @param up 1 for up 0 for no chance and -1 for down
 	 * @param right1 for up 0 for no chance and -1 for down
 	 */
-	private void flipLine(int x, int y, int up, int right){
+	private void flipLine(int x, int y, int up, int right, final Piece piece){
 		
-		if(0 <= x && x < size() && 0 <= y && y < size())
+		if(onBoard(x, y))
 		{
-			final Piece start = read(x, y);
-			for(int i = 1, flips = flipTest(x, y, up, right, start);
+			for(int i = 1, flips = flipTest(x, y, up, right, piece);
 					i <= flips; ++i)
-				write(x + right * i, y + up * i, start);
+				write(x + right * i, y + up * i, piece);
 		}
 	}
 	private int flipTest(int x, int y, int up, int right, Piece type){
 		
+		if(onBoard(x, y) && read(x, y) != null)
+			return 0;
 		int flips = 0;
 		for(int i = 1;; ++i)
 		{
 			final int xPos = x + right * i;
 			final int yPos = y + up * i;
-			if(!(0 <= xPos && xPos < size()) || !(0 <= yPos && yPos < size()))
+			if(!onBoard(xPos, yPos))
 				return 0;
 			final Piece piece = read(xPos, yPos);
 			if(type.flip() == piece)
