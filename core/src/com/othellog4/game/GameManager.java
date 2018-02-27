@@ -77,8 +77,7 @@ public final class GameManager
 	 * @throws NullPointerException If <code>game</code>, <code>player1</code>
 	 * 			or <code>player2</code> is <code>null</code>.
 	 * @see Game
-	 * @see Game#getPlayer1()
-	 * @see Game#getPlayer2()
+	 * @see GameExtension
 	 * @see Participant
 	 */
 	public GameManager(
@@ -126,6 +125,18 @@ public final class GameManager
 	{
 		for(final GameExtension e: extensions)
 			e.onCommand(command, this);
+	}
+	/**
+	 * 
+	 * 
+	 * @param piece The {@link Piece} object to calculate the score for.
+	 * @return The score for the <code>piece</code> object.
+	 */
+	public final int calculateScore(final Piece piece)
+	{
+		return extensions.stream()
+				.mapToInt(e -> e.getScore(piece))
+				.sum();
 	}
 	/**
 	 * Execute a {@link GameCommand} on the {@link Game} managed by
@@ -191,8 +202,10 @@ public final class GameManager
 		return playerMap.get(piece);
 	}
 	/**
+	 * Get the {@link GameScore} of the {@link Game} managed by
+	 * <code>this</code> {@code GameManager}.
 	 * 
-	 * @return
+	 * @return The {@link GameScore} for the {@link Game}.
 	 */
 	public final GameScore score()
 	{
@@ -207,5 +220,20 @@ public final class GameManager
 	public final Game game()
 	{
 		return game;
+	}
+	/**
+	 * 
+	 * 
+	 * 
+	 * @param piece The {@link Piece} object to get the result {@link String}
+	 * 			from.
+	 * @return The array of {@link String} objects which represent the results.
+	 */
+	public final String[] getResults(final Piece piece)
+	{
+		return extensions.stream()
+				.map(e -> e.getResult(piece))
+				.filter(e -> e != null)
+				.toArray(String[]::new);
 	}
 }

@@ -2,6 +2,7 @@ package com.othellog4.game.extension;
 
 import com.othellog4.game.GameEvent;
 import com.othellog4.game.GameManager;
+import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
 
 /**
@@ -35,6 +36,14 @@ public abstract class GameExtension
 	//=========================================================================
 	//Abstract methods.
 	/**
+	 * Get the <code>int</code> which represents the score accumulated by
+	 * <code>this</code> {@code GameExtension} object.
+	 * 
+	 * @param piece The {@link Piece} object to calculate the score for.
+	 * @return The calculated score of <code>this</code> {@code GameExtension}.
+	 */
+	public abstract int getScore(final Piece piece);
+	/**
 	 * This methods will be invoked when a {@link GameEvent} occurs.
 	 * 
 	 * <p>
@@ -64,4 +73,27 @@ public abstract class GameExtension
 	public abstract void onCommand(
 			final GameCommand command,
 			final GameManager manager);
+	/**
+	 * Get the {@link String} which contains the result from <code>this</code>
+	 * {@code GameExtension} for a specified {@link Piece} object.
+	 * 
+	 * <p>
+	 * Returns <code>null</code> if there is no result {@link String}.
+	 * </p>
+	 * 
+	 * @param piece The <code>piece</code> object to get the result
+	 * 			{@link String} from.
+	 * @return The {@link String} which represents the results for the
+	 * 			<code>piece</code> object.
+	 */
+	public abstract String getResult(final Piece piece);
+	/**
+	 * Get the {@link String} representation of <code>this</code>
+	 * {@code GameExtension}.
+	 * 
+	 * @return The {@link String} representing the information form
+	 * 			<code>this</code> {@code GameExtension}.
+	 */
+	@Override
+	public abstract String toString();
 }

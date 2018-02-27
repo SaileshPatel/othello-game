@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.Piece;
+import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
 
 /**
@@ -37,9 +38,10 @@ public class GameModel extends Observable
 	public GameModel(
 			final Game game,
 			final Participant player1,
-			final Participant player2)
+			final Participant player2,
+			final GameExtension... extensions)
 	{
-		manager = new GameManager(game, player1, player2);
+		manager = new GameManager(game, player1, player2, extensions);
 		new GameSession(manager);
 		manager.game().addListener(this::update);
 	}
@@ -98,6 +100,13 @@ public class GameModel extends Observable
 	public final void quit()
 	{
 		//TODO implement
+	}
+	/**
+	 * 
+	 */
+	public final void surrender()
+	{
+		//TODO implment.
 	}
 	/**
 	 * 

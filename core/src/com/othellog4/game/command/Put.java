@@ -11,7 +11,7 @@ import com.othellog4.game.board.Position;
  * 
  * @author 	159014260 John Berg
  * @since 	20/11/2017
- * @version 22/11/2017
+ * @version 26/02/2017
  * @see GameCommand
  * @see Position
  */
@@ -41,19 +41,55 @@ public class Put extends GameCommand
 	 * Create a {@code Put} object which represents a source putting something
 	 * at a specified position.
 	 * 
+	 * @param source The issued of {@code Put}.
+	 * @param position The {@link Position} object which represents the
+	 * 			location.
+	 * @throws NullPointerException If <code>source</code> or
+	 * 			<code>position</code> is <code>null</code>.
+	 */
+	public Put(
+			final Object source,
+			final Position position)
+			throws
+			NullPointerException
+	{
+		//May throw a NullPointerException.
+		this(source, position.col, position.row);
+	}
+	/**
+	 * Create a {@code Put} object which represents a source putting something
+	 * at a specified position.
+	 * 
 	 * @param source The issuer of {@code Put}.
 	 * @param x The column position of the {@code Put}.
 	 * @param y The row position of the {@code Put}.
 	 * @throws NullPointerException If <code>source</code> is
 	 * 			<code>null</code>.
 	 */
-	public Put(final Object source, int x, int y)
+	public Put(
+			final Object source,
+			final int x,
+			final int y)
 			throws
 			NullPointerException
 	{
 		//May throw NullPointerException.
 		super(source);
 		position = Position.at(x, y);
+	}
+	//=========================================================================
+	//Methods.
+	/**
+	 * Get the {@link Position} object which represents the position where
+	 * <code>this</code> {@code Put} will attempt to place a {@link Piece}
+	 * object.
+	 * 
+	 * @return The {@link Position} which <code>this</code> {@code Put} object
+	 * 			is targeting.
+	 */
+	public final Position position()
+	{
+		return position;
 	}
 	//=========================================================================
 	//Overriden methods.
