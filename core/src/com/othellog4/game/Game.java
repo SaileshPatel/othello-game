@@ -199,6 +199,8 @@ public class Game
 			++turn;
 			update(GameEvent.NEXT_TURN);
 		}
+		else
+			update(GameEvent.NEXT_TURN);
 	}
 	/**
 	 * Set the {@link GameState} of <code>this</code> {@code Game}.
