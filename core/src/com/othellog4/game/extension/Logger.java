@@ -17,6 +17,10 @@ import com.othellog4.game.command.GameCommand;
  */
 public final class Logger extends GameExtension
 {
+	/**
+	 * 
+	 */
+	private final String LINE = "--------------------------------------------";
 	//=========================================================================
 	//Fields.
 	/**
@@ -38,8 +42,12 @@ public final class Logger extends GameExtension
 	 */
 	private void logEntry()
 	{
-		log.accept("--------------------------------------------------------");
+		log.accept(LINE);
 	}
+	/**
+	 * 
+	 * @param manager
+	 */
 	private void logManager(final GameManager manager)
 	{
 		log.accept("Turn: " + manager.current().toString());
@@ -47,7 +55,10 @@ public final class Logger extends GameExtension
 	//=========================================================================
 	//Overriden methods.
 	/**
+	 * The {@code Logger} class does not accumulate score.
 	 * 
+	 * @param piece Unused.
+	 * @return <code>0</code>.
 	 */
 	@Override
 	public int getScore(final Piece piece)
@@ -78,7 +89,10 @@ public final class Logger extends GameExtension
 		log.accept("Command: " + command.toString());
 	}
 	/**
+	 * The {@code Logger} does not produce a result {@link String}.
 	 * 
+	 * @param piece Unused.
+	 * @return <code>null</code>.
 	 */
 	@Override
 	public String getResult(final Piece piece)

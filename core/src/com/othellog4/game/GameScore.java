@@ -4,8 +4,8 @@ import com.othellog4.game.board.Piece;
 import com.othellog4.game.player.Participant;
 
 /**
- * 
- * 
+ * The {@code GameScore} class is an object which provides the ability
+ * to obtain and calculate results and scores from a game.
  * 
  * @author 	1159014260 John Berg
  * @since	17/02/2018
@@ -28,7 +28,8 @@ public final class GameScore
 	 */
 	private final GameManager manager;
 	/**
-	 * 
+	 * Create a {@code GameScore} object with a {@link GameManager} which
+	 * manages a {@link Game} which is over.
 	 * 
 	 * @param manager The {@link GameManager} which is creating the
 	 * 			{@code GameScore} object.
@@ -64,6 +65,24 @@ public final class GameScore
 		return manager.game().turn();
 	}
 	/**
+	 * Get the score for player 1.
+	 * 
+	 * @return The score for player 1.
+	 */
+	public final int player1Score()
+	{
+		return score(manager.game().getPlayer1());
+	}
+	/**
+	 * Get the score for player 2.
+	 * 
+	 * @return The score for player 2.
+	 */
+	public final int player2Score()
+	{
+		return score(manager.game().getPlayer2());
+	}
+	/**
 	 * Get the <code>int</code> which represents the final score of a
 	 * {@link Piece} object.
 	 * 
@@ -73,16 +92,6 @@ public final class GameScore
 	public final int score(final Piece piece)
 	{
 		return manager.calculateScore(piece);
-	}
-	/**
-	 * 
-	 * 
-	 * @param player The {@link Participant} object to get the score for.
-	 * @return The score for the <code>player</code> object.
-	 */
-	public final int score(final Participant player)
-	{
-		return 0;
 	}
 	/**
 	 * Get the {@link Participant} object which was the winner of a
@@ -123,6 +132,24 @@ public final class GameScore
 	public final GameConclusion conclusion()
 	{
 		return manager.game().getConclusion();
+	}
+	/**
+	 * Get the results for player 1.
+	 * 
+	 * @return The {@link String} array of results.
+	 */
+	public final String[] player1Results()
+	{
+		return results(manager.game().getPlayer1());
+	}
+	/**
+	 * Get the results for player 2.
+	 * 
+	 * @return The {@link String} array of results.
+	 */
+	public final String[] player2Results()
+	{
+		return results(manager.game().getPlayer1());
 	}
 	/**
 	 * Get the {@link String} array of results from a {@link Game} for a
