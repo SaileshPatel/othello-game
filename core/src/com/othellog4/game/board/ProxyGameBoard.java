@@ -160,6 +160,24 @@ public final class ProxyGameBoard implements BoardView
 		return board.tryPut(pos, piece);
 	}
 	/**
+	 * Get the {@link FlipEvent} object which represents the {@link Piece}
+	 * objects and their {@link Position} objects, of flipped {@link Piece}
+	 * objects.
+	 * 
+	 * <p>
+	 * Delegates the call to {@link GameBoard}.
+	 * </p>
+	 * 
+	 * @return A {@link Set} of a sequence of {@link FlipEvent} objects of
+	 * 			{@link Piece} objects which were flipped.
+	 * @see FlipEvent
+	 */
+	@Override
+	public final Set<FlipEvent[]> flips()
+	{
+		return board.flips();
+	}
+	/**
 	 * Get the legal {@link Position} objects which represent the positions on
 	 * the {@link GameBoard} which are legal positions for a specific
 	 * {@link Piece}.

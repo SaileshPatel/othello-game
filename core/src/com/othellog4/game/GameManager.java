@@ -127,7 +127,8 @@ public final class GameManager
 			e.onCommand(command, this);
 	}
 	/**
-	 * 
+	 * Calculate the score from the {@link GameExtension} objects which
+	 * are managed by <code>this</code> {@code GameManager}.
 	 * 
 	 * @param piece The {@link Piece} object to calculate the score for.
 	 * @return The score for the <code>piece</code> object.
@@ -222,8 +223,22 @@ public final class GameManager
 		return game;
 	}
 	/**
+	 * Get the result {@link String} objects from the {@link GameExtension}
+	 * objects managed by <code>this</code> {@code GameScore}.
 	 * 
-	 * 
+	 * @return The {@link String} array which represents the results.
+	 */
+	public final String[] getResult()
+	{
+		return extensions.stream()
+				.map(Object::toString)
+				.filter(s -> s != null)
+				.toArray(String[]::new);
+	}
+	/**
+	 * Get the result {@link String} objects from the {@link GameExtension}
+	 * objects for a specified {@link Piece} object, managed by
+	 * <code>this</code> {@code GameScore}.
 	 * 
 	 * @param piece The {@link Piece} object to get the result {@link String}
 	 * 			from.
@@ -233,7 +248,7 @@ public final class GameManager
 	{
 		return extensions.stream()
 				.map(e -> e.getResult(piece))
-				.filter(e -> e != null)
+				.filter(s -> s != null)
 				.toArray(String[]::new);
 	}
 }

@@ -11,6 +11,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.GameSession;
 import com.othellog4.game.board.GameBoard;
+import com.othellog4.game.extension.FlipCounter;
+import com.othellog4.game.extension.Logger;
 import com.othellog4.game.player.AutomaticPlayer;
 import com.othellog4.game.player.Participant;
 import com.othellog4.game.player.Player;
@@ -50,17 +52,17 @@ public class Othello extends Game {
 		//gameBoard = new GameBoard(8);
 		//game = new com.othellog4.game.Game(new GameBoard(8));
 		p1 = new AutomaticPlayer(
-				EvaluationStrategies.WINNER,
+				EvaluationStrategies.COUNT,
 				SearchStrategies.BEST_IMMIDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
-		//p1 = new Player();
+		p1 = new Player();
 		p2 = new AutomaticPlayer(
-				EvaluationStrategies.COUNT,
+				EvaluationStrategies.WINNER,
 				SearchStrategies.BEST_IMMIDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
 		
 		model = new GameModel(
-				new com.othellog4.game.Game(new GameBoard(8 , 0)),
+				new com.othellog4.game.Game(new GameBoard(10 , 0)),
 				p1,
 				p2);
 		
@@ -93,7 +95,9 @@ public class Othello extends Game {
 		final GameModel model = new GameModel(
 				new com.othellog4.game.Game(new GameBoard(8 , 0)),
 				p1,
-				p2);
+				p2,
+				new FlipCounter(),
+				new Logger(System.out::println));
 		setScreen(new NormalGameScreen(model, this));
 		model.start();
 		

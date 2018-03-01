@@ -1,6 +1,7 @@
 package com.othellog4.game.board;
 
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -9,11 +10,21 @@ import java.util.Set;
  * The GameBoard is where actions are completed. 
  * @author 	Charlie Sims
  * @since 	23/10/2017
- * @version 20/11/2017
+ * @version 01/03/2017
  */
 public final class GameBoard implements BoardView, Cloneable, Serializable {
 	private Piece[][] grid;
-
+	/**
+	 * The {@link Set} of the {@link FlipEvent} objects which were flipped
+	 * by placing a {@link Piece} object.
+	 * 
+	 * <p>
+	 * Is <code>null</code> if there has been no {@link Piece} objects placed.
+	 * </p>
+	 * 
+	 * @see FlipEvent
+	 */
+	private Set<FlipEvent[]> flipEvents;
 	public GameBoard(int size, int corners){
 		grid = new Piece[size][size];
 		grid[size/2][size/2] = Piece.PIECE_A;
@@ -40,6 +51,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 				grid[size - 1 - i][size - 1 - j] = Piece.PIECE_NULL; 
 			}
 		}*/
+		flipEvents = null;
 
 	}
 	public GameBoard(Piece[][] prebuilt){
@@ -118,7 +130,8 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	{
 		return winning() == null;
 	}
-	public void put(Position position, Piece piece) throws InvalidMoveException{
+	public void put(Position position, Piece piece)
+			throws InvalidMoveException{
 		if(!legalMoves(piece).contains(position))
 			throw new InvalidMoveException(position, piece);
 		flip(position.col,position.row, piece);
@@ -128,7 +141,8 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	@Override
 	public boolean isEnd() {
 		// TODO Auto-generated method stub
-		return legalMoves(Piece.PIECE_A).isEmpty() && legalMoves(Piece.PIECE_B).isEmpty();
+		return legalMoves(Piece.PIECE_A).isEmpty()
+				&& legalMoves(Piece.PIECE_B).isEmpty();
 				}
 
 	@Override
@@ -160,7 +174,20 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		
 		return temp;
 	}
-
+	/**
+	 * Get the {@link FlipEvent} objects from the previous move which was made
+	 * on <code>this</code> {@code GameBoard}.
+	 * 
+	 * @return The {@link Set} of a sequence of {@link FlipEvents}.
+	 */
+	@Override
+	public final Set<FlipEvent[]> flips()
+	{
+		return Collections.unmodifiableSet(
+				flipEvents == null
+						? new HashSet<>()
+						:flipEvents);
+	}
 	@Override
 	public Set<Position> legalMoves(Piece piece) {
 		Set<Position> validMoves = new HashSet<Position>();
@@ -184,15 +211,15 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 
 	public void flip(int x, int y, final Piece piece){
 		//left up right down
-
-			flipLine(x,y,0,-1, piece);
-			flipLine(x,y,1,-1, piece);
-			flipLine(x,y,1,0, piece);
-			flipLine(x,y,1,1, piece);
-			flipLine(x,y,0,1, piece);
-			flipLine(x,y,-1,1, piece);
-			flipLine(x,y,-1,0, piece);
-			flipLine(x,y,-1,-1, piece);
+		flipEvents = new HashSet<>();
+		flipLine(x,y,0,-1, piece);
+		flipLine(x,y,1,-1, piece);
+		flipLine(x,y,1,0, piece);
+		flipLine(x,y,1,1, piece);
+		flipLine(x,y,0,1, piece);
+		flipLine(x,y,-1,1, piece);
+		flipLine(x,y,-1,0, piece);
+		flipLine(x,y,-1,-1, piece);
 	}
 
 	/**
@@ -206,9 +233,15 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		
 		if(onBoard(x, y))
 		{
-			for(int i = 1, flips = flipTest(x, y, up, right, piece);
-					i <= flips; ++i)
-				write(x + right * i, y + up * i, piece);
+			final FlipEvent[] flips =
+					new FlipEvent[flipTest(x, y, up, right, piece)];
+			for(int i = 1;i <= flips.length; ++i)
+			{
+				final Position pos = Position.at(x + right * i, y + up * i);
+				flips[i - 1] = new FlipEvent(read(pos.col, pos.row), pos);
+				write(pos.col, pos.row, piece);
+			}
+			flipEvents.add(flips);
 		}
 	}
 	private int flipTest(int x, int y, int up, int right, Piece type){
