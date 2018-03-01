@@ -15,7 +15,7 @@ import java.util.Set;
  * @author 	159014260 John Berg
  * @author 	James Shorthouse
  * @since 	23/10/2017
- * @version 15/02/2017
+ * @version 01/03/2017
  */
 public interface BoardView {
 	/**
@@ -49,6 +49,14 @@ public interface BoardView {
 	 * @return the number of flips needed
 	 */
 	public int countFlips(int x, int y, Piece player);
+	/**
+	 * Get the {@link FlipEvent} objects which represent the {@link Piece}
+	 * objects that were flipped.
+	 * 
+	 * @return A {@link Set} of a sequence of {@link FlipEvent} objects of
+	 * 			{@link Piece} objects which were flipped.
+	 */
+	public Set<FlipEvent[]> flips();
 	/**
 	 * This method determines all legal moves a player can take
 	 * @param piece the Piece to determine legal moves from

@@ -21,7 +21,7 @@ import com.othellog4.game.command.Put;
  * 
  * @author 	159014260 John Berg
  * @since 	26/02/2018
- * @version 26/02/2018
+ * @version 01/02/2018
  * @see		GameExtension
  * @see		GameCommand
  * @see		Put
@@ -144,8 +144,8 @@ public final class FlipCounter extends GameExtension
 	 * {@code FlipCounter} object.
 	 * 
 	 * <p>
-	 * The {@link String} representation contains information about the total
-	 * number of flips by all {@link Piece} objects.
+	 * The {@link String} which provides all the information about both
+	 * players and the total flips accumulated.
 	 * </p>
 	 * 
 	 * @return The {@link String} containing the description of the total
@@ -154,7 +154,8 @@ public final class FlipCounter extends GameExtension
 	@Override
 	public String toString()
 	{
-		return "Total flips: " +
-				(getScore(Piece.PIECE_A) + getScore(Piece.PIECE_A));
+		return "Flips " +
+				"Player 1: " + getResult(Piece.PIECE_A) + " " +
+				"Player 2: " + getResult(Piece.PIECE_A);
 	}
 }

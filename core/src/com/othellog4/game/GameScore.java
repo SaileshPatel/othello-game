@@ -152,6 +152,16 @@ public final class GameScore
 		return results(manager.game().getPlayer1());
 	}
 	/**
+	 * Get the {@link String} array of representing the results of a
+	 * {@link Game}.
+	 * 
+	 * @return The {@link String} array containing the results.
+	 */
+	public final String[] results()
+	{
+		return manager.getResult();
+	}
+	/**
 	 * Get the {@link String} array of results from a {@link Game} for a
 	 * {@link Piece} object.
 	 * 
@@ -162,16 +172,5 @@ public final class GameScore
 	public final String[] results(final Piece piece)
 	{
 		return manager.getResults(piece);
-	}
-	//=========================================================================
-	//Overriden methods.
-	/**
-	 * 
-	 * @return
-	 */
-	@Override
-	public final String toString()
-	{
-		return "";
 	}
 }
