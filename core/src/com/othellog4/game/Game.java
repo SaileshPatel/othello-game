@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 19/02/2018
+ * @version 04/03/2018
  * @see GameBoard
  * @see Piece
  */
@@ -71,6 +71,8 @@ public class Game
 	 * <p>
 	 * Must be set to signal the conclusion.
 	 * </p>
+	 * 
+	 * @see GameConclusion
 	 */
 	private GameConclusion conclusion;
 	/**
@@ -210,6 +212,7 @@ public class Game
 	 * </p>
 	 * 
 	 * @param state The {@link GameState} to set the current state to.
+	 * @see GameState
 	 */
 	private void setState(final GameState state)
 	{
@@ -229,11 +232,16 @@ public class Game
 	 * </p>
 	 * 
 	 * @param event The {@link GameEvent} which was triggered.
+	 * @see GameEvent
 	 */
 	private synchronized void update(final GameEvent event)
 	{
 		for(final GameListener listener: listeners)
 			listener.update(event);
+		if(
+				getCurrentState() == GameState.PLAYING
+				&&  event != GameEvent.STANDBY)
+			update(GameEvent.STANDBY);
 	}
 	/**
 	 * Set the {@link GameConclusion} of <code>this</code>
@@ -249,6 +257,7 @@ public class Game
 	 * 
 	 * @param conclusion The {@link GameConclusion} of <code>this</code>
 	 * 			{@code Game}.
+	 * @see GameConclusion
 	 */
 	private void conclude(final GameConclusion conclusion)
 	{
@@ -364,6 +373,7 @@ public class Game
 	 * 
 	 * @param listener The {@link GameListener} to be added to
 	 * 			<code>this</code>.
+	 * @see GameListener
 	 */
 	public final synchronized void addListener(final GameListener listener)
 	{
@@ -375,6 +385,7 @@ public class Game
 	 * 
 	 * @param listener The {@link GameListener} to be removed from
 	 * 			<code>this</code>.
+	 * @see GameListener
 	 */
 	public final synchronized void removeListener(final GameListener listener)
 	{
@@ -397,10 +408,11 @@ public class Game
 	 * </p>
 	 * 
 	 * @return The {@link Piece} of the first player.
+	 * @see Piece
 	 */
 	public final Piece getPlayer1()
 	{
-		return Piece.PIECE_A;
+		return Piece.player1();
 	}
 	/**
 	 * Get the {@link Piece} representing the second player.
@@ -411,15 +423,17 @@ public class Game
 	 * </p>
 	 * 
 	 * @return The {@link Piece} of the second player.
+	 * @see Piece
 	 */
 	public final Piece getPlayer2()
 	{
-		return Piece.PIECE_B;
+		return Piece.player2();
 	}
 	/**
 	 * Get the {@link Piece} which current turn it is.
 	 * 
 	 * @return The {@link Piece} of the player whom's turn it currently is.
+	 * @see Piece
 	 */
 	public final Piece getCurrent()
 	{
@@ -436,6 +450,7 @@ public class Game
 	 * @return The {@link GameConclusion} of <code>this</code> {@code Game}.
 	 * @throws IllegalStateException If the {@code Game} has not been
 	 * 			concluded.
+	 * @see GameConclusion
 	 */
 	public final GameConclusion getConclusion()
 			throws
@@ -450,8 +465,9 @@ public class Game
 	 * {@code Game} object.
 	 * 
 	 * @return The current {@link GameState}.
+	 * @see GameState
 	 */
-	public final GameState getCurrentState()
+	final GameState getCurrentState()
 	{
 		return state;
 	}
@@ -461,6 +477,7 @@ public class Game
 	 * 
 	 * @return A {@link BoardView} object of the {@link GameBoard} for
 	 * 			<code>this</code> game.
+	 * @see BoardView
 	 */
 	public final BoardView getBoard()
 	{

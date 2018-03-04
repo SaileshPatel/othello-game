@@ -25,6 +25,20 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	 * @see FlipEvent
 	 */
 	private Set<FlipEvent[]> flipEvents;
+	/**
+	 * Create a {@code GameBoard} object of a specified size.
+	 * 
+	 * <p>
+	 * The created board is in the shape of a square.
+	 * </p>
+	 * 
+	 * @param size The <code>int</code> which represents the width and height
+	 * 			of the created {@code GameBoard} object.
+	 */
+	public GameBoard(final int size)
+	{
+		this(size, 0);
+	}
 	public GameBoard(int size, int corners){
 		grid = new Piece[size][size];
 		grid[size/2][size/2] = Piece.PIECE_A;

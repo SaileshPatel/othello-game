@@ -36,7 +36,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	15901426 John Berg
  * @since 	20/11/2017
- * @version 25/01/2018
+ * @version 04/03/2018
  * @see Game
  * @see Participant
  * @see Piece
@@ -87,7 +87,7 @@ public final class GameSession
 	 */
 	private void notifyCurrent(final GameEvent event)
 	{
-		if(event == GameEvent.BEGIN || event == GameEvent.NEXT_TURN)
+		if(event == GameEvent.STANDBY)
 			manager.current().notifyTurn(this);
 	}
 	/**
@@ -115,9 +115,7 @@ public final class GameSession
 			GameException,
 			NullPointerException
 	{
-		if(manager.playerOf(current()).equals(command.getSource()))
-			//May throw GameException.
-			manager.execute(command);
+		manager.execute(command);
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the

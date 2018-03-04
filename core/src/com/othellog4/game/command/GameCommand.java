@@ -1,6 +1,8 @@
 package com.othellog4.game.command;
+
 import com.othellog4.game.Game;
 import com.othellog4.game.GameException;
+import com.othellog4.game.player.Participant;
 
 /**
  * The {@code GameCommand} class is an abstract class which represents a
@@ -24,7 +26,7 @@ import com.othellog4.game.GameException;
  * 
  * @author 	159014260 John Berg
  * @since 	20/11/2017
- * @version 22/11/2017
+ * @version 03/03/2018
  * @see #GameCommand(Object)
  * @see #execute(Game)
  * @see Game
@@ -53,7 +55,7 @@ public abstract class GameCommand
 	/**
 	 * The source which issued the {@code GameCommand}.
 	 */
-	private final Object source;
+	private final Participant source;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -71,7 +73,7 @@ public abstract class GameCommand
 	 * @throws NullPointerException If <code>source</code> is
 	 * 			<code>null</code>.
 	 */
-	GameCommand(final Object source)
+	GameCommand(final Participant source)
 			throws
 			NullPointerException
 	{
@@ -86,7 +88,7 @@ public abstract class GameCommand
 	 * 
 	 * @param game The {@link Game} object to execute the command on.
 	 * @throws GameException If <code>game</code> throws an exception.
-	 * @see Game
+	 * @see GameManager
 	 * @see GameException
 	 */
 	public abstract void execute(final Game game)
@@ -95,11 +97,23 @@ public abstract class GameCommand
 	//=========================================================================
 	//Methods.
 	/**
+	 * Check if the {@code GameCommand} can be executed.
+	 * 
+	 * @param current The current {@link Participant} object. 
+	 * @return <code>true</code> if the issuer if <code>this</code> is the
+	 * 			player with the current turn; otherwise, returns
+	 * 			<code>false</code>.
+	 */
+	public final boolean canExecute(final Participant current)
+	{
+		return getSource().equals(current);
+	}
+	/**
 	 * Get the source of <code>this</code> {@code GameCommand}.
 	 * 
 	 * @return The issuer of <code>this</code> {@code GameCommand}.
 	 */
-	public final Object getSource()
+	public final Participant getSource()
 	{
 		return source;
 	}

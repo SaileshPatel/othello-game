@@ -3,6 +3,7 @@ package com.othellog4.game;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -151,8 +152,11 @@ public final class GameManager
 			throws
 			GameException
 	{
-		update(command);
-		command.execute(game());
+		if(command.canExecute(current()))
+		{
+			update(command);
+			command.execute(game());
+		}
 	}
 	/**
 	 * Get the first {@link Participant} of the {@link Game} managed by
@@ -201,6 +205,28 @@ public final class GameManager
 		if(piece == null)
 			throw new NullPointerException();
 		return playerMap.get(piece);
+	}
+	/**
+	 * Get the {@link Piece object corresponded to a {@link Participant}
+	 * object.
+	 * 
+	 * <p>
+	 * Since a {@link Participant} may be associated with more than one
+	 * {@link Piece}, it is possible that the {@link Piece} object returned is
+	 * arbitrarily selected.
+	 * </p>
+	 * 
+	 * @param player The {@link Participant} object to find the {@link Piece}
+	 * 			object for.
+	 * @return The {@link Piece} object corresponding to the
+	 * 			{@link Participant} object.
+	 */
+	public final Optional<Piece> pieceOf(final Participant player)
+	{
+		return playerMap.entrySet().stream()
+				.filter(e -> e.getValue().equals(player))
+				.map(Map.Entry::getKey)
+				.findFirst();
 	}
 	/**
 	 * Get the {@link GameScore} of the {@link Game} managed by

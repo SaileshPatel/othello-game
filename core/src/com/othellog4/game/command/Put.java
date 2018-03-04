@@ -2,8 +2,10 @@ package com.othellog4.game.command;
 
 import com.othellog4.game.Game;
 import com.othellog4.game.GameException;
+import com.othellog4.game.GameManager;
 import com.othellog4.game.board.InvalidMoveException;
 import com.othellog4.game.board.Position;
+import com.othellog4.game.player.Participant;
 
 /**
  * The {@code Put} class is a subclass of the {@link GameCommand} class, which
@@ -48,7 +50,7 @@ public class Put extends GameCommand
 	 * 			<code>position</code> is <code>null</code>.
 	 */
 	public Put(
-			final Object source,
+			final Participant source,
 			final Position position)
 			throws
 			NullPointerException
@@ -67,7 +69,7 @@ public class Put extends GameCommand
 	 * 			<code>null</code>.
 	 */
 	public Put(
-			final Object source,
+			final Participant source,
 			final int x,
 			final int y)
 			throws
@@ -117,7 +119,7 @@ public class Put extends GameCommand
 			throw new NullPointerException(NULL_GAME_RECIEVER);
 		try
 		{
-			game.put(position);
+				game.put(position);
 		}
 		catch(final InvalidMoveException e)
 		{

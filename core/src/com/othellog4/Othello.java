@@ -1,28 +1,17 @@
 package com.othellog4;
 
-import java.util.Optional;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.othellog4.environment.Launcher;
+import com.othellog4.environment.Mode;
+import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
-import com.othellog4.game.GameSession;
-import com.othellog4.game.board.GameBoard;
-import com.othellog4.game.extension.FlipCounter;
-import com.othellog4.game.extension.Logger;
-import com.othellog4.game.player.AutomaticPlayer;
-import com.othellog4.game.player.Participant;
-import com.othellog4.game.player.Player;
-import com.othellog4.game.player.Participant.Control;
-import com.othellog4.game.player.ai.DelayStrategies;
-import com.othellog4.game.player.ai.EvaluationStrategies;
-import com.othellog4.game.player.ai.EvaluationStrategy;
-import com.othellog4.game.player.ai.SearchStrategies;
 import com.othellog4.graphics.BoardRenderer;
-import com.othellog4.screens.GameScreen;
 import com.othellog4.screens.MainMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
 import com.othellog4.screens.OptionScreen;
@@ -30,17 +19,6 @@ import com.othellog4.screens.TutorialScreen;
 
 public class Othello extends Game {
 	private SpriteBatch spriteBatch;
-	//private GameBoard gameBoard;
-	private Participant p1;
-	private Participant p2;
-	private GameModel model;
-	private GameScreen normalScreen;
-	private TutorialScreen tutorialScreen;
-
-	private MainMenuScreen menuScreen;
-	private OptionScreen optionScreen;
-	//private com.othellog4.game.Game game;
-	//private BoardRenderer boardRenderer;
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
 	public Music music;
@@ -49,30 +27,7 @@ public class Othello extends Game {
 		spriteBatch = new SpriteBatch();
 		//Settings.load()
 		//Assets.load()
-		//gameBoard = new GameBoard(8);
-		//game = new com.othellog4.game.Game(new GameBoard(8));
-		p1 = new AutomaticPlayer(
-				EvaluationStrategies.COUNT,
-				SearchStrategies.BEST_IMMIDIATE,
-				DelayStrategies.WAIT_ONE_SEC);
-		p1 = new Player();
-		p2 = new AutomaticPlayer(
-				EvaluationStrategies.WINNER,
-				SearchStrategies.BEST_IMMIDIATE,
-				DelayStrategies.WAIT_ONE_SEC);
-		
-		model = new GameModel(
-				new com.othellog4.game.Game(new GameBoard(10 , 0)),
-				p1,
-				p2);
-		
-		normalScreen = new NormalGameScreen(model, this);
-		tutorialScreen = new TutorialScreen(model, this);
-		optionScreen = new OptionScreen(this);
-		menuScreen = new MainMenuScreen(this);
-		setScreen(menuScreen);
-		
-		
+		setScreen(new MainMenuScreen(this));
 		//boardRenderer = new BoardRenderer(spriteBatch, model.getBoard());
 		music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
 		playMusic();
@@ -85,29 +40,31 @@ public class Othello extends Game {
 	public SpriteBatch getSpriteBatch() {
 		return spriteBatch;
 	}
-	
 	@Override
 	public void resize(int width, int height) {
-		//boardRenderer.resize(width, height);
 		getScreen().resize(width, height);
 	}
 	public void switchToGame() {
-		final GameModel model = new GameModel(
-				new com.othellog4.game.Game(new GameBoard(8 , 0)),
-				p1,
-				p2,
-				new FlipCounter(),
-				new Logger(System.out::println));
+		final GameModel model = Launcher.get().newGame(
+				PlayerType.USER,
+				PlayerType.AI_MEDIUM,
+				Mode.DEBUGGING);
 		setScreen(new NormalGameScreen(model, this));
 		model.start();
-		
 	}
-	
+	/**
+	 * Change from the current {@link Screen} to the {@link TutorialScreen}.
+	 * 
+	 * <p>
+	 * Switching to the tutorial will launch a new game.
+	 * </p>
+	 */
 	public void switchToTutorial() {
-		setScreen(new TutorialScreen(new GameModel(
-				new com.othellog4.game.Game(new GameBoard(8 , 0)),
-				p1,
-				p2), this));
+		setScreen(new TutorialScreen(Launcher.get().newGame(
+						PlayerType.USER,
+						PlayerType.USER,
+						Mode.BASIC),
+				this));
 	}
 	
 	public void switchToMenu() {
