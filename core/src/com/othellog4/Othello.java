@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.othellog4.environment.Launcher;
-import com.othellog4.environment.Mode;
+import com.othellog4.environment.GameMode;
 import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
 import com.othellog4.graphics.BoardRenderer;
@@ -48,7 +48,7 @@ public class Othello extends Game {
 		final GameModel model = Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.AI_MEDIUM,
-				Mode.DEBUGGING);
+				GameMode.DEBUGGING);
 		setScreen(new NormalGameScreen(model, this));
 		model.start();
 	}
@@ -63,7 +63,7 @@ public class Othello extends Game {
 		setScreen(new TutorialScreen(Launcher.get().newGame(
 						PlayerType.USER,
 						PlayerType.USER,
-						Mode.BASIC),
+						GameMode.BASIC),
 				this));
 	}
 	

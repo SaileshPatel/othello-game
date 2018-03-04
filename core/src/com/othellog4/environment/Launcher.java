@@ -125,22 +125,22 @@ public final class Launcher
 	 * 
 	 * @param p1 The {@link PlayerType} which is the first player.
 	 * @param p2 The {@link PlayerType} which is the second player.
-	 * @param mode The {@link Mode} of the new {@link GameModel}.
+	 * @param gameMode The {@link GameMode} of the new {@link GameModel}.
 	 * @return The {@link GameModel} of the new game.
 	 * @see PlayerType
-	 * @see Mode
+	 * @see GameMode
 	 * @see GameModel
 	 */
 	public GameModel newGame(
 			final PlayerType p1,
 			final PlayerType p2,
-			final Mode mode)
+			final GameMode gameMode)
 	{
 		return new GameModel(
 				new Game(new GameBoard(8)),
 				p1.get(),
 				p2.get(),
-				mode.get());
+				gameMode.get());
 	}
 	//=========================================================================
 	//Static methods.

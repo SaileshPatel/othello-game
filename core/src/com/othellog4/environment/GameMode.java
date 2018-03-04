@@ -5,17 +5,17 @@ import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.extension.Logger;
 
 /**
- * The {@code Mode} enumeration is a collection of modes which are predefined
- * configurations of {@link GameExtension} objects.
+ * The {@code GameMode} enumeration is a collection of modes which are
+ * predefined configurations of {@link GameExtension} objects.
  * 
  * @author 	159015260 John Berg
  * @since	04/03/2018
  * @version 04/03/2018
  */
-public enum Mode
+public enum GameMode
 {
 	/**
-	 * The {@code Mode} which is used to help during debugging.
+	 * The {@code GameMode} which is used to help during debugging.
 	 * 
 	 * <p>
 	 * Provides a {@link Logger} to log the events of a game.
@@ -33,7 +33,7 @@ public enum Mode
 		}
 	},
 	/**
-	 * The {@code Mode} which does not contain any {@link GameExtension}
+	 * The {@code GameMode} which does not contain any {@link GameExtension}
 	 * objects.
 	 * 
 	 * <p>
@@ -77,7 +77,7 @@ public enum Mode
 	//Abstract methods.
 	/**
 	 * Get the {@link GameExtension} objects from <code>this</code>
-	 * {@code Mode} object.
+	 * {@code GameMode} object.
 	 * 
 	 * <p>
 	 * Package private to only allow certain classes to access this method.

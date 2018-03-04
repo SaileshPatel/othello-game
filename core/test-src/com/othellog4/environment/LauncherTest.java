@@ -57,7 +57,7 @@ public class LauncherTest
 		Launcher.get().cache(Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.USER,
-				Mode.BASIC));
+				GameMode.BASIC));
 		assertTrue(Launcher.get().hasCache());
 	}
 	/**
@@ -79,7 +79,7 @@ public class LauncherTest
 		Launcher.get().cache(Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.USER,
-				Mode.BASIC));
+				GameMode.BASIC));
 		Launcher.get().clear();
 		assertFalse(Launcher.get().hasCache());
 	}
@@ -118,7 +118,7 @@ public class LauncherTest
 		final GameModel model = Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.USER,
-				Mode.BASIC);
+				GameMode.BASIC);
 		Launcher.get().cache(model);
 		assertEquals(model, Launcher.get().release());
 	}
@@ -157,20 +157,20 @@ public class LauncherTest
 		Launcher.get().cache(Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.USER,
-				Mode.BASIC));
+				GameMode.BASIC));
 		Launcher.get().release();
 		assertFalse(Launcher.get().hasCache());
 	}
 	/**
-	 * Test the {@link Launcher#newGame(PlayerType, PlayerType, Mode)} method
+	 * Test the {@link Launcher#newGame(PlayerType, PlayerType, GameMode)} method
 	 * of the {@link Launcher} class.
 	 * 
 	 * <p>
 	 * This test should only pass if the
-	 * {@link Launcher#newGame(PlayerType, PlayerType, Mode)} method returns
+	 * {@link Launcher#newGame(PlayerType, PlayerType, GameMode)} method returns
 	 * a {@link GameModel} which is not equal to any other {@link GameModel}
 	 * objects subsequently created by the
-	 * {@link Launcher#newGame(PlayerType, PlayerType, Mode)} method.
+	 * {@link Launcher#newGame(PlayerType, PlayerType, GameMode)} method.
 	 * </p>
 	 */
 	@Test
@@ -179,11 +179,11 @@ public class LauncherTest
 		final GameModel model = Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.USER,
-				Mode.BASIC);
+				GameMode.BASIC);
 		assertNotEquals(model, Launcher.get().newGame(
 				PlayerType.USER,
 				PlayerType.USER,
-				Mode.BASIC));
+				GameMode.BASIC));
 	}
 	/**
 	 * Test the {@link Launcher#get()} method of the {@link Launcher} class.
