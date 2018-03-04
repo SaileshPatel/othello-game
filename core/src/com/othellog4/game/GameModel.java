@@ -9,9 +9,17 @@ import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
 
 /**
+ * The {@code GameModel} class is a model of a game of Othello, which allows
+ * for interaction using method calls.
  * 
  * <p>
- * The {@code GameModel} functions as a boundry object.
+ * The {@code GameModel} functions as a boundary object for interactions with
+ * a {@link Game} object.
+ * </p>
+ * 
+ * <p>
+ * The {@code GameManager} encapsulates the details of how the communication
+ * between internals and externals functions.
  * </p>
  * 
  * @author 	159014260 John Berg
@@ -23,17 +31,32 @@ public class GameModel extends Observable
 	//========================================================================
 	//Fields.
 	/**
+	 * The {@link GameManager} object which manages the details of the
+	 * {@link Participant} objects involved in the {@link GameModel} and
+	 * the {@link GameExtension} objects/
 	 * 
+	 * @see GameManager
 	 */
 	private final GameManager manager;
 	//=========================================================================
 	//Constructors.
 	/**
+	 * Construct a {@code GameModel} object which will handle higher-level
+	 * interactions with a {@link Game} object.
 	 * 
+	 * <p>
+	 * The creation also allows for {@link GameExtensions} to be included.
+	 * </p>
 	 * 
-	 * @param game 
+	 * @param game The {@link Game} which the {@code GameModel} will act as
+	 * 			the boundary for.
 	 * @param player1 The {@link Participant} representing the first player.
 	 * @param player2 The {@link Participant} representing the second player.
+	 * @param extensions The {@link GameExtension} objects which the 
+	 * 			{@code GameModel} will include.
+	 * @see Game
+	 * @see Participant
+	 * @see GameExtension
 	 */
 	public GameModel(
 			final Game game,
@@ -48,33 +71,57 @@ public class GameModel extends Observable
 	//=========================================================================
 	//Methods.
 	/**
+	 * Notify all objects which are observing <code>this</code>
+	 * {@link GameModel} object.
 	 * 
+	 * <p>
+	 * This method is intended as a callback as a {@link GameListener},
+	 * which forwards events to other objects.
+	 * </p>
+	 * 
+	 * @param event The {@link GameEvent} object.
+	 * @see GameListener
+	 * @see GameEvent
 	 */
 	private void update(final GameEvent event)
 	{
 		super.setChanged();
-		super.notifyObservers(this);
+		super.notifyObservers(event);
 	}
 	/**
+	 * Check if the {@link GameModel} has started the game.
 	 * 
-	 * @return
+	 * @return <code>true</code> if the game has been started, otherwise,
+	 * 			returns <code>false</code>.
+	 */
+	public final boolean isStarted()
+	{
+		return manager.game().getCurrentState() != GameState.READY;
+	}
+	/**
+	 * Check if the game is currently being played.
+	 * 
+	 * @return <code>true</code> if the game is currently being played,
+	 * 			otherwise, return <code>false</code>.
 	 */
 	public final boolean isPlaying()
 	{
 		return manager.game().getCurrentState() == GameState.PLAYING;
 	}
 	/**
-	 * ...
+	 * Check if <code>this</code> {@code GameModel} is waiting for an input.
 	 * 
-	 * @return <code>true</code> if {@code GameModel} is ...
+	 * @return <code>true</code> if <code>this</code> {@code GameModel} is
+	 * 			awaiting input, otherwise, returns <code>false</code>.
 	 */
 	public final boolean isWaiting()
 	{
 		return getCurrent().getControl().isPresent();
 	}
 	/**
+	 * Get the current turn of the game.
 	 * 
-	 * @return
+	 * @return The current turn of the game.
 	 */
 	public final int turn()
 	{
@@ -85,30 +132,47 @@ public class GameModel extends Observable
 	 */
 	public final void start()
 	{
-		manager.game().start();
+		if(!isStarted())
+			manager.game().start();
 	}
 	/**
 	 * 
+	 * @throws GameException 
 	 */
-	public final void pause()
+	public final void pause() throws GameException
 	{
-		//TODO impl
+		if(isWaiting())
+			getCurrent().getControl().get().pause();
 	}
 	/**
-	 * 
+	 * @throws GameException 
 	 */
-	public final void quit()
+	public final void resume() throws GameException
 	{
-		//TODO implement
+		if(isStarted() && isWaiting())
+			getCurrent().getControl().get().resume();
 	}
 	/**
+	 * Surrender the game.
 	 * 
+	 * <p>
+	 * The current {@link Participant} surrenders the game if it is
+	 * controllable.
+	 * </p>
 	 */
 	public final void surrender()
 	{
-		//TODO implment.
+		if(manager.current().getControl().isPresent())
+			manager.game().surrender(manager.game().getCurrent());
 	}
 	/**
+	 * Issue a command to attempt to place a {@link Piece} object at a
+	 * specified location.
+	 * 
+	 * <p>
+	 * This method will have no effect if the {@link GameModel#getCurrent()}
+	 * is not controllable.
+	 * </p>
 	 * 
 	 * @param x The column of the board.
 	 * @param y The row of the board.
@@ -118,7 +182,8 @@ public class GameModel extends Observable
 			throws
 			GameException
 	{
-		final Optional<Participant.Control> control = getCurrent().getControl();
+		final Optional<Participant.Control> control = getCurrent()
+				.getControl();
 		if(control.isPresent())
 			control.get().put(x, y);
 	}
@@ -131,6 +196,7 @@ public class GameModel extends Observable
 	 * </p>
 	 * 
 	 * @return The {@link Participant} which currently has it's turn.
+	 * @see Participant
 	 */
 	public final Participant getCurrent()
 	{
@@ -146,6 +212,7 @@ public class GameModel extends Observable
 	 * </p>
 	 * 
 	 * @return The {@link Participant} which is the first player.
+	 * @see Participant
 	 */
 	public final Participant getPlayer1()
 	{
@@ -161,6 +228,7 @@ public class GameModel extends Observable
 	 * </p>
 	 * 
 	 * @return The {@link Participant} which is the second player.
+	 * @see Participant
 	 */
 	public final Participant getPlayer2()
 	{
@@ -170,6 +238,7 @@ public class GameModel extends Observable
 	 * Get the {@link Piece} of the current player.
 	 * 
 	 * @return The {@link Piece} of the current player.
+	 * @see Piece
 	 */
 	public final Piece getCurrentPiece()
 	{
@@ -179,6 +248,7 @@ public class GameModel extends Observable
 	 * Get the {@link Piece} object which represents the first player.
 	 * 
 	 * @return The {@link Piece} which represents the first player.
+	 * @see Piece
 	 */
 	public final Piece getPlayer1Piece()
 	{
@@ -188,6 +258,7 @@ public class GameModel extends Observable
 	 * Get the {@link Piece} object which represents the second player.
 	 * 
 	 * @return The {@link Piece} which represents the second player.
+	 * @see Piece
 	 */
 	public final Piece getPlayer2Piece()
 	{
@@ -198,14 +269,18 @@ public class GameModel extends Observable
 	 * 
 	 * @return The {@link BoardView} the current {@link GameSession} in
 	 * 			<code>this</code> {@code GameModel}.
+	 * @see BoardView
 	 */
 	public final BoardView getBoard()
 	{
 		return manager.game().getBoard();
 	}
 	/**
+	 * Get the {@link GameScore} object from the game.
 	 * 
-	 * @return
+	 * @return The {@link GameScore} for <code>this</code> {@code GameModel}
+	 * 			object.
+	 * @see GameScore
 	 */
 	public final GameScore score()
 	{

@@ -2,7 +2,6 @@ package com.othellog4.game.command;
 
 import com.othellog4.game.Game;
 import com.othellog4.game.GameException;
-import com.othellog4.game.GameManager;
 import com.othellog4.game.board.InvalidMoveException;
 import com.othellog4.game.board.Position;
 import com.othellog4.game.player.Participant;
@@ -11,9 +10,13 @@ import com.othellog4.game.player.Participant;
  * The {@code Put} class is a subclass of the {@link GameCommand} class, which
  * represents the action of putting something at a position.
  * 
+ * <p>
+ * The {@code Put} command is {@link CommandType#TURN_RESTRICTED}.
+ * </p>
+ * 
  * @author 	159014260 John Berg
  * @since 	20/11/2017
- * @version 26/02/2017
+ * @version 04/03/2018
  * @see GameCommand
  * @see Position
  */
@@ -48,6 +51,8 @@ public class Put extends GameCommand
 	 * 			location.
 	 * @throws NullPointerException If <code>source</code> or
 	 * 			<code>position</code> is <code>null</code>.
+	 * @see Participant
+	 * @see Position
 	 */
 	public Put(
 			final Participant source,
@@ -67,6 +72,7 @@ public class Put extends GameCommand
 	 * @param y The row position of the {@code Put}.
 	 * @throws NullPointerException If <code>source</code> is
 	 * 			<code>null</code>.
+	 * @see Participant
 	 */
 	public Put(
 			final Participant source,
@@ -76,7 +82,7 @@ public class Put extends GameCommand
 			NullPointerException
 	{
 		//May throw NullPointerException.
-		super(source);
+		super(source, CommandType.TURN_RESTRICTED);
 		position = Position.at(x, y);
 	}
 	//=========================================================================
@@ -88,6 +94,7 @@ public class Put extends GameCommand
 	 * 
 	 * @return The {@link Position} which <code>this</code> {@code Put} object
 	 * 			is targeting.
+	 * @see Position
 	 */
 	public final Position position()
 	{
@@ -127,7 +134,7 @@ public class Put extends GameCommand
 		}
 	}
 	/**
-	 * Get the {@link String}} representation of <code>this</code> {@code Put}
+	 * Get the {@link String} representation of <code>this</code> {@code Put}
 	 * command.
 	 * 
 	 * <p>
@@ -144,6 +151,6 @@ public class Put extends GameCommand
 	@Override
 	public final String toString()
 	{
-		return super.toString() + position.toString();
+		return super.toString() + " "+ position.toString();
 	}
 }

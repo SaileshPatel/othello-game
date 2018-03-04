@@ -18,6 +18,12 @@ package com.othellog4.game;
 public class GameException extends Exception
 {
 	//=========================================================================
+	//Static fields.
+	/**
+	 * Serial ID.
+	 */
+	private static final long serialVersionUID = -7608313267761615883L;
+	//=========================================================================
 	//Fields.
 	/**
 	 * The {@link Exception} wrapped by the {@code GameException}.
