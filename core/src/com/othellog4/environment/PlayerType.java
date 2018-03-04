@@ -90,6 +90,7 @@ public enum PlayerType
 		@Override
 		final Participant get()
 		{
+			//NO AI existing yet...
 			return null;
 		}
 	};

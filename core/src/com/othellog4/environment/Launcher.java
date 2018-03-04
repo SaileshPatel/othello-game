@@ -17,7 +17,7 @@ import com.othellog4.game.board.GameBoard;
  * @since	03/03/2018
  * @version 04/03/2018
  */
-public class Launcher
+public final class Launcher
 {
 	//=========================================================================
 	//Static fields.
@@ -39,7 +39,7 @@ public class Launcher
 	 * 
 	 * @see GameModel
 	 */
-	private GameModel onHold;
+	private GameModel cachedModel;
 	//=========================================================================
 	//Constructors.
 	/**
@@ -51,7 +51,7 @@ public class Launcher
 	 */
 	private Launcher()
 	{
-		onHold = null;
+		cachedModel = null;
 	}
 	//=========================================================================
 	//Methods.
@@ -61,16 +61,16 @@ public class Launcher
 	 * @return <code>true</code> if a {@link GameModel} is cached, otherwise,
 	 * 			returns <code>false</code>.
 	 */
-	public final synchronized boolean hasOnHold()
+	public final synchronized boolean hasCache()
 	{
-		return onHold != null;
+		return cachedModel != null;
 	}
 	/**
 	 * Clear the cached {@link GameModel}.
 	 */
 	public final synchronized void clear()
 	{
-		onHold = null;
+		cachedModel = null;
 	}
 	/**
 	 * Cache a {@link GameModel} object which can be resumed later.
@@ -84,7 +84,7 @@ public class Launcher
 	 * @throws NullPointerException If <code>model</code> is <code>null</code>.
 	 * @see GameModel
 	 */
-	public final void hold(final GameModel model)
+	public final void cache(final GameModel model)
 			throws
 			NullPointerException
 	{
@@ -92,7 +92,7 @@ public class Launcher
 			throw new NullPointerException();
 		synchronized(this)
 		{
-			onHold = model;
+			cachedModel = model;
 		}
 	}
 	/**
@@ -110,13 +110,13 @@ public class Launcher
 	 * 			contains no cached {@link GameModel}.
 	 * @see GameModel
 	 */
-	public final synchronized GameModel resume()
+	public final synchronized GameModel release()
 			throws
 			IllegalStateException
 	{
-		if(!hasOnHold())
+		if(!hasCache())
 			throw new IllegalStateException();
-		final GameModel model = onHold;
+		final GameModel model = cachedModel;
 		clear();
 		return model;
 	}
