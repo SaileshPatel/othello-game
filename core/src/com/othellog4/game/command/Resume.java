@@ -14,7 +14,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	159014260 John Berg
  * @since 	04/03/2018
- * @version 04/03/2018
+ * @version 05/03/2018
  * @see GameCommand
  */
 public class Resume extends GameCommand
@@ -41,6 +41,7 @@ public class Resume extends GameCommand
 	 * @param game The {@link Game} object to execute the {@code Resume}
 	 * 			command onto.
 	 * @throws GameException If a {@code GameException} occurs.
+	 * @throws NullPointerException If <code>game</code> is <code>null</code>.
 	 * @see Game
 	 * @see Game#start()
 	 * @see GameException
@@ -48,8 +49,11 @@ public class Resume extends GameCommand
 	@Override
 	public final void execute(final Game game)
 			throws
-			GameException
+			GameException,
+			NullPointerException
 	{
+		if(game == null)
+			throw new NullPointerException();
 		try
 		{
 			game.start();
