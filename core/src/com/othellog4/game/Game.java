@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 04/03/2018
+ * @version 05/03/2018
  * @see GameBoard
  * @see Piece
  */
@@ -265,6 +265,16 @@ public class Game
 			this.conclusion = conclusion;
 	}
 	/**
+	 * Check if the {@code Game} object is currently playing.
+	 * 
+	 * @return <code>true</code> if <code>this</code> {@code Game} is playing,
+	 * 			otherwise, returns <code>false</code>.
+	 */
+	public final boolean isPlaying()
+	{
+		return getCurrentState() == GameState.PLAYING;
+	}
+	/**
 	 * Check if the game is over.
 	 * 
 	 * @return <code>true</code> if the game has ended, otherwise, returns
@@ -355,14 +365,19 @@ public class Game
 	 * 
 	 * @param piece The {@link Piece} object which surrenders.
 	 * @throws NullPointerException If <code>piece</code> is <code>null</code>.
+	 * @throws IllegalStateException If {@link Game#isGameOver()} returns
+	 * 			<code>true</code>.
 	 * @see Piece
 	 */
 	public final void surrender(final Piece piece)
 			throws
-			NullPointerException
+			NullPointerException,
+			IllegalStateException
 	{
 		if(piece == null)
 			throw new NullPointerException(NULL_PIECE);
+		if(isGameOver())
+			throw new IllegalStateException("Game already over");
 		setState(GameState.GAME_OVER);
 		conclude(GameConclusion.loser(piece));
 		update(GameEvent.END);

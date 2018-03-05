@@ -66,7 +66,16 @@ public final class Surrender extends GameCommand
 	public final void execute(Game game)
 			throws GameException
 	{
-		game.surrender(piece);
+		if(game == null)
+			throw new NullPointerException();
+		try
+		{
+			game.surrender(piece);
+		}
+		catch(final RuntimeException e)
+		{
+			throw new GameException(e);
+		}
 	}
 	/**
 	 * Get the {@link String} representation of <code>this</code>

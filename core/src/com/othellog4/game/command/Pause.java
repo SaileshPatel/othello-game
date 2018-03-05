@@ -14,7 +14,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	159014260 John Berg
  * @since	04/03/2018
- * @version 04/03/2018
+ * @version 05/03/2018
  * @see GameCommand
  */
 public class Pause extends GameCommand
@@ -40,15 +40,19 @@ public class Pause extends GameCommand
 	 * @param game The {@link Game} object to execute <code>this</code>
 	 * 			{@code Pause} command onto.
 	 * @throws GameException If a {@link GameException} occurs.
+	 * @see NullPointerException If <code>game</code> is <code>null</code>.
 	 * @see Game
 	 * @see Game#pause()
 	 * @see GameException
 	 */
 	@Override
-	public void execute(Game game)
+	public void execute(final Game game)
 			throws
-			GameException
+			GameException,
+			NullPointerException
 	{
+		if(game == null)
+			throw new NullPointerException();
 		try
 		{
 			game.pause();
