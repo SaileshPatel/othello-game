@@ -66,7 +66,10 @@ public class Othello extends Game {
 						GameMode.BASIC),
 				this));
 	}
-	
+	public void continueGame()
+	{
+		setScreen(new NormalGameScreen(Launcher.get().release(), this));
+	}
 	public void switchToMenu() {
 		setScreen(new MainMenuScreen(this));
 	}

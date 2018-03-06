@@ -16,7 +16,9 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
+import com.othellog4.environment.Launcher;
 import com.othellog4.graphics.GraphicsUtil;
+import com.othellog4.graphics.ScreenBoxField;
 
 /**
  * This is the main menu screen where
@@ -105,6 +107,31 @@ public class MainMenuScreen extends ScreenAdapter {
 
 		// othello.getSpriteBatch().draw(OthelloText, 400, 100);
 		Vector2 mousePos = GraphicsUtil.getUnprojectedMousePos(viewport);
+		
+		new ScreenBoxField(850, 460, 1180, 50)
+		.onHover(box ->
+		{
+			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			if(Launcher.get().hasCache())
+			{
+				if(Gdx.input.isTouched())
+					othello.continueGame();
+			}
+		})
+		.noHover(box -> optionsFont.setColor(1f, 1f, 1f, 1f))
+		.after(box ->
+		{
+			if(Launcher.get().hasCache())
+				optionsFont.draw(
+				othello.getSpriteBatch(),
+				"Continue",
+				box.getX(),
+				box.getY() + box.getHeight(),
+				500,
+				Align.left,
+				true);
+		})
+		.hover(mousePos.x, mousePos.y);;
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
 			// othello.getSpriteBatch().draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
@@ -156,20 +183,47 @@ public class MainMenuScreen extends ScreenAdapter {
 		
 		
 		
-		
-
-		if (mousePos.x >850 && mousePos.x < 960 && mousePos.y > 240 && mousePos.y < 280) {
-			// othello.getSpriteBatch().draw(exitButton, 850, 240);
+		new ScreenBoxField(850, 240, 110, 40)
+		.onHover((box) ->
+		{
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);
-			if (Gdx.input.isTouched()) {
+			optionsFont.draw(
+					othello.getSpriteBatch(),
+					"Exit",
+					box.getX(),
+					box.getY() + box.getHeight(),
+					500,
+					Align.left,
+					true);
+			if(Gdx.input.isTouched())
 				Gdx.app.exit();
-			}
-
-		} else {
+		})
+		.noHover((box) ->
+		{
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);
-		}
+			optionsFont.draw(
+					othello.getSpriteBatch(),
+					"Exit",
+					box.getX(),
+					box.getY() + box.getHeight(),
+					500,
+					Align.left,
+					true);
+		})
+		.hover(mousePos.x, mousePos.y);
+
+//		if (mousePos.x >850 && mousePos.x < 960 && mousePos.y > 240 && mousePos.y < 280) {
+//			// othello.getSpriteBatch().draw(exitButton, 850, 240);
+//			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+//			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);
+//			if (Gdx.input.isTouched()) {
+//				Gdx.app.exit();
+//			}
+//
+//		} else {
+//			optionsFont.setColor(1f, 1f, 1f, 1f);
+//			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);
+//		}
 
 		othello.getSpriteBatch().end();
 

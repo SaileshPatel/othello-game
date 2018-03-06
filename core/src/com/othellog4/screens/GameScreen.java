@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
+import com.othellog4.environment.Launcher;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.game.GameException;
@@ -114,6 +115,7 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
 			if(Gdx.input.justTouched()){
 				this.dispose();
+				Launcher.get().cache(model);
 				game.switchToMenu();
 			}
 		}
