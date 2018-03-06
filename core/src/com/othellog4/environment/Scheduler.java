@@ -5,14 +5,14 @@ import java.util.function.Consumer;
 /**
  * The {@code Scheduler} class is a global service which manages scheduling
  * of execution of {@link Runnable} tasks.
- * 
+ *
  * <p>
  * The {@code Scheduler} class is an instance of the singleton design pattern
  * which restricts instance creation of {@code Scheduler} to one. The
  * {@link Scheduler#get()} method can be used to obtain an instance of the
  * {@code Scheduler} class.
  * </p>
- * 
+ *
  * @author	159014260 John Berg
  * @since 	14/02/2018
  * @version 16/02/2018
@@ -24,11 +24,11 @@ public class Scheduler
 	/**
 	 * The instance of {@code Scheduler} which is the only instance to be
 	 * allowed.
-	 * 
+	 *
 	 * <p>
 	 * For internal use only!
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Lazily initialised.
 	 * </p>
@@ -38,11 +38,11 @@ public class Scheduler
 	//Constructor.
 	/**
 	 * Construct a {@code Scheduler} object.
-	 * 
+	 *
 	 * <p>
 	 * Private access to allows for only one instance to be created.
 	 * </p>
-	 * 
+	 *
 	 *  <p>
 	 *  For internal use only!
 	 *  </p>
@@ -54,7 +54,7 @@ public class Scheduler
 	//Methods.
 	/**
 	 * Run a {@link Runnable} object from the {@code Scheduler}.
-	 * 
+	 *
 	 * @param task The {@link Runnable} object to be executed.
 	 */
 	public final void run(final Runnable task)
@@ -63,7 +63,7 @@ public class Scheduler
 	}
 	/**
 	 * Run a {@link Runnable} object from the {@code Scheduler}.
-	 * 
+	 *
 	 * @param task The {@link Runnable} object to be executed.
 	 * @param onThrow The {@link Consumer} object called if a {@link Throwable}
 	 * 			object is thrown.
@@ -77,7 +77,7 @@ public class Scheduler
 	/**
 	 * Schedule the execution of a {@link Runnable} object by a specified
 	 * delay amount.
-	 * 
+	 *
 	 * @param task The {@link Runnable} object to run.
 	 * @param delay The <code>long</code> value which represents the delay in
 	 * 			mili-seconds.
@@ -91,7 +91,7 @@ public class Scheduler
 	/**
 	 * Schedule the execution of a {@link Runnable} object by a specified
 	 * delay amount.
-	 * 
+	 *
 	 * @param task The {@link Runnable} object to run.
 	 * @param delay The <code>long</code> value which represents the delay in
 	 * 			mili-seconds.
@@ -120,15 +120,15 @@ public class Scheduler
 	//Static methods.
 	/**
 	 * Get the {@code Scheduler} object.
-	 * 
+	 *
 	 * <p>
 	 * Get the singleton instance of the {@code Scheduler} object.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This method is <code>synchronized</code>.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@code Scheduler} instance.
 	 */
 	public static final synchronized Scheduler get()

@@ -11,17 +11,17 @@ import com.othellog4.game.player.Participant;
 /**
  * The {@code GameModel} class is a model of a game of Othello, which allows
  * for interaction using method calls.
- * 
+ *
  * <p>
  * The {@code GameModel} functions as a boundary object for interactions with
  * a {@link Game} object.
  * </p>
- * 
+ *
  * <p>
  * The {@code GameManager} encapsulates the details of how the communication
  * between internals and externals functions.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	01/12/2017
  * @version 06/03/2018
@@ -34,7 +34,7 @@ public class GameModel extends Observable
 	 * The {@link GameManager} object which manages the details of the
 	 * {@link Participant} objects involved in the {@link GameModel} and
 	 * the {@link GameExtension} objects/
-	 * 
+	 *
 	 * @see GameManager
 	 */
 	private final GameManager manager;
@@ -43,16 +43,16 @@ public class GameModel extends Observable
 	/**
 	 * Construct a {@code GameModel} object which will handle higher-level
 	 * interactions with a {@link Game} object.
-	 * 
+	 *
 	 * <p>
 	 * The creation also allows for {@link GameExtensions} to be included.
 	 * </p>
-	 * 
+	 *
 	 * @param game The {@link Game} which the {@code GameModel} will act as
 	 * 			the boundary for.
 	 * @param player1 The {@link Participant} representing the first player.
 	 * @param player2 The {@link Participant} representing the second player.
-	 * @param extensions The {@link GameExtension} objects which the 
+	 * @param extensions The {@link GameExtension} objects which the
 	 * 			{@code GameModel} will include.
 	 * @see Game
 	 * @see Participant
@@ -73,12 +73,12 @@ public class GameModel extends Observable
 	/**
 	 * Notify all objects which are observing <code>this</code>
 	 * {@link GameModel} object.
-	 * 
+	 *
 	 * <p>
 	 * This method is intended as a callback as a {@link GameListener},
 	 * which forwards events to other objects.
 	 * </p>
-	 * 
+	 *
 	 * @param event The {@link GameEvent} object.
 	 * @see GameListener
 	 * @see GameEvent
@@ -90,7 +90,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Check if the {@link GameModel} has started the game.
-	 * 
+	 *
 	 * @return <code>true</code> if the game has been started, otherwise,
 	 * 			returns <code>false</code>.
 	 */
@@ -100,7 +100,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Check if the game is currently being played.
-	 * 
+	 *
 	 * @return <code>true</code> if the game is currently being played,
 	 * 			otherwise, return <code>false</code>.
 	 */
@@ -110,7 +110,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Check if the {@link GameModel} has a game which has ended.
-	 * 
+	 *
 	 * @return <code>true</code> if the game has ended, otherwise, returns
 	 * 			<code>false</code>.
 	 */
@@ -120,7 +120,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Check if <code>this</code> {@code GameModel} is waiting for an input.
-	 * 
+	 *
 	 * @return <code>true</code> if <code>this</code> {@code GameModel} is
 	 * 			awaiting input, otherwise, returns <code>false</code>.
 	 */
@@ -130,7 +130,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the current turn of the game.
-	 * 
+	 *
 	 * @return The current turn of the game.
 	 */
 	public final int turn()
@@ -138,7 +138,7 @@ public class GameModel extends Observable
 		return manager.game().turn();
 	}
 	/**
-	 * 
+	 *
 	 */
 	public final void start()
 	{
@@ -146,8 +146,8 @@ public class GameModel extends Observable
 			manager.game().start();
 	}
 	/**
-	 * 
-	 * @throws GameException 
+	 *
+	 * @throws GameException
 	 */
 	public final void pause() throws GameException
 	{
@@ -155,7 +155,7 @@ public class GameModel extends Observable
 			getCurrent().getControl().get().pause();
 	}
 	/**
-	 * @throws GameException 
+	 * @throws GameException
 	 */
 	public final void resume() throws GameException
 	{
@@ -164,7 +164,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Surrender the game.
-	 * 
+	 *
 	 * <p>
 	 * The current {@link Participant} surrenders the game if it is
 	 * controllable.
@@ -178,12 +178,12 @@ public class GameModel extends Observable
 	/**
 	 * Issue a command to attempt to place a {@link Piece} object at a
 	 * specified location.
-	 * 
+	 *
 	 * <p>
 	 * This method will have no effect if the {@link GameModel#getCurrent()}
 	 * is not controllable.
 	 * </p>
-	 * 
+	 *
 	 * @param x The column of the board.
 	 * @param y The row of the board.
 	 * @throws GameException
@@ -199,12 +199,12 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the {@link Participant} which current turn it is.
-	 * 
+	 *
 	 * <p>
 	 * The current {@link Participant} is the {@link Piece} object returned
 	 * from the {@link Game} of <code>this</code>.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link Participant} which currently has it's turn.
 	 * @see Participant
 	 */
@@ -215,12 +215,12 @@ public class GameModel extends Observable
 	/**
 	 * Get the {@link Participant} which is the first {@link Player} in
 	 * <code>this</code>.
-	 * 
+	 *
 	 * <p>
 	 * The first player is the {@link Participant} which is associated with
 	 * {@link Game#getPlaye1()}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link Participant} which is the first player.
 	 * @see Participant
 	 */
@@ -231,12 +231,12 @@ public class GameModel extends Observable
 	/**
 	 * Get the {@link Participant} which is the second {@link Player} in
 	 * <code>this</code>.
-	 * 
+	 *
 	 * <p>
 	 * The second player is the {@link Participant} which is associated
 	 * with {@link Game#getPlaye2()}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link Participant} which is the second player.
 	 * @see Participant
 	 */
@@ -246,7 +246,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the {@link Piece} of the current player.
-	 * 
+	 *
 	 * @return The {@link Piece} of the current player.
 	 * @see Piece
 	 */
@@ -256,7 +256,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the {@link Piece} object which represents the first player.
-	 * 
+	 *
 	 * @return The {@link Piece} which represents the first player.
 	 * @see Piece
 	 */
@@ -266,7 +266,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the {@link Piece} object which represents the second player.
-	 * 
+	 *
 	 * @return The {@link Piece} which represents the second player.
 	 * @see Piece
 	 */
@@ -276,7 +276,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the {@link BardView} of the current {@link GameSession}.
-	 * 
+	 *
 	 * @return The {@link BoardView} the current {@link GameSession} in
 	 * 			<code>this</code> {@code GameModel}.
 	 * @see BoardView
@@ -287,7 +287,7 @@ public class GameModel extends Observable
 	}
 	/**
 	 * Get the {@link GameScore} object from the game.
-	 * 
+	 *
 	 * @return The {@link GameScore} for <code>this</code> {@code GameModel}
 	 * 			object.
 	 * @see GameScore

@@ -7,7 +7,7 @@ import com.othellog4.game.extension.Logger;
 /**
  * The {@code GameMode} enumeration is a collection of modes which are
  * predefined configurations of {@link GameExtension} objects.
- * 
+ *
  * @author 	159015260 John Berg
  * @since	04/03/2018
  * @version 04/03/2018
@@ -16,7 +16,7 @@ public enum GameMode
 {
 	/**
 	 * The {@code GameMode} which is used to help during debugging.
-	 * 
+	 *
 	 * <p>
 	 * Provides a {@link Logger} to log the events of a game.
 	 * </p>
@@ -35,7 +35,7 @@ public enum GameMode
 	/**
 	 * The {@code GameMode} which does not contain any {@link GameExtension}
 	 * objects.
-	 * 
+	 *
 	 * <p>
 	 * Used to setup simple games.
 	 * </p>
@@ -49,7 +49,7 @@ public enum GameMode
 		}
 	},
 	/**
-	 * 
+	 *
 	 */
 	CASUAL
 	{
@@ -63,7 +63,7 @@ public enum GameMode
 		}
 	},
 	/**
-	 * 
+	 *
 	 */
 	COMPETATIVE
 	{
@@ -78,15 +78,15 @@ public enum GameMode
 	/**
 	 * Get the {@link GameExtension} objects from <code>this</code>
 	 * {@code GameMode} object.
-	 * 
+	 *
 	 * <p>
 	 * Package private to only allow certain classes to access this method.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Redefined in each {@code Mode} instance.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link GameExtension} objects to be applied to a game.
 	 */
 	abstract GameExtension[] get();

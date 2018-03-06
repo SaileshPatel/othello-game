@@ -12,14 +12,14 @@ import com.othellog4.game.board.Position;
 /**
  * The {@code Game} is a class which models a game of Othello, which has the
  * responsibility of managing and maintaining the flow of the game.
- * 
+ *
  * <p>
  * The {@code Game} provides the capability to get information regarding the
  * current {@link Piece} which is to make a move, additionally some methods
  * allow for interaction with the {@link GameBoard} class using the current
  * {@link Piece}.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
@@ -49,42 +49,42 @@ public class Game
 	//Fields.
 	/**
 	 * The <code>int</code> which represent the number of the turn of
-	 * <code>this</code> {@code Game}. 
+	 * <code>this</code> {@code Game}.
 	 */
 	private int turn;
 	/**
 	 * The {@link GameBoard} of <code>this</code> game.
-	 * 
+	 *
 	 * @see GameBoard
 	 */
 	private final GameBoard board;
 	/**
 	 * The {@link Piece} object which represents the {@link Piece} of the
 	 * current player.
-	 * 
+	 *
 	 * @see Piece
 	 */
 	private Piece current;
 	/**
 	 * The {@link GameConclusion} of the {@code Game}.
-	 * 
+	 *
 	 * <p>
 	 * Must be set to signal the conclusion.
 	 * </p>
-	 * 
+	 *
 	 * @see GameConclusion
 	 */
 	private GameConclusion conclusion;
 	/**
 	 * The current {@link GameState} which represent the state of
 	 * <code>this</code> {@code Game} object.
-	 * 
+	 *
 	 * @see GameState.
 	 */
 	private GameState state;
 	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
-	 * 
+	 *
 	 * @see GameListener
 	 */
 	private final Set<GameListener> listeners;
@@ -93,12 +93,12 @@ public class Game
 	/**
 	 * Create a {@code Game} object by specifying a {@link GameBoard} that
 	 * a {@code Game} should be played on.
-	 * 
+	 *
 	 * <p>
 	 * The current {@link Piece} will be set to {@link Piece#PIECE_A} as
 	 * {@link Piece#PIECE_A} should go first.
 	 * </p>
-	 * 
+	 *
 	 * @param board The {@link GameBoard} for <code>this</code> game.
 	 * @throws NullPointerException If <code>board</code> is
 	 * 			<code>null</code>.
@@ -114,13 +114,13 @@ public class Game
 	/**
 	 * Create a {@code Game} by with a specific {@link GameBoard} and the
 	 * {@link Piece} which current turn it is.
-	 * 
+	 *
 	 * <p>
 	 * This constructor can be used to load games which are partially completed
 	 * or to create custom games and game modes with specially created
 	 * {@link GameBoard} and non-fixed first players.
 	 * </p>
-	 * 
+	 *
 	 * @param board The {@link GameBoard} which will be used to play the
 	 * 			{@link Game}.
 	 * @param currentPiece The {@link Piece} for which player's turn it
@@ -142,13 +142,13 @@ public class Game
 	/**
 	 * Create a {@code Game} by with a specific {@link GameBoard} and the
 	 * {@link Piece} which current turn it is.
-	 * 
+	 *
 	 * <p>
 	 * This constructor can be used to load games which are partially completed
 	 * or to create custom games and game modes with specially created
 	 * {@link GameBoard} and non-fixed first players.
 	 * </p>
-	 * 
+	 *
 	 * @param board The {@link GameBoard} which will be used to play the
 	 * 			{@link Game}.
 	 * @param currentPiece The {@link Piece} for which player's turn it
@@ -181,12 +181,12 @@ public class Game
 	//Methods.
 	/**
 	 * Go to the next turn.
-	 * 
+	 *
 	 * <p>
 	 * If a {@link Piece} does not have any legal moves, then the turn will
 	 * go back to the current {@link Piece} object's turn.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
@@ -206,11 +206,11 @@ public class Game
 	}
 	/**
 	 * Set the {@link GameState} of <code>this</code> {@code Game}.
-	 * 
+	 *
 	 * <p>
 	 * For internal use only!
 	 * </p>
-	 * 
+	 *
 	 * @param state The {@link GameState} to set the current state to.
 	 * @see GameState
 	 */
@@ -221,16 +221,16 @@ public class Game
 	/**
 	 * Update all the {@link GameListener} objects in <code>this</code>
 	 * {@code Game}.
-	 * 
+	 *
 	 * <p>
 	 * This method should be called every time an action which will affect the
 	 * {@link GameBoard} is executed.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
-	 * 
+	 *
 	 * @param event The {@link GameEvent} which was triggered.
 	 * @see GameEvent
 	 */
@@ -246,15 +246,15 @@ public class Game
 	/**
 	 * Set the {@link GameConclusion} of <code>this</code>
 	 * {@link GameConclusion}.
-	 * 
+	 *
 	 * <p>
 	 * Once a {@link GameConclusion} has not been set, it cannot be set again.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
-	 * 
+	 *
 	 * @param conclusion The {@link GameConclusion} of <code>this</code>
 	 * 			{@code Game}.
 	 * @see GameConclusion
@@ -266,7 +266,7 @@ public class Game
 	}
 	/**
 	 * Check if the {@code Game} object is currently playing.
-	 * 
+	 *
 	 * @return <code>true</code> if <code>this</code> {@code Game} is playing,
 	 * 			otherwise, returns <code>false</code>.
 	 */
@@ -276,7 +276,7 @@ public class Game
 	}
 	/**
 	 * Check if the game is over.
-	 * 
+	 *
 	 * @return <code>true</code> if the game has ended, otherwise, returns
 	 * 			<code>false</code>.
 	 */
@@ -293,7 +293,7 @@ public class Game
 	}
 	/**
 	 * Get the current turn of <code>this</code> {@code Game}.
-	 * 
+	 *
 	 * @return The current turn of <code>this</code> {@code Game}.
 	 */
 	public final int turn()
@@ -332,12 +332,12 @@ public class Game
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
-	 * 
+	 *
 	 * <p>
 	 * After a move has been completed, the {@code Game} will move the the
 	 * next turn.
 	 * </p>
-	 * 
+	 *
 	 * @param position The {@link Position} to place the {@link Piece} of the
 	 * 			current player's {@link Piece}.
 	 * @throws InvalidMoveException If the current {@link Piece} cannot be
@@ -362,7 +362,7 @@ public class Game
 	}
 	/**
 	 * Surrenders the game.
-	 * 
+	 *
 	 * @param piece The {@link Piece} object which surrenders.
 	 * @throws NullPointerException If <code>piece</code> is <code>null</code>.
 	 * @throws IllegalStateException If {@link Game#isGameOver()} returns
@@ -385,7 +385,7 @@ public class Game
 	/**
 	 * Add a {@link GameListener} to be updated about events that occur in
 	 * <code>this</code> {@code Game}.
-	 * 
+	 *
 	 * @param listener The {@link GameListener} to be added to
 	 * 			<code>this</code>.
 	 * @see GameListener
@@ -397,7 +397,7 @@ public class Game
 	/**
 	 * Remove a {@link GameListener} existing in <code>this</code>
 	 * {@code Game}.
-	 * 
+	 *
 	 * @param listener The {@link GameListener} to be removed from
 	 * 			<code>this</code>.
 	 * @see GameListener
@@ -416,12 +416,12 @@ public class Game
 	}
 	/**
 	 * Get the {@link Piece} representing the first player.
-	 * 
+	 *
 	 * <p>
 	 * The first player will always have {@link Piece#PIECE_A} as their
 	 * {@link Piece}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link Piece} of the first player.
 	 * @see Piece
 	 */
@@ -431,12 +431,12 @@ public class Game
 	}
 	/**
 	 * Get the {@link Piece} representing the second player.
-	 * 
+	 *
 	 * <p>
 	 * The second player will always have {@link Piece#PIECE_B} as their
 	 * {@link Piece}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link Piece} of the second player.
 	 * @see Piece
 	 */
@@ -446,7 +446,7 @@ public class Game
 	}
 	/**
 	 * Get the {@link Piece} which current turn it is.
-	 * 
+	 *
 	 * @return The {@link Piece} of the player whom's turn it currently is.
 	 * @see Piece
 	 */
@@ -456,12 +456,12 @@ public class Game
 	}
 	/**
 	 * Get the {@link GameConclusion} of <code>this</code> {@code Game}.
-	 * 
+	 *
 	 * <p>
 	 * If the {@link Game#isGameOver()} returns <code>false</code>, then
 	 * <code>this</code> {@code Game} has no conclusion.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link GameConclusion} of <code>this</code> {@code Game}.
 	 * @throws IllegalStateException If the {@code Game} has not been
 	 * 			concluded.
@@ -478,7 +478,7 @@ public class Game
 	/**
 	 * Get the current {@link GameState} object of <code>this</code>
 	 * {@code Game} object.
-	 * 
+	 *
 	 * @return The current {@link GameState}.
 	 * @see GameState
 	 */
@@ -489,7 +489,7 @@ public class Game
 	/**
 	 * Get the {@link BoardView} of the board which is contained in
 	 * <code>this</code> {@code Game}.
-	 * 
+	 *
 	 * @return A {@link BoardView} object of the {@link GameBoard} for
 	 * 			<code>this</code> game.
 	 * @see BoardView

@@ -6,7 +6,7 @@ import com.othellog4.game.extension.GameExtension;
 /**
  * The {@code GameResult} class is a record type which contains the results
  * generated from a {@link GameExtension} object.
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	06/03/2018
  * @version 06/03/2018
@@ -19,14 +19,14 @@ public final class GameResult
 	 * The {@link Class} object which corresponds to the {@link GameExtension}
 	 * object <code>this</code> {@code GameResult} will extract the result
 	 * from.
-	 * 
+	 *
 	 * @see GameExtension
 	 */
 	public final Class<? extends GameExtension> type;
 	/**
 	 * The {@link GameExtension} object which is the source for
 	 * <code>this</code> {@code GameResult} object.
-	 * 
+	 *
 	 * @see GameExtension
 	 */
 	private final GameExtension source;
@@ -35,7 +35,7 @@ public final class GameResult
 	/**
 	 * Create a {@code GameResult} object from a {@link GameExtension} object
 	 * as a source
-	 * 
+	 *
 	 * @param source The {@link GameExtension} to get the result from.
 	 * @throws NullPointerException If <code>source</code> is
 	 * 			<code>null</code>.
@@ -55,7 +55,7 @@ public final class GameResult
 	/**
 	 * Get the result for the first player form <code>this</code>
 	 * {@code GameResult} object.
-	 * 
+	 *
 	 * @return The result for the {@link Piece} representing the first player.
 	 */
 	public final int player1Result()
@@ -65,7 +65,7 @@ public final class GameResult
 	/**
 	 * Get the result for the second player form <code>this</code>
 	 * {@code GameResult} object.
-	 * 
+	 *
 	 * @return The result for the {@link Piece} representing the second player.
 	 */
 	public final int player2Result()
@@ -74,7 +74,7 @@ public final class GameResult
 	}
 	/**
 	 * Get the <code>int</code> result for a specified {@link Piece} object.
-	 * 
+	 *
 	 * @param piece The {@link Piece} object to get the result for.
 	 * @return The result for the <code>piece</code> object.
 	 */

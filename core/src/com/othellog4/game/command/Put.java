@@ -9,11 +9,11 @@ import com.othellog4.game.player.Participant;
 /**
  * The {@code Put} class is a subclass of the {@link GameCommand} class, which
  * represents the action of putting something at a position.
- * 
+ *
  * <p>
  * The {@code Put} command is {@link CommandType#TURN_RESTRICTED}.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	20/11/2017
  * @version 04/03/2018
@@ -36,7 +36,7 @@ public class Put extends GameCommand
 	/**
 	 * The {@link Position} object which represents the position to put
 	 * something.
-	 * 
+	 *
 	 * @see Position
 	 */
 	private final Position position;
@@ -45,7 +45,7 @@ public class Put extends GameCommand
 	/**
 	 * Create a {@code Put} object which represents a source putting something
 	 * at a specified position.
-	 * 
+	 *
 	 * @param source The issued of {@code Put}.
 	 * @param position The {@link Position} object which represents the
 	 * 			location.
@@ -66,7 +66,7 @@ public class Put extends GameCommand
 	/**
 	 * Create a {@code Put} object which represents a source putting something
 	 * at a specified position.
-	 * 
+	 *
 	 * @param source The issuer of {@code Put}.
 	 * @param x The column position of the {@code Put}.
 	 * @param y The row position of the {@code Put}.
@@ -91,7 +91,7 @@ public class Put extends GameCommand
 	 * Get the {@link Position} object which represents the position where
 	 * <code>this</code> {@code Put} will attempt to place a {@link Piece}
 	 * object.
-	 * 
+	 *
 	 * @return The {@link Position} which <code>this</code> {@code Put} object
 	 * 			is targeting.
 	 * @see Position
@@ -104,11 +104,11 @@ public class Put extends GameCommand
 	//Overriden methods.
 	/**
 	 * Execute <code>this</code> {@code Put} command on a {@link Game} object.
-	 * 
+	 *
 	 * <p>
 	 * When executing the {@link Game#put(Position)} method will be called.
 	 * </p>
-	 * 
+	 *
 	 * @param game The {@link Game} to execute the {@code Put} command on.
 	 * @throws NullPointerException If <code>game</code> is <code>null</code>.
 	 * @see Game
@@ -136,13 +136,13 @@ public class Put extends GameCommand
 	/**
 	 * Get the {@link String} representation of <code>this</code> {@code Put}
 	 * command.
-	 * 
+	 *
 	 * <p>
 	 * The {@link String} representation will contain the {@link String}
 	 * produced by {@link Game#toString()}, followed by the {@link String}
 	 * from {@link Position#toString()}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link String} representation of <code>this</code>
 	 * 			{@code Put} command.
 	 * @see GameCommand#toString()

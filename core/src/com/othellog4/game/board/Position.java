@@ -3,7 +3,7 @@ package com.othellog4.game.board;
 /**
  * The {@code Position} class with the responsibility of representing a
  * position of a grid-based board.
- * 
+ *
  * <p>
  * The {@code Position} class is immutable, after initialisation, it is no
  * longer possible to set or modify the state of the {@code Position} object.
@@ -13,7 +13,7 @@ package com.othellog4.game.board;
  * <code>public</code>. The immutablility also guarantees that a
  * {@code Position} object is thread-safe.
  * </p>
- * 
+ *
  * <p>
  * The fields available are:
  * <ul>
@@ -21,7 +21,7 @@ package com.othellog4.game.board;
  * 		<li>{@link #row}</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>
  * The {@code Position} overrides:
  * <ul>
@@ -30,12 +30,12 @@ package com.othellog4.game.board;
  * 		<li>{@link #toString()}</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>
  * The available constructor is {@link #Position(int, int)}, but initialisation
  * using the {@link #at(int, int)} method is preferred.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	16/10/2017
  * @version 27/10/2017
@@ -57,26 +57,26 @@ public final class Position {
 	//Constructors
 	/**
 	 * Initialise a new {@code Position} object.
-	 * 
+	 *
 	 * <p>
 	 * To create an a {@code Position} two <code>int</code> values
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This constructor is deprecated and should be avoided due to the order of
 	 * the parameters being row and column, rather than column and row.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * This constructor exists to support code which may still rely on this
 	 * constructor.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Using {@link #at(int, int)} is recommended as it allows for
 	 * initialisation by specifying the column, and then the row.
 	 * </p>
-	 * 
+	 *
 	 * @param row The row index of the {@code Position}.
 	 * @param col The column index of the {@code Position}.
 	 * @see #at(int, int)
@@ -91,7 +91,7 @@ public final class Position {
 	/**
 	 * Compare <code>this</code> {@code Position} against another
 	 * {@code Object}, to for equality.
-	 * 
+	 *
 	 * @param o The object to compare <code>this</code> with.
 	 * @return <code>true</code> if <code>o</code> is an instance of
 	 * 			{@code Position} and, {@link #col} and {@link #row}
@@ -110,10 +110,10 @@ public final class Position {
 	}
 	/**
 	 * Get hash code of <code>this</code> {@code Position}.
-	 * 
+	 *
 	 * The hash code is computed by performing an xor on the {@link #col} and
-	 * the {@link #row} of <code>this</code> {@code Position}. 
-	 * 
+	 * the {@link #row} of <code>this</code> {@code Position}.
+	 *
 	 * @return The hash value of <code>this</code>
 	 */
 	@Override
@@ -124,15 +124,15 @@ public final class Position {
 	/**
 	 * Get the {@link String} representation of <code>this</code>
 	 * {@code Position}.
-	 * 
+	 *
 	 * <p>
 	 * The produced format of the {@link String} should be:
 	 * <p>
-	 * 
+	 *
 	 * <p>
 	 * "({@link #col}, {@link #row})"
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link String} representation of <code>this</code>.
 	 */
 	@Override
@@ -149,7 +149,7 @@ public final class Position {
 	/**
 	 * Initialise a new {@code Position} which represents a position at a given
 	 * column and row.
-	 * 
+	 *
 	 * @param col The column index of the {@code Position}.
 	 * @param row The row index of the {@code Position}.
 	 * @return A {@code Position} object which represents the position of

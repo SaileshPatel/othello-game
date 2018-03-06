@@ -10,7 +10,7 @@ import com.othellog4.game.player.ai.SearchStrategies;
 /**
  * The {@code PlayerType} enumeration is the collection of players which can
  * be selected when creating a new game.
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	03/03/2018
  * @version 03/03/2018
@@ -21,7 +21,7 @@ public enum PlayerType
 	//Enum constants.
 	/**
 	 * The {@code PlayerType} object which represents a human player.
-	 * 
+	 *
 	 * <p>
 	 * Generates {@link Player} objects.
 	 * </p>
@@ -37,7 +37,7 @@ public enum PlayerType
 	/**
 	 * The {@code PlayerType} object which represents an AI of the easiest
 	 * difficulty.
-	 * 
+	 *
 	 * <p>
 	 * Provides access to a shared instance of an {@link AutomaticPlayer}
 	 * object.
@@ -58,7 +58,7 @@ public enum PlayerType
 	/**
 	 * The {@code PlayerType} object which represents an AI of medium
 	 * difficulty.
-	 * 
+	 *
 	 * <p>
 	 * Provides access to a shared instance of an {@link AutomaticPlayer}
 	 * object.
@@ -79,7 +79,7 @@ public enum PlayerType
 	/**
 	 * The {@code PlayerType} object which represents an AI of the hardest
 	 * available difficulty.
-	 * 
+	 *
 	 * <p>
 	 * Provides access to a shared instance of an {@link AutomaticPlayer}
 	 * object.
@@ -99,15 +99,15 @@ public enum PlayerType
 	/**
 	 * Get the {@link Participant} object which is corresponding to the
 	 * {@code PlayerType} object.
-	 * 
+	 *
 	 * <p>
 	 * Package private to only allow certain classes to access this method.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Redefined in each {@code PlayerType} instance.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link Participant} which corresponds to the
 	 * 			{@code PlayerType} object.
 	 * @see Participant

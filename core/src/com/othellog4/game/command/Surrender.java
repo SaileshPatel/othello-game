@@ -8,11 +8,11 @@ import com.othellog4.game.player.Participant;
 /**
  * The {@code Surrender} class is a subclass of the {@link GameCommand} which
  * encapsulates the action of surrendering a game.
- * 
+ *
  * <p>
  * The {@code Surrender} command is {@link CommandType#TURN_UNRESTRICTED}.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since	04/03/2018
  * @version	04/03/2018
@@ -25,7 +25,7 @@ public final class Surrender extends GameCommand
 	/**
 	 * The {@link Piece} object which <code>this</code> {@code Surrender}
 	 * command will make surrender.
-	 * 
+	 *
 	 * @see Piece
 	 */
 	private final Piece piece;
@@ -34,7 +34,7 @@ public final class Surrender extends GameCommand
 	/**
 	 * Create a {@code Surrender} command which makes a {@link Piece} object
 	 * surrender.
-	 * 
+	 *
 	 * @param source The {@link Participant} which issued the {@code Surrender}
 	 * 			command.
 	 * @param piece The {@link Piece} object which is surrendering, should be
@@ -54,7 +54,7 @@ public final class Surrender extends GameCommand
 	/**
 	 * Execute <code>this</code> {@code Surrender} command on a {@link Game}
 	 * object.
-	 * 
+	 *
 	 * @param game The {@link Game} object to invoke <code>this</code>
 	 * 			{@code Surrender} command on.
 	 * @throws GameException If a {@link GameException} occurs.
@@ -80,7 +80,7 @@ public final class Surrender extends GameCommand
 	/**
 	 * Get the {@link String} representation of <code>this</code>
 	 * {@code Surrender} command.
-	 * 
+	 *
 	 * @return The {@link String} which represents <code>this</code>
 	 * 			{@code Surrender} command.
 	 */

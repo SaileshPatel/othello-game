@@ -3,7 +3,7 @@ package com.othellog4.game;
 /**
  * The {@code GameEvent} enumeration is a listing of events which may occur
  * during a {@link Game}.
- * 
+ *
  * @author 	159014260 John Berg
  * @since	25/01/2018
  * @version 04/03/2018

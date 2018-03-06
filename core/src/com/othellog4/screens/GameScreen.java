@@ -22,13 +22,13 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	protected Othello game;
 	protected BoardRenderer boardRenderer;
 	private GameModel model;
-	
+
 	int buttonWidth = 100;
 	int buttonHeight = 100;
 	int xPos = 0;
 	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
 	private Texture mascotButton;
-	
+
 	//=========================================================================
 	//Constructors.
 	public GameScreen(final GameModel model, Othello game) {
@@ -36,13 +36,13 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		this.model.addObserver(this);
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
-		
+
 		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
 	}
 	//=========================================================================
 	//Methods.
 	/**
-	 * 
+	 *
 	 * @param message
 	 */
 	protected void printMessage(final String message)
@@ -50,7 +50,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		//TODO implement
 	}
 	/**
-	 * 
+	 *
 	 * @param position
 	 * @return
 	 */
@@ -58,7 +58,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	protected abstract void postRender(float delta);
 	protected abstract void postUpdate(float delta);
 	/**
-	 * 
+	 *
 	 * @param delta
 	 */
 	public final void update(final float delta) {

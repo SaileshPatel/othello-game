@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
 
 /**
- * 
+ *
  * @author James Shorthouse
  * @version 06/03/2017
  *
@@ -20,7 +20,7 @@ public class BaseScreen extends ScreenAdapter {
 	public final static Viewport VIEWPORT;
 	public final static SpriteBatch SPRITE_BATCH;
 	public final static ShapeRenderer SHAPE_RENDER;
-	
+
 
 	static {
 		CAM = new OrthographicCamera();
@@ -38,22 +38,22 @@ public class BaseScreen extends ScreenAdapter {
 	public BaseScreen() {
 		super();
 	}
-	
+
 	final public void resize(int width, int height) {
 		VIEWPORT.update(width, height);
-		CAM.position.set(Othello.GAME_WORLD_WIDTH / 2, 
+		CAM.position.set(Othello.GAME_WORLD_WIDTH / 2,
 				Othello.GAME_WORLD_HEIGHT / 2, 0);
 		updateMatricies();
 		postResize(width, height);
 	}
-	
+
 	protected void postResize(int width, int height) {
 		// Empty default implementation
 	}
-	
+
 	private static void updateMatricies() {
 		SPRITE_BATCH.setProjectionMatrix(CAM.combined);
 		SHAPE_RENDER.setProjectionMatrix(CAM.combined);
 	}
-	
+
 }

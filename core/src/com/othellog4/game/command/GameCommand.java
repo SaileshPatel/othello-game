@@ -7,7 +7,7 @@ import com.othellog4.game.player.Participant;
 /**
  * The {@code GameCommand} class is an abstract class which represents a
  * command to be executed on a {@link Game}.
- * 
+ *
  * <p>
  * The {@code GameCommand} represents an abstract action which can be performed
  * against a {@link Game}, such as:
@@ -16,14 +16,14 @@ import com.othellog4.game.player.Participant;
  * 		<li>Pause the game</li>
  * </ul>
  * </p>
- * 
+ *
  * <p>
  * Classes which wish to extend the {@code GameCommand} class, must implement the
  * {@link #execute(Game)} method. Subclasses of {@code GameCommand} should also
  * exist in the same package, to be able to access the package private
  * {@link #GameCommand(Object)} constructor.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	20/11/2017
  * @version 04/03/2018
@@ -54,7 +54,7 @@ public abstract class GameCommand
 	//Fields.
 	/**
 	 * The source which issued the {@code GameCommand}.
-	 * 
+	 *
 	 * @see Participant
 	 */
 	private final Participant source;
@@ -62,7 +62,7 @@ public abstract class GameCommand
 	 * The {@link CommandType} of <code>this</code> {@code GameCommand}
 	 * which is used to determine when the {@code GameCommand} can be
 	 * executed.
-	 * 
+	 *
 	 * @see CommandType
 	 */
 	private final CommandType type;
@@ -71,14 +71,14 @@ public abstract class GameCommand
 	/**
 	 * Create a {@code GameCommand} by specifying an {@link Object} which is
 	 * the issuer of the command.
-	 * 
+	 *
 	 * <p>
 	 * This constructor is only visible to classes which exist in the same
 	 * package, which means that classes which wish to extend the
 	 * {@code GameCommand} class must exist in the same folder as the
 	 * {@code GameCommand} class.
 	 * </p>
-	 * 
+	 *
 	 * @param source The issuer of the created {@code GameCommand}.
 	 * @param type The {@link CommandType} of the {@code GameCommand}.
 	 * @throws NullPointerException If <code>source</code> is
@@ -101,7 +101,7 @@ public abstract class GameCommand
 	//Abstract methods.
 	/**
 	 * Execute the command.
-	 * 
+	 *
 	 * @param game The {@link Game} object to execute the command on.
 	 * @throws GameException If <code>game</code> throws an exception.
 	 * @see Game
@@ -114,8 +114,8 @@ public abstract class GameCommand
 	//Methods.
 	/**
 	 * Check if the {@code GameCommand} can be executed.
-	 * 
-	 * @param current The current {@link Participant} object. 
+	 *
+	 * @param current The current {@link Participant} object.
 	 * @return <code>true</code> if the issuer if <code>this</code> is the
 	 * 			player with the current turn; otherwise, returns
 	 * 			<code>false</code>.
@@ -127,7 +127,7 @@ public abstract class GameCommand
 	}
 	/**
 	 * Get the source of <code>this</code> {@code GameCommand}.
-	 * 
+	 *
 	 * @return The issuer of <code>this</code> {@code GameCommand}.
 	 * @see Participant
 	 */
@@ -140,14 +140,14 @@ public abstract class GameCommand
 	/**
 	 * Get the {@link String} representation of <code>this</code>
 	 * {@code GameCommand}.
-	 * 
+	 *
 	 * <p>
 	 * The {@link String} representation of <code>this</code> should contain
 	 * the simple name of the class of the {@code GameCommand} and a brief
 	 * description of issued, including the {@link String} representation of
 	 * the source of <code>this</code> {@code GameCommand}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link String} representation of <code>this</code>
 	 * 			{@link GameCommand}.
 	 */
@@ -165,7 +165,7 @@ public abstract class GameCommand
 	 * The {@code CommandType} enumeration contains constants to mark a
 	 * {@link GameCommand} and define when a {@link GameCommand} can be
 	 * executed.
-	 * 
+	 *
 	 * @author 	159014260 John Berg
 	 * @since	04/03/2018
 	 * @version 04/03/2018
@@ -204,7 +204,7 @@ public abstract class GameCommand
 		//Abstract methods.
 		/**
 		 * Check if a {@link GameCommand} can be executed.
-		 * 
+		 *
 		 * @param issuer The {@link Participant} which is the issuer of the
 		 * 			{@link GameCommand}.
 		 * @param current The current {@link Participant} who's turn it is.

@@ -10,13 +10,13 @@ import com.othellog4.game.player.Participant;
  * between two players. {@code GameSession} also has the responsibility  for
  * allowing only the current {@link Participant} to make decisions which will
  * affect the {@code Game} such as placing a {@link Piece}.
- * 
+ *
  * <p>
  * The {@code GameSession} class works with the {@link Game} class to translate
  * {@link Piece} objects to {@link Participants}, which allows for translation
  * from the current {@link Piece} to the corresponding {@link Participant}.
  * </p>
- * 
+ *
  * <p>
  * {@code GameSession} also acts as a point of communication between
  * {@link Participant} objects and a {@link Game} object, which prevents
@@ -24,7 +24,7 @@ import com.othellog4.game.player.Participant;
  * {@link Participant} objects, as the {@link Game} class does not consider
  * the turn of a {@link Participant}.
  * </p>
- * 
+ *
  * <p>
  * The {@link GameCommand} class is used to allow objects such as
  * {@link Participant} objects, to interact with the {@link Game} class,
@@ -33,7 +33,7 @@ import com.othellog4.game.player.Participant;
  * as it is the {@code GameSession} class's responsibility to only allow
  * the current player to make certain decisions.
  * </p>
- * 
+ *
  * @author 	15901426 John Berg
  * @since 	20/11/2017
  * @version 04/03/2018
@@ -57,7 +57,7 @@ public final class GameSession
 	 * Create a {@code GameSession} with a {@link Game} that manages the turns
 	 * of the {@code GameSession}, and two {@link Participant} objects which
 	 * represent the first and second player respectively.
-	 * 
+	 *
 	 * @param turnManager The {@link TurnManager} which associates a
 	 * 			{@link Participant} with the corresponding {@link Piece}.
 	 * @throws NullPointerException If either <code>game</code>,
@@ -80,7 +80,7 @@ public final class GameSession
 	/**
 	 * Notify the {@link Participant} which is associated with the current
 	 * {@link Piece}.
-	 * 
+	 *
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
@@ -93,7 +93,7 @@ public final class GameSession
 	/**
 	 * Accept a {@link GameCommand} to be executed on the {@link Game} in
 	 * <code>this</code> {@code GameSession}.
-	 * 
+	 *
 	 * <p>
 	 * The {@link GameCommand} may not be accepted if the issuer of the command
 	 * is not accepted by <code>this</code> {@code GameSession}; such as the
@@ -101,7 +101,7 @@ public final class GameSession
 	 * opponents turn; the {@link GameCommand} issued by the
 	 * {@link Participant} would simply be ignored.
 	 * </p>
-	 * 
+	 *
 	 * @param command The {@link GameCommand} to be invoked onto the
 	 * 			{@link Game} instance contained in <code>this</code>.
 	 * @throws GameException If executing the <code>command</code> causes an
@@ -120,7 +120,7 @@ public final class GameSession
 	/**
 	 * Get the read-only {@link BoardView} which represent the
 	 * {@link GameBoard} of <code>this</code> {@code GameSession}.
-	 * 
+	 *
 	 * @return The {@link BoardView} of <code>this</code> {@code GameSession}.
 	 * @see BoardView
 	 */
@@ -130,7 +130,7 @@ public final class GameSession
 	}
 	/**
 	 * Get the {@link Piece} of the current player.
-	 * 
+	 *
 	 * @return The {@link Piece} which corresponds to the current
 	 * 			{@link Participant}.
 	 */

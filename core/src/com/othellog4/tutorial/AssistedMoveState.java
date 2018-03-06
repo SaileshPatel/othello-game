@@ -21,10 +21,10 @@ public class AssistedMoveState implements TutorialState , HighlightableState{
 	boolean highlight;
 	boolean messageActive;
 	DialogueState incorrectMessage;
-	
+
 	/**
 	 * Constructor.
-	 * 
+	 *
 	 * @param validMoves       All positions which you wish the player to choose.
 	 * @param highlight        Whether to highlight valid positions on the board or not.
 	 * @param incorrectMessage Message to be displayed to the player on making an invalid move.
@@ -35,7 +35,7 @@ public class AssistedMoveState implements TutorialState , HighlightableState{
 		this.incorrectMessage = incorrectMessage;
 		messageActive = false;
 	}
-	
+
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -45,7 +45,7 @@ public class AssistedMoveState implements TutorialState , HighlightableState{
 		if(highlight) return validMoves;
 		else return null;
 	}
-	
+
 	/**
 	 * Check is a move is valid.
 	 * @param pos Position to check
@@ -59,7 +59,7 @@ public class AssistedMoveState implements TutorialState , HighlightableState{
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Get the incorrect message
 	 * @return incorrect message
@@ -67,7 +67,7 @@ public class AssistedMoveState implements TutorialState , HighlightableState{
 	public DialogueState getIncorrectMessage() {
 		return incorrectMessage;
 	}
-	
+
 	/**
 	 * Get whether the message is active and should be rendered.
 	 * @return true if message is active
@@ -75,7 +75,7 @@ public class AssistedMoveState implements TutorialState , HighlightableState{
 	public boolean isMessageActive() {
 		return messageActive;
 	}
-	
+
 	/**
 	 * Set whether the message is active and should be displayed.
 	 * @param active if the message should be active

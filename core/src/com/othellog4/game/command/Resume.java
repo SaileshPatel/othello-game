@@ -7,11 +7,11 @@ import com.othellog4.game.player.Participant;
 /**
  * The {@code Resume} class is a subclass of the {@link GameCommand} class,
  * which represents the action of resuming a paused game.
- * 
+ *
  * <p>
  * The {@code Resume} command is {@link CommandType#TURN_UNRESTRICTED}.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	04/03/2018
  * @version 05/03/2018
@@ -23,7 +23,7 @@ public class Resume extends GameCommand
 	//Constructors.
 	/**
 	 * Create a {@code Resume} command to resume a paused game.
-	 * 
+	 *
 	 * @param source The {@link Participant} which issued the {@code Resume}
 	 * 			command.
 	 * @see Participant
@@ -37,7 +37,7 @@ public class Resume extends GameCommand
 	/**
 	 * Execute <code>this</code> {@code Resume} command on a {@link Game}
 	 * object.
-	 * 
+	 *
 	 * @param game The {@link Game} object to execute the {@code Resume}
 	 * 			command onto.
 	 * @throws GameException If a {@code GameException} occurs.

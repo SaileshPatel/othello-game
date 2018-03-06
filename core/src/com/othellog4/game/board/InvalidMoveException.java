@@ -1,16 +1,16 @@
 package com.othellog4.game.board;
 
 public class InvalidMoveException extends Exception {
-	
+
 	//private Piece type;
 	private Position cord;
-	
+
 	public InvalidMoveException(Position cord ,Piece type){
 		super();
 		//this.type = type;
 		this.cord = cord;
 	}
-	
+
 	@Override
 	public String toString(){
 		String temp;

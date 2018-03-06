@@ -5,17 +5,17 @@ import com.othellog4.game.board.Piece;
 /**
  * The {@code GameConclusion} class is the conclusion of a {@link Game}, which
  * describes the conclusion of that game.
- * 
+ *
  * <p>
  * The information contained in a {@code GameConclusion} object concerns the
  * outcome of a {@link Game}, such as, the winner of the game or if the game
  * is a draw.
  * </p>
- * 
+ *
  * <p>
  * Objects of the {@code GameConclusion} class are immutable.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since	10/02/2018
  * @version 11/02/2018
@@ -34,12 +34,12 @@ public class GameConclusion
 	//Fields.
 	/**
 	 * The {@link Piece} object which is the winner of a {@link Game}.
-	 * 
+	 *
 	 * <p>
 	 * If the {@link Piece} object has a value of <code>null</code> then the
 	 * {@code GameConclusion} is representing a draw.
 	 * </p>
-	 * 
+	 *
 	 * @see Piece
 	 */
 	private final Piece winner;
@@ -48,7 +48,7 @@ public class GameConclusion
 	/**
 	 * Construct a {@code GameConclusion} which represents a {@link Game} which
 	 * is in a draw.
-	 * 
+	 *
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
@@ -60,16 +60,16 @@ public class GameConclusion
 	/**
 	 * Construct a {@code GameConclusion} with a specified {@link Piece}
 	 * object as the winner of a {@link Game}.
-	 * 
+	 *
 	 * <p>
 	 * If the value of the {@link Piece} object  is <code>null</code> the
 	 * resulting {@code GameConclusion} is a draw.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <b>For internal use only!</b>
 	 * </p>
-	 * 
+	 *
 	 * @param winner The {@link Piece} object which is set as the winner of the
 	 * 				game.
 	 */
@@ -82,7 +82,7 @@ public class GameConclusion
 	/**
 	 * Check if <code>this</code> {@code GameConclusion} is representing a
 	 * conclusion of a game which is in a  draw state.
-	 * 
+	 *
 	 * @return <code>true</code> if <code>this</code> {@code GameConclusion} is
 	 * 			a draw, otherwise returns <code>false</code>.
 	 */
@@ -93,7 +93,7 @@ public class GameConclusion
 	/**
 	 * Get the {@link Piece} object which represents the winner of a
 	 * {@link Game}.
-	 * 
+	 *
 	 * @return The winning {@link Piece} object.
 	 * @throws IllegalStateException If <code>this</code> {@link GameConclusion}
 	 * 			is a draw.
@@ -109,7 +109,7 @@ public class GameConclusion
 	/**
 	 * Get the {@link Piece} object which represents the loser of a
 	 * {@link Game}.
-	 * 
+	 *
 	 * @return The losing {@link Piece} object.
 	 * @throws IllegalStateException If <code>this</code>
 	 * 			{@link GameConclusion}
@@ -126,12 +126,12 @@ public class GameConclusion
 	/**
 	 * Check if an {@link Object} is equal to <code>this</code>
 	 * {@code GameConclusion}.
-	 * 
+	 *
 	 * <p>
 	 * For equality, the object being tested must have the same state as
 	 * <code>this</code>.
 	 * </p>
-	 * 
+	 *
 	 * @return <code>true</code> if <code>o</code> is an instance of
 	 * 		{@link GameConclusion}, and <code>o</code> and <code>this</code>
 	 * 		have the same state; otherwise returns <code>false</code>.
@@ -151,7 +151,7 @@ public class GameConclusion
 	}
 	/**
 	 * Get the hash value from <code>this</code> {@code GameConclusion}.
-	 * 
+	 *
 	 * @return 0 if <code>this</code> {@code GameConclusion} is a draw,
 	 * 			otherwise, returns the hash code of the winner {@link Piece}
 	 * 			object.
@@ -164,12 +164,12 @@ public class GameConclusion
 	/**
 	 * Get the {@link String} representation of <code>this</code>
 	 * {@link GameConclusion}.
-	 * 
+	 *
 	 * <p>
 	 * Returns "Draw" if its a draw, otherwise, returns the name of the
 	 * {@link Piece} objct which is the winner.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link String} representation of <code>this</code>.
 	 */
 	@Override
@@ -182,7 +182,7 @@ public class GameConclusion
 	/**
 	 * Create a {@code GameConclusion} object which represents a conclusion of
 	 * a {@link Game} which is in a draw.
-	 * 
+	 *
 	 * @return A {@code GameConclusion} object which is a draw.
 	 */
 	public static final GameConclusion draw()
@@ -192,7 +192,7 @@ public class GameConclusion
 	/**
 	 * Create a {@link GameConclusion} object using a {@link Piece} object,
 	 * which represents the winning state for that {@link Piece} object.
-	 * 
+	 *
 	 * @param winner The {@link Piece} object which is the winner of a
 	 * 			{@link Game}.
 	 * @return The {@code GameConclusion} which represents the win of the
@@ -208,7 +208,7 @@ public class GameConclusion
 	/**
 	 * Create a {@link GameConclusion} object using a {@link Piece} object,
 	 * which represents the losing state for that {@link Piece} object.
-	 * 
+	 *
 	 * @param loser The {@link Piece} object which is the loser of a
 	 * 			{@link Game}.
 	 * @return The {@code GameConclusion} which represents the loss of the

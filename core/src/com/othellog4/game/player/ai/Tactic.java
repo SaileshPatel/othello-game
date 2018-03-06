@@ -10,7 +10,7 @@ import com.othellog4.game.board.Position;
  * The {@code Tactic} class is a record which combines both a
  * {@link SearchStrategy} and a {@link EvaluationStrategy} to formulate
  * a strategy of how to play.
- * 
+ *
  * @author 	159014260 John Berg
  * @since	14/02/2018
  * @version 15/02/2018
@@ -33,7 +33,7 @@ public final class Tactic
 	//Constructors.
 	/**
 	 * Create a {@code Tactic} by defining how to search and evaluate a board.
-	 * 
+	 *
 	 * @param eval The {@link EvaluationStrategy} object used to evaluate a
 	 * 			{@link BoardView} object.
 	 * @param search The {@link SearchStrategy} object used to search a
@@ -50,12 +50,12 @@ public final class Tactic
 	//Methods.
 	/**
 	 * Prepare the application of <code>this</code> {@code Tactic} object.
-	 * 
+	 *
 	 * <p>
 	 * Create a {@link Runnable} object which will execute the {@code Tactic}.
 	 * This allows for suspended evaluation.
 	 * </p>
-	 * 
+	 *
 	 * @param board The {@link BoardView} object to apply the strategies to.
 	 * @param piece The {@link Piece} object to use during the search.
 	 * @param callback The function to return the {@link Position} object

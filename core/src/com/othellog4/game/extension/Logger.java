@@ -10,16 +10,16 @@ import com.othellog4.game.command.GameCommand;
 /**
  * The {@code Logger} class is a sublcass of the {@link GameExtension}, which
  * purpose is to log information and events that occur in a {@link Game}.
- * 
+ *
  * <p>
  * The {@code Logger} will not generate scores or result {@link String}
  * objects.
  * </p>
- * 
+ *
  * <p>
  * The {@code Logger} class is mainly intended as a tool for aiding debugging.
  * </p>
- * 
+ *
  * @author	159014260 John Berg
  * @since	27/02/2018
  * @version 01/03/2018
@@ -41,7 +41,7 @@ public final class Logger extends GameExtension
 	/**
 	 * Create a {@code Logger} object which logs events of a {@link Game} to
 	 * a specified callback {@link Consumer} function.
-	 * 
+	 *
 	 * @param log The {@link Consumer} function object which will be called
 	 * 			to log events that occur.
 	 */
@@ -53,7 +53,7 @@ public final class Logger extends GameExtension
 	//Methods.
 	/**
 	 * Log the beginning of a new entry.
-	 * 
+	 *
 	 * <p>
 	 * Internal use only!
 	 * </p>
@@ -64,11 +64,11 @@ public final class Logger extends GameExtension
 	}
 	/**
 	 * Log the information contained in a {@link GameManager} object.
-	 * 
+	 *
 	 * <p>
 	 * Internal use only!
 	 * </p>
-	 * 
+	 *
 	 * @param manager The {@link GameManager} to log information from.
 	 */
 	private void logManager(final GameManager manager)
@@ -79,7 +79,7 @@ public final class Logger extends GameExtension
 	//Overriden methods.
 	/**
 	 * The {@code Logger} class does not provide a result.
-	 * 
+	 *
 	 * @return <code>false</code>.
 	 */
 	@Override
@@ -89,7 +89,7 @@ public final class Logger extends GameExtension
 	}
 	/**
 	 * The {@code Logger} class does not generate a result.
-	 * 
+	 *
 	 * @param piece Ignored.
 	 * @return Should not return.
 	 * @throws UnsupportedOperationException When called.
@@ -103,7 +103,7 @@ public final class Logger extends GameExtension
 	}
 	/**
 	 * Log the occurance of a {@link GameEvent} object.
-	 * 
+	 *
 	 * @param event The {@link GameEvent} which has occured.
 	 * @param manager The {@link GameManager} which <code>this</code>
 	 * 			{@code Logger} belongs to.
@@ -119,7 +119,7 @@ public final class Logger extends GameExtension
 	}
 	/**
 	 * Log the occurance of a {@link GameCommand} object.
-	 * 
+	 *
 	 * @param command The {@link GameCommand} which has been issued.
 	 * @param manager The {@link GameManager} which <code>this</code>
 	 * 			{@code Logger} belongs to.
