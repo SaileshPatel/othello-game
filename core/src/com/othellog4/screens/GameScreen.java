@@ -110,8 +110,7 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
 		postUpdate(delta);
-		Vector2 mousePos  = getUnprojectedMousePos();
-		System.out.println(mousePos);
+		Vector2 mousePos  = GraphicsUtil.getUnprojectedMousePos(viewport);
 		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
 			if(Gdx.input.justTouched()){
 				this.dispose();
@@ -137,18 +136,6 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 	@Override
 	public final void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		Vector2 mousePos  = getUnprojectedMousePos();
-		System.out.println(mousePos);
-		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				game.switchToMenu();
-			}
-		}
-	}
-	protected Vector2 getUnprojectedMousePos() {		
-		Vector3 mouseActualPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		viewport.unproject(mouseActualPos);
-		return new Vector2(mouseActualPos.x, mouseActualPos.y);
+
 	}
 }
