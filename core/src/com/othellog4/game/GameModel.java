@@ -24,7 +24,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	159014260 John Berg
  * @since 	01/12/2017
- * @version 25/01/2017
+ * @version 06/03/2018
  */
 public class GameModel extends Observable
 {

@@ -78,15 +78,28 @@ public final class Logger extends GameExtension
 	//=========================================================================
 	//Overriden methods.
 	/**
-	 * The {@code Logger} class does not accumulate score.
+	 * The {@code Logger} class does not provide a result.
 	 * 
-	 * @param piece Unused.
-	 * @return <code>0</code>.
+	 * @return <code>false</code>.
 	 */
 	@Override
-	public int getScore(final Piece piece)
+	public final boolean hasResult()
 	{
-		return 0;
+		return false;
+	}
+	/**
+	 * The {@code Logger} class does not generate a result.
+	 * 
+	 * @param piece Ignored.
+	 * @return Should not return.
+	 * @throws UnsupportedOperationException When called.
+	 */
+	@Override
+	public final int result(final Piece piece)
+			throws
+			UnsupportedOperationException
+	{
+		throw new UnsupportedOperationException();
 	}
 	/**
 	 * Log the occurance of a {@link GameEvent} object.
@@ -118,26 +131,5 @@ public final class Logger extends GameExtension
 	{
 		logEntry();
 		log.accept("Command: " + command.toString());
-	}
-	/**
-	 * The {@code Logger} does not produce a result {@link String}.
-	 * 
-	 * @param piece Unused.
-	 * @return <code>null</code>.
-	 */
-	@Override
-	public String getResult(final Piece piece)
-	{
-		return null;
-	}
-	/**
-	 * The {@code Logger} does not produce a {@link String} representation.
-	 * 
-	 * @return <code>null</code>.
-	 */
-	@Override
-	public String toString()
-	{
-		return null;
 	}
 }
