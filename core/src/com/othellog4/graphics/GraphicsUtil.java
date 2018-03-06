@@ -6,6 +6,9 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 /**
  * Utility class containing commonly used functions
@@ -91,5 +94,16 @@ public class GraphicsUtil {
 	 */
 	public static float smoothAnimationBetween(float time, float start, float duration) {
 		return smoothAnimationBetween(time, start, duration, 2); // Use 2 as default steepness
+	}
+	
+	/**
+	 * Get the mouse coordinates within a given viewport
+	 * @param viewport 	the viewport to get coordinates from
+	 * @return			mouse coordinates
+	 */
+	public static Vector2 getUnprojectedMousePos(Viewport viewport) {
+		Vector3 mouseActualPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+		viewport.unproject(mouseActualPos);
+		return new Vector2(mouseActualPos.x, mouseActualPos.y);
 	}
 }
