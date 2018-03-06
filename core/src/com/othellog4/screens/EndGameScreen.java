@@ -5,20 +5,13 @@ import java.util.Arrays;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+
 import com.othellog4.Othello;
 import com.othellog4.graphics.GraphicsUtil;
 
@@ -30,23 +23,14 @@ import com.othellog4.graphics.GraphicsUtil;
  * @author James Shorthouse
  * @version 13/02/2018
  */
-public class EndGameScreen extends ScreenAdapter{
+public class EndGameScreen extends BaseScreen {
 
 	// The screen of the game to be displayed behind the victory screen
 	private GameScreen screen;
 	private Othello game;
-	private SpriteBatch batch;
 	private BitmapFont largeFont;
 	private BitmapFont mediumFont;
 	private BitmapFont smallFont;
-	private BitmapFont tinyFont;
-
-	private Camera cam;
-	//TODO find a way to reuse viewports so we don't have to keep doing this
-	//every time
-	private Viewport viewport;
-
-	private ShapeRenderer shape;
 
 	private Color gradientTop;
 	private Color gradientBottom;
@@ -123,17 +107,6 @@ public class EndGameScreen extends ScreenAdapter{
 
 		this.screen = screen;
 		this.game = game;
-		this.batch = game.getSpriteBatch();
-
-		shape = new ShapeRenderer();
-
-		cam = new OrthographicCamera();
-		cam.position.set((Othello.GAME_WORLD_WIDTH/1) / 2,
-				(Othello.GAME_WORLD_HEIGHT/1) / 2, 0);
-		viewport = new FitViewport(Othello.GAME_WORLD_WIDTH/1,
-				Othello.GAME_WORLD_HEIGHT/1, cam);
-		viewport.apply();
-		shape.setProjectionMatrix(cam.combined);
 
 		largeFont = GraphicsUtil.generateFont("fonts/overpass-bold.otf", 200, 0);
 
@@ -375,46 +348,39 @@ public class EndGameScreen extends ScreenAdapter{
 		// Render game in background
 		screen.render(delta);
 
-		// TODO move these methods
-		Gdx.gl.glEnable(GL20.GL_BLEND);
-		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 		gradientTop.a = 0.8f * animGradientAlpha;
 		gradientBottom.a = 0.5f * animGradientAlpha;
 
 		// Draw background gradient and background colour
-		shape.begin(ShapeType.Filled);
-		shape.rect(0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT,
+		Gdx.gl.glEnable(GL20.GL_BLEND);
+		SHAPE_RENDER.begin(ShapeType.Filled);
+		SHAPE_RENDER.rect(0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT,
 				gradientTop, gradientTop, gradientBottom, gradientBottom);
-		shape.setColor(messageColor);
-		shape.rect(0, (Othello.GAME_WORLD_HEIGHT/2) - animTextBackgroundHeight/2,
+		SHAPE_RENDER.setColor(messageColor);
+		SHAPE_RENDER.rect(0, (Othello.GAME_WORLD_HEIGHT/2) - animTextBackgroundHeight/2,
 				animTextBackgroundWidth, animTextBackgroundHeight);
-		shape.end();
+		SHAPE_RENDER.end();
+		Gdx.gl.glDisable(GL20.GL_BLEND);
 
 		// Draw text and textures
-		batch.setProjectionMatrix(cam.combined);
-		batch.begin();
+		SPRITE_BATCH.begin();
 		largeFont.setColor(1f, 1f, 1f, animTextAlpha);
-		largeFont.draw(batch, messageText, messageX, animTextYPos);
-		batch.setColor(1.0f, 1.0f, 1.0f, animEnterKeyAlpha);
-		batch.draw(enterKey, (Othello.GAME_WORLD_WIDTH - 50) - enterWidth, 50,
+		largeFont.draw(SPRITE_BATCH, messageText, messageX, animTextYPos);
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, animEnterKeyAlpha);
+		SPRITE_BATCH.draw(enterKey, (Othello.GAME_WORLD_WIDTH - 50) - enterWidth, 50,
 				enterWidth, ENTER_HEIGHT);
 
-		batch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		batch.draw(mascot, animMascotXPos, 25f, mascotWidth, mascotWidth);
-		smallFont.draw(batch, textText[TIME_TAKEN], textXPositions[TIME_TAKEN],
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		SPRITE_BATCH.draw(mascot, animMascotXPos, 25f, mascotWidth, mascotWidth);
+		smallFont.draw(SPRITE_BATCH, textText[TIME_TAKEN], textXPositions[TIME_TAKEN],
 				textYPositions[TIME_TAKEN]);
-		smallFont.draw(batch, textText[NUM_FLIPS],  textXPositions[NUM_FLIPS],
+		smallFont.draw(SPRITE_BATCH, textText[NUM_FLIPS],  textXPositions[NUM_FLIPS],
 				textYPositions[NUM_FLIPS]);
-		smallFont.draw(batch, textText[NUM_PIECES], textXPositions[NUM_PIECES],
+		smallFont.draw(SPRITE_BATCH, textText[NUM_PIECES], textXPositions[NUM_PIECES],
 				textYPositions[NUM_PIECES]);
-		mediumFont.draw(batch, textText[TOTAL_SCORE], textXPositions[TOTAL_SCORE],
+		mediumFont.draw(SPRITE_BATCH, textText[TOTAL_SCORE], textXPositions[TOTAL_SCORE],
 				textYPositions[TOTAL_SCORE]);
 
-		batch.end();
-	}
-
-	public void resize(int width, int height)
-	{
-		screen.resize(width, height);
+		SPRITE_BATCH.end();
 	}
 }

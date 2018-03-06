@@ -1,19 +1,12 @@
 package com.othellog4.screens;
 
-import java.lang.reflect.GenericArrayType;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.graphics.GraphicsUtil;
@@ -22,12 +15,11 @@ import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
 
 
-public abstract class GameScreen extends ScreenAdapter implements Observer {
+public abstract class GameScreen extends BaseScreen implements Observer {
 	//=========================================================================
 	//Fields.
 	private boolean isPressed = false;
 	protected Othello game;
-	protected SpriteBatch spriteBatch;
 	protected BoardRenderer boardRenderer;
 	private GameModel model;
 	
@@ -35,8 +27,6 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 	int buttonHeight = 100;
 	int xPos = 0;
 	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
-	Viewport viewport;
-	OrthographicCamera cam;
 	private Texture mascotButton;
 	
 	//=========================================================================
@@ -45,14 +35,9 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		this.model = model;
 		this.model.addObserver(this);
 		this.game = game;
-		spriteBatch = game.getSpriteBatch();
-		boardRenderer = new BoardRenderer(spriteBatch, model);
+		boardRenderer = new BoardRenderer(model);
 		
 		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
-		cam = new OrthographicCamera();
-		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
-		viewport = new FitViewport(Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, cam);
-		viewport.apply();
 	}
 	//=========================================================================
 	//Methods.
@@ -72,17 +57,6 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 	protected abstract boolean checkInput(final Position position);
 	protected abstract void postRender(float delta);
 	protected abstract void postUpdate(float delta);
-	/**
-	 * 
-	 * @param width
-	 * @param height
-	 */
-	public void resize(int width, int height)
-	{
-		boardRenderer.resize(width, height);
-		viewport.update(width, height);
-		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
-	}
 	/**
 	 * 
 	 * @param delta
@@ -110,7 +84,7 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
 		postUpdate(delta);
-		Vector2 mousePos  = GraphicsUtil.getUnprojectedMousePos(viewport);
+		Vector2 mousePos  = GraphicsUtil.getMousePos();
 		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
 			if(Gdx.input.justTouched()){
 				this.dispose();
@@ -125,13 +99,11 @@ public abstract class GameScreen extends ScreenAdapter implements Observer {
 		update(delta);
 		boardRenderer.render(delta);
 		postRender(delta);
-		spriteBatch.setProjectionMatrix(cam.combined);
-		viewport.apply();
-		spriteBatch.begin();
-		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 0.20f);
-		spriteBatch.draw(mascotButton, xPos, yPos, buttonWidth, buttonHeight);
-		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		spriteBatch.end();	
+		SPRITE_BATCH.begin();
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 0.20f);
+		SPRITE_BATCH.draw(mascotButton, xPos, yPos, buttonWidth, buttonHeight);
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		SPRITE_BATCH.end();
 	}
 	@Override
 	public final void update(Observable o, Object arg) {
