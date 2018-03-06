@@ -71,7 +71,7 @@ public class TutorialScreen extends GameScreen {
 	ShapeRenderer shape;
 	
 	Camera cam;
-	Viewport viewport;
+	//Viewport viewport;
 
 	/**
 	 * Constructor
@@ -97,7 +97,7 @@ public class TutorialScreen extends GameScreen {
 		
 		cam = new OrthographicCamera();
 		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
-		viewport = new FitViewport(Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, cam);
+		//viewport = new FitViewport(Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, cam);
 		viewport.apply();
 		shape.setProjectionMatrix(cam.combined);
 		
@@ -191,6 +191,7 @@ public class TutorialScreen extends GameScreen {
 			// TODO move these methods
 			Gdx.gl.glEnable(GL20.GL_BLEND);
 			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			shape.setProjectionMatrix(cam.combined);
 			shape.begin(ShapeType.Filled);
 		    shape.rect(0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT, gradientTop, gradientTop,
 		    		gradientBottom, gradientBottom);
