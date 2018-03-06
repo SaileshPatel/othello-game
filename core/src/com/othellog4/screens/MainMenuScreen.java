@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
+import com.othellog4.graphics.GraphicsUtil;
 
 /**
  * This is the main menu screen where
@@ -103,7 +104,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		titleFont.draw(othello.getSpriteBatch(), "Othello", 365, 250, 1000, Align.left, true);
 
 		// othello.getSpriteBatch().draw(OthelloText, 400, 100);
-		Vector2 mousePos = getUnprojectedMousePos();
+		Vector2 mousePos = GraphicsUtil.getUnprojectedMousePos(viewport);
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
 			// othello.getSpriteBatch().draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
@@ -179,11 +180,4 @@ public class MainMenuScreen extends ScreenAdapter {
 		viewport.update(width, height);
 		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
 	}
-
-	private Vector2 getUnprojectedMousePos() {
-		Vector3 mouseActualPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		viewport.unproject(mouseActualPos);
-		return new Vector2(mouseActualPos.x, mouseActualPos.y);
-	}
-
 }
