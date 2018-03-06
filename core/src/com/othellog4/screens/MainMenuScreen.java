@@ -46,6 +46,7 @@ public class MainMenuScreen extends BaseScreen {
 	private BitmapFont optionsFont;
 
 	public MainMenuScreen(Othello othello) {
+		this.othello = othello;
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
 		titleparameter.size = 170; // Size in px
@@ -89,31 +90,28 @@ public class MainMenuScreen extends BaseScreen {
 
 		// SPRITE_BATCH.draw(OthelloText, 400, 100);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
-		
-		new ScreenBoxField(850, 460, 1180, 50)
-		.onHover(box ->
-		{
-			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			if(Launcher.get().hasCache())
+		if(Launcher.get().hasCache())
+			new ScreenBoxField(850, 460, 1180, 50)
+			.onHover(box ->
 			{
+				optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 				if(Gdx.input.isTouched())
 					othello.continueGame();
-			}
-		})
-		.noHover(box -> optionsFont.setColor(1f, 1f, 1f, 1f))
-		.after(box ->
-		{
-			if(Launcher.get().hasCache())
+			})
+			.noHover(box -> optionsFont.setColor(1f, 1f, 1f, 1f))
+			.after(box ->
+			{
 				optionsFont.draw(
-				SPRITE_BATCH,
-				"Continue",
-				box.getX(),
-				box.getY() + box.getHeight(),
-				500,
-				Align.left,
-				true);
-		})
-		.hover(mousePos.x, mousePos.y);;
+						SPRITE_BATCH,
+						"Continue",
+						box.getX(),
+						box.getY() + box.getHeight(),
+						500,
+						Align.left,
+						true);
+			})
+			.hover(mousePos.x, mousePos.y);
+		
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
 			// SPRITE_BATCH.draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
@@ -161,37 +159,25 @@ public class MainMenuScreen extends BaseScreen {
 			optionsFont.draw(SPRITE_BATCH, "Options", 850, 340, 500, Align.left, true);
 		}
 		
-		
-		
-		
-		
 		new ScreenBoxField(850, 240, 110, 40)
-		.onHover((box) ->
+		.onHover(box ->
 		{
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(
-					SPRITE_BATCH,
-					"Exit",
-					box.getX(),
-					box.getY() + box.getHeight(),
-					500,
-					Align.left,
-					true);
 			if(Gdx.input.isTouched())
 				Gdx.app.exit();
 		})
-		.noHover((box) ->
+		.noHover(box ->
 		{
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(
-					SPRITE_BATCH,
-					"Exit",
-					box.getX(),
-					box.getY() + box.getHeight(),
-					500,
-					Align.left,
-					true);
 		})
+		.after(box -> optionsFont.draw(
+				SPRITE_BATCH,
+				"Exit",
+				box.getX(),
+				box.getY() + box.getHeight(),
+				500,
+				Align.left,
+				true))
 		.hover(mousePos.x, mousePos.y);
 
 //		if (mousePos.x >850 && mousePos.x < 960 && mousePos.y > 240 && mousePos.y < 280) {

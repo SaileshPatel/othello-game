@@ -5,7 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.othellog4.environment.GameMode;
 import com.othellog4.environment.Launcher;
 import com.othellog4.environment.PlayerType;
@@ -16,7 +15,6 @@ import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.TutorialScreen;
 
 public class Othello extends Game {
-	private SpriteBatch spriteBatch;
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
 	public Music music;
