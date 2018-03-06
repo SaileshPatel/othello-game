@@ -21,7 +21,7 @@ import com.othellog4.game.command.Put;
  * 
  * @author 	159014260 John Berg
  * @since 	26/02/2018
- * @version 01/02/2018
+ * @version 06/03/2018
  * @see		GameExtension
  * @see		GameCommand
  * @see		Put
@@ -64,20 +64,23 @@ public final class FlipCounter extends GameExtension
 	//=========================================================================
 	//Overriden methods.
 	/**
-	 * Get the score for a specified {@link Piece} object.
+	 * The {@code FlipCounter} class can generate a result.
 	 * 
-	 * <p>
-	 * The score is equal to the total number of flips that a {@link Piece}
-	 * object has accumulated.
-	 * </p>
-	 * 
-	 * @param piece The {@link Piece} object to get the score from.
-	 * @return The <code>int</code> representing the total number of
-	 * 			{@link Piece} objects flipped by <code>piece</code>.
-	 * @see Piece
+	 * @return <code>true</code>.
 	 */
 	@Override
-	public int getScore(final Piece piece)
+	public final boolean hasResult()
+	{
+		return true;
+	}
+	/**
+	 * Get the <code>int</code> result for a specific {@link Piece} object.
+	 * 
+	 * @param piece The {@link Piece} object to get the result for.
+	 * @return The total number of flips accumulated by the <code>piece</code>.
+	 */
+	@Override
+	public final int result(final Piece piece)
 	{
 		return scoreMap.get(piece);
 	}
@@ -90,7 +93,7 @@ public final class FlipCounter extends GameExtension
 	 * @see GameManager
 	 */
 	@Override
-	public void onEvent(
+	public final void onEvent(
 			final GameEvent event,
 			final GameManager manager)
 	{
@@ -112,7 +115,7 @@ public final class FlipCounter extends GameExtension
 	 * @see GameManager
 	 */
 	@Override
-	public void onCommand(
+	public final void onCommand(
 			final GameCommand command,
 			final GameManager manager)
 	{
@@ -125,37 +128,5 @@ public final class FlipCounter extends GameExtension
 								pos.col, pos.row,
 								piece));
 		}
-	}
-	/**
-	 * Get the {@link String} representing how many flips has been performed
-	 * by a specified {@link Piece} object.
-	 * 
-	 * @param piece The {@link Piece} object to get the result for.
-	 * @return The [@link String} describing the result for <code>piece</code>.
-	 * @see Piece
-	 */
-	@Override
-	public String getResult(final Piece piece)
-	{
-		return "Flips: " +  scoreMap.get(piece);
-	}
-	/**
-	 * Get the {@link String} representation of <code>this</code>
-	 * {@code FlipCounter} object.
-	 * 
-	 * <p>
-	 * The {@link String} which provides all the information about both
-	 * players and the total flips accumulated.
-	 * </p>
-	 * 
-	 * @return The {@link String} containing the description of the total
-	 * 			number of flips.
-	 */
-	@Override
-	public String toString()
-	{
-		return "Flips " +
-				"Player 1: " + getResult(Piece.PIECE_A) + " " +
-				"Player 2: " + getResult(Piece.PIECE_A);
 	}
 }

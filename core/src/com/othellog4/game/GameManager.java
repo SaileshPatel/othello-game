@@ -23,7 +23,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	159014260 John Berg
  * @since	02/12/2017
- * @since	17/12/2017
+ * @since	06/03/2017
  */
 public final class GameManager
 {
@@ -128,17 +128,23 @@ public final class GameManager
 			e.onCommand(command, this);
 	}
 	/**
-	 * Calculate the score from the {@link GameExtension} objects which
-	 * are managed by <code>this</code> {@code GameManager}.
+	 * Get the {@link GameResult} objects from the {@link GameExtension}
+	 * objects for a specified {@link Piece} object, managed by
+	 * <code>this</code> {@code GameScore}.
 	 * 
-	 * @param piece The {@link Piece} object to calculate the score for.
-	 * @return The score for the <code>piece</code> object.
+	 * <p>
+	 * Package private to restrict access to this method.
+	 * </p>
+	 * 
+	 * @return The array of {@link GameResult} objects which represent the
+	 * 			results.
 	 */
-	public final int calculateScore(final Piece piece)
+	final GameResult[] getResults()
 	{
 		return extensions.stream()
-				.mapToInt(e -> e.getScore(piece))
-				.sum();
+				.filter(GameExtension::hasResult)
+				.map(GameResult::new)
+				.toArray(GameResult[]::new);
 	}
 	/**
 	 * Execute a {@link GameCommand} on the {@link Game} managed by
@@ -247,34 +253,5 @@ public final class GameManager
 	public final Game game()
 	{
 		return game;
-	}
-	/**
-	 * Get the result {@link String} objects from the {@link GameExtension}
-	 * objects managed by <code>this</code> {@code GameScore}.
-	 * 
-	 * @return The {@link String} array which represents the results.
-	 */
-	public final String[] getResult()
-	{
-		return extensions.stream()
-				.map(Object::toString)
-				.filter(s -> s != null)
-				.toArray(String[]::new);
-	}
-	/**
-	 * Get the result {@link String} objects from the {@link GameExtension}
-	 * objects for a specified {@link Piece} object, managed by
-	 * <code>this</code> {@code GameScore}.
-	 * 
-	 * @param piece The {@link Piece} object to get the result {@link String}
-	 * 			from.
-	 * @return The array of {@link String} objects which represent the results.
-	 */
-	public final String[] getResults(final Piece piece)
-	{
-		return extensions.stream()
-				.map(e -> e.getResult(piece))
-				.filter(s -> s != null)
-				.toArray(String[]::new);
 	}
 }
