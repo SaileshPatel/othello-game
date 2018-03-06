@@ -46,8 +46,8 @@ public enum PlayerType
 	AI_EASY
 	{
 		private final Participant ai = new AutomaticPlayer(
-				null,
-				SearchStrategies.RANDOM_SELECTION,
+				EvaluationStrategies.WINNER,
+				SearchStrategies.BEST_IMMIDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
 		@Override
 		final Participant get()

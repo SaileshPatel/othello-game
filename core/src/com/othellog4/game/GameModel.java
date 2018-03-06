@@ -109,6 +109,16 @@ public class GameModel extends Observable
 		return manager.game().getCurrentState() == GameState.PLAYING;
 	}
 	/**
+	 * Check if the {@link GameModel} has a game which has ended.
+	 * 
+	 * @return <code>true</code> if the game has ended, otherwise, returns
+	 * 			<code>false</code>.
+	 */
+	public final boolean isGameOver()
+	{
+		return manager.game().isGameOver();
+	}
+	/**
 	 * Check if <code>this</code> {@code GameModel} is waiting for an input.
 	 * 
 	 * @return <code>true</code> if <code>this</code> {@code GameModel} is
