@@ -8,6 +8,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.othellog4.Othello;
+import com.othellog4.environment.Launcher;
 import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.game.GameException;
@@ -88,6 +89,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
 			if(Gdx.input.justTouched()){
 				this.dispose();
+				Launcher.get().cache(model);
 				game.switchToMenu();
 			}
 		}

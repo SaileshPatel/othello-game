@@ -36,7 +36,6 @@ public class Othello extends Game {
 	public void render () {
 		super.render();
 	}
-
 	@Override
 	public void resize(int width, int height) {
 		getScreen().resize(width, height);
@@ -63,7 +62,10 @@ public class Othello extends Game {
 						GameMode.BASIC),
 				this));
 	}
-
+	public void continueGame()
+	{
+		setScreen(new NormalGameScreen(Launcher.get().release(), this));
+	}
 	public void switchToMenu() {
 		setScreen(new MainMenuScreen(this));
 	}
