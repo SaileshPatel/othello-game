@@ -39,4 +39,24 @@ public enum Piece {
 	 * @return returns a piece (usually an opposing piece)
 	 */
 	public abstract Piece flip();
+	//=========================================================================
+	//Static methods.
+	/**
+	 * Get the {@link Piece} object which represents the first player.
+	 * 
+	 * @return {@link Piece#PIECE_A}.
+	 */
+	public static final Piece player1()
+	{
+		return Piece.PIECE_A;
+	}
+	/**
+	 * Get the {@link Piece} object which represents the second player.
+	 * 
+	 * @return {@link Piece#PIECE_B}.
+	 */
+	public static final Piece player2()
+	{
+		return Piece.PIECE_B;
+	}
 }

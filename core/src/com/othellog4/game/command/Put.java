@@ -4,14 +4,19 @@ import com.othellog4.game.Game;
 import com.othellog4.game.GameException;
 import com.othellog4.game.board.InvalidMoveException;
 import com.othellog4.game.board.Position;
+import com.othellog4.game.player.Participant;
 
 /**
  * The {@code Put} class is a subclass of the {@link GameCommand} class, which
  * represents the action of putting something at a position.
  * 
+ * <p>
+ * The {@code Put} command is {@link CommandType#TURN_RESTRICTED}.
+ * </p>
+ * 
  * @author 	159014260 John Berg
  * @since 	20/11/2017
- * @version 22/11/2017
+ * @version 04/03/2018
  * @see GameCommand
  * @see Position
  */
@@ -41,19 +46,59 @@ public class Put extends GameCommand
 	 * Create a {@code Put} object which represents a source putting something
 	 * at a specified position.
 	 * 
+	 * @param source The issued of {@code Put}.
+	 * @param position The {@link Position} object which represents the
+	 * 			location.
+	 * @throws NullPointerException If <code>source</code> or
+	 * 			<code>position</code> is <code>null</code>.
+	 * @see Participant
+	 * @see Position
+	 */
+	public Put(
+			final Participant source,
+			final Position position)
+			throws
+			NullPointerException
+	{
+		//May throw a NullPointerException.
+		this(source, position.col, position.row);
+	}
+	/**
+	 * Create a {@code Put} object which represents a source putting something
+	 * at a specified position.
+	 * 
 	 * @param source The issuer of {@code Put}.
 	 * @param x The column position of the {@code Put}.
 	 * @param y The row position of the {@code Put}.
 	 * @throws NullPointerException If <code>source</code> is
 	 * 			<code>null</code>.
+	 * @see Participant
 	 */
-	public Put(final Object source, int x, int y)
+	public Put(
+			final Participant source,
+			final int x,
+			final int y)
 			throws
 			NullPointerException
 	{
 		//May throw NullPointerException.
-		super(source);
+		super(source, CommandType.TURN_RESTRICTED);
 		position = Position.at(x, y);
+	}
+	//=========================================================================
+	//Methods.
+	/**
+	 * Get the {@link Position} object which represents the position where
+	 * <code>this</code> {@code Put} will attempt to place a {@link Piece}
+	 * object.
+	 * 
+	 * @return The {@link Position} which <code>this</code> {@code Put} object
+	 * 			is targeting.
+	 * @see Position
+	 */
+	public final Position position()
+	{
+		return position;
 	}
 	//=========================================================================
 	//Overriden methods.
@@ -81,7 +126,7 @@ public class Put extends GameCommand
 			throw new NullPointerException(NULL_GAME_RECIEVER);
 		try
 		{
-			game.put(position);
+				game.put(position);
 		}
 		catch(final InvalidMoveException e)
 		{
@@ -89,7 +134,7 @@ public class Put extends GameCommand
 		}
 	}
 	/**
-	 * Get the {@link String}} representation of <code>this</code> {@code Put}
+	 * Get the {@link String} representation of <code>this</code> {@code Put}
 	 * command.
 	 * 
 	 * <p>
@@ -106,6 +151,6 @@ public class Put extends GameCommand
 	@Override
 	public final String toString()
 	{
-		return super.toString() + position.toString();
+		return super.toString() + " "+ position.toString();
 	}
 }

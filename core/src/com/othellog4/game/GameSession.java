@@ -36,7 +36,7 @@ import com.othellog4.game.player.Participant;
  * 
  * @author 	15901426 John Berg
  * @since 	20/11/2017
- * @version 25/01/2018
+ * @version 04/03/2018
  * @see Game
  * @see Participant
  * @see Piece
@@ -58,8 +58,6 @@ public final class GameSession
 	 * of the {@code GameSession}, and two {@link Participant} objects which
 	 * represent the first and second player respectively.
 	 * 
-	 * @param game The {@link Game} class which the created {@code GameSession}
-	 * 			will use to make moves, and retrieve information from.
 	 * @param turnManager The {@link TurnManager} which associates a
 	 * 			{@link Participant} with the corresponding {@link Piece}.
 	 * @throws NullPointerException If either <code>game</code>,
@@ -89,8 +87,7 @@ public final class GameSession
 	 */
 	private void notifyCurrent(final GameEvent event)
 	{
-		if(event == GameEvent.BEGIN
-				|| event == GameEvent.NEXT_TURN)
+		if(event == GameEvent.STANDBY)
 			manager.current().notifyTurn(this);
 	}
 	/**
@@ -118,9 +115,7 @@ public final class GameSession
 			GameException,
 			NullPointerException
 	{
-		if(manager.playerOf(current()).equals(command.getSource()))
-			//May throw GameException.
-			command.execute(manager.game());
+		manager.execute(command);
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the

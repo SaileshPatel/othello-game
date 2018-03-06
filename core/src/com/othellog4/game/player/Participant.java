@@ -18,7 +18,7 @@ import com.othellog4.game.GameSession;
  * @author ######### Zak
  * @author ######### Saileash
  * @since 	??/10/2017
- * @version 01/12/2017
+ * @version 04/03/2018
  * @see Control
  */
 public interface Participant
@@ -79,5 +79,26 @@ public interface Participant
 		 * @throws GameException If a {@link GameException} occurs.
 		 */
 		public void put(int x, int y) throws GameException;
+		/**
+		 * Make the {@link Participant} associated with <code>this</code>
+		 * {@code Control} surrender.
+		 * 
+		 * @throws GameException If a {@link GameException} occurs.
+		 */
+		public void surrender() throws GameException;
+		/**
+		 * Make the {@link Participant} associated with <code>this</code>
+		 * {@code Control} pause the game.
+		 * 
+		 * @throws GameException If a {@link GameException} occurs.
+		 */
+		public void pause() throws GameException;
+		/**
+		 * Make the {@link Participant} associated with <code>this</code>
+		 * {@code Control} resume a paused game.
+		 * 
+		 * @throws GameException If a {@link GameException} occurs.
+		 */
+		public void resume() throws GameException;
 	}
 }

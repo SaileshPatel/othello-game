@@ -101,7 +101,7 @@ public class TutorialScreen extends GameScreen {
 		viewport.apply();
 		shape.setProjectionMatrix(cam.combined);
 		
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("Overpass-Regular.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/overpass-regular.otf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 64; // Size in px
 		parameter.spaceY = -25; // Vertical spacing

@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 06/02/2018
+ * @version 05/03/2018
  * @see GameBoard
  * @see Piece
  */
@@ -34,7 +34,17 @@ public class Game
 	/**
 	 * The <code>int</code> which represent the first turn of the {@code Game}.
 	 */
-	private static final int FIRST_TURN = 0;
+	private static final int FIRST_TURN = 1;
+	/**
+	 * The {@link String} constant which represents the message for when a
+	 * {@link Position} is <code>null</code>.
+	 */
+	private static final String NULL_POSITION = "Position cannot be null";
+	/**
+	 * The {@link String} constant which represents the message for when a
+	 * {@link Piece} is <code>null</code>.
+	 */
+	private static final String NULL_PIECE = "Piece cannot be null";
 	//=========================================================================
 	//Fields.
 	/**
@@ -61,6 +71,8 @@ public class Game
 	 * <p>
 	 * Must be set to signal the conclusion.
 	 * </p>
+	 * 
+	 * @see GameConclusion
 	 */
 	private GameConclusion conclusion;
 	/**
@@ -189,6 +201,8 @@ public class Game
 			++turn;
 			update(GameEvent.NEXT_TURN);
 		}
+		else
+			update(GameEvent.NEXT_TURN);
 	}
 	/**
 	 * Set the {@link GameState} of <code>this</code> {@code Game}.
@@ -198,6 +212,7 @@ public class Game
 	 * </p>
 	 * 
 	 * @param state The {@link GameState} to set the current state to.
+	 * @see GameState
 	 */
 	private void setState(final GameState state)
 	{
@@ -217,11 +232,16 @@ public class Game
 	 * </p>
 	 * 
 	 * @param event The {@link GameEvent} which was triggered.
+	 * @see GameEvent
 	 */
 	private synchronized void update(final GameEvent event)
 	{
 		for(final GameListener listener: listeners)
 			listener.update(event);
+		if(
+				getCurrentState() == GameState.PLAYING
+				&&  event != GameEvent.STANDBY)
+			update(GameEvent.STANDBY);
 	}
 	/**
 	 * Set the {@link GameConclusion} of <code>this</code>
@@ -237,11 +257,22 @@ public class Game
 	 * 
 	 * @param conclusion The {@link GameConclusion} of <code>this</code>
 	 * 			{@code Game}.
+	 * @see GameConclusion
 	 */
 	private void conclude(final GameConclusion conclusion)
 	{
 		if(this.conclusion == null)
 			this.conclusion = conclusion;
+	}
+	/**
+	 * Check if the {@code Game} object is currently playing.
+	 * 
+	 * @return <code>true</code> if <code>this</code> {@code Game} is playing,
+	 * 			otherwise, returns <code>false</code>.
+	 */
+	public final boolean isPlaying()
+	{
+		return getCurrentState() == GameState.PLAYING;
 	}
 	/**
 	 * Check if the game is over.
@@ -294,7 +325,9 @@ public class Game
 	public final void end()
 	{
 		setState(state.end());
-		conclude(GameConclusion.winner(board.winning()));
+		conclude(board.isDraw()
+				?GameConclusion.draw()
+				:GameConclusion.winner(board.winning()));
 		update(GameEvent.END);
 	}
 	/**
@@ -319,6 +352,8 @@ public class Game
 			InvalidMoveException,
 			NullPointerException
 	{
+		if(position == null)
+			throw new NullPointerException(NULL_POSITION);
 		if(GameState.PLAYING == getCurrentState())
 		{
 			board.put(position, getCurrent());
@@ -329,9 +364,20 @@ public class Game
 	 * Surrenders the game.
 	 * 
 	 * @param piece The {@link Piece} object which surrenders.
+	 * @throws NullPointerException If <code>piece</code> is <code>null</code>.
+	 * @throws IllegalStateException If {@link Game#isGameOver()} returns
+	 * 			<code>true</code>.
+	 * @see Piece
 	 */
 	public final void surrender(final Piece piece)
+			throws
+			NullPointerException,
+			IllegalStateException
 	{
+		if(piece == null)
+			throw new NullPointerException(NULL_PIECE);
+		if(isGameOver())
+			throw new IllegalStateException("Game already over");
 		setState(GameState.GAME_OVER);
 		conclude(GameConclusion.loser(piece));
 		update(GameEvent.END);
@@ -342,6 +388,7 @@ public class Game
 	 * 
 	 * @param listener The {@link GameListener} to be added to
 	 * 			<code>this</code>.
+	 * @see GameListener
 	 */
 	public final synchronized void addListener(final GameListener listener)
 	{
@@ -353,6 +400,7 @@ public class Game
 	 * 
 	 * @param listener The {@link GameListener} to be removed from
 	 * 			<code>this</code>.
+	 * @see GameListener
 	 */
 	public final synchronized void removeListener(final GameListener listener)
 	{
@@ -375,10 +423,11 @@ public class Game
 	 * </p>
 	 * 
 	 * @return The {@link Piece} of the first player.
+	 * @see Piece
 	 */
 	public final Piece getPlayer1()
 	{
-		return Piece.PIECE_A;
+		return Piece.player1();
 	}
 	/**
 	 * Get the {@link Piece} representing the second player.
@@ -389,15 +438,17 @@ public class Game
 	 * </p>
 	 * 
 	 * @return The {@link Piece} of the second player.
+	 * @see Piece
 	 */
 	public final Piece getPlayer2()
 	{
-		return Piece.PIECE_B;
+		return Piece.player2();
 	}
 	/**
 	 * Get the {@link Piece} which current turn it is.
 	 * 
 	 * @return The {@link Piece} of the player whom's turn it currently is.
+	 * @see Piece
 	 */
 	public final Piece getCurrent()
 	{
@@ -414,6 +465,7 @@ public class Game
 	 * @return The {@link GameConclusion} of <code>this</code> {@code Game}.
 	 * @throws IllegalStateException If the {@code Game} has not been
 	 * 			concluded.
+	 * @see GameConclusion
 	 */
 	public final GameConclusion getConclusion()
 			throws
@@ -428,8 +480,9 @@ public class Game
 	 * {@code Game} object.
 	 * 
 	 * @return The current {@link GameState}.
+	 * @see GameState
 	 */
-	public final GameState getCurrentState()
+	final GameState getCurrentState()
 	{
 		return state;
 	}
@@ -439,6 +492,7 @@ public class Game
 	 * 
 	 * @return A {@link BoardView} object of the {@link GameBoard} for
 	 * 			<code>this</code> game.
+	 * @see BoardView
 	 */
 	public final BoardView getBoard()
 	{
