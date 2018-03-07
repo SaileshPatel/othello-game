@@ -94,22 +94,12 @@ public class MainMenuScreen extends BaseScreen {
 			new ScreenBoxField(850, 460, 1180, 50)
 			.onHover(box ->
 			{
-				optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+				setColourHover();
 				if(Gdx.input.isTouched())
 					othello.continueGame();
 			})
-			.noHover(box -> optionsFont.setColor(1f, 1f, 1f, 1f))
-			.after(box ->
-			{
-				optionsFont.draw(
-						SPRITE_BATCH,
-						"Continue",
-						box.getX(),
-						box.getY() + box.getHeight(),
-						500,
-						Align.left,
-						true);
-			})
+			.noHover(box -> setColourNoHover())
+			.after(box -> drawTextInBox("Continue", box))
 			.hover(mousePos.x, mousePos.y);
 		
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
@@ -162,38 +152,51 @@ public class MainMenuScreen extends BaseScreen {
 		new ScreenBoxField(850, 240, 110, 40)
 		.onHover(box ->
 		{
-			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			setColourHover();
 			if(Gdx.input.isTouched())
 				Gdx.app.exit();
 		})
-		.noHover(box ->
-		{
-			optionsFont.setColor(1f, 1f, 1f, 1f);
-		})
-		.after(box -> optionsFont.draw(
-				SPRITE_BATCH,
-				"Exit",
-				box.getX(),
-				box.getY() + box.getHeight(),
-				500,
-				Align.left,
-				true))
+		.noHover(box -> setColourNoHover())
+		.after(box -> drawTextInBox("Exit", box))
 		.hover(mousePos.x, mousePos.y);
-
-//		if (mousePos.x >850 && mousePos.x < 960 && mousePos.y > 240 && mousePos.y < 280) {
-//			// SPRITE_BATCH.draw(exitButton, 850, 240);
-//			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-//			optionsFont.draw(SPRITE_BATCH, "Exit", 850, 280, 500, Align.left, true);
-//			if (Gdx.input.isTouched()) {
-//				Gdx.app.exit();
-//			}
-//
-//		} else {
-//			optionsFont.setColor(1f, 1f, 1f, 1f);
-//			optionsFont.draw(SPRITE_BATCH, "Exit", 850, 280, 500, Align.left, true);
-//		}
-
 		SPRITE_BATCH.end();
 
+	}
+	/**
+	 * Set the colour to the colour which is used to draw objects which are
+	 * being hovered over.
+	 */
+	private void setColourHover()
+	{
+		optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+	}
+	/**
+	 * Set the colour to the colour which is used to draw objects which are
+	 * not hovered over.
+	 */
+	private void setColourNoHover()
+	{
+		optionsFont.setColor(1f, 1f, 1f, 1f);
+	}
+	/**
+	 * Draw a {@link String} into at a location which is defined by a
+	 * {@link ScreenBoxField} object.
+	 * 
+	 * @param text The {@link String} to be drawn.
+	 * @param box The {@link ScreenBoxField} which contains the details of
+	 * 			where to draw the <code>text</code>.
+	 */
+	private void drawTextInBox(
+			final String text,
+			final ScreenBoxField box)
+	{
+		optionsFont.draw(
+				SPRITE_BATCH,
+				text,
+				box.getX(),
+				box.getY() + box.getHeight(),
+				box.getWidth(),
+				Align.left,
+				true);
 	}
 }
