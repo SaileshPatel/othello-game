@@ -36,7 +36,7 @@ import com.othellog4.tutorial.TutorialState;
  * returned to the main menu.
  * <p>
  * @author James Shorthouse
- * @version 11/12/2017
+ * @version 07/03/2018
  */
 public class TutorialScreen extends GameScreen {
 
@@ -56,7 +56,6 @@ public class TutorialScreen extends GameScreen {
 
 	private TutorialSequence sequence;
 	private TutorialState currentState;
-	private boolean placementEnabled;
 	private float timer;
 	private boolean enterPreviouslyPressed;
 
@@ -198,16 +197,6 @@ public class TutorialScreen extends GameScreen {
 		}
 	}
 
-	//TODO move this to superclass
-	/**
-	 * Enable or disable piece placement and ghosting under cursor
-	 * @param enabled placement enabled
-	 */
-	private void setPlacementEnabled(Boolean enabled) {
-		placementEnabled = enabled;
-		boardRenderer.setDrawHighlight(enabled);
-	}
-
 	/**
 	 * {@inheritDoc}
 	 * <p>
@@ -216,7 +205,6 @@ public class TutorialScreen extends GameScreen {
 	 */
 	@Override
 	protected boolean checkInput(Position position) {
-		if(!placementEnabled) return false;
 		if(!(currentState instanceof AssistedMoveState)) return true;
 
 		AssistedMoveState assistedMoveState = (AssistedMoveState) currentState;

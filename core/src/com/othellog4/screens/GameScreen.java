@@ -9,13 +9,17 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.othellog4.Othello;
 import com.othellog4.environment.Launcher;
-import com.othellog4.graphics.BoardRenderer;
-import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.game.GameException;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
+import com.othellog4.graphics.BoardRenderer;
+import com.othellog4.graphics.GraphicsUtil;
 
-
+/**
+ *
+ * @author John Berg, James Shorthouse
+ * @version 07/03/2018
+ */
 public abstract class GameScreen extends BaseScreen implements Observer {
 	//=========================================================================
 	//Fields.
@@ -29,6 +33,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	int xPos = 0;
 	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
 	private Texture mascotButton;
+	private boolean placementEnabled;
 
 	//=========================================================================
 	//Constructors.
@@ -71,7 +76,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 				isPressed = true;
 				final Position position = boardRenderer.getPosUnderMouse();
 				if(position != null)
-					if(checkInput(position))
+					if(placementEnabled && checkInput(position))
 						try
 						{
 							model.put(position.col, position.row);
@@ -94,6 +99,16 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 			}
 		}
 	}
+
+	/**
+	 * Enable or disable piece placement and ghosting under cursor
+	 * @param enabled placement enabled
+	 */
+	protected void setPlacementEnabled(Boolean enabled) {
+		placementEnabled = enabled;
+		boardRenderer.setDrawHighlight(enabled);
+	}
+
 	//=========================================================================
 	//Overidden methods.
 	@Override
