@@ -60,6 +60,10 @@ public class Othello extends Game {
 						GameMode.BASIC),
 				this));
 	}
+	/**
+	 * Change to a {@link NormalGameScreen} object which will resume
+	 * a {@link GameModel} which has been cached.
+	 */
 	public void continueGame()
 	{
 		setScreen(new NormalGameScreen(Launcher.get().release(), this));
