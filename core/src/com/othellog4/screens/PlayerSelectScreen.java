@@ -33,7 +33,11 @@ public class PlayerSelectScreen extends BaseScreen{
 	Texture blackPiece;
 	Texture blackStart;
 	Texture whiteStart;
+	Texture mascotButton;
 	
+	
+	int buttonWidth = 100;
+	int buttonHeight = 100;
 	
 	Othello othello;
 	private PlayerType player1 = PlayerType.USER;
@@ -47,6 +51,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		whitePiece = GraphicsUtil.createMipMappedTex("whitePiece.png");
 		blackStart =  GraphicsUtil.createMipMappedTex("blackStart.png");
 		whiteStart =  GraphicsUtil.createMipMappedTex("whiteStart.png");
+		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -197,6 +202,25 @@ public class PlayerSelectScreen extends BaseScreen{
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 		//System.out.println(mousePos.x + " " + mousePos.y);
+		
+		
+		
+		new ScreenBoxField(0, 800, 100, 100)
+		.onHover(box -> {
+			if(Gdx.input.justTouched()){
+				this.dispose();
+				othello.switchToMenu();
+			}
+		})
+		.after(box -> SPRITE_BATCH.draw(
+				mascotButton,
+				box.getX(),
+				box.getY(),
+				box.getWidth(),
+				box.getHeight()))
+		.hover(mousePos.x, mousePos.y);
+		
+		
 		
 		
 		
