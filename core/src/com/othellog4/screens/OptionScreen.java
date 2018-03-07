@@ -39,20 +39,19 @@ public class OptionScreen extends ScreenAdapter {
 	Texture whitePiece;
 	Texture highlightedPiece;
 
-	
 	public OptionScreen(Othello othello) {
 		this.othello = othello;
-		
+
 		isEasy = true;
 		isMedium = false;
 		isHard = false;
-		
+
 		isOn = true;
 		isOff = false;
-		
+
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
-		titleparameter.size = 120; // Size in px
+		titleparameter.size = 160; // Size in px
 		titleparameter.spaceY = -25; // Vertical spacing
 		titleFont = titlegenerator.generateFont(titleparameter);
 		titleFont.setUseIntegerPositions(false);
@@ -70,13 +69,12 @@ public class OptionScreen extends ScreenAdapter {
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 
-		background = new Texture("optionsMenu.png");
+		background = new Texture("newOptionsMenu2.png");
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
+
 		greyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
-		
-		
+
 		cam = new OrthographicCamera();
 		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
 		viewport = new FitViewport(GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT, cam);
@@ -93,10 +91,12 @@ public class OptionScreen extends ScreenAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		othello.getSpriteBatch().begin();
 		othello.getSpriteBatch().draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
-		
+
 		Vector2 mousePos = getUnprojectedMousePos();
 
+		//initialising the individual fonts
 		optionsFont.setColor(1f, 1f, 1f, 1f);
+	
 		optionsFont.draw(othello.getSpriteBatch(), "Sound Effects", 400, 300, 500, Align.left, true);
 		optionsFont.draw(othello.getSpriteBatch(), "Music SFX", 400, 400, 500, Align.left, true);
 		optionsFont.draw(othello.getSpriteBatch(), "Difficulty", 400, 200, 500, Align.left, true);
@@ -106,37 +106,51 @@ public class OptionScreen extends ScreenAdapter {
 		optionsFont.draw(othello.getSpriteBatch(), "Back", 0, 40, 500, Align.left, true);
 		optionsFont.draw(othello.getSpriteBatch(), "On", 800, 300, 500, Align.left, true);
 		optionsFont.draw(othello.getSpriteBatch(), "Off", 950, 300, 500, Align.left, true);
-	
+
 		
-		if (mousePos.x > 400 && mousePos.x < 640 && mousePos.y < 400 && mousePos.y > 340) {
-			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Music SFX", 400, 400, 500, Align.left, true);
+		//mouse hover settings for the sound effects
+		if (mousePos.x > 800 && mousePos.x < 864 && mousePos.y < 300 && mousePos.y > 260) {
 			if (Gdx.input.justTouched()) {
-				if (othello.getMusic() < 1.0f) {
-					float newVolume = othello.getMusic() + 0.1f;
-					othello.setMusic(newVolume);
-				}
+				isOn=true;
+				isOff=false;
 			}
-
 		}
-
-		if (mousePos.x > 400 && mousePos.x < 620 && mousePos.y < 200 && mousePos.y > 150) {
-			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Difficulty", 400, 200, 500, Align.left, true);
-
-			if (Gdx.input.justTouched() && (isEasy)) {
-				isEasy = false;
-				isMedium = true;
-			} else if (Gdx.input.justTouched() && (isMedium)) {
-				isMedium = false;
-				isHard = true;
-			} else if (Gdx.input.justTouched() && (isHard)) {
-				isHard = false;
-				isEasy = true;
+		if (mousePos.x > 950 && mousePos.x < 1025 && mousePos.y < 300 && mousePos.y > 260) {
+			if (Gdx.input.justTouched()) {		
+				isOn=false;
+				isOff=true;
 			}
-
 		}
-
+		
+		
+		//mouse hover settings for the difficults settings
+		if (mousePos.x > 800 && mousePos.x < 904 && mousePos.y < 200 && mousePos.y > 150) {
+			if (Gdx.input.justTouched()) {
+				System.out.println("Pressed1");
+				isEasy=true;
+				isMedium=false;
+				isHard=false;
+			}
+		}
+		if (mousePos.x > 950 && mousePos.x < 1143 && mousePos.y < 200 && mousePos.y > 150) {
+			if (Gdx.input.justTouched()) {
+				System.out.println("Pressed2");
+				isEasy=false;
+				isMedium=true;
+				isHard=false;
+			}
+		}
+		if (mousePos.x > 1187 && mousePos.x < 1300 && mousePos.y < 200 && mousePos.y > 150) {
+			if (Gdx.input.justTouched()) {
+				System.out.println("Pressed3");
+				isEasy=false;
+				isMedium=false;
+				isHard=true;
+			}
+		}
+		
+		
+		 
 		if (isEasy) {
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(othello.getSpriteBatch(), "Easy", 800, 200, 500, Align.left, true);
@@ -150,22 +164,6 @@ public class OptionScreen extends ScreenAdapter {
 			optionsFont.draw(othello.getSpriteBatch(), "Hard", 1185, 200, 500, Align.left, true);
 		}
 
-		
-		
-		if (mousePos.x > 400 && mousePos.x < 620 && mousePos.y < 300 && mousePos.y > 250) {
-			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Sound Effects", 400, 300, 500, Align.left, true);
-
-			if (Gdx.input.justTouched() && (isOn)) {
-				isOn = false;
-				isOff = true;
-			} else if (Gdx.input.justTouched() && (isOff)) {
-				isOff = false;
-				isOn = true;
-			}
-
-		}
-		
 		if (isOn) {
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(othello.getSpriteBatch(), "On", 800, 300, 500, Align.left, true);
@@ -174,8 +172,7 @@ public class OptionScreen extends ScreenAdapter {
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(othello.getSpriteBatch(), "Off", 950, 300, 500, Align.left, true);
 		}
-		
-		
+
 		if (mousePos.x > 0 && mousePos.x < 110 && mousePos.y < 40 && mousePos.y > 0) {
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(othello.getSpriteBatch(), "Back", 0, 40, 500, Align.left, true);
@@ -184,43 +181,41 @@ public class OptionScreen extends ScreenAdapter {
 				othello.switchToMenu();
 			}
 		}
-		//System.out.println(mousePos.x + " " + mousePos.y);
-		
+
 		int xPos = 800;
 		int yPos = 360;
 		int size = 40;
-		
-		for (int i = 0; i <=4 ; i++) {
+
+		for (int i = 0; i <= 4; i++) {
 			othello.getSpriteBatch().draw(greyPiece, xPos, yPos, size, size);
-			float volume = (float)i /(float) 4;
-			if (mousePos.x > xPos && mousePos.x < xPos + size && mousePos.y > yPos && mousePos.y < yPos + 80 ) {
+			float volume = (float) i / (float) 4;
+			if (mousePos.x > xPos && mousePos.x < xPos + size && mousePos.y > yPos && mousePos.y < yPos + 80) {
 				othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
 				if (Gdx.input.justTouched()) {
 					othello.setMusic(volume);
 				}
 			}
-				
+
 			xPos += size + 15;
 			size += 10;
 		}
-		
 
 		othello.getSpriteBatch().end();
 	}
-	
-//	public void test(){
-//		othello.getSpriteBatch().begin();
-//		int i = 5;
-//		switch (i){
-//			case 0: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
-//			case 1: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
-//			case 2: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
-//			case 3: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
-//			case 4: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
-//				break
-//		}
-//		othello.getSpriteBatch().end();
-//	}
+
+	// public void test(){
+	// othello.getSpriteBatch().begin();
+	// int i = 5;
+	// switch (i){
+	// case 0: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
+	// case 1: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
+	// case 2: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
+	// case 3: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
+	// case 4: othello.getSpriteBatch().draw(whitePiece, xPos, yPos, size, size);
+	// break
+	// }
+	// othello.getSpriteBatch().end();
+	// }
 
 	@Override
 	public void resize(int width, int height) {
