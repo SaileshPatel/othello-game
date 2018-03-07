@@ -1,21 +1,18 @@
 package com.othellog4.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
+import com.othellog4.environment.Launcher;
+import com.othellog4.graphics.GraphicsUtil;
+import com.othellog4.graphics.ScreenBoxField;
 
 /**
  * This is the main menu screen where
@@ -24,7 +21,7 @@ import com.othellog4.Othello;
  * @since 09/12/2017
  * @version 09/12/2017
  */
-public class MainMenuScreen extends ScreenAdapter {
+public class MainMenuScreen extends BaseScreen {
 	private static final int PLAYBUTTON_WIDTH = 300;
 	private static final int PLAYBUTTON_HEIGHT = 45;
 	private static final int TUTORIALBUTTON_WIDTH = 195;
@@ -48,12 +45,8 @@ public class MainMenuScreen extends ScreenAdapter {
 	private BitmapFont titleFont;
 	private BitmapFont optionsFont;
 
-	OrthographicCamera cam;
-	Viewport viewport;
-
 	public MainMenuScreen(Othello othello) {
 		this.othello = othello;
-
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
 		titleparameter.size = 170; // Size in px
@@ -83,31 +76,36 @@ public class MainMenuScreen extends ScreenAdapter {
 		exitButtonInactive = new Texture("Exit.png");
 		OthelloText = new Texture("Othello.png");
 		background = new Texture("backgroundNew.png");
-		cam = new OrthographicCamera();
-		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
-		viewport = new FitViewport(GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT, cam);
-		viewport.apply();
 	}
 
+	@Override
 	public void render(float delta) {
-		cam.update();
-		viewport.apply();
-		othello.getSpriteBatch().setProjectionMatrix(cam.combined);
-		// shape.setProjectionMatrix(cam.combined);
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		othello.getSpriteBatch().begin();
-		othello.getSpriteBatch().draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
+		SPRITE_BATCH.begin();
+		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 
 		titleFont.setColor(1f, 1f, 1f, 1f);
-		titleFont.draw(othello.getSpriteBatch(), "Othello", 365, 250, 1000, Align.left, true);
+		titleFont.draw(SPRITE_BATCH, "Othello", 365, 250, 1000, Align.left, true);
 
-		// othello.getSpriteBatch().draw(OthelloText, 400, 100);
-		Vector2 mousePos = getUnprojectedMousePos();
+		// SPRITE_BATCH.draw(OthelloText, 400, 100);
+		Vector2 mousePos = GraphicsUtil.getMousePos();
+		if(Launcher.get().hasCache())
+			new ScreenBoxField(850, 460, 1180, 50)
+			.onHover(box ->
+			{
+				setColourHover();
+				if(Gdx.input.isTouched())
+					othello.continueGame();
+			})
+			.noHover(box -> setColourNoHover())
+			.after(box -> drawTextInBox("Continue", box))
+			.hover(mousePos.x, mousePos.y);
+		
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
-			// othello.getSpriteBatch().draw(playButton, 850, 360);
+			// SPRITE_BATCH.draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 460, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 460, 500, Align.left, true);
 			
 			if (Gdx.input.isTouched()) {
 				this.dispose();
@@ -115,75 +113,90 @@ public class MainMenuScreen extends ScreenAdapter {
 			}
 
 		} else {
-			// othello.getSpriteBatch().draw(playButtonInactive, 850, 360);
+			// SPRITE_BATCH.draw(playButtonInactive, 850, 360);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "New Game", 850, 460, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 460, 500, Align.left, true);
 
 		}
 
 		if (mousePos.x > 850 && mousePos.x < 1082  && mousePos.y > 350 && mousePos.y < 400) {
-			// othello.getSpriteBatch().draw(tutorialButton, 850, 300);
+			// SPRITE_BATCH.draw(tutorialButton, 850, 300);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 400, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 400, 500, Align.left, true);
 			if (Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToTutorial();
 			}
 
 		} else {
-			// othello.getSpriteBatch().draw(tutorialButtonInactive, 850, 300);
+			// SPRITE_BATCH.draw(tutorialButtonInactive, 850, 300);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Tutorial", 850, 400, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 400, 500, Align.left, true);
 		}
 		
 		if (mousePos.x > 850 && mousePos.x < 1080 && mousePos.y > 290 && mousePos.y < 340) {
-			// othello.getSpriteBatch().draw(tutorialButton, 850, 300);
+			// SPRITE_BATCH.draw(tutorialButton, 850, 300);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Options", 850, 340, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "Options", 850, 340, 500, Align.left, true);
 			if (Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToOption();
 			}
 
 		} else {
-			// othello.getSpriteBatch().draw(tutorialButtonInactive, 850, 300);
+			// SPRITE_BATCH.draw(tutorialButtonInactive, 850, 300);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Options", 850, 340, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "Options", 850, 340, 500, Align.left, true);
 		}
 		
-		
-		
-		
-		
-		
-
-		if (mousePos.x >850 && mousePos.x < 960 && mousePos.y > 240 && mousePos.y < 280) {
-			// othello.getSpriteBatch().draw(exitButton, 850, 240);
-			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);
-			if (Gdx.input.isTouched()) {
+		new ScreenBoxField(850, 240, 110, 40)
+		.onHover(box ->
+		{
+			setColourHover();
+			if(Gdx.input.isTouched())
 				Gdx.app.exit();
-			}
-
-		} else {
-			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(othello.getSpriteBatch(), "Exit", 850, 280, 500, Align.left, true);
-		}
-
-		othello.getSpriteBatch().end();
+		})
+		.noHover(box -> setColourNoHover())
+		.after(box -> drawTextInBox("Exit", box))
+		.hover(mousePos.x, mousePos.y);
+		SPRITE_BATCH.end();
 
 	}
-
-	@Override
-	public void resize(int width, int height) {
-		viewport.update(width, height);
-		cam.position.set(GAME_WORLD_WIDTH / 2, GAME_WORLD_HEIGHT / 2, 0);
+	/**
+	 * Set the colour to the colour which is used to draw objects which are
+	 * being hovered over.
+	 */
+	private void setColourHover()
+	{
+		optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 	}
-
-	private Vector2 getUnprojectedMousePos() {
-		Vector3 mouseActualPos = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-		viewport.unproject(mouseActualPos);
-		return new Vector2(mouseActualPos.x, mouseActualPos.y);
+	/**
+	 * Set the colour to the colour which is used to draw objects which are
+	 * not hovered over.
+	 */
+	private void setColourNoHover()
+	{
+		optionsFont.setColor(1f, 1f, 1f, 1f);
 	}
-
+	/**
+	 * Draw a {@link String} into at a location which is defined by a
+	 * {@link ScreenBoxField} object.
+	 * 
+	 * @param text The {@link String} to be drawn.
+	 * @param box The {@link ScreenBoxField} which contains the details of
+	 * 			where to draw the <code>text</code>.
+	 */
+	private void drawTextInBox(
+			final String text,
+			final ScreenBoxField box)
+	{
+		optionsFont.draw(
+				SPRITE_BATCH,
+				text,
+				box.getX(),
+				box.getY() + box.getHeight(),
+				box.getWidth(),
+				Align.left,
+				true);
+	}
 }

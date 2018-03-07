@@ -5,7 +5,7 @@ import com.othellog4.environment.Scheduler;
 /**
  * The {@code DelayStrategies} enumeration is a class containing concrete
  * implementations of the {@link DelayStrategy} interface.
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	08/02/2018
  * @version 14/02/2018
@@ -21,7 +21,7 @@ public enum DelayStrategies implements DelayStrategy
 	{
 		/**
 		 * Execution a {@link Runnable} object immidietly.
-		 * 
+		 *
 		 * @param r The {@link Runnable} object to run.
 		 */
 		@Override
@@ -32,7 +32,7 @@ public enum DelayStrategies implements DelayStrategy
 	},
 	/**
 	 * Delay execution for <code>0</code> seconds.
-	 * 
+	 *
 	 * <p>
 	 * The execution will occur on a thread separate to current thread.
 	 * </p>
@@ -42,7 +42,7 @@ public enum DelayStrategies implements DelayStrategy
 		/**
 		 * Delay execution of a {@link Runnable} object by <code>0</code>
 		 * seconds.
-		 * 
+		 *
 		 * @param r The {@link Runnable} object to run.
 		 */
 		@Override
@@ -53,7 +53,7 @@ public enum DelayStrategies implements DelayStrategy
 	},
 	/**
 	 * Delay execution for <code>1</code> seconds.
-	 * 
+	 *
 	 * <p>
 	 * The execution will occur on a thread separate to current thread.
 	 * </p>
@@ -63,7 +63,7 @@ public enum DelayStrategies implements DelayStrategy
 		/**
 		 * Delay execution of a {@link Runnable} object by <code>1</code>
 		 * seconds.
-		 * 
+		 *
 		 * @param r The {@link Runnable} object to run.
 		 */
 		@Override
@@ -74,7 +74,7 @@ public enum DelayStrategies implements DelayStrategy
 	},
 	/**
 	 * Delay execution for <code>2</code> seconds.
-	 * 
+	 *
 	 * <p>
 	 * The execution will occur on a thread separate to current thread.
 	 * </p>
@@ -84,7 +84,7 @@ public enum DelayStrategies implements DelayStrategy
 		/**
 		 * Delay execution of a {@link Runnable} object by <code>2</code>
 		 * seconds.
-		 * 
+		 *
 		 * @param r The {@link Runnable} object to run.
 		 */
 		@Override

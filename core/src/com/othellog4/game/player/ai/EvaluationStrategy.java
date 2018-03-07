@@ -6,7 +6,7 @@ import com.othellog4.game.board.Piece;
 /**
  * The {@code EvaluationStrategy} is a functional interface which defines the
  * signature used for evaluating the state of a {@link BoardView} object.
- * 
+ *
  * @author 	159014260 John Berg
  * @since	25/01/2018
  * @version 25/01/2018
@@ -17,11 +17,11 @@ public interface EvaluationStrategy
 	/**
 	 * Evaluate the state of a {@link BoardView} object for a given
 	 * {@link Piece} object.
-	 * 
+	 *
 	 * <p>
 	 * Implementation of this method should follow these cases:
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * <ul>
 	 * 		<li>
@@ -41,7 +41,7 @@ public interface EvaluationStrategy
 	 * 		</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @param board The {@link BoardView} object to be evaluated.
 	 * @param piece The {@link Piece} object which the is used during the
 	 * 			evaluation of the board.

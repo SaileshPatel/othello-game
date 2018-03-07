@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * The GameBoard is where actions are completed. 
+ * The GameBoard is where actions are completed.
  * @author 	Charlie Sims
  * @since 	23/10/2017
  * @version 01/03/2017
@@ -17,21 +17,21 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * The {@link Set} of the {@link FlipEvent} objects which were flipped
 	 * by placing a {@link Piece} object.
-	 * 
+	 *
 	 * <p>
 	 * Is <code>null</code> if there has been no {@link Piece} objects placed.
 	 * </p>
-	 * 
+	 *
 	 * @see FlipEvent
 	 */
 	private Set<FlipEvent[]> flipEvents;
 	/**
 	 * Create a {@code GameBoard} object of a specified size.
-	 * 
+	 *
 	 * <p>
 	 * The created board is in the shape of a square.
 	 * </p>
-	 * 
+	 *
 	 * @param size The <code>int</code> which represents the width and height
 	 * 			of the created {@code GameBoard} object.
 	 */
@@ -47,22 +47,22 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		grid[size/2-1][size/2] = Piece.PIECE_B;
 		/*for (int i = 0; i < corners; i++){
 			for (int j = 0; j < corners; j++){
-				grid[i][j] = Piece.PIECE_NULL; 
+				grid[i][j] = Piece.PIECE_NULL;
 			}
 		}
 		for (int i = 0; i < corners; i++){
 			for (int j = 0; j < corners; j++){
-				grid[size - 1 - i][j] = Piece.PIECE_NULL; 
+				grid[size - 1 - i][j] = Piece.PIECE_NULL;
 			}
 		}
 		for (int i = 0; i < corners; i++){
 			for (int j = 0; j < corners; j++){
-				grid[i][size - 1 - j] = Piece.PIECE_NULL; 
+				grid[i][size - 1 - j] = Piece.PIECE_NULL;
 			}
 		}
 		for (int i = 0; i < corners; i++){
 			for (int j = 0; j < corners; j++){
-				grid[size - 1 - i][size - 1 - j] = Piece.PIECE_NULL; 
+				grid[size - 1 - i][size - 1 - j] = Piece.PIECE_NULL;
 			}
 		}*/
 		flipEvents = null;
@@ -75,9 +75,9 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	}
 	/**
 	 * Copy constructor.
-	 * 
-	 * 
-	 * 
+	 *
+	 *
+	 *
 	 * @param board
 	 */
 	public GameBoard(final GameBoard board)
@@ -87,7 +87,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * Check if a specified location composed of two <code>int</code> values,
 	 * is a valid position on <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * @param col The column index.
 	 * @param row The row index.
 	 * @return <code>true</code> if and only if <code>col</code> and
@@ -102,7 +102,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * Write a {@link Piece} object to a specified location of
 	 * <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * @param col The column index.
 	 * @param row The row index.
 	 * @param piece The {@link Piece} object to write to the location.
@@ -117,7 +117,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * Read the {@link Piece} object of a specified location of
 	 * <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * @param col The column index.
 	 * @param row The row index.
 	 * @return The {@link Piece} object at the specified location.
@@ -130,12 +130,12 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	}
 	/**
 	 * Check if <code>this</code> {@code GameBoard} is in a draw.
-	 * 
+	 *
 	 * <p>
 	 * A draw occurs when there are the same amount of {@code Piece#PIECE_A}
 	 * objects as there are {@link Piece#PIECE_B} objects.
 	 * </p>
-	 * 
+	 *
 	 * @return <code>true</code> If the state of <code>this</code>
 	 * 			{@code GameBoard} is a draw.
 	 */
@@ -185,13 +185,13 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		temp += flipTest(x,y,-1,1,player);
 		temp += flipTest(x,y,-1,0,player);
 		temp += flipTest(x,y,-1,-1,player);
-		
+
 		return temp;
 	}
 	/**
 	 * Get the {@link FlipEvent} objects from the previous move which was made
 	 * on <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * @return The {@link Set} of a sequence of {@link FlipEvents}.
 	 */
 	@Override
@@ -219,7 +219,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	@Override
 	public Optional<Piece> view(Position pos) {
 		// TODO Auto-generated method stub
-		
+
 		return Optional.ofNullable(read(pos.col, pos.row));
 	}
 
@@ -237,14 +237,14 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param x position in the array
 	 * @param y position in the array
 	 * @param up 1 for up 0 for no chance and -1 for down
 	 * @param right1 for up 0 for no chance and -1 for down
 	 */
 	private void flipLine(int x, int y, int up, int right, final Piece piece){
-		
+
 		if(onBoard(x, y))
 		{
 			final FlipEvent[] flips =
@@ -259,7 +259,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 		}
 	}
 	private int flipTest(int x, int y, int up, int right, Piece type){
-		
+
 		if(onBoard(x, y) && read(x, y) != null)
 			return 0;
 		int flips = 0;
@@ -287,7 +287,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * Get the {@link Piece} object which is winning, based on the current
 	 * state of <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * @return The {@link Piece} object which has the most instances on
 	 * 			<code>this</code> {@code GameBoard}. Returns <code>null</code>
 	 * 			if the state of the board is a draw.
@@ -305,7 +305,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * Get the {@link Piece} object which is losing, based on the current
 	 * state of <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * @return The {@link Piece} object which has the least instances on
 	 * 			<code>this</code> {@code GameBoard}. Returns <code>null</code>
 	 * 			if the state of the board is a draw.
@@ -319,20 +319,20 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	/**
 	 * Try placing a {@link Piece} object at a specified {@link Position},
 	 * without modifying <code>this</code> {@code GameBoard} object.
-	 * 
+	 *
 	 * <p>
 	 * This method will return a projection of <code>this</code>
 	 * {@code GameBoard} object, which represents <code>this</code>
 	 * {@code GameBoard} if a {@link Piece} were to be placed at the specified
 	 * {@link Position}.
 	 * </p>
-	 * 
+	 *
 	 * @param pos
 	 * @param piece
 	 * @return A projection of <code>this</code> {@code GameBoard} which
 	 * 			represents the outcome of placing the <code>piece</code> at
 	 * 			<code>pos</code>.
-	 * @throws InvalidMoveException 
+	 * @throws InvalidMoveException
 	 */
 	@Override
 	public final GameBoard tryPut(
@@ -347,20 +347,20 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	}
 	/**
 	 * Clone <code>this</code> {@code GameBoard}.
-	 * 
+	 *
 	 * <p>
 	 * Clones will have no referential equality with the original
 	 * {@code GameBoard}.
 	 * </p>
-	 * 
+	 *
 	 * <p>
 	 * Modifications made to the original {@code GameBoard} will not affect
 	 * the clone, or vice versa.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@code GameBoard} object which is a clone of
 	 * 			<code>this</code> {@code GameBoard}.
-	 * 			
+	 *
 	 */
 	@Override
 	public final GameBoard clone()

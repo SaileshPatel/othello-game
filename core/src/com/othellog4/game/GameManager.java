@@ -15,15 +15,15 @@ import com.othellog4.game.player.Participant;
 /**
  * The {@code GameManager} is responsible for maintaining a mapping of
  * {@link Piece} objects the corresponding {@link Participant} object.
- * 
+ *
  * <p>
  * {@code GameManager} is immutable and does not allow for modification after
  * creation, which means that {@code GameManager} is thread-safe.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since	02/12/2017
- * @since	17/12/2017
+ * @since	06/03/2017
  */
 public final class GameManager
 {
@@ -38,14 +38,14 @@ public final class GameManager
 	/**
 	 * The {@link Game} which <code>this</code> {@code GameManager} is
 	 * managing the mapping of {@link Participant} objects for.
-	 * 
+	 *
 	 * @see Game
 	 */
 	private final Game game;
 	/**
 	 * The {@link Map} which maps {@link Piece} objects to the corresponding
 	 * {@link Participant}.
-	 * 
+	 *
 	 * @see Piece
 	 * @see Participant
 	 */
@@ -53,7 +53,7 @@ public final class GameManager
 	/**
 	 * The {@link GameExtension} objects which are managed by <code>this</code>
 	 * {@code GameManager}.
-	 * 
+	 *
 	 * @see GameExtension
 	 */
 	private final Set<GameExtension> extensions;
@@ -61,14 +61,14 @@ public final class GameManager
 	//Constructors.
 	/**
 	 * Create a {@code TurnManager} object.
-	 * 
+	 *
 	 * <p>
 	 * Creation of a {@code TurnManager} requires a {@link Game} which
 	 * determines which {@link Piece} objects corresponds to the first and
 	 * second player, and two {@link Participants} which then correspond to the
 	 * {@link Piece} objects which represent player 1 and player 2.
 	 * </p>
-	 * 
+	 *
 	 * @param game The {@link Game} which determines do {@link Piece} objects
 	 * 			which correspond to the first and second player.
 	 * @param player1 The {@link Participant} representing the first player.
@@ -106,7 +106,7 @@ public final class GameManager
 	/**
 	 * Update all the {@link GameExtension} objects in <code>this</code>
 	 * {@code GameManager} about a {@link GameEvent}.
-	 * 
+	 *
 	 * @param event The {@link GameEvent} object to notify all
 	 * 			{@link GameExtension} objects about.
 	 */
@@ -118,7 +118,7 @@ public final class GameManager
 	/**
 	 * Update all the {@link GameExtension} objects in <code>this</code>
 	 * {@code GameManager} about a {@link GameCommand}.
-	 * 
+	 *
 	 * @param command The {@link GameCommand} object to notify all
 	 * 			{@link GameExtension} object about.
 	 */
@@ -128,22 +128,28 @@ public final class GameManager
 			e.onCommand(command, this);
 	}
 	/**
-	 * Calculate the score from the {@link GameExtension} objects which
-	 * are managed by <code>this</code> {@code GameManager}.
-	 * 
-	 * @param piece The {@link Piece} object to calculate the score for.
-	 * @return The score for the <code>piece</code> object.
+	 * Get the {@link GameResult} objects from the {@link GameExtension}
+	 * objects for a specified {@link Piece} object, managed by
+	 * <code>this</code> {@code GameScore}.
+	 *
+	 * <p>
+	 * Package private to restrict access to this method.
+	 * </p>
+	 *
+	 * @return The array of {@link GameResult} objects which represent the
+	 * 			results.
 	 */
-	public final int calculateScore(final Piece piece)
+	final GameResult[] getResults()
 	{
 		return extensions.stream()
-				.mapToInt(e -> e.getScore(piece))
-				.sum();
+				.filter(GameExtension::hasResult)
+				.map(GameResult::new)
+				.toArray(GameResult[]::new);
 	}
 	/**
 	 * Execute a {@link GameCommand} on the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.
-	 * 
+	 *
 	 * @param command The {@link GameCommand} to execute.
 	 * @throws GameException If the execution of the {@link GameCommand}
 	 * 			throws a {@link GameException}.
@@ -161,7 +167,7 @@ public final class GameManager
 	/**
 	 * Get the first {@link Participant} of the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.
-	 * 
+	 *
 	 * @return The first {@link Participant} of the {@link Game} managed by
 	 * 			<code>this</code> {@code GameManager}.
 	 */
@@ -172,7 +178,7 @@ public final class GameManager
 	/**
 	 * Get the second {@link Participant} of the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.
-	 * 
+	 *
 	 * @return The second {@link Participant} of the {@link Game} managed by
 	 * 			<code>this</code> {@code GameManager}.
 	 */
@@ -183,7 +189,7 @@ public final class GameManager
 	/**
 	 * Get the current {@link Participant} of the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.
-	 * 
+	 *
 	 * @return The current {@link Participant} of the {@link Game} managed by
 	 * 			<code>this</code> {@code GameManager}.
 	 */
@@ -194,7 +200,7 @@ public final class GameManager
 	/**
 	 * Get the {@link Participant} object which corresponds to a {@link Piece}
 	 * object.
-	 * 
+	 *
 	 * @param piece The {@link Piece} to get the corresponding
 	 * 			{@link Participant}.
 	 * @return The {@link Participant} which represents the <code>piece</code>.
@@ -209,13 +215,13 @@ public final class GameManager
 	/**
 	 * Get the {@link Piece object corresponded to a {@link Participant}
 	 * object.
-	 * 
+	 *
 	 * <p>
 	 * Since a {@link Participant} may be associated with more than one
 	 * {@link Piece}, it is possible that the {@link Piece} object returned is
 	 * arbitrarily selected.
 	 * </p>
-	 * 
+	 *
 	 * @param player The {@link Participant} object to find the {@link Piece}
 	 * 			object for.
 	 * @return The {@link Piece} object corresponding to the
@@ -231,7 +237,7 @@ public final class GameManager
 	/**
 	 * Get the {@link GameScore} of the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.
-	 * 
+	 *
 	 * @return The {@link GameScore} for the {@link Game}.
 	 */
 	public final GameScore score()
@@ -241,40 +247,11 @@ public final class GameManager
 	/**
 	 * Get the {@link Game} which <code>this</code> {@code GameManager} is
 	 * managing.
-	 * 
+	 *
 	 * @return The {@link Game} of <code>this</code> {@code GameManager}.
 	 */
 	public final Game game()
 	{
 		return game;
-	}
-	/**
-	 * Get the result {@link String} objects from the {@link GameExtension}
-	 * objects managed by <code>this</code> {@code GameScore}.
-	 * 
-	 * @return The {@link String} array which represents the results.
-	 */
-	public final String[] getResult()
-	{
-		return extensions.stream()
-				.map(Object::toString)
-				.filter(s -> s != null)
-				.toArray(String[]::new);
-	}
-	/**
-	 * Get the result {@link String} objects from the {@link GameExtension}
-	 * objects for a specified {@link Piece} object, managed by
-	 * <code>this</code> {@code GameScore}.
-	 * 
-	 * @param piece The {@link Piece} object to get the result {@link String}
-	 * 			from.
-	 * @return The array of {@link String} objects which represent the results.
-	 */
-	public final String[] getResults(final Piece piece)
-	{
-		return extensions.stream()
-				.map(e -> e.getResult(piece))
-				.filter(s -> s != null)
-				.toArray(String[]::new);
 	}
 }

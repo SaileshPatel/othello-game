@@ -6,7 +6,7 @@ import com.othellog4.game.board.Position;
 
 /**
  * Interface used by all {@code TutorialState} objects that contain highlight positions
- * 
+ *
  * @author James Shorthouse
  * @version 11/12/2017
  */

@@ -14,13 +14,13 @@ public final class Timer extends GameExtension
 	//=========================================================================
 	//Fields.
 	/**
-	 * 
+	 *
 	 */
 	private final Map<Piece, Long> timeRemaining;
 	//=========================================================================
 	//Constructors.
 	/**
-	 * 
+	 *
 	 * @param time
 	 */
 	public Timer(final long time)
@@ -32,7 +32,7 @@ public final class Timer extends GameExtension
 	//=========================================================================
 	//Overriden methods.
 	/**
-	 * 
+	 *
 	 */
 	@Override
 	public final void onEvent(
@@ -41,11 +41,11 @@ public final class Timer extends GameExtension
 	{
 		Scheduler.get().run(() ->
 		{
-			
+
 		});
 	}
 	/**
-	 * 
+	 *
 	 */
 	@Override
 	public final void onCommand(

@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
  * 
  * @author 	159014260 John Berg
  * @since 	25/01/2018
- * @version 19/02/2018
+ * @version 05/03/2018
  */
 public class GameTest
 {
@@ -59,6 +59,33 @@ public class GameTest
 	}
 	//=========================================================================
 	//Test.
+	/**
+	 * Test the {@link Game#isPlaying()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isPlaying()} method
+	 * returns <code>false</code> if the game is paused.
+	 * </p>
+	 */
+	public final void testIsPlaying_NotPlaying()
+	{
+		game.start();
+		game.pause();
+		assertFalse(game.isPlaying());
+	}
+	/**
+	 * Test the {@link Game#isPlaying()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isPlaying()} method
+	 * returns <code>true</code> if the game is playing.
+	 * </p>
+	 */
+	public final void testIsPlaying_Playing()
+	{
+		game.start();
+		assertFalse(game.isPlaying());
+	}
 	/**
 	 * Test the {@link Game#isGameOver()} method of the {@link Game} class.
 	 * 

@@ -6,7 +6,7 @@ import com.othellog4.game.board.Piece;
 /**
  * The {@code EvaluationStrategies} enumeration is a class containing concrete
  * implementations of the {@link EvaluationStrategy} interface.
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	25/01/2018
  * @version 15/02/2018
@@ -20,11 +20,11 @@ public enum EvaluationStrategies implements EvaluationStrategy
 	{
 		/**
 		 * Rank the {@link BoardView} based on the winner.
-		 * 
+		 *
 		 * <p>
 		 * If the {@link BoardView} is:
 		 * </p>
-		 * 
+		 *
 		 * <ul>
 		 * 		<li>
 		 * 			Draw: <code>0.0</code>.
@@ -36,7 +36,7 @@ public enum EvaluationStrategies implements EvaluationStrategy
 		 * 			Unfavourable: <code>-1.0</code>.
 		 * 		</li>
 		 * </ul>
-		 * 
+		 *
 		 * @param board The {@link BoardView} object to evaluate.
 		 * @param The {@link Piece} object which is the basis of the
 		 * 			evaluation.
@@ -61,11 +61,11 @@ public enum EvaluationStrategies implements EvaluationStrategy
 		/**
 		 * Evaluate the {@link BoardView} based on the rate of {@link Piece}
 		 * objects of a specific type.
-		 * 
+		 *
 		 * <p>
 		 * The evaluation process:
 		 * </p>
-		 * 
+		 *
 		 * <ol>
 		 * 		<li>
 		 * 			Get the total number of placed {@link Piece} objects for a
@@ -81,7 +81,7 @@ public enum EvaluationStrategies implements EvaluationStrategy
 		 * 			<code>(piece - otherPiece) / (piece + otherPiece)</code>.
 		 * 		</li>
 		 * </ol>
-		 * 
+		 *
 		 * @param board The {@link BoardView} object to evaluate.
 		 * @param The {@link Piece} object which is the basis of the
 		 * 			evaluation.

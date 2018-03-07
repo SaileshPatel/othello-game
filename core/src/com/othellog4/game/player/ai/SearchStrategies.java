@@ -9,7 +9,7 @@ import com.othellog4.game.board.Position;
 /**
  * The {@code SearchStrategies} enumeration is a class containing concrete
  * implementations of the {@link SearchStrategy} interface.
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	08/12/2017
  * @version 08/12/2017
@@ -42,7 +42,7 @@ public enum SearchStrategies implements SearchStrategy
 		/**
 		 * Search for a random {@link Position} where a {@link Piece} object
 		 * can be placed on a {@link BoardView} object.
-		 * 
+		 *
 		 * @param board The {@link BoardView} which to search for moves.
 		 * @param piece The {@link Piece} object to search for moves for.
 		 * @param eval Unused.
@@ -70,7 +70,7 @@ public enum SearchStrategies implements SearchStrategy
 		/**
 		 * Search for the {@link Position} object where s {@link Piece} object
 		 * can be placed on a board for the best immidiate outcome.
-		 * 
+		 *
 		 * @param board The {@link BoardView} which to search for moves.
 		 * @param piece The {@link Piece} object to search for moves for.
 		 * @param eval The {@link EvaluationStrategy} used to rank the

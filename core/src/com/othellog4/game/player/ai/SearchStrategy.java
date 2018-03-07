@@ -7,7 +7,7 @@ import com.othellog4.game.board.Position;
 /**
  * The {@code SearchStrategy} interface is a functional interface which defines
  * the signature for searching for possible moves.
- * 
+ *
  * @author 	159014260 John Berg
  * @since 	08/12/2017
  * @version 25/01/2018
@@ -18,7 +18,7 @@ public interface SearchStrategy
 	/**
 	 * Search a {@link BoardView} object for a {@link Position} object where a
 	 * specified {@link Piece} object should be placed.
-	 * 
+	 *
 	 * @param board The {@link BoardView} object to search.
 	 * @param piece The {@link Piece} object used to find a {@link Position}
 	 * 			object to place the {@link Piece} object.

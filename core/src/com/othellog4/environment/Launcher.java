@@ -7,12 +7,12 @@ import com.othellog4.game.board.GameBoard;
 /**
  * The {@code Launcher} class is a singleton which is responsible for setting
  * up games, and taking care of the details involved during the setup phase.
- * 
+ *
  * <p>
  * The {@code Launcher} also provides the facilities to suspend and resume
  * a single {@link GameModel}.
  * </p>
- * 
+ *
  * @author 	159014260 John Berg
  * @since	03/03/2018
  * @version 04/03/2018
@@ -23,11 +23,11 @@ public final class Launcher
 	//Static fields.
 	/**
 	 * The singleton instance of the {@code Launcher} class.
-	 * 
+	 *
 	 * <p>
 	 * Lazily initialised.
 	 * </p>
-	 * 
+	 *
 	 * @see Launcher#get()
 	 */
 	private static Launcher instance = null;
@@ -36,7 +36,7 @@ public final class Launcher
 	/**
 	 * The {@link GameModel} which is cached by <code>this</code>
 	 * {@code Launcher} object.
-	 * 
+	 *
 	 * @see GameModel
 	 */
 	private GameModel cachedModel;
@@ -44,7 +44,7 @@ public final class Launcher
 	//Constructors.
 	/**
 	 * Create the {@code Launcher} object.
-	 * 
+	 *
 	 * <p>
 	 * Private to restrict access to creation.
 	 * </p>
@@ -57,7 +57,7 @@ public final class Launcher
 	//Methods.
 	/**
 	 * Check if the {@code Launcher} currently has a {@link GameModel} cached.
-	 * 
+	 *
 	 * @return <code>true</code> if a {@link GameModel} is cached, otherwise,
 	 * 			returns <code>false</code>.
 	 */
@@ -74,12 +74,12 @@ public final class Launcher
 	}
 	/**
 	 * Cache a {@link GameModel} object which can be resumed later.
-	 * 
+	 *
 	 * <p>
 	 * The {@code Launcher} only has capacity for one {@link GameModel} and
 	 * will overwrite the currently cached {@link GameModel} if it exists.
 	 * </p>
-	 * 
+	 *
 	 * @param model The {@link GameModel} to cache.
 	 * @throws NullPointerException If <code>model</code> is <code>null</code>.
 	 * @see GameModel
@@ -98,12 +98,12 @@ public final class Launcher
 	/**
 	 * Retrieve the cached {@link GameModel} from <code>this</code>
 	 * {@code Launcher} object.
-	 * 
+	 *
 	 * <p>
 	 * Retrieving the {@link GameModel} will clear the cached
 	 * {@link GameModel}.
 	 * </p>
-	 * 
+	 *
 	 * @return The {@link GameModel} which was cached by <code>this</code>
 	 * 			{@code Launcher}.
 	 * @throws IllegalStateException If <code>this</code> {@code Launcher}
@@ -122,7 +122,7 @@ public final class Launcher
 	}
 	/**
 	 * Create a {@link GameModel} for a new local game.
-	 * 
+	 *
 	 * @param p1 The {@link PlayerType} which is the first player.
 	 * @param p2 The {@link PlayerType} which is the second player.
 	 * @param gameMode The {@link GameMode} of the new {@link GameModel}.
@@ -146,12 +146,12 @@ public final class Launcher
 	//Static methods.
 	/**
 	 * Get the instance of the {@code Launcher} class.
-	 * 
+	 *
 	 * <p>
 	 * This method may initialise the {@code Launcher} instance if it does not
 	 * exist.
 	 * </p>
-	 * 
+	 *
 	 * @return The only instance of the {@code Launcher} class.
 	 */
 	public static final synchronized Launcher get()

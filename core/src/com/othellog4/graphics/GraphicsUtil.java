@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.math.Vector2;
+import com.othellog4.screens.BaseScreen;
 
 /**
  * Utility class containing commonly used functions
@@ -14,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  *
  */
 public class GraphicsUtil {
-	
+
 	/**
 	 * Create a texture with mipmaps and filtering
 	 * @param  filePath relative path of texture
@@ -25,7 +27,7 @@ public class GraphicsUtil {
 		tex.setFilter(TextureFilter.MipMapLinearLinear, TextureFilter.Linear);
 		return tex;
 	}
-	
+
 	/**
 	 * Generate a smooth bitmap font from a .ttf file with a specified size and vertical spacing
 	 * @param path        location of the font
@@ -36,21 +38,21 @@ public class GraphicsUtil {
 	public static BitmapFont generateFont(String path, int size, int vertSpacing) {
 		FreeTypeFontGenerator.setMaxTextureSize(2048); //TODO move this somewhere else
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
-		
+
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = size; // Size in px
 		parameter.spaceY = vertSpacing;
 		//parameter.genMipMaps = true;
 		BitmapFont font = generator.generateFont(parameter);
 		generator.dispose();
-		
+
 		// Change options for smoother rendering
 		font.setUseIntegerPositions(false);
 		font.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		
+
 		return font;
 	}
-	
+
 	/**
 	 * Generate a smooth bitmap font from a .ttf file with a specified size
 	 * @param path        location of the font
@@ -60,7 +62,7 @@ public class GraphicsUtil {
 	public static BitmapFont generateFont(String path, int size) {
 		return generateFont(path, size, 0);
 	}
-	
+
 	/**
 	 * Calculate a smoothed position value for an animated object given the animation progress
 	 * @param time      the current time into the animation
@@ -74,14 +76,14 @@ public class GraphicsUtil {
 		// If animation hasn't started or has finished, return 1 or 0 respectively.
 		if(percent < 0) return 0f;
 		if(percent > 1) return 1f;
-		
+
 		// Apply smoothing function derived from https://math.stackexchange.com/a/121755
-		float smoothed = (float) ((Math.pow(percent, steepness)) / (Math.pow(percent, steepness) + 
+		float smoothed = (float) ((Math.pow(percent, steepness)) / (Math.pow(percent, steepness) +
 				Math.pow(1-percent, steepness)));
-		
+
 		return smoothed;
 	}
-	
+
 	/**
 	 * Calculate a smoothed position value for an animated object given the animation progress
 	 * @param time      the current time into the animation
@@ -91,5 +93,15 @@ public class GraphicsUtil {
 	 */
 	public static float smoothAnimationBetween(float time, float start, float duration) {
 		return smoothAnimationBetween(time, start, duration, 2); // Use 2 as default steepness
+	}
+
+	/**
+	 * Get the relative mouse coordinates within the screen
+	 * @return			mouse coordinates
+	 */
+	public static Vector2 getMousePos() {
+		Vector2 mouseActualPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+		BaseScreen.VIEWPORT.unproject(mouseActualPos);
+		return mouseActualPos;
 	}
 }

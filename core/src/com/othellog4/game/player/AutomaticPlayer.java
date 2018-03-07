@@ -13,16 +13,16 @@ import com.othellog4.game.player.ai.Tactic;
 /**
  * The {@code AutomaticPlayer} class is a representation of a player which is
  * controlled by the computer.
- * 
+ *
  * <p>
  * The {@code AutomaticPlayer} class is emulating the decision making of a
  * human, and hence is an AI.
  * </p>
- * 
+ *
  * <p>
  * The {@code AutomaticPlayer} class is immutable.
  * </p>
- * 
+ *
  * @author 	Sailesh Patel
  * @author 	Zak Hirsi
  * @since 	23/10/2017
@@ -49,7 +49,7 @@ public final class AutomaticPlayer implements Participant
 	 * Construct a new {@code AutomaticPlayer} object by specifying the
 	 * desired {@link EvaluationStrategy}, {@link SearchStrategy} and a
 	 * {@link DelayStrategy} which will be used when emulating decision making.
-	 * 
+	 *
 	 * @param eval The {@link EvaluationStrategy} used to evaluate a
 	 * 			{@link BoardView}.
 	 * @param search The {@link SearchStrategy} used to search a
@@ -70,10 +70,10 @@ public final class AutomaticPlayer implements Participant
 	/**
 	 * Notify <code>this</code> {@code AutomaticPlayer} that the
 	 * {@link GameSession} is waiting for a move.
-	 * 
+	 *
 	 * @param session The {@link GameSession} which <code>this</code>
 	 * 			{@code AutomaticPlayer} object will be processing
-	 * 			a turn for. 
+	 * 			a turn for.
 	 */
 	@Override
 	public final void notifyTurn(final GameSession session)
@@ -97,7 +97,7 @@ public final class AutomaticPlayer implements Participant
 	/**
 	 * No {@link Participant.Control} object is available for the
 	 * {@code AutomaticPlayer} class.
-	 * 
+	 *
 	 * @return {@link Optional#empty()} as an {@code AutomaticPlayer} object
 	 * 			cannot be controlled.
 	 */
