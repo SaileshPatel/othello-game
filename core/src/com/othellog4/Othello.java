@@ -64,11 +64,12 @@ public class Othello extends Game {
 	 * </p>
 	 */
 	public void switchToTutorial() {
-		setScreen(new TutorialScreen(Launcher.get().newGame(
-						PlayerType.USER,
-						PlayerType.USER,
-						GameMode.BASIC),
-				this));
+		final GameModel model = Launcher.get().newGame(
+				PlayerType.USER,
+				PlayerType.USER,
+				GameMode.BASIC);
+		setScreen(new TutorialScreen(model, this));
+		model.start();
 	}
 	/**
 	 * Change to a {@link NormalGameScreen} object which will resume
