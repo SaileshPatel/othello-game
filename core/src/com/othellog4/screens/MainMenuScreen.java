@@ -22,12 +22,7 @@ import com.othellog4.graphics.ScreenBoxField;
  * @version 09/12/2017
  */
 public class MainMenuScreen extends BaseScreen {
-	private static final int PLAYBUTTON_WIDTH = 300;
-	private static final int PLAYBUTTON_HEIGHT = 45;
-	private static final int TUTORIALBUTTON_WIDTH = 195;
-	private static final int TUTORIALBUTTON_HEIGHT = 45;
-	private static final int EXITBUTTOON_WIDTH = 105;
-	private static final int EXITBUTTON_HEIGHT = 45;
+
 
 	final int GAME_WORLD_WIDTH = 1600;
 	final int GAME_WORLD_HEIGHT = 900;
@@ -109,7 +104,7 @@ public class MainMenuScreen extends BaseScreen {
 			
 			if (Gdx.input.isTouched()) {
 				this.dispose();
-				othello.switchToGame();
+				othello.switchToPlayerSelect();
 			}
 
 		} else {

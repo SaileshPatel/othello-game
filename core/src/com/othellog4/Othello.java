@@ -12,6 +12,7 @@ import com.othellog4.game.GameModel;
 import com.othellog4.screens.MainMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
 import com.othellog4.screens.OptionScreen;
+import com.othellog4.screens.PlayerSelectScreen;
 import com.othellog4.screens.TutorialScreen;
 
 public class Othello extends Game {
@@ -37,6 +38,15 @@ public class Othello extends Game {
 	@Override
 	public void resize(int width, int height) {
 		getScreen().resize(width, height);
+	}
+	public final void runGame(final GameModel model)
+	{
+		setScreen(new NormalGameScreen(model, this));
+		model.start();
+	}
+	public final void switchToPlayerSelect()
+	{
+		setScreen(new PlayerSelectScreen(this));
 	}
 	public void switchToGame() {
 		final GameModel model = Launcher.get().newGame(
