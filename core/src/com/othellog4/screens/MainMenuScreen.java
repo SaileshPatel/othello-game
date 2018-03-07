@@ -86,7 +86,7 @@ public class MainMenuScreen extends BaseScreen {
 		// SPRITE_BATCH.draw(OthelloText, 400, 100);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 		if(Launcher.get().hasCache())
-			new ScreenBoxField(850, 460, 1180, 50)
+			new ScreenBoxField(850, 470, 1180, 50)
 			.onHover(box ->
 			{
 				setColourHover();
