@@ -94,6 +94,24 @@ public final class GameScore
 		return manager.playerOf(conclusion().getLoser());
 	}
 	/**
+	 * Get the {@link Participant} object which acted as the first player.
+	 * 
+	 * @return The {@link Participant} object which is the first player.
+	 */
+	public final Participant player1()
+	{
+		return manager.player1();
+	}
+	/**
+	 * Get the {@link Participant} object which acted as the second player.
+	 * 
+	 * @return The {@link Participant} object which is the second player.
+	 */
+	public final Participant player2()
+	{
+		return manager.player2();
+	}
+	/**
 	 * Get the {@link GameConclusion} object which represent the conclusion of
 	 * a {@link Game}.
 	 *
