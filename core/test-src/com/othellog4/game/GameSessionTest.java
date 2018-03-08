@@ -32,8 +32,34 @@ public class GameSessionTest
 	//=========================================================================
 	//Tests.
 	@Test
-	public final void test()
+	public final void testAccept_NullArg()
 	{
 		fail();
 	}
+	@Test
+	public final void testAccept_WrongIssuer()
+	{
+		fail();
+	}
+	@Test
+	public final void testAccept_Success()
+	{
+		fail();
+	}
+	@Test
+	public final void testGetBoard_SameAsMamager()
+	{
+		fail();
+	}
+	@Test
+	public final void testCurrent_Player1()
+	{
+		fail();
+	}
+	@Test
+	public final void testCurrent_Player2()
+	{
+		fail();
+	}
+	
 }
