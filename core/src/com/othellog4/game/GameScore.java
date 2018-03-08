@@ -1,9 +1,12 @@
 package com.othellog4.game;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
+import com.othellog4.game.player.Player;
 
 /**
  * The {@code GameScore} class is an object which provides the ability
@@ -134,5 +137,21 @@ public final class GameScore
 	public final Map<Class<? extends GameExtension>, GameResult> results()
 	{
 		return manager.getResults();
+	}
+	/**
+	 * Get the {@link Player} objects which can be controlled.
+	 * 
+	 * @return The {@link Set} of {@link Participant} objects which can be
+	 * 			controlled.
+	 */
+	public final Set<Participant> getControlable()
+	{
+		return new HashSet<Participant>(3)
+		{{
+			if(manager.player1().getControl().isPresent())
+				add(manager.player1());
+			if(manager.player2().getControl().isPresent())
+				add(manager.player2());
+		}};
 	}
 }
