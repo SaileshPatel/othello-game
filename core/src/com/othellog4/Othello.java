@@ -10,6 +10,7 @@ import com.othellog4.environment.Launcher;
 import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
 import com.othellog4.screens.MainMenuScreen;
+import com.othellog4.screens.MultiplayerScreen;
 import com.othellog4.screens.NormalGameScreen;
 import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.PlayerSelectScreen;
@@ -84,6 +85,10 @@ public class Othello extends Game {
 
 	public void switchToOption(){
 		setScreen (new OptionScreen (this));
+	}
+	
+	public void switchToMultiplaer(){
+		setScreen (new MultiplayerScreen(this));
 	}
 
 	public void playMusic() {
