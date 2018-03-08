@@ -233,6 +233,8 @@ public class PlayerSelectScreen extends BaseScreen{
 		.before(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Player 2", box))
 		.hover(mousePos.x, mousePos.y);
+		
+		
 		preparePlayer1();
 		preparePlayer2();
 		new ScreenBoxField(500, 30, 180, 180)
@@ -316,5 +318,14 @@ public class PlayerSelectScreen extends BaseScreen{
 				box.getY(),
 				box.getHeight(),
 				box.getHeight());
+	}
+	
+	public void finalize(){
+		background.dispose();
+		blackPiece.dispose();
+		whitePiece.dispose();
+		blackStart.dispose();
+		whiteStart.dispose();
+		
 	}
 }

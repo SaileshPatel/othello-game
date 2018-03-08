@@ -57,12 +57,15 @@ public class BoardRenderer {
 	Texture image;
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
+	private Texture background;
 
 	public BoardRenderer(GameModel model) {
 		this.spriteBatch = BaseScreen.SPRITE_BATCH;
 		shape = BaseScreen.SHAPE_RENDER;
 		this.model = model;
 
+		background = new Texture("wood.jpeg");
+		// feltBackground = new Texture("");
 		image = new Texture("badlogic.jpg");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
@@ -120,15 +123,20 @@ public class BoardRenderer {
 		spriteBatch.end();
 
 		shape.begin(ShapeType.Filled);
-		shape.setColor(0.27f, 0.12f, 0.02f, 1);
-		shape.rect(0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT);
-		shape.setColor(0.01f, 0.2f, 0.022f, 1);
+		
+		// wooden background
+		spriteBatch.begin();
+		spriteBatch.draw(background, 0,0, 1600, 900);
+		spriteBatch.end();		
+
 		// Dark green background
 		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
 		shape.setColor(0.02f, 0.4f, 0.043f, 1);
+
 		// Light green inner
 		shape.rect(startingPosX,startingPosY - boardWidth,boardWidth,boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
+		
 		//shape.setColor(1.00f, 0.2f, 0.022f, 1);
 		float startingY = startingPosY - boardWidth;
 

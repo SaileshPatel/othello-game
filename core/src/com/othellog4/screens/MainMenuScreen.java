@@ -28,12 +28,6 @@ public class MainMenuScreen extends BaseScreen {
 	final int GAME_WORLD_HEIGHT = 900;
 
 	Othello othello;
-	Texture playButton;
-	Texture playButtonInactive;
-	Texture tutorialButton;
-	Texture tutorialButtonInactive;
-	Texture exitButton;
-	Texture exitButtonInactive;
 	Texture background;
 	Texture OthelloText;
 
@@ -63,12 +57,6 @@ public class MainMenuScreen extends BaseScreen {
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 
-		playButton = new Texture("NewGameActive.png");
-		playButtonInactive = new Texture("NewGame.png");
-		tutorialButton = new Texture("TutorialActive.png");
-		tutorialButtonInactive = new Texture("Tutorial.png");
-		exitButton = new Texture("ExitActive.png");
-		exitButtonInactive = new Texture("Exit.png");
 		OthelloText = new Texture("Othello.png");
 		background = new Texture("backgroundNew.png");
 	}
@@ -86,7 +74,7 @@ public class MainMenuScreen extends BaseScreen {
 		// SPRITE_BATCH.draw(OthelloText, 400, 100);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 		if(Launcher.get().hasCache())
-			new ScreenBoxField(850, 470, 1180, 50)
+			new ScreenBoxField(850, 530, 1180, 50)
 			.onHover(box ->
 			{
 				setColourHover();
@@ -97,10 +85,10 @@ public class MainMenuScreen extends BaseScreen {
 			.after(box -> drawTextInBox("Continue", box))
 			.hover(mousePos.x, mousePos.y);
 		
-		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
+		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 470 && mousePos.y < 520) {
 			// SPRITE_BATCH.draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 460, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 520, 500, Align.left, true);
 			
 			if (Gdx.input.isTouched()) {
 				this.dispose();
@@ -110,14 +98,31 @@ public class MainMenuScreen extends BaseScreen {
 		} else {
 			// SPRITE_BATCH.draw(playButtonInactive, 850, 360);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 460, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 520, 500, Align.left, true);
+
+		}
+		
+		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
+			// SPRITE_BATCH.draw(playButton, 850, 360);
+			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			optionsFont.draw(SPRITE_BATCH, "Multiplayer", 850, 460, 500, Align.left, true);
+			
+			if (Gdx.input.isTouched()) {
+				this.dispose();
+				othello.switchToMultiplaer();
+			}
+
+		} else {
+			// SPRITE_BATCH.draw(playButtonInactive, 850, 360);
+			optionsFont.setColor(1f, 1f, 1f, 1f);
+			optionsFont.draw(SPRITE_BATCH, "Multiplayer", 850, 460, 500, Align.left, true);
 
 		}
 
-		if (mousePos.x > 850 && mousePos.x < 1082  && mousePos.y > 350 && mousePos.y < 400) {
+		if (mousePos.x > 850 && mousePos.x < 1082  && mousePos.y > 345 && mousePos.y < 395) {
 			// SPRITE_BATCH.draw(tutorialButton, 850, 300);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 400, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 395, 500, Align.left, true);
 			if (Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToTutorial();
@@ -126,7 +131,7 @@ public class MainMenuScreen extends BaseScreen {
 		} else {
 			// SPRITE_BATCH.draw(tutorialButtonInactive, 850, 300);
 			optionsFont.setColor(1f, 1f, 1f, 1f);
-			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 400, 500, Align.left, true);
+			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 395, 500, Align.left, true);
 		}
 		
 		if (mousePos.x > 850 && mousePos.x < 1080 && mousePos.y > 290 && mousePos.y < 340) {
