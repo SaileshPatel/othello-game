@@ -5,6 +5,8 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.othellog4.game.board.Piece;
@@ -136,15 +138,17 @@ public final class GameManager
 	 * Package private to restrict access to this method.
 	 * </p>
 	 *
-	 * @return The array of {@link GameResult} objects which represent the
-	 * 			results.
+	 * @return The {@link Map} of {@link Class} and {@link GameResult} objects
+	 * 			which represent the class and results generated from a
+	 * 			{@link GameExtension} object.
 	 */
-	final GameResult[] getResults()
+	final Map<Class<? extends GameExtension>, GameResult> getResults()
 	{
 		return extensions.stream()
 				.filter(GameExtension::hasResult)
 				.map(GameResult::new)
-				.toArray(GameResult[]::new);
+				.collect(Collectors
+						.toMap(GameResult::type, Function.identity()));
 	}
 	/**
 	 * Execute a {@link GameCommand} on the {@link Game} managed by
