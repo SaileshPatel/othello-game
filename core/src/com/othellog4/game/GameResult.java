@@ -9,7 +9,7 @@ import com.othellog4.game.extension.GameExtension;
  *
  * @author 	159014260 John Berg
  * @since 	06/03/2018
- * @version 06/03/2018
+ * @version 08/03/2018
  */
 public final class GameResult
 {
@@ -22,7 +22,7 @@ public final class GameResult
 	 *
 	 * @see GameExtension
 	 */
-	public final Class<? extends GameExtension> type;
+	private final Class<? extends GameExtension> type;
 	/**
 	 * The {@link GameExtension} object which is the source for
 	 * <code>this</code> {@code GameResult} object.
@@ -81,5 +81,16 @@ public final class GameResult
 	public final int result(final Piece piece)
 	{
 		return source.result(piece);
+	}
+	/**
+	 * Get the {@link Class} of the {@link GameExtension} which
+	 * <code>this</code> {@code GameResult} is produced from.
+	 * 
+	 * @return The {@link Class} of the {@link GameExtension} which
+	 * 			<code>this</code> {@code GameResult} is produced from.
+	 */
+	public final Class<? extends GameExtension> type()
+	{
+		return type;
 	}
 }

@@ -1,5 +1,8 @@
 package com.othellog4.game;
 
+import java.util.Map;
+
+import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
 
 /**
@@ -125,10 +128,10 @@ public final class GameScore
 	 * Get the {@link GameResult} objects from <code>this</code>
 	 * {@code GameScore} object.
 	 *
-	 * @return The {@link GameResult} objects which contain the result for
-	 * 			<code>this</code> {@code GameScore} object.
+	 * @return The Mpa of {@link GameExtension} {@link Class} objects and the
+	 * 			corresponding {@link GameResult} object.
 	 */
-	public final GameResult[] results()
+	public final Map<Class<? extends GameExtension>, GameResult> results()
 	{
 		return manager.getResults();
 	}
