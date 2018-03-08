@@ -26,29 +26,29 @@ import com.othellog4.graphics.ScreenBoxField;
  */
 public class PlayerSelectScreen extends BaseScreen{
 	final int GAME_WORLD_WIDTH = 1600;
-	final int GAME_WORLD_HEIGHT = 900;	
-	
+	final int GAME_WORLD_HEIGHT = 900;
+
 	Texture background;
 	Texture whitePiece;
 	Texture blackPiece;
 	Texture blackStart;
 	Texture whiteStart;
 	Texture mascotButton;
-	
-	
+
+
 	int buttonWidth = 100;
 	int buttonHeight = 100;
-	
+
 	Othello othello;
 	private PlayerType player1 = PlayerType.USER;
 	private PlayerType player2 = PlayerType.USER;
 	private BitmapFont optionsFont;
-	
+
 	public PlayerSelectScreen(Othello othello){
 		this.othello=othello;
 		background = new Texture("wood.jpeg");
-		blackPiece = GraphicsUtil.createMipMappedTex("blackPiece.png");
-		whitePiece = GraphicsUtil.createMipMappedTex("whitePiece.png");
+		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
+		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackStart =  GraphicsUtil.createMipMappedTex("blackStart.png");
 		whiteStart =  GraphicsUtil.createMipMappedTex("whiteStart.png");
 		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
@@ -129,8 +129,8 @@ public class PlayerSelectScreen extends BaseScreen{
 		.after(box -> drawTextInBox("COM Hard", box))
 		.hover(mousePos.x, mousePos.y);
 	}
-	
-	
+
+
 	private void preparePlayer2()
 	{
 		Vector2 mousePos = GraphicsUtil.getMousePos();
@@ -195,16 +195,16 @@ public class PlayerSelectScreen extends BaseScreen{
 		.after(box -> drawTextInBox("COM Hard", box))
 		.hover(mousePos.x, mousePos.y);
 	}
-	
-	
+
+
 	public void render (float delta){
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 		//System.out.println(mousePos.x + " " + mousePos.y);
-		
-		
-		
+
+
+
 		new ScreenBoxField(0, 800, 100, 100)
 		.onHover(box -> {
 			if(Gdx.input.justTouched()){
@@ -219,16 +219,16 @@ public class PlayerSelectScreen extends BaseScreen{
 				box.getWidth(),
 				box.getHeight()))
 		.hover(mousePos.x, mousePos.y);
-		
-		
-		
-		
-		
+
+
+
+
+
 		new ScreenBoxField(206, 626, 200, 40)
 		.before(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Player 1", box))
 		.hover(mousePos.x, mousePos.y);
-		
+
 		new ScreenBoxField(900, 626, 200, 40)
 		.before(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Player 2", box))
@@ -243,10 +243,10 @@ public class PlayerSelectScreen extends BaseScreen{
 				othello.runGame(Launcher.get()
 						.newGame(getPlayer1(), getPlayer2(), GameMode.CASUAL));
 		})
-		.after(box -> 
+		.after(box ->
 		SPRITE_BATCH.draw(whiteStart, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
 		.hover(mousePos.x, mousePos.y);
-		
+
 		new ScreenBoxField(800, 30, 180, 180)
 		.onHover(box -> {
 			if(Gdx.input.isTouched())
@@ -255,13 +255,13 @@ public class PlayerSelectScreen extends BaseScreen{
 						.newGame(getPlayer1(), getPlayer2(),
 								GameMode.COMPETATIVE));
 		})
-		.after(box -> 
+		.after(box ->
 		SPRITE_BATCH.draw(blackStart, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
 		.hover(mousePos.x, mousePos.y);
 
-		
+
 		SPRITE_BATCH.end();
-		
+
 	}
 	private void setPlayer1(final PlayerType type)
 	{
@@ -283,12 +283,12 @@ public class PlayerSelectScreen extends BaseScreen{
 	{
 		optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 	}
-	
+
 	private void setColourNoHover()
 	{
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 	}
-	
+
 	private void drawTextInBox(
 			final String text,
 			final ScreenBoxField box)
@@ -310,7 +310,7 @@ public class PlayerSelectScreen extends BaseScreen{
 				box.getHeight(),
 				box.getHeight());
 	}
-	
+
 	private void drawWhitePieceInBox(final ScreenBoxField box)
 	{
 		SPRITE_BATCH.draw(
