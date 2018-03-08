@@ -37,6 +37,7 @@ public final class NormalGameScreen extends GameScreen
 	}
 	@Override
 	protected void postUpdate(float delta) {
+		setPlacementEnabled(model.isWaiting());
 		if(!gameOver && model.isGameOver()) {
 			Launcher.get().clear();
 			game.setScreen(new EndGameScreen(game, this, model.score()));
