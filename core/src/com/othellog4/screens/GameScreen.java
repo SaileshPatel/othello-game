@@ -35,7 +35,6 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
 	private Texture backButton;
 	private boolean placementEnabled;
-	private Texture background;
 
 	//=========================================================================
 	//Constructors.
@@ -45,7 +44,6 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
 	
-		background = new Texture("wood.jpeg");
 		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 	}
 	//=========================================================================

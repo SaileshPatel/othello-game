@@ -46,7 +46,7 @@ public class PlayerSelectScreen extends BaseScreen{
 	
 	public PlayerSelectScreen(Othello othello){
 		this.othello=othello;
-		background = new Texture("mahogany_texture.jpg");
+		background = new Texture("wood.jpeg");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackPiece.png");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitePiece.png");
 		blackStart =  GraphicsUtil.createMipMappedTex("blackStart.png");
