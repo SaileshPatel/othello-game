@@ -117,7 +117,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		boardRenderer.render(delta);
 		postRender(delta);
 		SPRITE_BATCH.begin();
-		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 0.20f);
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		SPRITE_BATCH.draw(mascotButton, xPos, yPos, buttonWidth, buttonHeight);
 		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		SPRITE_BATCH.end();
