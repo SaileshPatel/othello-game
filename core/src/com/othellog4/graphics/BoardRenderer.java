@@ -65,7 +65,6 @@ public class BoardRenderer {
 		this.model = model;
 
 		background = new Texture("wood.jpeg");
-		// feltBackground = new Texture("");
 		image = new Texture("badlogic.jpg");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
@@ -130,6 +129,7 @@ public class BoardRenderer {
 		spriteBatch.end();		
 
 		// Dark green background
+		shape.setColor(0.01f, 0.2f, 0.022f, 1);
 		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
 		shape.setColor(0.02f, 0.4f, 0.043f, 1);
 
