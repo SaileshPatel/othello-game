@@ -32,7 +32,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	int buttonHeight = 100;
 	int xPos = 0;
 	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
-	private Texture mascotButton;
+	private Texture backButton;
 	private boolean placementEnabled;
 
 	//=========================================================================
@@ -43,7 +43,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
 
-		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 	}
 	//=========================================================================
 	//Methods.
@@ -118,7 +118,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		postRender(delta);
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		SPRITE_BATCH.draw(mascotButton, xPos, yPos, buttonWidth, buttonHeight);
+		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
 		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		SPRITE_BATCH.end();
 	}
