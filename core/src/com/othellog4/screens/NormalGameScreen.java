@@ -1,6 +1,7 @@
 package com.othellog4.screens;
 
 import com.othellog4.Othello;
+import com.othellog4.environment.Launcher;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
 
@@ -12,6 +13,8 @@ import com.othellog4.game.board.Position;
  */
 public final class NormalGameScreen extends GameScreen
 {
+
+	boolean gameOver = false;
 
 	public NormalGameScreen(
 			final GameModel model,
@@ -34,8 +37,11 @@ public final class NormalGameScreen extends GameScreen
 	}
 	@Override
 	protected void postUpdate(float delta) {
-		// TODO Auto-generated method stub
-
+		if(!gameOver && model.isGameOver()) {
+			Launcher.get().clear();
+			game.setScreen(new EndGameScreen(game, this, model.score()));
+			gameOver = true;
+		}
 	}
 
 }

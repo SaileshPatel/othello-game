@@ -26,7 +26,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	private boolean isPressed = false;
 	protected Othello game;
 	protected BoardRenderer boardRenderer;
-	private GameModel model;
+	protected GameModel model;
 
 	int buttonWidth = 100;
 	int buttonHeight = 100;
