@@ -18,6 +18,7 @@ public final class NormalGameScreen extends GameScreen
 			final Othello game)
 	{
 		super(model, game);
+		super.setPlacementEnabled(true);
 	}
 	@Override
 	protected boolean checkInput(Position position)
