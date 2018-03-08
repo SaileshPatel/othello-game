@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import com.othellog4.game.board.BoardView;
 import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
 import com.othellog4.game.player.Player;
@@ -153,5 +154,14 @@ public final class GameScore
 			if(manager.player2().getControl().isPresent())
 				add(manager.player2());
 		}};
+	}
+	/**
+	 * Get the {@link BoardView} of the completed {@link Game}.
+	 * 
+	 * @return The {@link BoardView} of the completed {@link Game}.
+	 */
+	public final BoardView getBoard()
+	{
+		return manager.game().getBoard();
 	}
 }
