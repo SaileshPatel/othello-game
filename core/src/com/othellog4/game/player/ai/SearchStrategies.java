@@ -103,9 +103,24 @@ public enum SearchStrategies implements SearchStrategy
 				}
 			}).get();
 		}
-	},
+	},	
+	/**
+	 * The implementation of the {@link SearchStrategy} interface which selects
+	 * the {@link Position} object which would result in the best score by
+	 * the supplied {@link EvaluationStrategy}.
+	 */
 	MINIMAX
 	{
+		/**
+		 * Search for the {@link Position} object where s {@link Piece} object
+		 * can be placed on a board using the MINIMAX algorithm.
+		 * 
+		 * @param board The {@link BoardView} which to search for moves.
+		 * @param piece The {@link Piece} object to search for moves for.
+		 * @param eval The {@link EvaluationStrategy} used to rank the
+		 * 			<code>board</code>.
+		 * @return The selected {@link Position} object.
+		 */
 		@Override
 		public final Position search(
 				final BoardView board,
