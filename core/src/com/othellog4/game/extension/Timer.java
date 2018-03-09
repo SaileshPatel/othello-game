@@ -8,6 +8,12 @@ import com.othellog4.game.GameManager;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
 
+/**
+ * 
+ * @author 	John
+ * @since	??/02/2018
+ * @version 09/03/2018
+ */
 public final class Timer extends GameExtension
 {
 	//=========================================================================
