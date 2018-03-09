@@ -10,7 +10,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
 
 /**
- *
+ * A base screen which can be built upon later. All new screens should inherit from here. 
  * @author James Shorthouse
  * @version 06/03/2017
  *
