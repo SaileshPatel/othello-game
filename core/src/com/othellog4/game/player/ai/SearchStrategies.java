@@ -137,6 +137,17 @@ public enum SearchStrategies implements SearchStrategy
 			return finalPosition;
 		}
 		
+		/**
+		 * The recursive function used to determine the best possible {@link Position} for the current game {@link BoardView}
+		 * 
+		 * @param board The {@link BoardView} which to search for moves.
+		 * @param piece The {@link Piece} object to search for moves for.
+		 * @param eval The {@link EvaluationStrategy} used to rank the
+		 * 			<code>board</code>.
+		 * @param depth The current depth of the recursive function. (Inverted, 0 is bottom of tree)
+		 * @param isMax True if maximising player, false if minimising player
+		 * @return A HashMap<Double, Position> where the Double is the best score of the function and {@link Position} is the best position associated with the score
+		 */
 		private HashMap<Double, Position> minimax(BoardView board, Piece piece, EvaluationStrategy eval, int depth, boolean isMax) {
 			
 			int currentDepth = depth; //might not be needed
