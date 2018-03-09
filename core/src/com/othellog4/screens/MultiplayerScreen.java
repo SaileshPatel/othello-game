@@ -20,6 +20,13 @@ import com.othellog4.Othello;
 import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.graphics.ScreenBoxField;
 
+/**
+ * Allows players to access online play
+ * 
+ * @author Zak Hirsi
+ * @author John Berg
+ * @since 08/03/2018
+ */
 public class MultiplayerScreen extends BaseScreen {
 	Texture background;
 	Texture mascotButton;

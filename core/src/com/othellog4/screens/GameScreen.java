@@ -16,9 +16,13 @@ import com.othellog4.graphics.BoardRenderer;
 import com.othellog4.graphics.GraphicsUtil;
 
 /**
+ * The screen which displays a game of Othello. 
  *
- * @author John Berg, James Shorthouse
- * @version 07/03/2018
+ * @author John Berg
+ * @author James Shorthouse
+ * @author Sailesh Patel
+ * @since 07/03/2018
+ * @version 08/03/2018
  */
 public abstract class GameScreen extends BaseScreen implements Observer {
 	//=========================================================================
@@ -56,21 +60,22 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		//TODO implement
 	}
 	/**
-	 *
-	 * @param position
-	 * @return
+	 * This method is intended to check whether an input is a valid position or not
+	 * @param position the position to check 
+	 * @return whether the position is valid or not (true/false)
 	 */
 	protected abstract boolean checkInput(final Position position);
 	protected abstract void postRender(float delta);
 	protected abstract void postUpdate(float delta);
 	/**
-	 *
+	 * This method updates the screen whenever based on player inputs. 
 	 * @param delta
 	 */
 	public final void update(final float delta) {
 		boardRenderer.update();
 		if(!isPressed)
 		{
+			// when a left click happens
 			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			{
 				isPressed = true;
@@ -79,6 +84,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 					if(placementEnabled && checkInput(position))
 						try
 						{
+							// place a position in a col/rol
 							model.put(position.col, position.row);
 						}
 						catch (GameException e)

@@ -12,6 +12,13 @@ import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
 import com.othellog4.graphics.GraphicsUtil;
 
+/**
+ * Provides an option menu for users to adjust the background music volume and whether sound effects should be 
+ * on or off
+ * @author Zak Hirsi
+ * @since 06/02/2018
+ * @version 06/02/2018
+ */
 public class OptionScreen extends BaseScreen {
 
 	Othello othello;
@@ -29,6 +36,10 @@ public class OptionScreen extends BaseScreen {
 	Texture whitePiece;
 	Texture highlightedPiece;
 
+	/**
+	 * The constructor where everything is initialised
+	 * @param othello
+	 */
 	public OptionScreen(Othello othello) {
 		this.othello = othello;
 

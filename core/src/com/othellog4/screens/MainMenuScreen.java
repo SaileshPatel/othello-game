@@ -15,11 +15,18 @@ import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.graphics.ScreenBoxField;
 
 /**
- * This is the main menu screen where
+ * This is the main menu screen where the player can decide on whether they want to :
+ * <ul>
+ * 	<li>Play online (takes user to {@link MultiplayerScreen Multiplayer Screen})</li>
+ * 	<li>Play locally (takes user to {@link PlayerSelectScreen Selection Screen})</li>
+ * 	<li>Use a tutorial (takes user to {@link TutorialScreen Tutorial Screen})</li>
+ * 	<li>Access the options screen (takes user to {@link OptionScreen Options Screen})</li>
+ * 	<li>Exit the game</li>
+ * </ul>
  * 
  * @author Zakeria Hirsi
  * @since 09/12/2017
- * @version 09/12/2017
+ * @version 09/08/2017
  */
 public class MainMenuScreen extends BaseScreen {
 
@@ -34,6 +41,10 @@ public class MainMenuScreen extends BaseScreen {
 	private BitmapFont titleFont;
 	private BitmapFont optionsFont;
 
+	/**
+	 * The constructor where everything is initially initialised
+	 * @param othello an instance of {@link Othello} to be passed
+	 */
 	public MainMenuScreen(Othello othello) {
 		this.othello = othello;
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
