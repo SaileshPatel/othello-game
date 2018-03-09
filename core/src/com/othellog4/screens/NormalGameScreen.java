@@ -6,7 +6,7 @@ import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
 
 /**
- *
+ * Represents the average game screen.
  * @author 	159014260 John Berg
  * @since 	07/12/2017
  * @version 07/12/2017
@@ -16,6 +16,11 @@ public final class NormalGameScreen extends GameScreen
 
 	boolean gameOver = false;
 
+	/**
+	 * 
+	 * @param model takes a {@link com.othellog4.game.GameModel Model} of the game
+	 * @param game takes an instance of {@link com.othellog4.Othello Othello}
+	 */
 	public NormalGameScreen(
 			final GameModel model,
 			final Othello game)
