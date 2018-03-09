@@ -87,11 +87,14 @@ public enum PlayerType
 	 */
 	AI_HARD
 	{
+		private final Participant ai = new AutomaticPlayer(
+				EvaluationStrategies.COUNT,
+				SearchStrategies.MINIMAX,
+				DelayStrategies.WAIT_ONE_SEC);
 		@Override
 		final Participant get()
 		{
-			//NO AI existing yet...
-			return null;
+			return ai;
 		}
 	};
 	//=========================================================================
