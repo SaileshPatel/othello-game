@@ -3,6 +3,7 @@ package com.othellog4.environment;
 import com.othellog4.game.extension.FlipCounter;
 import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.extension.Logger;
+import com.othellog4.game.extension.Timer;
 
 /**
  * The {@code GameMode} enumeration is a collection of modes which are
@@ -58,7 +59,8 @@ public enum GameMode
 		{
 			return new GameExtension[]
 			{
-					new FlipCounter()
+					new FlipCounter(),
+					new Timer()
 			};
 		}
 	},

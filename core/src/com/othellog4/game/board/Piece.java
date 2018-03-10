@@ -8,13 +8,19 @@ package com.othellog4.game.board;
  * @version 26/10/2017
  */
 public enum Piece {
-
+	
+	/**
+	 * This piece represents with {@link PIECE_A Piece A}
+	 */
 	PIECE_A{
 		@Override
 		public Piece flip(){
 			return PIECE_B;
 		}
 	},
+	/**
+	 * This piece represents with {@link PIECE_B Piece B}
+	 */
 	PIECE_B{
 		@Override
 		public Piece flip(){

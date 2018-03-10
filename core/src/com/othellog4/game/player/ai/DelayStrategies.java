@@ -15,7 +15,7 @@ public enum DelayStrategies implements DelayStrategy
 	//=========================================================================
 	//Enum constants.
 	/**
-	 * Execute immidiatly.
+	 * Executes immediately.
 	 */
 	IMMIDIATE()
 	{
@@ -31,10 +31,10 @@ public enum DelayStrategies implements DelayStrategy
 		}
 	},
 	/**
-	 * Delay execution for <code>0</code> seconds.
+	 * Delays execution for <code>0</code> seconds.
 	 *
 	 * <p>
-	 * The execution will occur on a thread separate to current thread.
+	 * The execution will occur on a thread separate to the current thread.
 	 * </p>
 	 */
 	WAIT_ZERO_SEC
@@ -52,7 +52,7 @@ public enum DelayStrategies implements DelayStrategy
 		}
 	},
 	/**
-	 * Delay execution for <code>1</code> seconds.
+	 * Delays execution for <code>1</code> seconds.
 	 *
 	 * <p>
 	 * The execution will occur on a thread separate to current thread.
@@ -76,13 +76,13 @@ public enum DelayStrategies implements DelayStrategy
 	 * Delay execution for <code>2</code> seconds.
 	 *
 	 * <p>
-	 * The execution will occur on a thread separate to current thread.
+	 * The execution will occur on a thread separate to the current thread.
 	 * </p>
 	 */
 	WAIT_TWO_SEC
 	{
 		/**
-		 * Delay execution of a {@link Runnable} object by <code>2</code>
+		 * Delays execution of a {@link Runnable} object by <code>2</code>
 		 * seconds.
 		 *
 		 * @param r The {@link Runnable} object to run.

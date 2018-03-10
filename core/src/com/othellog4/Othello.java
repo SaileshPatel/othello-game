@@ -10,11 +10,22 @@ import com.othellog4.environment.Launcher;
 import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
 import com.othellog4.screens.MainMenuScreen;
+import com.othellog4.screens.MultiplayerScreen;
 import com.othellog4.screens.NormalGameScreen;
 import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.PlayerSelectScreen;
 import com.othellog4.screens.TutorialScreen;
-
+/**
+ * This class deals with rendering the screen and elements from other classes. 
+ * <br />
+ * It runs the game, as well as deals with the backing track and switching screens.
+ * 
+ * @author John Berg
+ * @author James Shorthouse
+ * @author Zakeria Hirsi
+ * @since 27/11/2017
+ * @version 08/03/2018
+ */
 public class Othello extends Game {
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
@@ -79,21 +90,44 @@ public class Othello extends Game {
 	{
 		setScreen(new NormalGameScreen(Launcher.get().release(), this));
 	}
+	/**
+	 * Change to a {@link MainMenuScreen} object which will go to the main menu
+	 */
 	public void switchToMenu() {
 		setScreen(new MainMenuScreen(this));
 	}
-
+	/**
+	 * Change to a {@link OptionScreen} object which will go to the options screen
+	 */
 	public void switchToOption(){
 		setScreen (new OptionScreen (this));
 	}
+	/**
+	 * Change to a {@link MultiplayerScreen} object which will go to the multi-player screen
+	 */
+	public void switchToMultiplaer(){
+		setScreen (new MultiplayerScreen(this));
+	}
 
+	/**
+	 * This method plays the backing track. This method does the following:
+	 * <ul>
+	 * 	<li>Loops the music</li>
+	 * 	<li>Sets the initial volume</li>
+	 * 	<li>Plays the music</li>
+	 * </ul>
+	 */
 	public void playMusic() {
 		music.setLooping(true);
 		music.setVolume(0.1f);
 		music.play();
 
 	}
-
+	
+	/**
+	 * Sets the volume of the backing track music
+	 * @param volume the value of the volume you want
+	 */
 	public void setMusic(float volume) {
 		music.setVolume(volume);
 
@@ -101,6 +135,10 @@ public class Othello extends Game {
 		//change the decibel scale
 	}
 
+	/**
+	 * Gets the volume of the backing track music
+	 * @return the volume 
+	 */
 	public float getMusic() {
 		return music.getVolume();
 	}

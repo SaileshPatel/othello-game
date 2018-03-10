@@ -17,9 +17,15 @@ import com.othellog4.game.board.ProxyGameBoard;
 //import com.badlogic.gdx.utils.BaseScreen.VIEWPORT.FitViewport;
 import com.othellog4.screens.BaseScreen;
 /**
+ * This class deals with rendering the board game, including all textures and sprites used. 
+ * 
+ * @see com.othellog4.screens.GameScreen GameScreen
+ * 
  * @author Zakeria Hirsi
  * @author James Shorthouse
- * @version 30/11/2017
+ * @author Sailesh Patel
+ * @since 30/11/2017
+ * @version 08/03/2018
  */
 public class BoardRenderer {
 
@@ -54,16 +60,24 @@ public class BoardRenderer {
 	private float timer;
 
 	Batch spriteBatch;
-	Texture image;
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
+	private Texture background;
 
+	/**
+	 * The constructor for {@link com.othellog4.graphics.BoardRender BoardRender}. 
+	 * In this class, the majority of the work is initialising sprites and shapes for later use.  
+	 * @param model an instance of {@link com.othello.game.GameModel GameModel}
+	 */
 	public BoardRenderer(GameModel model) {
 		this.spriteBatch = BaseScreen.SPRITE_BATCH;
 		shape = BaseScreen.SHAPE_RENDER;
 		this.model = model;
 
-		image = new Texture("badlogic.jpg");
+		/*
+		 * A series of images needed 
+		 */
+		background = new Texture("wood.jpeg");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
@@ -102,11 +116,20 @@ public class BoardRenderer {
 //		cam.position.set(Othello.GAME_WORLD_WIDTH / 2, Othello.GAME_WORLD_HEIGHT / 2, 0);
 //	}
 
+	/**
+	 * 
+	 */
 	public void update() {
 		updatePosUnderMouse();
 		//System.out.println(posUnderMouse);
 	}
-
+	
+	/**
+	 * Deals with rendering the game board, and it renders the board itself, colours, the game grid and 
+	 * the wooden background.
+	 * @see com.othellog4.screens.GameScreen GameScreen
+	 * @param delta used to increment the {@link com.othellog4.graphics.BoardRender#Timer Timer}
+	 */
 	public void render(float delta) {
 		timer += delta;
 //		cam.update();
@@ -120,15 +143,21 @@ public class BoardRenderer {
 		spriteBatch.end();
 
 		shape.begin(ShapeType.Filled);
-		shape.setColor(0.27f, 0.12f, 0.02f, 1);
-		shape.rect(0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT);
-		shape.setColor(0.01f, 0.2f, 0.022f, 1);
+		
+		// wooden background
+		spriteBatch.begin();
+		spriteBatch.draw(background, 0,0, 1600, 900);
+		spriteBatch.end();		
+
 		// Dark green background
+		shape.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the border is kept - do not remove
 		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
 		shape.setColor(0.02f, 0.4f, 0.043f, 1);
+
 		// Light green inner
 		shape.rect(startingPosX,startingPosY - boardWidth,boardWidth,boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
+		
 		//shape.setColor(1.00f, 0.2f, 0.022f, 1);
 		float startingY = startingPosY - boardWidth;
 

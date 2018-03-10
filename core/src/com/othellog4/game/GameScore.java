@@ -1,6 +1,13 @@
 package com.othellog4.game;
 
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import com.othellog4.game.board.BoardView;
+import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
+import com.othellog4.game.player.Player;
 
 /**
  * The {@code GameScore} class is an object which provides the ability
@@ -94,6 +101,24 @@ public final class GameScore
 		return manager.playerOf(conclusion().getLoser());
 	}
 	/**
+	 * Get the {@link Participant} object which acted as the first player.
+	 * 
+	 * @return The {@link Participant} object which is the first player.
+	 */
+	public final Participant player1()
+	{
+		return manager.player1();
+	}
+	/**
+	 * Get the {@link Participant} object which acted as the second player.
+	 * 
+	 * @return The {@link Participant} object which is the second player.
+	 */
+	public final Participant player2()
+	{
+		return manager.player2();
+	}
+	/**
 	 * Get the {@link GameConclusion} object which represent the conclusion of
 	 * a {@link Game}.
 	 *
@@ -107,11 +132,36 @@ public final class GameScore
 	 * Get the {@link GameResult} objects from <code>this</code>
 	 * {@code GameScore} object.
 	 *
-	 * @return The {@link GameResult} objects which contain the result for
-	 * 			<code>this</code> {@code GameScore} object.
+	 * @return The Mpa of {@link GameExtension} {@link Class} objects and the
+	 * 			corresponding {@link GameResult} object.
 	 */
-	public final GameResult[] results()
+	public final Map<Class<? extends GameExtension>, GameResult> results()
 	{
 		return manager.getResults();
+	}
+	/**
+	 * Get the {@link Player} objects which can be controlled.
+	 * 
+	 * @return The {@link Set} of {@link Participant} objects which can be
+	 * 			controlled.
+	 */
+	public final Set<Participant> getControlable()
+	{
+		return new HashSet<Participant>(3)
+		{{
+			if(manager.player1().getControl().isPresent())
+				add(manager.player1());
+			if(manager.player2().getControl().isPresent())
+				add(manager.player2());
+		}};
+	}
+	/**
+	 * Get the {@link BoardView} of the completed {@link Game}.
+	 * 
+	 * @return The {@link BoardView} of the completed {@link Game}.
+	 */
+	public final BoardView getBoard()
+	{
+		return manager.game().getBoard();
 	}
 }

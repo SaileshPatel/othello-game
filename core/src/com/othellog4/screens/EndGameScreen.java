@@ -2,6 +2,8 @@ package com.othellog4.screens;
 
 import java.time.LocalTime;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -11,8 +13,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-
 import com.othellog4.Othello;
+import com.othellog4.game.GameConclusion;
+import com.othellog4.game.GameResult;
+import com.othellog4.game.GameScore;
+import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.Piece;
+import com.othellog4.game.extension.FlipCounter;
+import com.othellog4.game.extension.GameExtension;
+import com.othellog4.game.player.Participant;
 import com.othellog4.graphics.GraphicsUtil;
 
 /**
@@ -82,28 +91,69 @@ public class EndGameScreen extends BaseScreen {
 
 	private boolean animationFinished = false;
 
-	public EndGameScreen(Othello game, GameScreen screen, int winState,
-			int timeTaken, int numFlips, int numPieces) {
+	public EndGameScreen(Othello game, GameScreen screen, GameScore gameScore) {
+
+		int winState;
+
+		int WIN = 0;
+		int LOSE = 1;
+		int DRAW = 2;
+		int ABANDON = 3;
+		int WHITE_WINS = 4;
+		int BLACK_WINS = 5;
+
+		Set<Participant> humanPlayers = gameScore.getControlable();
+
+		GameConclusion conclusion = gameScore.conclusion();
+		Map<Class<? extends GameExtension>, GameResult> result = gameScore.results();
+
+		int numFlips = result.get(FlipCounter.class).player1Result();
+		int p2NumFlips = result.get(FlipCounter.class).player2Result();
+
+		BoardView board = gameScore.getBoard();
+
+		int numPieces = board.count(Piece.PIECE_A); // Black (P1)
+		int p2NumPieces = board.count(Piece.PIECE_B); // White (P2)
+
+		//int timeTaken = result.get(Timer.class).player1Result() + result.get(Time.class).player2Result();
+		int timeTaken = 5;
+
+		boolean singlePlayer = true;
+
+
+		if(conclusion.isDraw()) {
+			winState = DRAW;
+		}
+		else if(humanPlayers.size() != 1) {
+			System.out.println("Controllable players: " + humanPlayers.size());
+			singlePlayer = false;
+			if(conclusion.getWinner() == Piece.PIECE_A) {// Black
+				winState = BLACK_WINS;
+			} else {
+				winState = WHITE_WINS;
+			}
+		} else {
+			// Single player
+			if(gameScore.winner() == humanPlayers.iterator().next()) {
+				winState = WIN;
+			} else {
+				winState = LOSE;
+			}
+		}
+
+		int score = 50;
+		int p2Score = 100;
+
 
 		Arrays.fill(textXPositions, Othello.GAME_WORLD_WIDTH);
 		Arrays.fill(textYPositions, 200);
 		animMascotDistance = mascotFinalXPos - mascotStartingXPos;
 		animStatsTextDistance = Othello.GAME_WORLD_WIDTH - statsTextFinalX;
 
-		int WIN = 0;
-		int LOSE = 1;
-		int DRAW = 2;
-		int ABANDON = 3;
-		int PLAYER1WINS = 4;
-		int PLAYER2WINS = 5;
 
-		boolean singlePlayer = true;
-		String player1Name = "Player 1";
-		String player2Name = "Player 2";
-		int p2NumFlips = 200;
-		int p2NumPieces=20;
-		int score = 2000;
-		int p2Score = 500;
+
+		String player1Name = "BLACK";
+		String player2Name = "WHITE";
 
 		this.screen = screen;
 		this.game = game;
@@ -161,14 +211,14 @@ public class EndGameScreen extends BaseScreen {
 		textText[TOTAL_SCORE] = "Total score: " + score;
 
 		} else {
-			if(winState == PLAYER1WINS){
+			if(winState == BLACK_WINS){
 				messageText = player1Name.toUpperCase() + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex
-						("mascot/end_screen/whitewin.png");
-			} else if(winState == PLAYER2WINS){
+						("mascot/end_screen/win.png"); //TODO change to actual picture
+			} else if(winState == WHITE_WINS){
 				messageText = player2Name + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex
-						("mascot/end_screen/blackwin.png");
+						("mascot/end_screen/win.png");
 			}
 			textText[NUM_PIECES] = "Number of pieces:\n" + player1Name + ": " +
 				numPieces + "     " + player2Name + ": " + p2NumPieces;
