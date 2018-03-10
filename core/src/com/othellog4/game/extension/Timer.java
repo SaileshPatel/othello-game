@@ -87,7 +87,7 @@ public final class Timer extends GameExtension
 	 *
 	 */
 	@Override
-	public final void onEvent(
+	public final synchronized void onEvent(
 			final GameEvent event,
 			final GameManager manager)
 	{
@@ -125,7 +125,7 @@ public final class Timer extends GameExtension
 	 * @return The <code>int</code> which represents seconds.
 	 */
 	@Override
-	public int result(Piece piece)
+	public synchronized int result(Piece piece)
 	{
 		return (int) (timeTracker.get(piece) / 1000);
 	}
