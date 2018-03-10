@@ -17,7 +17,10 @@ import com.othellog4.screens.BaseScreen;
  * @version 10/03/2018
  *
  */
-public class GraphicsUtil {
+public final class GraphicsUtil {
+
+	private GraphicsUtil() {
+	}
 
 	/**
 	 * Create a texture with mipmaps and filtering
