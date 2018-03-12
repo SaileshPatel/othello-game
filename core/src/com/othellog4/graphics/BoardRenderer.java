@@ -121,7 +121,7 @@ public class BoardRenderer {
 		generatePieceCoordinates();
 
 
-		pieceSheet = new Texture("animations/piece/sheet.png");
+		pieceSheet = GraphicsUtil.createMipMappedTex("animations/piece/sheet.png");
 		TextureRegion[][] tempFrames = TextureRegion.split(pieceSheet, 256, 256);
 		animationFrames = new TextureRegion[30];
 
