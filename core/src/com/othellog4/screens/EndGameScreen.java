@@ -176,7 +176,7 @@ public class EndGameScreen extends BaseScreen {
 		gradientBottom = new Color(0.0f, 0.0f, 0.0f, 0.5f);
 
 		enterKey = GraphicsUtil.createMipMappedTex("key_icons/enter.png");
-		enterWidth = (ENTER_HEIGHT / (float) enterKey.getHeight()) *
+		enterWidth = (ENTER_HEIGHT / enterKey.getHeight()) *
 				enterKey.getWidth();
 
 		if(singlePlayer) {
@@ -393,6 +393,7 @@ public class EndGameScreen extends BaseScreen {
 
 	}
 
+	@Override
 	public void render(float delta) {
 		update(delta);
 		// Render game in background
