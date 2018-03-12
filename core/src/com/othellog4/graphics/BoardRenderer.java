@@ -67,6 +67,8 @@ public class BoardRenderer {
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
 	private Texture background;
+	
+	TextureRegion felt;
 
 	static Texture pieceSheet;
 	static TextureRegion[] animationFrames;
@@ -91,6 +93,12 @@ public class BoardRenderer {
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
 		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
+		
+		Texture tempFelt = GraphicsUtil.createMipMappedTex("felt.png");
+		tempFelt.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
+		felt = new TextureRegion(tempFelt);
+		felt.setRegion(0,0,tempFelt.getWidth()*4,tempFelt.getHeight()*4);
+	
 
 		drawHighlight = true;
 
@@ -171,22 +179,30 @@ public class BoardRenderer {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.end();
 
-		shape.begin(ShapeType.Filled);
+		
 
 		// wooden background
 		spriteBatch.begin();
-		spriteBatch.draw(background, 0, 0, 1600, 900);
+		spriteBatch.draw(background, 0, 0, Othello.GAME_WORLD_WIDTH,
+				Othello.GAME_WORLD_HEIGHT);
 		spriteBatch.end();
 
+		
+		shape.begin(ShapeType.Filled);
 		// Dark green background
 		shape.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the
 												// border is kept - do not
 												// remove
 		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
 		shape.setColor(0.02f, 0.4f, 0.043f, 1);
-
+		shape.end();
 		// Light green inner
-		shape.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
+		spriteBatch.begin();
+		spriteBatch.draw(felt, startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
+		spriteBatch.end();
+		
+		shape.begin(ShapeType.Filled);
+		//shape.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
 
 		float startingY = startingPosY - boardWidth;
