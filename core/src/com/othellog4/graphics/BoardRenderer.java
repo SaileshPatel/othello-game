@@ -1,6 +1,7 @@
 package com.othellog4.graphics;
 
 import java.util.Optional;
+import java.util.Set;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.othellog4.Othello;
 import com.othellog4.game.GameModel;
+import com.othellog4.game.board.FlipEvent;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.board.Position;
 import com.othellog4.game.board.ProxyGameBoard;
@@ -33,11 +35,12 @@ public class BoardRenderer {
 	final float boardPadding = 60;
 	final float boardBackgroundPadding = 30;
 	final float piecePaddingPercent = 8;
+	final float pieceOverlapPercent = 27; // Overlap for shadows and piece flipping animation
 	final float lineWidth = 5;
 
 	private int boardSize;
 	private float boardWidth;
-	private float piecePaddingActual, pieceSizeActual;
+	private float piecePaddingActual, pieceSizeActual, pieceOverlapActual;
 	private float columnWidth;
 	private float startingPosX;
 	private float startingPosY;
@@ -66,7 +69,9 @@ public class BoardRenderer {
 	private Texture background;
 
 	static Texture pieceSheet;
-	static Texture[] animationFrames;
+	static TextureRegion[] animationFrames;
+
+	VisualBoard visualBoard;
 
 	/**
 	 * The constructor for {@link com.othellog4.graphics.BoardRender BoardRender}.
@@ -100,7 +105,9 @@ public class BoardRenderer {
 		boardSize = board.size();
 		columnWidth = boardWidth / boardSize;
 		piecePaddingActual = (columnWidth * piecePaddingPercent) / 100;
-		pieceSizeActual = columnWidth - (2 * piecePaddingActual);
+		pieceOverlapActual = (columnWidth * pieceOverlapPercent) / 100;
+		pieceSizeActual = (columnWidth - (2 * piecePaddingActual)) + pieceOverlapActual * 2;
+
 
 		startingPosX = (Othello.GAME_WORLD_WIDTH / 2) - (boardWidth / 2);
 		startingPosY = (Othello.GAME_WORLD_HEIGHT / 2) + (boardWidth / 2);
@@ -116,14 +123,17 @@ public class BoardRenderer {
 
 		pieceSheet = new Texture("animations/piece/sheet.png");
 		TextureRegion[][] tempFrames = TextureRegion.split(pieceSheet, 256, 256);
-		animationFrames = new Texture[30];
+		animationFrames = new TextureRegion[30];
 
 		int index = 0;
-		for (int i = 0; i <= 6; i++) {
-			for (int j = 0; j <= 5; j++) {
-				animationFrames[index++] = tempFrames[i][j].getTexture();
+		for (int row = 0; row < 5; row++) {
+			for (int col = 0; col < 6; col++) {
+				//System.out.println("Attempting to access: " + x + ", " + y);
+				animationFrames[index++] = tempFrames[row][col];
 			}
 		}
+
+		visualBoard = new VisualBoard();
 
 	}
 
@@ -138,6 +148,7 @@ public class BoardRenderer {
 	 */
 	public void update() {
 		updatePosUnderMouse();
+		visualBoard.update();
 		// System.out.println(posUnderMouse);
 	}
 
@@ -193,25 +204,25 @@ public class BoardRenderer {
 		spriteBatch.begin();
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-				Texture actualPiece = null;
-				Optional<Piece> optional = board.view(Position.at(x, y));
-
-				if (optional.isPresent() == false) {
-					// actualPiece = emptyPiece;
-				} else {
-					Piece piece = optional.get();
-					switch (piece) {
-					case PIECE_A:
-						actualPiece = blackPiece;
-						break;
-					case PIECE_B:
-						actualPiece = whitePiece;
-						break;
-					}
-
-					spriteBatch.draw(actualPiece, pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
+//				Texture actualPiece = null;
+//				Optional<Piece> optional = board.view(Position.at(x, y));
+//
+//				if (optional.isPresent() == false) {
+//					// actualPiece = emptyPiece;
+//				} else {
+//					Piece piece = optional.get();
+//					switch (piece) {
+//					case PIECE_A:
+//						actualPiece = blackPiece;
+//						break;
+//					case PIECE_B:
+//						actualPiece = whitePiece;
+//						break;
+//					}
+					if(visualBoard.getTexture(x, y) != null)
+					spriteBatch.draw(visualBoard.getTexture(x, y), pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
 							pieceSizeActual);
-				}
+				//}
 
 				// Draw tutorial highlight
 				// spriteBatch.setColor(1.0f, 1.0f, 1.0f, Math.abs(((float)
@@ -224,14 +235,14 @@ public class BoardRenderer {
 			}
 		}
 
-		Texture hoverTexture = null;
+		TextureRegion hoverTexture = null;
 
 		switch (model.getCurrentPiece()) {
 		case PIECE_A:
-			hoverTexture = blackPiece;
+			hoverTexture = animationFrames[animationFrames.length-1];
 			break;
 		case PIECE_B:
-			hoverTexture = whitePiece;
+			hoverTexture = animationFrames[0];
 			break;
 		}
 
@@ -304,15 +315,19 @@ public class BoardRenderer {
 		drawHighlight = bool;
 	}
 
+	public boolean doneAnimating() {
+		return visualBoard.doneAnimating();
+	}
+
 	/**
 	 * Update piece position coordinate arrays
 	 */
 	private void generatePieceCoordinates() {
 		for (int x = 0; x < pieceXPositions.length; x++) {
-			pieceXPositions[x] = startingPosX + piecePaddingActual + (columnWidth * x);
+			pieceXPositions[x] = startingPosX + piecePaddingActual - pieceOverlapActual + (columnWidth * x);
 		}
 		for (int y = 0; y < pieceYPositions.length; y++) {
-			pieceYPositions[y] = startingPosY - piecePaddingActual - (columnWidth * y) - pieceSizeActual;
+			pieceYPositions[y] = startingPosY - piecePaddingActual + pieceOverlapActual - (columnWidth * y) - pieceSizeActual;
 		}
 	}
 
@@ -330,6 +345,8 @@ public class BoardRenderer {
 
 	private class VisualBoard {
 		private VisualPiece[][] vBoard;
+		private boolean newPiece = false;
+		private long animFinishTime = 0;
 
 		private VisualBoard() {
 			vBoard = new VisualPiece[boardSize][boardSize];
@@ -345,15 +362,33 @@ public class BoardRenderer {
 							vBoard[x][y].update(optional.get());
 						} else { // Piece newly placed
 							vBoard[x][y] = new VisualPiece(optional.get());
+							newPiece = true;
 						}
 					} else if(vBoard[x][y] != null) { // Piece removed
 						vBoard[x][y] = null;
 					}
 				}
 			}
+
+			if(newPiece) {
+				Set<FlipEvent[]> flipped = board.flips();
+				int curDelay = 0;
+				int delay = 10;
+				for(FlipEvent[] eventArray: flipped) {
+					for(FlipEvent event: eventArray) {
+						//event.at.col;
+						//event.at.row;
+						vBoard[event.at.col][event.at.row].setDelay(curDelay);
+						curDelay += delay;
+					}
+				}
+				                                              // Delay time            // Flipping time
+				animFinishTime = System.currentTimeMillis() + ((curDelay/60) * 1000) + 500;
+				newPiece = false;
+			}
 		}
 
-		public Texture getTexture(int x, int y) {
+		public TextureRegion getTexture(int x, int y) {
 			if(vBoard[x][y] == null) {
 				return null;
 			} else {
@@ -361,27 +396,41 @@ public class BoardRenderer {
 			}
 		}
 
+		public boolean doneAnimating() {
+			return System.currentTimeMillis() > animFinishTime;
+		}
+
 		/**
 		 * Inner class
 		 */
 		private class VisualPiece {
 			int state;
+			int delay;
 
 			public VisualPiece(Piece piece) {
 				state = getState(piece);
+				delay = 0;
 			}
 
-			private void update(Piece piece) {
-				if(getState(piece) > state){
-					state--;
-				}
+			public void update(Piece piece) {
+				if(delay > 0) {
+					delay--;
+					} else {
+					if(getState(piece) > state){
+						state++;
+					}
 
-				if(getState(piece) < state){
-					state++;
+					if(getState(piece) < state){
+						state--;
+					}
 				}
 			}
 
-			private Texture getTexture() {
+			public void setDelay(int delay) {
+				this.delay = delay;
+			}
+
+			private TextureRegion getTexture() {
 				return animationFrames[state];
 			}
 
