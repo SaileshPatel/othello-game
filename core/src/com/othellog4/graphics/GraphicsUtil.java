@@ -1,5 +1,7 @@
 package com.othellog4.graphics;
 
+import java.time.LocalTime;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -12,10 +14,13 @@ import com.othellog4.screens.BaseScreen;
 /**
  * Utility class containing commonly used functions
  * @author  James Shorthouse
- * @version 19/02/2018
+ * @version 10/03/2018
  *
  */
-public class GraphicsUtil {
+public final class GraphicsUtil {
+
+	private GraphicsUtil() {
+	}
 
 	/**
 	 * Create a texture with mipmaps and filtering
@@ -103,5 +108,23 @@ public class GraphicsUtil {
 		Vector2 mouseActualPos = new Vector2(Gdx.input.getX(), Gdx.input.getY());
 		BaseScreen.VIEWPORT.unproject(mouseActualPos);
 		return mouseActualPos;
+	}
+
+	/**
+	 * Format a given number of seconds into hours, minutes, and seconds
+	 * @param seconds	Number of seconds
+	 * @return			Formatted string
+	 */
+	public static String formatTime(int seconds) {
+		LocalTime localTime = LocalTime.ofSecondOfDay(seconds);
+
+		String formattedTime = localTime.getMinute() + "m " +
+				localTime.getSecond() + "s ";
+
+		// Only show hours if time was > 1h
+		if(localTime.getHour() > 0) {
+			formattedTime = localTime.getHour() + "h " + formattedTime;
+		}
+		return formattedTime;
 	}
 }

@@ -1,6 +1,5 @@
 package com.othellog4.screens;
 
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
@@ -21,6 +20,7 @@ import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.extension.FlipCounter;
 import com.othellog4.game.extension.GameExtension;
+import com.othellog4.game.extension.Timer;
 import com.othellog4.game.player.Participant;
 import com.othellog4.graphics.GraphicsUtil;
 
@@ -93,70 +93,69 @@ public class EndGameScreen extends BaseScreen {
 
 	public EndGameScreen(Othello game, GameScreen screen, GameScore gameScore) {
 
-		int winState;
-
-		int WIN = 0;
-		int LOSE = 1;
-		int DRAW = 2;
-		int ABANDON = 3;
-		int WHITE_WINS = 4;
-		int BLACK_WINS = 5;
-
-		Set<Participant> humanPlayers = gameScore.getControlable();
+		this.screen = screen;
+		this.game = game;
 
 		GameConclusion conclusion = gameScore.conclusion();
-		Map<Class<? extends GameExtension>, GameResult> result = gameScore.results();
+		Map<Class<? extends GameExtension>, GameResult> result =
+				gameScore.results();
 
-		int numFlips = result.get(FlipCounter.class).player1Result();
+		String p1Name = "Black";
+		String p2Name = "White";
+
+		int p1NumFlips = result.get(FlipCounter.class).player1Result();
 		int p2NumFlips = result.get(FlipCounter.class).player2Result();
 
 		BoardView board = gameScore.getBoard();
+		int p1NumPieces = board.count(Piece.PIECE_A); // Black (Player1)
+		int p2NumPieces = board.count(Piece.PIECE_B); // White (Player2)
 
-		int numPieces = board.count(Piece.PIECE_A); // Black (P1)
-		int p2NumPieces = board.count(Piece.PIECE_B); // White (P2)
+		int p1Time = result.get(Timer.class).player1Result();
+		int p2Time = result.get(Timer.class).player2Result();
+		String p1PrettyTime = GraphicsUtil.formatTime(p1Time);
+		String p2PrettyTime = GraphicsUtil.formatTime(p2Time);
 
-		//int timeTaken = result.get(Timer.class).player1Result() + result.get(Time.class).player2Result();
-		int timeTaken = 5;
+		int p1Score = calculateScore(p1NumPieces, p1NumFlips, p1Time);
+		int p2Score = calculateScore(p2NumPieces, p2NumFlips, p2Time);
 
 		boolean singlePlayer = true;
+		int winState;
 
+		// Win states
+		final int WIN = 0;
+		final int LOSE = 1;
+		final int DRAW = 2;
+		final int ABANDON = 3;
+		final int WHITE_WINS = 4;
+		final int BLACK_WINS = 5;
 
-		if(conclusion.isDraw()) {
-			winState = DRAW;
-		}
-		else if(humanPlayers.size() != 1) {
-			System.out.println("Controllable players: " + humanPlayers.size());
+		Set<Participant> humanPlayers = gameScore.getControlable();
+
+		if(humanPlayers.size() != 1) { // 2 AI or 2 local players
 			singlePlayer = false;
-			if(conclusion.getWinner() == Piece.PIECE_A) {// Black
+			if(conclusion.isDraw()) {
+				winState = DRAW;
+			} else if(conclusion.getWinner() == Piece.PIECE_A) {// Black
 				winState = BLACK_WINS;
 			} else {
 				winState = WHITE_WINS;
 			}
-		} else {
-			// Single player
-			if(gameScore.winner() == humanPlayers.iterator().next()) {
+		} else { // Single player
+			singlePlayer = true;
+			if(conclusion.isDraw()) {
+				winState = DRAW;
+			} else if(gameScore.winner() == humanPlayers.iterator().next()) {
 				winState = WIN;
 			} else {
 				winState = LOSE;
 			}
 		}
 
-		int score = 50;
-		int p2Score = 100;
-
-
 		Arrays.fill(textXPositions, Othello.GAME_WORLD_WIDTH);
-		Arrays.fill(textYPositions, 200);
+		//Arrays.fill(textYPositions, 200);
+		//textYPositions[0] = 200;
 		animMascotDistance = mascotFinalXPos - mascotStartingXPos;
 		animStatsTextDistance = Othello.GAME_WORLD_WIDTH - statsTextFinalX;
-
-
-
-		String player1Name = "BLACK";
-		String player2Name = "WHITE";
-
-		this.screen = screen;
-		this.game = game;
 
 		largeFont = GraphicsUtil.generateFont("fonts/overpass-bold.otf", 200, 0);
 
@@ -167,7 +166,7 @@ public class EndGameScreen extends BaseScreen {
 				("fonts/overpass-bold.otf", 90, -25);
 		} else {
 			smallFont = GraphicsUtil.generateFont
-				("fonts/overpass-regular.otf", 50, -20);
+				("fonts/overpass-regular.otf", 45, -22);
 			mediumFont = GraphicsUtil.generateFont
 				("fonts/overpass-bold.otf", 65, -35);
 		}
@@ -206,42 +205,31 @@ public class EndGameScreen extends BaseScreen {
 						("mascot/end_screen/lose.png");
 			}
 
-		textText[NUM_PIECES] = "Number of pieces: " + numPieces;
-		textText[NUM_FLIPS] = "Number of flips: " + numFlips;
-		textText[TOTAL_SCORE] = "Total score: " + score;
+		textText[TIME_TAKEN] = "Time taken: " + p1PrettyTime;
+		textText[NUM_PIECES] = "Number of pieces: " + p1NumPieces;
+		textText[NUM_FLIPS] = "Number of flips: " + p1NumFlips;
+		textText[TOTAL_SCORE] = "Total score: " + p1Score;
 
 		} else {
 			if(winState == BLACK_WINS){
-				messageText = player1Name.toUpperCase() + " WINS!";
+				messageText = p1Name.toUpperCase() + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex
 						("mascot/end_screen/win.png"); //TODO change to actual picture
 			} else if(winState == WHITE_WINS){
-				messageText = player2Name + " WINS!";
+				messageText = p2Name.toUpperCase() + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex
 						("mascot/end_screen/win.png");
 			}
-			textText[NUM_PIECES] = "Number of pieces:\n" + player1Name + ": " +
-				numPieces + "     " + player2Name + ": " + p2NumPieces;
-			textText[NUM_FLIPS] = "Number of flips:\n" + player1Name + ": " +
-				numFlips + "     " + player2Name + ": " + p2NumFlips;
-			textText[TOTAL_SCORE] = "Total score:\n" + player1Name + ": " +
-				score + "\n" + player2Name + ": " + p2Score;
+			textText[TIME_TAKEN] = "Time taken:\n" + p1Name + ": " +
+					p1PrettyTime + "     " + p2Name + ": " + p2PrettyTime;
+			textText[NUM_PIECES] = "Number of pieces:\n" + p1Name + ": " +
+					p1NumPieces + "     " + p2Name + ": " + p2NumPieces;
+			textText[NUM_FLIPS] = "Number of flips:\n" + p1Name + ": " +
+					p1NumFlips + "     " + p2Name + ": " + p2NumFlips;
+			textText[TOTAL_SCORE] = "Total score:\n" + p1Name + ": " +
+					p1Score + "\n" + p2Name + ": " + p2Score;
 			messageColor = new Color(0.3f, 0.72f, 0.03f, 1f);
 		}
-
-		// Convert time from seconds to standard format
-		LocalTime localTime = LocalTime.ofSecondOfDay(timeTaken);
-		String formattedTime = "";
-
-		// Only show hours if time was > 1h
-		if(localTime.getHour() > 0) {
-			formattedTime += localTime.getHour() + "h ";
-		}
-		formattedTime += localTime.getMinute() + "m " +
-			localTime.getSecond() + "s ";
-		textText[TIME_TAKEN] = "Time taken: " + formattedTime.toString();
-
-		//if(!singlePlayer) textTimeTaken = "\n" + textTimeTaken;
 
 		// Use GlyphLayout to calculate position of text
 		GlyphLayout glyph = new GlyphLayout(largeFont, messageText);
@@ -250,12 +238,13 @@ public class EndGameScreen extends BaseScreen {
 			(glyph.height / 2);
 		animTextYDistance = animTextFinalYPos - animTextYPos;
 
-		// Calculate text positions
+
 		textYPositions[TIME_TAKEN] = statsTextTop;
 		textYPositions[TOTAL_SCORE] = 230;
 
+		// Calculate text positions
 		for(int text = NUM_FLIPS; text <= NUM_PIECES; text++){
-			// Find height of text before
+			// Find height of previous text
 			float prevHeight =
 				new GlyphLayout(smallFont, textText[text-1]).height;
 
@@ -265,7 +254,7 @@ public class EndGameScreen extends BaseScreen {
 	}
 
 	//Animation stage timings
-	private final float stage1Start = 0.0f; // Screen fade out
+	//					stage1Start = 0.0f; // Screen fade out
 	private final float stage2Start = 2.0f; // Text background slide in
 	private final float stage3Start = 2.5f; // Text fade in
 	private final float stage4Start = 3.5f; // Text background expansion
@@ -278,7 +267,7 @@ public class EndGameScreen extends BaseScreen {
 	private final float stage2Duration = stage3Start - stage2Start;
 	private final float stage3Duration = stage4Start - stage3Start;
 	private final float stage4Duration = stage5Start - stage4Start;
-	private final float stage5Duration = animEndTime - stage5Start;
+	//					stage5Duration = animEndTime - stage5Start;
 
 	private final float mascotEntryDuration = 0.5f;
 	private final float textEntryDuration = 0.5f;
@@ -296,22 +285,20 @@ public class EndGameScreen extends BaseScreen {
 					0f, stage1Duration);
 
 		} else if(elapsedTime < stage3Start) {
-			// Text background slide in
-
 			// Previous properties
 			animGradientAlpha = 1.0f;
 
+			// Text background slide in
 			animTextBackgroundWidth = GraphicsUtil.smoothAnimationBetween(
 					elapsedTime, stage2Start, stage2Duration) *
 					Othello.GAME_WORLD_WIDTH;
 
 		} else if(elapsedTime < stage4Start) {
-			// Text fade in
-
 			// Previous properties
 			animGradientAlpha = 1.0f;
 			animTextBackgroundWidth = Othello.GAME_WORLD_WIDTH;
 
+			// Text fade in
 			// Only animate for first half of stage
 			if(elapsedTime < stage3Start + stage3Duration / 2) {
 				animTextAlpha = GraphicsUtil.smoothAnimationBetween(elapsedTime,
@@ -321,13 +308,12 @@ public class EndGameScreen extends BaseScreen {
 			}
 
 		} else if(elapsedTime < stage5Start) {
-			// Text background expansion
-
 			// Previous properties
 			animGradientAlpha = 1.0f;
 			animTextBackgroundWidth = Othello.GAME_WORLD_WIDTH;
 			animTextAlpha = 1;
 
+			// Text background expansion
 			// Background expansion
 			animTextBackgroundHeight = (GraphicsUtil.smoothAnimationBetween(
 					elapsedTime, stage4Start, stage4Duration, 5) *
@@ -340,14 +326,13 @@ public class EndGameScreen extends BaseScreen {
 					+ animTextStartingYPos;
 
 		} else if(elapsedTime < animEndTime){
-			// Stats in
-
 			// Previous properties
 			animGradientAlpha = 1.0f;
 			animTextAlpha = 1;
 			animTextBackgroundHeight = Othello.GAME_WORLD_HEIGHT;
 			animTextYPos = animTextFinalYPos;
 
+			// Stats in
 			animMascotXPos = (GraphicsUtil.smoothAnimationBetween(elapsedTime,
 					stage5Start, mascotEntryDuration) *  animMascotDistance) +
 					mascotStartingXPos;
@@ -387,6 +372,7 @@ public class EndGameScreen extends BaseScreen {
 				game.setScreen(new MainMenuScreen(game));
 			}
 
+			// Animate menu key
 			animEnterKeyAlpha =
 				Math.abs((float) Math.sin((elapsedTime - animEndTime)*2));
 		}
@@ -396,7 +382,7 @@ public class EndGameScreen extends BaseScreen {
 	@Override
 	public void render(float delta) {
 		update(delta);
-		// Render game in background
+		// Render game board in the background
 		screen.render(delta);
 
 		gradientTop.a = 0.8f * animGradientAlpha;
@@ -433,5 +419,9 @@ public class EndGameScreen extends BaseScreen {
 				textYPositions[TOTAL_SCORE]);
 
 		SPRITE_BATCH.end();
+	}
+
+	private int calculateScore(int pieces, int flips, int time) {
+		return Math.max(0, ((pieces * 4) + (flips / 2) + (Math.max(0, 600-time)/10)));
 	}
 }
