@@ -5,7 +5,6 @@ import java.util.Optional;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -20,11 +19,9 @@ import com.othellog4.game.board.ProxyGameBoard;
 import com.othellog4.screens.BaseScreen;
 
 /**
- * This class deals with rendering the board game, including all textures and
- * sprites used.
- * 
+ * This class deals with rendering the board game, including all textures and sprites used.
  * @see com.othellog4.screens.GameScreen GameScreen
- * 
+ *
  * @author Zakeria Hirsi
  * @author James Shorthouse
  * @author Sailesh Patel
@@ -38,7 +35,7 @@ public class BoardRenderer {
 	final float piecePaddingPercent = 8;
 	final float lineWidth = 5;
 
-	private float boardSize;
+	private int boardSize;
 	private float boardWidth;
 	private float piecePaddingActual, pieceSizeActual;
 	private float columnWidth;
@@ -67,17 +64,14 @@ public class BoardRenderer {
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
 	private Texture background;
-	
+
 	static Texture pieceSheet;
 	static Texture[] animationFrames;
 
 	/**
-	 * The constructor for {@link com.othellog4.graphics.BoardRender
-	 * BoardRender}. In this class, the majority of the work is initialising
-	 * sprites and shapes for later use.
-	 * 
-	 * @param model
-	 *            an instance of {@link com.othello.game.GameModel GameModel}
+	 * The constructor for {@link com.othellog4.graphics.BoardRender BoardRender}.
+	 * In this class, the majority of the work is initialising sprites and shapes for later use.
+	 * @param model an instance of {@link com.othello.game.GameModel GameModel}
 	 */
 	public BoardRenderer(GameModel model) {
 		this.spriteBatch = BaseScreen.SPRITE_BATCH;
@@ -118,8 +112,8 @@ public class BoardRenderer {
 		timer = 0f;
 
 		generatePieceCoordinates();
-		
-		
+
+
 		pieceSheet = new Texture("animations/piece/sheet.png");
 		TextureRegion[][] tempFrames = TextureRegion.split(pieceSheet, 256, 256);
 		animationFrames = new Texture[30];
@@ -140,7 +134,7 @@ public class BoardRenderer {
 	// }
 
 	/**
-	 * 
+	 *
 	 */
 	public void update() {
 		updatePosUnderMouse();
@@ -148,9 +142,7 @@ public class BoardRenderer {
 	}
 
 	/**
-	 * Deals with rendering the game board, and it renders the board itself,
-	 * colours, the game grid and the wooden background.
-	 * 
+	 * Deals with rendering the game board, and it renders the board itself, colours, the game grid and
 	 * @see com.othellog4.screens.GameScreen GameScreen
 	 * @param delta
 	 *            used to increment the
@@ -186,7 +178,6 @@ public class BoardRenderer {
 		shape.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
 
-		// shape.setColor(1.00f, 0.2f, 0.022f, 1);
 		float startingY = startingPosY - boardWidth;
 
 		// Draw board lines
@@ -258,7 +249,7 @@ public class BoardRenderer {
 	/**
 	 * Return the board position of the piece the mouse is currently hovering
 	 * over
-	 * 
+	 *
 	 * @return Position
 	 */
 	public Position getPosUnderMouse() {
@@ -305,7 +296,7 @@ public class BoardRenderer {
 
 	/**
 	 * Set whether a highlight should be drawn under the mouse cursor
-	 * 
+	 *
 	 * @param bool
 	 *            Draw highlight
 	 */
@@ -337,6 +328,76 @@ public class BoardRenderer {
 		}
 	}
 
+	private class VisualBoard {
+		private VisualPiece[][] vBoard;
+
+		private VisualBoard() {
+			vBoard = new VisualPiece[boardSize][boardSize];
+			update();
+		}
+
+		public void update() {
+			for (int x = 0; x < boardSize; x++) {
+				for (int y = 0; y < boardSize; y++) {
+					Optional<Piece> optional = board.view(Position.at(x, y));
+					if (optional.isPresent() == true) {
+						if(vBoard[x][y] != null) { // Piece exists
+							vBoard[x][y].update(optional.get());
+						} else { // Piece newly placed
+							vBoard[x][y] = new VisualPiece(optional.get());
+						}
+					} else if(vBoard[x][y] != null) { // Piece removed
+						vBoard[x][y] = null;
+					}
+				}
+			}
+		}
+
+		public Texture getTexture(int x, int y) {
+			if(vBoard[x][y] == null) {
+				return null;
+			} else {
+				return vBoard[x][y].getTexture();
+			}
+		}
+
+		/**
+		 * Inner class
+		 */
+		private class VisualPiece {
+			int state;
+
+			public VisualPiece(Piece piece) {
+				state = getState(piece);
+			}
+
+			private void update(Piece piece) {
+				if(getState(piece) > state){
+					state--;
+				}
+
+				if(getState(piece) < state){
+					state++;
+				}
+			}
+
+			private Texture getTexture() {
+				return animationFrames[state];
+			}
+
+			private int getState(Piece piece) {
+				switch (piece) {
+				case PIECE_A:
+					return animationFrames.length - 1;
+				case PIECE_B:
+					return 0;
+
+				}
+				return 0;
+			}
+		}
+	}
+
 	/**
 	 * Dispose of textures when application closes
 	 */
@@ -346,42 +407,5 @@ public class BoardRenderer {
 		blackPiece.dispose();
 		emptyPiece.dispose();
 		pieceHighlight.dispose();
-	}
-
-	/**
-	 * Inner class
-	 */
-	private class VisualPiece {
-		int state;
-		
-		public VisualPiece(Piece piece) {
-			state = getState(piece);
-		}
-
-		private void update(Piece piece) {			
-			if(getState(piece) > state){
-				state--;
-			}
-			
-			if(getState(piece) < state){
-				state++;
-			}
-		}
-
-		private Texture getTexture() {
-			return animationFrames[state];
-		}
-
-		private int getState(Piece piece) {
-			switch (piece) {
-			case PIECE_A:
-				return animationFrames.length - 1;
-			case PIECE_B:
-				return 0;
-
-			}
-			return 0;
-		}
-
 	}
 }
