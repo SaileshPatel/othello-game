@@ -25,7 +25,7 @@ import com.othellog4.game.player.Participant;
  *
  * @author 	159014260 John Berg
  * @since	02/12/2017
- * @since	06/03/2017
+ * @since	12/03/2017
  */
 public final class GameManager
 {
@@ -37,6 +37,11 @@ public final class GameManager
 	private static final int MAP_CAPACITY = 3;
 	//=========================================================================
 	//Fields.
+	/**
+	 * The flag which indicates if it is possible to execute a
+	 * {@link GameCommand} on <code>this</code> {@code GameManager}.
+	 */
+	private volatile boolean inputEnable;
 	/**
 	 * The {@link Game} which <code>this</code> {@code GameManager} is
 	 * managing the mapping of {@link Participant} objects for.
@@ -95,6 +100,7 @@ public final class GameManager
 			throw new NullPointerException();
 		if(player2 == null)
 			throw new NullPointerException();
+		inputEnable = true;
 		this.game = game;
 		this.game.addListener(this::update);
 		playerMap = new HashMap<>(MAP_CAPACITY);
@@ -105,6 +111,25 @@ public final class GameManager
 	}
 	//=========================================================================
 	//Methods.
+	/**
+	 * Enable or disable input such that it is not possible to progress the
+	 * game.
+	 * 
+	 * <p>
+	 * When enabled, it will prompt the {@link Game} to update with the last
+	 * event.
+	 * </p>
+	 * 
+	 * @param enable The enable status.
+	 */
+	public final void enableInput(final boolean enable)
+	{
+		inputEnable = enable;
+		if(inputEnable)
+		{
+			game.signal();
+		}
+	}
 	/**
 	 * Update all the {@link GameExtension} objects in <code>this</code>
 	 * {@code GameManager} about a {@link GameEvent}.
@@ -130,27 +155,6 @@ public final class GameManager
 			e.onCommand(command, this);
 	}
 	/**
-	 * Get the {@link GameResult} objects from the {@link GameExtension}
-	 * objects for a specified {@link Piece} object, managed by
-	 * <code>this</code> {@code GameScore}.
-	 *
-	 * <p>
-	 * Package private to restrict access to this method.
-	 * </p>
-	 *
-	 * @return The {@link Map} of {@link Class} and {@link GameResult} objects
-	 * 			which represent the class and results generated from a
-	 * 			{@link GameExtension} object.
-	 */
-	final Map<Class<? extends GameExtension>, GameResult> getResults()
-	{
-		return extensions.stream()
-				.filter(GameExtension::hasResult)
-				.map(GameResult::new)
-				.collect(Collectors
-						.toMap(GameResult::type, Function.identity()));
-	}
-	/**
 	 * Execute a {@link GameCommand} on the {@link Game} managed by
 	 * <code>this</code> {@code GameManager}.
 	 *
@@ -162,7 +166,7 @@ public final class GameManager
 			throws
 			GameException
 	{
-		if(command.canExecute(current()))
+		if(inputEnable && command.canExecute(current()))
 		{
 			update(command);
 			command.execute(game());
@@ -257,5 +261,26 @@ public final class GameManager
 	public final Game game()
 	{
 		return game;
+	}
+	/**
+	 * Get the {@link GameResult} objects from the {@link GameExtension}
+	 * objects for a specified {@link Piece} object, managed by
+	 * <code>this</code> {@code GameScore}.
+	 *
+	 * <p>
+	 * Package private to restrict access to this method.
+	 * </p>
+	 *
+	 * @return The {@link Map} of {@link Class} and {@link GameResult} objects
+	 * 			which represent the class and results generated from a
+	 * 			{@link GameExtension} object.
+	 */
+	final Map<Class<? extends GameExtension>, GameResult> getResults()
+	{
+		return extensions.stream()
+				.filter(GameExtension::hasResult)
+				.map(GameResult::new)
+				.collect(Collectors
+						.toMap(GameResult::type, Function.identity()));
 	}
 }
