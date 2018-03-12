@@ -17,10 +17,10 @@ import com.othellog4.game.board.ProxyGameBoard;
 //import com.badlogic.gdx.utils.BaseScreen.VIEWPORT.FitViewport;
 import com.othellog4.screens.BaseScreen;
 /**
- * This class deals with rendering the board game, including all textures and sprites used. 
- * 
+ * This class deals with rendering the board game, including all textures and sprites used.
+ *
  * @see com.othellog4.screens.GameScreen GameScreen
- * 
+ *
  * @author Zakeria Hirsi
  * @author James Shorthouse
  * @author Sailesh Patel
@@ -34,7 +34,7 @@ public class BoardRenderer {
 	final float piecePaddingPercent = 8;
 	final float lineWidth = 5;
 
-	private float boardSize;
+	private int boardSize;
 	private float boardWidth;
 	private float piecePaddingActual, pieceSizeActual;
 	private float columnWidth;
@@ -65,8 +65,8 @@ public class BoardRenderer {
 	private Texture background;
 
 	/**
-	 * The constructor for {@link com.othellog4.graphics.BoardRender BoardRender}. 
-	 * In this class, the majority of the work is initialising sprites and shapes for later use.  
+	 * The constructor for {@link com.othellog4.graphics.BoardRender BoardRender}.
+	 * In this class, the majority of the work is initialising sprites and shapes for later use.
 	 * @param model an instance of {@link com.othello.game.GameModel GameModel}
 	 */
 	public BoardRenderer(GameModel model) {
@@ -75,7 +75,7 @@ public class BoardRenderer {
 		this.model = model;
 
 		/*
-		 * A series of images needed 
+		 * A series of images needed
 		 */
 		background = new Texture("wood.jpeg");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
@@ -117,15 +117,15 @@ public class BoardRenderer {
 //	}
 
 	/**
-	 * 
+	 *
 	 */
 	public void update() {
 		updatePosUnderMouse();
 		//System.out.println(posUnderMouse);
 	}
-	
+
 	/**
-	 * Deals with rendering the game board, and it renders the board itself, colours, the game grid and 
+	 * Deals with rendering the game board, and it renders the board itself, colours, the game grid and
 	 * the wooden background.
 	 * @see com.othellog4.screens.GameScreen GameScreen
 	 * @param delta used to increment the {@link com.othellog4.graphics.BoardRender#Timer Timer}
@@ -143,11 +143,11 @@ public class BoardRenderer {
 		spriteBatch.end();
 
 		shape.begin(ShapeType.Filled);
-		
+
 		// wooden background
 		spriteBatch.begin();
 		spriteBatch.draw(background, 0,0, 1600, 900);
-		spriteBatch.end();		
+		spriteBatch.end();
 
 		// Dark green background
 		shape.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the border is kept - do not remove
@@ -157,7 +157,7 @@ public class BoardRenderer {
 		// Light green inner
 		shape.rect(startingPosX,startingPosY - boardWidth,boardWidth,boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
-		
+
 		//shape.setColor(1.00f, 0.2f, 0.022f, 1);
 		float startingY = startingPosY - boardWidth;
 
@@ -305,6 +305,41 @@ public class BoardRenderer {
 				tutorialHighlights[x][y] = false;
 			}
 		}
+	}
+
+	private class VisualBoard {
+		private VisualPiece[][] vBoard;
+
+		private VisualBoard() {
+			vBoard = new VisualPiece[boardSize][boardSize];
+			update();
+		}
+
+		public void update() {
+			for (int x = 0; x < boardSize; x++) {
+				for (int y = 0; y < boardSize; y++) {
+					Optional<Piece> optional = board.view(Position.at(x, y));
+					if (optional.isPresent() == true) {
+						if(vBoard[x][y] != null) { // Piece exists
+							vBoard[x][y].update(optional.get());
+						} else { // Piece newly placed
+							vBoard[x][y] = new VisualPiece(optional.get());
+						}
+					} else if(vBoard[x][y] != null) { // Piece removed
+						vBoard[x][y] = null;
+					}
+				}
+			}
+		}
+
+		public void getTexture(int x, int y) {
+			if(vBoard[x][y] == null) {
+				return null;
+			} else {
+				return vBoard[x][y].getTexture();
+			}
+		}
+
 	}
 
 	/**
