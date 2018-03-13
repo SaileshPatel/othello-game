@@ -75,7 +75,10 @@ public final class Timer extends GameExtension
 	private void stop(final GameManager manager)
 	{
 		final long now = System.currentTimeMillis();
-		timeTracker.put(current, timeTracker.get(current) + now - timeStart);
+		if(current != null)
+			timeTracker.put(
+					current,
+					timeTracker.get(current) + now - timeStart);
 		timeStart = 0;
 		current = null;
 	}

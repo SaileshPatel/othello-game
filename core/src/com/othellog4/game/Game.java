@@ -83,10 +83,6 @@ public class Game
 	 */
 	private GameState state;
 	/**
-	 * The {@link GameEvent} which was most recently broadcasted.
-	 */
-	private GameEvent lastEvent;
-	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 *
 	 * @see GameListener
@@ -240,13 +236,15 @@ public class Game
 	 */
 	private synchronized void update(final GameEvent event)
 	{
-		lastEvent = event;
-		for(final GameListener listener: listeners)
-			listener.update(event);
-		if(
-				getCurrentState() == GameState.PLAYING
-				&&  event != GameEvent.STANDBY)
-			update(GameEvent.STANDBY);
+		if(event != null)
+		{
+			for(final GameListener listener: listeners)
+				listener.update(event);
+			if(
+					getCurrentState() == GameState.PLAYING
+					&&  event != GameEvent.STANDBY)
+				update(GameEvent.STANDBY);
+		}
 	}
 	/**
 	 * Set the {@link GameConclusion} of <code>this</code>
@@ -304,14 +302,6 @@ public class Game
 	public final int turn()
 	{
 		return turn;
-	}
-	/**
-	 * Broadcast the last event which was broadcasted by <code>this</code>
-	 * {@code Game} object.
-	 */
-	public final void signal()
-	{
-		update(lastEvent);
 	}
 	/**
 	 * Run <code>this</code> {@code Game} by setting the <code>this</code>
