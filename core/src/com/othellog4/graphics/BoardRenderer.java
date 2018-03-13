@@ -67,7 +67,7 @@ public class BoardRenderer {
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
 	private Texture background;
-	
+
 	TextureRegion felt;
 
 	static Texture pieceSheet;
@@ -93,12 +93,12 @@ public class BoardRenderer {
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
 		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
-		
+
 		Texture tempFelt = GraphicsUtil.createMipMappedTex("felt.png");
 		tempFelt.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		felt = new TextureRegion(tempFelt);
 		felt.setRegion(0,0,tempFelt.getWidth()*4,tempFelt.getHeight()*4);
-	
+
 
 		drawHighlight = true;
 
@@ -158,6 +158,8 @@ public class BoardRenderer {
 		updatePosUnderMouse();
 		visualBoard.update();
 		// System.out.println(posUnderMouse);
+		model.enableInput(doneAnimating());
+		System.out.println(doneAnimating());
 	}
 
 	/**
@@ -179,7 +181,6 @@ public class BoardRenderer {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.end();
 
-		
 
 		// wooden background
 		spriteBatch.begin();
@@ -187,7 +188,7 @@ public class BoardRenderer {
 				Othello.GAME_WORLD_HEIGHT);
 		spriteBatch.end();
 
-		
+
 		shape.begin(ShapeType.Filled);
 		// Dark green background
 		shape.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the
@@ -200,7 +201,7 @@ public class BoardRenderer {
 		spriteBatch.begin();
 		spriteBatch.draw(felt, startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
 		spriteBatch.end();
-		
+
 		shape.begin(ShapeType.Filled);
 		//shape.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
