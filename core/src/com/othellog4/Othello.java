@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.othellog4.environment.GameMode;
 import com.othellog4.environment.Launcher;
@@ -30,6 +31,8 @@ public class Othello extends Game {
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
 	public Music music;
+	public Sound sound;
+
 	@Override
 	public void create () {
 		// Set blend function for alpha rendering
@@ -39,6 +42,7 @@ public class Othello extends Game {
 		//Assets.load()
 		setScreen(new MainMenuScreen(this));
 		music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
+		sound = Gdx.audio.newSound(Gdx.files.internal("PIECE_PLACED.mp3"));
 		playMusic();
 	}
 
@@ -119,9 +123,13 @@ public class Othello extends Game {
 	 */
 	public void playMusic() {
 		music.setLooping(true);
-		music.setVolume(0.1f);
+		music.setVolume(0.25f);
 		music.play();
 
+	}
+	
+	public long piecePlacedSound() {
+		return sound.play();	
 	}
 	
 	/**
@@ -133,6 +141,14 @@ public class Othello extends Game {
 
 		//TODO
 		//change the decibel scale
+	}
+	
+	public void setSound(float volume) {
+		sound.setVolume(piecePlacedSound(), volume);
+	}
+	
+	public void getSound() {
+	
 	}
 
 	/**

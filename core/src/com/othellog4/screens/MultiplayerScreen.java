@@ -70,7 +70,6 @@ public class MultiplayerScreen extends BaseScreen {
 				animationFrames[index++] = tempFrames[i][j];
 
 			}
-
 		}
 		animation = new Animation<TextureRegion> (1f/4f,animationFrames);
 
@@ -111,7 +110,7 @@ public class MultiplayerScreen extends BaseScreen {
 	}
 
 	public void render(float delta) {
-		elapsedTime += Gdx.graphics.getDeltaTime();
+		elapsedTime += delta;
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 		
