@@ -7,21 +7,27 @@ import com.othellog4.game.GameEvent;
 import com.othellog4.game.GameManager;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
-
+/**
+ * 
+ * @author John Berg
+ * @since 16/02/2018
+ * @version 10/03/2018
+ *
+ */
 public final class Timer extends GameExtension
 {
 	//=========================================================================
 	//Fields.
 	/**
-	 * 
+	 * This holds the starting time of the timer. It also visible across multiple threads
 	 */
 	private volatile long timeStart;
 	/**
-	 * 
+	 * This holds the current Piece
 	 */
 	private Piece current;
 	/**
-	 *
+	 * This structure tracks the time, and holds a Piece and the time
 	 */
 	private final Map<Piece, Long> timeTracker;
 	//=========================================================================

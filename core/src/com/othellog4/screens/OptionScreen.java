@@ -13,9 +13,10 @@ import com.othellog4.Othello;
 import com.othellog4.graphics.GraphicsUtil;
 
 /**
- * Provides an option menu for users to adjust the background music volume and whether sound effects should be 
- * on or off
- * @author Zak Hirsi
+ * Provides an option menu for users to adjust the background music volume and
+ * whether sound effects should be on or off
+ * 
+ * @author Zakeria Hirsi
  * @since 06/02/2018
  * @version 06/02/2018
  */
@@ -38,6 +39,7 @@ public class OptionScreen extends BaseScreen {
 
 	/**
 	 * The constructor where everything is initialised
+	 * 
 	 * @param othello
 	 */
 	public OptionScreen(Othello othello) {
@@ -70,7 +72,7 @@ public class OptionScreen extends BaseScreen {
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 
-		background = new Texture("newOptionsMenu2.png");
+		background = new Texture("improvedMenu1.png");
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		greyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
@@ -89,98 +91,90 @@ public class OptionScreen extends BaseScreen {
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 		optionsFont.draw(SPRITE_BATCH, "Sound Effects", 400, 300, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Music SFX", 400, 400, 500, Align.left, true);
-		optionsFont.draw(SPRITE_BATCH, "Difficulty", 400, 200, 500, Align.left, true);
-		optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
-		optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
-		optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
+//		optionsFont.draw(SPRITE_BATCH, "Difficulty", 400, 200, 500, Align.left, true);
+//		optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
+//		optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
+//		optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Back", 0, 40, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "On", 800, 300, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Off", 950, 300, 500, Align.left, true);
 
+		// mouse hover settings for the sound effects
+		if (mousePos.x > 800 && mousePos.x < 864 && mousePos.y < 300 && mousePos.y > 260) {
+			if (Gdx.input.justTouched()) {
+				isOn = true;
+				isOff = false;
+			}
+		}
+		if (mousePos.x > 950 && mousePos.x < 1025 && mousePos.y < 300 && mousePos.y > 260) {
+			if (Gdx.input.justTouched()) {
+				isOn = false;
+				isOff = true;
+			}
+		}
 
-		//mouse hover settings for the sound effects
-				if (mousePos.x > 800 && mousePos.x < 864 && mousePos.y < 300 && mousePos.y > 260) {
-					if (Gdx.input.justTouched()) {
-						isOn=true;
-						isOff=false;
-					}
-				}
-				if (mousePos.x > 950 && mousePos.x < 1025 && mousePos.y < 300 && mousePos.y > 260) {
-					if (Gdx.input.justTouched()) {		
-						isOn=false;
-						isOff=true;
-					}
-				}
-				
-				
-				//mouse hover settings for the difficults settings
-				if (mousePos.x > 800 && mousePos.x < 904 && mousePos.y < 200 && mousePos.y > 150) {
-					if (Gdx.input.justTouched()) {
-						System.out.println("Pressed1");
-						isEasy=true;
-						isMedium=false;
-						isHard=false;
-					}
-				}
-				if (mousePos.x > 950 && mousePos.x < 1143 && mousePos.y < 200 && mousePos.y > 150) {
-					if (Gdx.input.justTouched()) {
-						System.out.println("Pressed2");
-						isEasy=false;
-						isMedium=true;
-						isHard=false;
-					}
-				}
-				if (mousePos.x > 1187 && mousePos.x < 1300 && mousePos.y < 200 && mousePos.y > 150) {
-					if (Gdx.input.justTouched()) {
-						System.out.println("Pressed3");
-						isEasy=false;
-						isMedium=false;
-						isHard=true;
-					}
-				}
-				
-				
-				 
-				if (isEasy) {
-					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-					optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
-				}
-				if (isMedium) {
-					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-					optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
-				}
-				if (isHard) {
-					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-					optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
-				}
+		// mouse hover settings for the difficults settings
+//		if (mousePos.x > 800 && mousePos.x < 904 && mousePos.y < 200 && mousePos.y > 150) {
+//			if (Gdx.input.justTouched()) {
+//				isEasy = true;
+//				isMedium = false;
+//				isHard = false;
+//			}
+//		}
+//		if (mousePos.x > 950 && mousePos.x < 1143 && mousePos.y < 200 && mousePos.y > 150) {
+//			if (Gdx.input.justTouched()) {
+//				isEasy = false;
+//				isMedium = true;
+//				isHard = false;
+//			}
+//		}
+//		if (mousePos.x > 1187 && mousePos.x < 1300 && mousePos.y < 200 && mousePos.y > 150) {
+//			if (Gdx.input.justTouched()) {
+//				isEasy = false;
+//				isMedium = false;
+//				isHard = true;
+//			}
+//		}
+//
+//		if (isEasy) {
+//			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+//			optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
+//		}
+//		if (isMedium) {
+//			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+//			optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
+//		}
+//		if (isHard) {
+//			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+//			optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
+//		}
 
-				if (isOn) {
-					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-					optionsFont.draw(SPRITE_BATCH, "On", 800, 300, 500, Align.left, true);
-				}
-				if (isOff) {
-					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-					optionsFont.draw(SPRITE_BATCH, "Off", 950, 300, 500, Align.left, true);
-				}
+		if (isOn) {
+			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			optionsFont.draw(SPRITE_BATCH, "On", 800, 300, 500, Align.left, true);
+		}
+		if (isOff) {
+			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			optionsFont.draw(SPRITE_BATCH, "Off", 950, 300, 500, Align.left, true);
+		}
 
-				if (mousePos.x > 0 && mousePos.x < 110 && mousePos.y < 40 && mousePos.y > 0) {
-					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
-					optionsFont.draw(SPRITE_BATCH, "Back", 0, 40, 500, Align.left, true);
-					if (Gdx.input.justTouched()) {
-						this.dispose();
-						othello.switchToMenu();
-					}
-				}
-		//System.out.println(mousePos.x + " " + mousePos.y);
+		if (mousePos.x > 0 && mousePos.x < 110 && mousePos.y < 40 && mousePos.y > 0) {
+			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+			optionsFont.draw(SPRITE_BATCH, "Back", 0, 40, 500, Align.left, true);
+			if (Gdx.input.justTouched()) {
+				this.dispose();
+				othello.switchToMenu();
+			}
+		}
 
 		int xPos = 800;
 		int yPos = 360;
 		int size = 40;
 
-		for (int i = 0; i <=4 ; i++) {
+		for (int i = 0; i <= 4; i++) {
 			SPRITE_BATCH.draw(greyPiece, xPos, yPos, size, size);
-			float volume = (float)i /(float) 4;
-			if (mousePos.x > xPos && mousePos.x < xPos + size && mousePos.y > yPos && mousePos.y < yPos + 80 ) {
+			float volume = (float) i / (float) 4;
+			if (mousePos.x > xPos && mousePos.x < xPos + size && mousePos.y > yPos && mousePos.y < yPos + 80) {
 				SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
 				if (Gdx.input.justTouched()) {
 					othello.setMusic(volume);
@@ -191,22 +185,21 @@ public class OptionScreen extends BaseScreen {
 			size += 10;
 		}
 
-
 		SPRITE_BATCH.end();
 	}
 
-
-// public void test(){
-// SPRITE_BATCH.begin();
-// int i = 5;
-// switch (i){
-// case 0: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
-// case 1: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
-// case 2: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
-// case 3: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
-// case 4: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
-// break
-// }
-// SPRITE_BATCH.end();
-// }
+//	public void test(){
+//	 SPRITE_BATCH.begin();
+//	 int i = 5;
+//	 switch (i){
+//		 case 0: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
+//		 case 1: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
+//		 case 2: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
+//		 case 3: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
+//		 case 4: SPRITE_BATCH.draw(whitePiece, xPos, yPos, size, size);
+//		 break;
+//	 }
+//	 SPRITE_BATCH.end();
+//	 }
+//	}
 }
