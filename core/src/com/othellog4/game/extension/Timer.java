@@ -9,7 +9,6 @@ import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
 /**
  * 
- * 
  * @author John Berg
  * @since 16/02/2018
  * @version 10/03/2018
@@ -28,7 +27,7 @@ public final class Timer extends GameExtension
 	 */
 	private Piece current;
 	/**
-	 * This structure tracks the time, and holds a Piece and the time. 
+	 * This structure tracks the time, and holds a Piece and the time
 	 */
 	private final Map<Piece, Long> timeTracker;
 	//=========================================================================

@@ -7,6 +7,7 @@ import com.othellog4.game.board.BoardView;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.player.Participant;
+import com.othellog4.game.player.Player;
 
 /**
  * The {@code GameModel} class is a model of a game of Othello, which allows
@@ -24,7 +25,7 @@ import com.othellog4.game.player.Participant;
  *
  * @author 	159014260 John Berg
  * @since 	01/12/2017
- * @version 06/03/2018
+ * @version 12/03/2018
  */
 public class GameModel extends Observable
 {
@@ -136,6 +137,16 @@ public class GameModel extends Observable
 	public final int turn()
 	{
 		return manager.game().turn();
+	}
+	/**
+	 * Enable or disable input such that it is not possible to progress the
+	 * game.
+	 * 
+	 * @param enable The enable status.
+	 */
+	public final void enableInput(final boolean enable)
+	{
+		manager.enableInput(enable);
 	}
 	/**
 	 *
