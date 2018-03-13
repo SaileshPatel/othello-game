@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 05/03/2018
+ * @version 12/03/2018
  * @see GameBoard
  * @see Piece
  */
@@ -82,6 +82,10 @@ public class Game
 	 * @see GameState.
 	 */
 	private GameState state;
+	/**
+	 * The {@link GameEvent} which was most recently broadcasted.
+	 */
+	private GameEvent lastEvent;
 	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 *
@@ -236,6 +240,7 @@ public class Game
 	 */
 	private synchronized void update(final GameEvent event)
 	{
+		lastEvent = event;
 		for(final GameListener listener: listeners)
 			listener.update(event);
 		if(
@@ -299,6 +304,14 @@ public class Game
 	public final int turn()
 	{
 		return turn;
+	}
+	/**
+	 * Broadcast the last event which was broadcasted by <code>this</code>
+	 * {@code Game} object.
+	 */
+	public final void signal()
+	{
+		update(lastEvent);
 	}
 	/**
 	 * Run <code>this</code> {@code Game} by setting the <code>this</code>
