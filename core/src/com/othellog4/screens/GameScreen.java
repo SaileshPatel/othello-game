@@ -20,6 +20,7 @@ import com.othellog4.graphics.GraphicsUtil;
  *
  * @author John Berg
  * @author James Shorthouse
+ * @author Bruno Zorima
  * @author Sailesh Patel
  * @since 07/03/2018
  * @version 08/03/2018
@@ -31,11 +32,10 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	protected Othello game;
 	protected BoardRenderer boardRenderer;
 	protected GameModel model;
-
 	int buttonWidth = 100;
 	int buttonHeight = 100;
-	int xPos = 0;
-	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
+	float xPos = 0;
+	float yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
 	private Texture backButton;
 	private boolean placementEnabled;
 
@@ -51,8 +51,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		this.model.addObserver(this);
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
-
-		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");		
 	}
 	//=========================================================================
 	//Methods.

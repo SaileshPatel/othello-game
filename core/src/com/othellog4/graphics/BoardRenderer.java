@@ -54,7 +54,7 @@ public class BoardRenderer {
 	private float pieceYPositions[];
 
 	private Position posUnderMouse;
-	private boolean drawHighlight;
+	private boolean drawGhost;
 
 	private boolean[][] tutorialHighlights;
 
@@ -67,7 +67,7 @@ public class BoardRenderer {
 	ShapeRenderer shape;
 	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
 	private Texture background;
-	
+
 	TextureRegion felt;
 
 	static Texture pieceSheet;
@@ -93,14 +93,14 @@ public class BoardRenderer {
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
 		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
-		
+
 		Texture tempFelt = GraphicsUtil.createMipMappedTex("felt.png");
 		tempFelt.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		felt = new TextureRegion(tempFelt);
 		felt.setRegion(0,0,tempFelt.getWidth()*4,tempFelt.getHeight()*4);
-	
 
-		drawHighlight = true;
+
+		drawGhost = true;
 
 		this.board = (ProxyGameBoard) model.getBoard();
 
@@ -158,6 +158,8 @@ public class BoardRenderer {
 		updatePosUnderMouse();
 		visualBoard.update();
 		// System.out.println(posUnderMouse);
+		model.enableInput(doneAnimating());
+		//System.out.println(doneAnimating());
 	}
 
 	/**
@@ -179,7 +181,6 @@ public class BoardRenderer {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		spriteBatch.end();
 
-		
 
 		// wooden background
 		spriteBatch.begin();
@@ -187,7 +188,7 @@ public class BoardRenderer {
 				Othello.GAME_WORLD_HEIGHT);
 		spriteBatch.end();
 
-		
+
 		shape.begin(ShapeType.Filled);
 		// Dark green background
 		shape.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the
@@ -200,7 +201,7 @@ public class BoardRenderer {
 		spriteBatch.begin();
 		spriteBatch.draw(felt, startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
 		spriteBatch.end();
-		
+
 		shape.begin(ShapeType.Filled);
 		//shape.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
 		shape.setColor(0.01f, 0.2f, 0.022f, 1);
@@ -220,33 +221,17 @@ public class BoardRenderer {
 		spriteBatch.begin();
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
-//				Texture actualPiece = null;
-//				Optional<Piece> optional = board.view(Position.at(x, y));
-//
-//				if (optional.isPresent() == false) {
-//					// actualPiece = emptyPiece;
-//				} else {
-//					Piece piece = optional.get();
-//					switch (piece) {
-//					case PIECE_A:
-//						actualPiece = blackPiece;
-//						break;
-//					case PIECE_B:
-//						actualPiece = whitePiece;
-//						break;
-//					}
-					if(visualBoard.getTexture(x, y) != null)
-					spriteBatch.draw(visualBoard.getTexture(x, y), pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
-							pieceSizeActual);
-				//}
-
 				// Draw tutorial highlight
-				// spriteBatch.setColor(1.0f, 1.0f, 1.0f, Math.abs(((float)
-				// Math.sin(timer*3 +1))));
-				if (tutorialHighlights[x][y]) {
+				if (tutorialHighlights[x][y] && (posUnderMouse == null ||
+						!(drawGhost && posUnderMouse.col == x && posUnderMouse.row == y))) {
 					spriteBatch.draw(pieceHighlight, pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
 							pieceSizeActual);
 				}
+
+				if(visualBoard.getTexture(x, y) != null)
+				spriteBatch.draw(visualBoard.getTexture(x, y), pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
+						pieceSizeActual);
+				//}
 				// spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 		}
@@ -262,9 +247,9 @@ public class BoardRenderer {
 			break;
 		}
 
-		// Draw mouse highlight
+		// Draw piece ghost
 		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 0.5f);
-		if (drawHighlight && posUnderMouse != null && !board.view(posUnderMouse).isPresent()) {
+		if (drawGhost && posUnderMouse != null && !board.view(posUnderMouse).isPresent()) {
 			spriteBatch.draw(hoverTexture, pieceXPositions[posUnderMouse.col], pieceYPositions[posUnderMouse.row],
 					pieceSizeActual, pieceSizeActual);
 		}
@@ -328,7 +313,7 @@ public class BoardRenderer {
 	 *            Draw highlight
 	 */
 	public void setDrawHighlight(boolean bool) {
-		drawHighlight = bool;
+		drawGhost = bool;
 	}
 
 	public boolean doneAnimating() {
@@ -348,7 +333,7 @@ public class BoardRenderer {
 	}
 
 	/**
-	 * Adds an orange highlight in the tutorial for valid moves. 
+	 * Adds an orange highlight in the tutorial for valid moves.
 	 * <br>
 	 * Primarily used in the {@link com.othellog4.screens.TutorialScreen Tutorial Screen}
 	 */
@@ -357,7 +342,7 @@ public class BoardRenderer {
 	}
 
 	/**
-	 * Aims to reset all of the piece highlights 
+	 * Aims to reset all of the piece highlights
 	 */
 	public void resetAllPieceHighlights() {
 		for (int x = 0; x < tutorialHighlights.length; x++) {

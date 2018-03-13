@@ -10,13 +10,22 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
+import com.othellog4.environment.Launcher;
+import com.othellog4.game.GameModel;
 import com.othellog4.graphics.GraphicsUtil;
 
 /**
+<<<<<<< HEAD
+ * Provides an option menu for users to adjust the background music volume and whether sound effects should be 
+ * on or off
+ * @author Zak Hirsi
+ * @author BRUNO ZORIMA
+=======
  * Provides an option menu for users to adjust the background music volume and
  * whether sound effects should be on or off
  * 
  * @author Zakeria Hirsi
+>>>>>>> 2a0b9c6f7506dfec4805a3c18d41f337ff48a81b
  * @since 06/02/2018
  * @version 06/02/2018
  */
@@ -31,6 +40,12 @@ public class OptionScreen extends BaseScreen {
 	private boolean isHard;
 	private boolean isOn;
 	private boolean isOff;
+	
+	int buttonWidth = 100;
+	int buttonHeight = 100;
+	int xPosition = 0;
+	int yPosition = Othello.GAME_WORLD_HEIGHT - buttonHeight;
+	private Texture backButton;
 
 	Texture background;
 	Texture greyPiece;
@@ -51,6 +66,8 @@ public class OptionScreen extends BaseScreen {
 
 		isOn = true;
 		isOff = false;
+		
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
@@ -85,19 +102,31 @@ public class OptionScreen extends BaseScreen {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT);
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		SPRITE_BATCH.draw(backButton, xPosition, yPosition, buttonWidth, buttonHeight);
+		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 		optionsFont.draw(SPRITE_BATCH, "Sound Effects", 400, 300, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Music SFX", 400, 400, 500, Align.left, true);
+<<<<<<< HEAD
+		optionsFont.draw(SPRITE_BATCH, "Difficulty", 400, 200, 500, Align.left, true);
+		optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
+		optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
+		optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
+=======
 //		optionsFont.draw(SPRITE_BATCH, "Difficulty", 400, 200, 500, Align.left, true);
 //		optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
 //		optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
 //		optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Back", 0, 40, 500, Align.left, true);
+>>>>>>> 2a0b9c6f7506dfec4805a3c18d41f337ff48a81b
 		optionsFont.draw(SPRITE_BATCH, "On", 800, 300, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Off", 950, 300, 500, Align.left, true);
+		
+
 
 		// mouse hover settings for the sound effects
 		if (mousePos.x > 800 && mousePos.x < 864 && mousePos.y < 300 && mousePos.y > 260) {
@@ -113,6 +142,92 @@ public class OptionScreen extends BaseScreen {
 			}
 		}
 
+<<<<<<< HEAD
+		//mouse hover settings for the sound effects
+				if (mousePos.x > 800 && mousePos.x < 864 && mousePos.y < 300 && mousePos.y > 260) {
+					if (Gdx.input.justTouched()) {
+						isOn=true;
+						isOff=false;
+					}
+				}
+				if (mousePos.x > 950 && mousePos.x < 1025 && mousePos.y < 300 && mousePos.y > 260) {
+					if (Gdx.input.justTouched()) {		
+						isOn=false;
+						isOff=true;
+					}
+				}
+				
+				
+				//mouse hover settings for the difficult settings
+				if (mousePos.x > 800 && mousePos.x < 904 && mousePos.y < 200 && mousePos.y > 150) {
+					if (Gdx.input.justTouched()) {
+						System.out.println("Pressed1");
+						isEasy=true;
+						isMedium=false;
+						isHard=false;
+					}
+				}
+				if (mousePos.x > 950 && mousePos.x < 1143 && mousePos.y < 200 && mousePos.y > 150) {
+					if (Gdx.input.justTouched()) {
+						System.out.println("Pressed2");
+						isEasy=false;
+						isMedium=true;
+						isHard=false;
+					}
+				}
+				if (mousePos.x > 1187 && mousePos.x < 1300 && mousePos.y < 200 && mousePos.y > 150) {
+					if (Gdx.input.justTouched()) {
+						System.out.println("Pressed3");
+						isEasy=false;
+						isMedium=false;
+						isHard=true;
+					}
+				}
+				
+				
+				 
+				if (isEasy) {
+					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+					optionsFont.draw(SPRITE_BATCH, "Easy", 800, 200, 500, Align.left, true);
+				}
+				if (isMedium) {
+					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+					optionsFont.draw(SPRITE_BATCH, "Medium", 950, 200, 500, Align.left, true);
+				}
+				if (isHard) {
+					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+					optionsFont.draw(SPRITE_BATCH, "Hard", 1185, 200, 500, Align.left, true);
+				}
+
+				if (isOn) {
+					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+					optionsFont.draw(SPRITE_BATCH, "On", 800, 300, 500, Align.left, true);
+				}
+				if (isOff) {
+					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+					optionsFont.draw(SPRITE_BATCH, "Off", 950, 300, 500, Align.left, true);
+				}
+				//back button logic to exit the screen
+				if (mousePos.x > xPosition && mousePos.x < xPosition + buttonWidth && mousePos.y > yPosition && mousePos.y < yPosition + buttonHeight) {
+					if(Gdx.input.justTouched()){
+						this.dispose();
+						othello.switchToMenu();
+					}
+				}
+
+//				if (mousePos.x > 0 && mousePos.x < 110 && mousePos.y < 40 && mousePos.y > 0) {
+//					optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
+//					optionsFont.draw(SPRITE_BATCH, "Back", 0, 40, 500, Align.left, true);
+//					if (Gdx.input.justTouched()) {
+//						this.dispose();
+//						othello.switchToMenu();
+//					}
+//				}
+				
+
+				
+		//System.out.println(mousePos.x + " " + mousePos.y);
+=======
 		// mouse hover settings for the difficults settings
 //		if (mousePos.x > 800 && mousePos.x < 904 && mousePos.y < 200 && mousePos.y > 150) {
 //			if (Gdx.input.justTouched()) {
@@ -166,6 +281,7 @@ public class OptionScreen extends BaseScreen {
 				othello.switchToMenu();
 			}
 		}
+>>>>>>> 2a0b9c6f7506dfec4805a3c18d41f337ff48a81b
 
 		int xPos = 800;
 		int yPos = 360;
