@@ -90,6 +90,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 						{
 							// place a position in a col/rol
 							model.put(position.col, position.row);
+							game.piecePlacedSound();
 						}
 						catch (GameException e)
 						{

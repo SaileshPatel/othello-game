@@ -31,10 +31,14 @@ public class Othello extends Game {
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
 	public Music music;
-	public Sound sound;
+	public Sound piecePlacedSound;
+	public Sound pieceFlippedSound;
+	public Sound pieceRejectedSound;
+	public float currentVolume;
 
 	@Override
 	public void create () {
+		
 		// Set blend function for alpha rendering
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -42,7 +46,9 @@ public class Othello extends Game {
 		//Assets.load()
 		setScreen(new MainMenuScreen(this));
 		music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
-		sound = Gdx.audio.newSound(Gdx.files.internal("PIECE_PLACED.mp3"));
+		piecePlacedSound = Gdx.audio.newSound(Gdx.files.internal("PIECE_PLACED.mp3"));
+		pieceFlippedSound = Gdx.audio.newSound(Gdx.files.internal("PIECE_FLIPPED.mp3"));
+		pieceRejectedSound = Gdx.audio.newSound(Gdx.files.internal("PIECE_REJECTED.mp3"));
 		playMusic();
 	}
 
@@ -123,13 +129,29 @@ public class Othello extends Game {
 	 */
 	public void playMusic() {
 		music.setLooping(true);
-		music.setVolume(0.25f);
+		music.setVolume(0.0f);
 		music.play();
 
 	}
 	
 	public long piecePlacedSound() {
-		return sound.play();	
+		return piecePlacedSound.play(currentVolume);	
+	}
+	
+	public void setCurrentVolume(long volume){
+		 currentVolume = volume;
+	}
+	
+	public float getCurrentVolume(){
+		return currentVolume;
+	}
+	
+	public long pieceFlippedSound() {
+		return pieceFlippedSound.play();	
+	}
+	
+	public long pieceRejectedSound() {
+		return pieceRejectedSound.play();	
 	}
 	
 	/**
@@ -144,7 +166,11 @@ public class Othello extends Game {
 	}
 	
 	public void setSound(float volume) {
-		sound.setVolume(piecePlacedSound(), volume);
+		currentVolume=volume;
+		piecePlacedSound.setVolume(piecePlacedSound(), currentVolume);
+		pieceFlippedSound.setVolume(pieceFlippedSound(), currentVolume);
+		pieceRejectedSound.setVolume(pieceRejectedSound(), currentVolume);
+		
 	}
 	
 	public void getSound() {
