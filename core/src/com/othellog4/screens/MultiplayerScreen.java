@@ -87,23 +87,24 @@ public class MultiplayerScreen extends BaseScreen {
 		
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		stage = new Stage();
+		//stage.setViewport(VIEWPORT);
 		textBox = new TextField("", skin);
 		textBox.setSize(225, 30);
 		textBox.setMessageText("Enter lobby name or IP address");
-		textBox.setPosition(470, 310);
+		textBox.setPosition(620, 405);
 
 		
 		
 		textButton = new TextButton("", skin);
 		textButton.setSize(100, 30);
 		textButton.setText("Submit!");
-		textButton.setPosition(699, 310);
+		textButton.setPosition(850, 405);
 		stage.addActor(textBox);
 		stage.addActor(textButton);
 		
 		//checkbox decleration
 		checkbox = new CheckBox("", skin);
-		checkbox.setPosition(820, 315);
+		checkbox.setPosition(980, 405);
 		checkbox.setText("  Host");
 		stage.addActor(checkbox);
 
@@ -163,5 +164,9 @@ public class MultiplayerScreen extends BaseScreen {
 		optionsFont.draw(SPRITE_BATCH, text, box.getX(), box.getY() + box.getHeight(), box.getWidth(), Align.left,
 				true);
 	}
+	
+//	protected void postResize(int width, int height){
+//		stage.getViewport().update(width, height, true);
+//	}
 
 }
