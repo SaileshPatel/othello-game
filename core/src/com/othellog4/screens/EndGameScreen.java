@@ -272,6 +272,10 @@ public class EndGameScreen extends BaseScreen {
 	private final float mascotEntryDuration = 0.5f;
 	private final float textEntryDuration = 0.5f;
 
+	/**
+	 * Updates the end game screen stage by stage. 
+	 * @param delta the delta time which is later incremented internally
+	 */
 	public void update(float delta) {
 		elapsedTime += delta;
 

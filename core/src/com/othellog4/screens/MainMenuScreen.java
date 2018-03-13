@@ -151,6 +151,7 @@ public class MainMenuScreen extends BaseScreen {
 			optionsFont.draw(SPRITE_BATCH, "Options", 850, 340, 500, Align.left, true);
 			if (Gdx.input.isTouched()) {
 				this.dispose();
+				othello.piecePlacedSound();
 				othello.switchToOption();
 			}
 
