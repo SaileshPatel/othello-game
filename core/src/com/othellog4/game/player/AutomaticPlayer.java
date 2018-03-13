@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import com.othellog4.game.GameException;
 import com.othellog4.game.GameSession;
+import com.othellog4.game.board.BoardView;
 import com.othellog4.game.command.Put;
 import com.othellog4.game.player.ai.DelayStrategy;
 import com.othellog4.game.player.ai.EvaluationStrategy;
@@ -26,7 +27,7 @@ import com.othellog4.game.player.ai.Tactic;
  * @author 	Sailesh Patel
  * @author 	Zak Hirsi
  * @since 	23/10/2017
- * @version 15/02/2017
+ * @version 13/03/2018
  */
 public final class AutomaticPlayer implements Participant
 {
@@ -76,7 +77,7 @@ public final class AutomaticPlayer implements Participant
 	 * 			a turn for.
 	 */
 	@Override
-	public final void notifyTurn(final GameSession session)
+	public final synchronized void notifyTurn(final GameSession session)
 	{
 		delay.delay(tactic.plan(
 				session.getBoard(),
@@ -85,7 +86,7 @@ public final class AutomaticPlayer implements Participant
 		{
 			try
 			{
-				session.accept(new Put(this, p.col, p.row));
+				while(!session.accept(new Put(this, p.col, p.row)));
 			}
 			catch(final GameException e)
 			{

@@ -125,10 +125,6 @@ public final class GameManager
 	public final void enableInput(final boolean enable)
 	{
 		inputEnable = enable;
-		if(inputEnable)
-		{
-			game.signal();
-		}
 	}
 	/**
 	 * Update all the {@link GameExtension} objects in <code>this</code>
@@ -159,10 +155,12 @@ public final class GameManager
 	 * <code>this</code> {@code GameManager}.
 	 *
 	 * @param command The {@link GameCommand} to execute.
+	 * @return <code>true</code> If the command was allowed to be executed,
+	 * 			otherwise <code>false</code>.
 	 * @throws GameException If the execution of the {@link GameCommand}
 	 * 			throws a {@link GameException}.
 	 */
-	public final void execute(final GameCommand command)
+	public final boolean execute(final GameCommand command)
 			throws
 			GameException
 	{
@@ -170,7 +168,10 @@ public final class GameManager
 		{
 			update(command);
 			command.execute(game());
+			return true;
 		}
+		else
+			return false;
 	}
 	/**
 	 * Get the first {@link Participant} of the {@link Game} managed by

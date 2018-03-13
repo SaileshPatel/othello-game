@@ -87,7 +87,7 @@ public class MultiplayerScreen extends BaseScreen {
 		
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		stage = new Stage();
-		//stage.setViewport(VIEWPORT);
+		stage.setViewport(VIEWPORT);
 		textBox = new TextField("", skin);
 		textBox.setSize(225, 30);
 		textBox.setMessageText("Enter lobby name or IP address");

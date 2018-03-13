@@ -1,6 +1,7 @@
 package com.othellog4.game;
 
 import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
 import com.othellog4.game.player.Participant;
@@ -106,16 +107,18 @@ public final class GameSession
 	 * 			{@link Game} instance contained in <code>this</code>.
 	 * @throws GameException If executing the <code>command</code> causes an
 	 * 			exception to be thrown by {@link Game}.
+	 * @return <code>true</code> If the command was allowed to execute,
+	 * 			otherwise <code>false</code>.
 	 * @throws NullPointerException If <code>command</code> is
 	 * 			<code>null</code>.
 	 * @see GameCommand
 	 */
-	public final void accept(final GameCommand command)
+	public final boolean accept(final GameCommand command)
 			throws
 			GameException,
 			NullPointerException
 	{
-		manager.execute(command);
+		return manager.execute(command);
 	}
 	/**
 	 * Get the read-only {@link BoardView} which represent the
