@@ -8,11 +8,18 @@ import com.othellog4.game.GameManager;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.command.GameCommand;
 /**
+ * Models a timer to calculate how long a game lasts in total. 
+ * <br>
+ * Provides the functionality for:
+ * <ul>
+ * 	<li>Advance the timer</li>
+ * 	<li>Suspend the timer</li>
+ * 	<li>Stop the timer</li>
+ * </ul>
  * 
  * @author John Berg
  * @since 16/02/2018
  * @version 10/03/2018
- *
  */
 public final class Timer extends GameExtension
 {
@@ -33,8 +40,8 @@ public final class Timer extends GameExtension
 	//=========================================================================
 	//Constructors.
 	/**
-	 *
-	 * @param time
+	 * Initialises the start time, and tracks {@link com.othellog4.game.board.Piece Piece_A} and 
+	 * {@link com.othellog4.game.board.Piece Piece_B}
 	 */
 	public Timer()
 	{
@@ -45,8 +52,8 @@ public final class Timer extends GameExtension
 		timeTracker.put(Piece.PIECE_B, 0L);
 	}
 	/**
-	 * 
-	 * @param manager
+	 * Moves the timer onwards. 
+	 * @param manager takes a {@link com.othellog4.game.GameManager Game Manager}
 	 */
 	private void advance(final GameManager manager)
 	{
@@ -59,8 +66,8 @@ public final class Timer extends GameExtension
 		current = manager.game().getCurrent();
 	}
 	/**
-	 * 
-	 * @param manager
+	 * Suspends the timer. 
+	 * @param manager takes a {@link com.othellog4.game.GameManager Game Manager}
 	 */
 	public void suspend(final GameManager manager)
 	{
@@ -69,8 +76,8 @@ public final class Timer extends GameExtension
 		current = null;
 	}
 	/**
-	 * 
-	 * @param manager
+	 * Stops the timer
+	 * @param manager takes a {@link com.othellog4.game.GameManager Game Manager}
 	 */
 	private void stop(final GameManager manager)
 	{
@@ -90,7 +97,7 @@ public final class Timer extends GameExtension
 		return true;
 	}
 	/**
-	 *
+	 * 
 	 */
 	@Override
 	public final synchronized void onEvent(
