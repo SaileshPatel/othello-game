@@ -348,10 +348,18 @@ public class BoardRenderer {
 		}
 	}
 
+	/**
+	 * Adds an orange highlight in the tutorial for valid moves. 
+	 * <br>
+	 * Primarily used in the {@link com.othellog4.screens.TutorialScreen Tutorial Screen}
+	 */
 	public void addPieceHighlight(Position pos) {
 		tutorialHighlights[pos.col][pos.row] = true;
 	}
 
+	/**
+	 * Aims to reset all of the piece highlights 
+	 */
 	public void resetAllPieceHighlights() {
 		for (int x = 0; x < tutorialHighlights.length; x++) {
 			for (int y = 0; y < tutorialHighlights[0].length; y++) {
