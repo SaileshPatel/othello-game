@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
 import com.othellog4.environment.Launcher;
@@ -51,7 +49,6 @@ public final class NormalGameScreen extends GameScreen
 		super(model, game);
 		super.setPlacementEnabled(true);
 		this.model = model;
-		
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		

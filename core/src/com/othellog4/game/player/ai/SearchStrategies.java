@@ -133,7 +133,7 @@ public enum SearchStrategies implements SearchStrategy
 			
 			Iterator<Position> iter = minimax(board, piece, eval, DEPTH_LIMIT, true).values().iterator();
 			
-			Position finalPosition = (Position) iter.next();
+			Position finalPosition = iter.next();
 			return finalPosition;
 		}
 		
