@@ -251,6 +251,13 @@ public class EndGameScreen extends BaseScreen {
 			textYPositions[text] =
 				textYPositions[text-1] - (prevHeight + statsTextSpacing);
 		}
+
+		// Add disposable objects to cleanup list
+		disposables.add(largeFont);
+		disposables.add(mediumFont);
+		disposables.add(smallFont);
+		disposables.add(mascot);
+		disposables.add(enterKey);
 	}
 
 	//Animation stage timings
@@ -273,7 +280,7 @@ public class EndGameScreen extends BaseScreen {
 	private final float textEntryDuration = 0.5f;
 
 	/**
-	 * Updates the end game screen stage by stage. 
+	 * Updates the end game screen stage by stage.
 	 * @param delta the delta time which is later incremented internally
 	 */
 	public void update(float delta) {
@@ -373,7 +380,9 @@ public class EndGameScreen extends BaseScreen {
 
 			if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
 				// Return to main menu
-				game.setScreen(new MainMenuScreen(game));
+				screen.dispose(); // Dispose game screen
+				this.dispose();
+				game.switchToMenu();
 			}
 
 			// Animate menu key

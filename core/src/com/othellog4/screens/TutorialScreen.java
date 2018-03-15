@@ -135,6 +135,13 @@ public class TutorialScreen extends GameScreen {
 				tutExplain8, tutFirstMove, tutShowBoard, tutExplain9, tutExplain10, tutExplain11, tutExplain12)));
 
 		stateInit();
+
+		// Add disposable objects to cleanup list
+		disposables.add(mascotDefault);
+		disposables.add(mascotShocked);
+		disposables.add(dialogueBox);
+		disposables.add(enterKey);
+		disposables.add(dialogueFont);
 	}
 
 	/**
@@ -262,7 +269,8 @@ public class TutorialScreen extends GameScreen {
 
 		// If new state is empty, tutorial has finished, return to main menu
 		if(currentState == null) {
-			game.setScreen(new MainMenuScreen(game));
+			this.dispose();
+			game.switchToMenu();
 		}
 
 		if(currentState instanceof HighlightableState) {

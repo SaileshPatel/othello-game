@@ -22,14 +22,14 @@ import com.othellog4.graphics.ScreenBoxField;
 
 /**
  * Allows players to access online play
- * 
+ *
  * @author Zak Hirsi
  * @author John Berg
  * @since 08/03/2018
  */
 public class MultiplayerScreen extends BaseScreen {
 	Texture background;
-	Texture mascotButton;
+	Texture backButton;
 	Texture numbers;
 	TextureRegion[] animationFrames;
 	Animation<TextureRegion> animation;
@@ -58,7 +58,7 @@ public class MultiplayerScreen extends BaseScreen {
 		this.othello = othello;
 
 		background = new Texture("backgroundNew.png");
-		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 		numbers = new Texture("animation.png");
 
 		TextureRegion[][] tempFrames = TextureRegion.split(numbers, 400, 400);
@@ -83,8 +83,8 @@ public class MultiplayerScreen extends BaseScreen {
 		generator.dispose();
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
-		
-		
+
+
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		stage = new Stage();
 		stage.setViewport(VIEWPORT);
@@ -93,29 +93,36 @@ public class MultiplayerScreen extends BaseScreen {
 		textBox.setMessageText("Enter lobby name or IP address");
 		textBox.setPosition(620, 405);
 
-		
-		
+
+
 		textButton = new TextButton("", skin);
 		textButton.setSize(100, 30);
 		textButton.setText("Submit!");
 		textButton.setPosition(850, 405);
 		stage.addActor(textBox);
 		stage.addActor(textButton);
-		
+
 		//checkbox decleration
 		checkbox = new CheckBox("", skin);
 		checkbox.setPosition(980, 405);
 		checkbox.setText("  Host");
 		stage.addActor(checkbox);
 
+		// Add disposable objects to cleanup list
+		disposables.add(background);
+		disposables.add(backButton);
+		disposables.add(numbers);
+		disposables.add(stage);
+		disposables.add(optionsFont);
 	}
 
+	@Override
 	public void render(float delta) {
 		elapsedTime += delta;
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
-		
-		
+
+
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 
 		new ScreenBoxField(650, 450, 400, 40).before(box -> setColourNoHover())
@@ -126,7 +133,7 @@ public class MultiplayerScreen extends BaseScreen {
 				this.dispose();
 				othello.switchToMenu();
 			}
-		}).after(box -> SPRITE_BATCH.draw(mascotButton, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
+		}).after(box -> SPRITE_BATCH.draw(backButton, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
 				.hover(mousePos.x, mousePos.y);
 
 		SPRITE_BATCH.end();
@@ -164,7 +171,7 @@ public class MultiplayerScreen extends BaseScreen {
 		optionsFont.draw(SPRITE_BATCH, text, box.getX(), box.getY() + box.getHeight(), box.getWidth(), Align.left,
 				true);
 	}
-	
+
 //	protected void postResize(int width, int height){
 //		stage.getViewport().update(width, height, true);
 //	}

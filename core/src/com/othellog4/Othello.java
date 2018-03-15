@@ -10,6 +10,7 @@ import com.othellog4.environment.GameMode;
 import com.othellog4.environment.Launcher;
 import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
+import com.othellog4.screens.BaseScreen;
 import com.othellog4.screens.MainMenuScreen;
 import com.othellog4.screens.MultiplayerScreen;
 import com.othellog4.screens.NormalGameScreen;
@@ -17,10 +18,10 @@ import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.PlayerSelectScreen;
 import com.othellog4.screens.TutorialScreen;
 /**
- * This class deals with rendering the screen and elements from other classes. 
+ * This class deals with rendering the screen and elements from other classes.
  * <br />
  * It runs the game, as well as deals with the backing track and switching screens.
- * 
+ *
  * @author John Berg
  * @author James Shorthouse
  * @author Zakeria Hirsi
@@ -38,7 +39,7 @@ public class Othello extends Game {
 
 	@Override
 	public void create () {
-		
+
 		// Set blend function for alpha rendering
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -133,27 +134,27 @@ public class Othello extends Game {
 		music.play();
 
 	}
-	
+
 	public long piecePlacedSound() {
-		return piecePlacedSound.play(currentVolume);	
+		return piecePlacedSound.play(currentVolume);
 	}
-	
+
 	public void setCurrentVolume(long volume){
 		 currentVolume = volume;
 	}
-	
+
 	public float getCurrentVolume(){
 		return currentVolume;
 	}
-	
+
 	public long pieceFlippedSound() {
-		return pieceFlippedSound.play();	
+		return pieceFlippedSound.play();
 	}
-	
+
 	public long pieceRejectedSound() {
-		return pieceRejectedSound.play();	
+		return pieceRejectedSound.play();
 	}
-	
+
 	/**
 	 * Sets the volume of the backing track music
 	 * @param volume the value of the volume you want
@@ -164,24 +165,32 @@ public class Othello extends Game {
 		//TODO
 		//change the decibel scale
 	}
-	
+
 	public void setSound(float volume) {
 		currentVolume=volume;
 		piecePlacedSound.setVolume(piecePlacedSound(), currentVolume);
 		pieceFlippedSound.setVolume(pieceFlippedSound(), currentVolume);
 		pieceRejectedSound.setVolume(pieceRejectedSound(), currentVolume);
-		
+
 	}
-	
+
 	public void getSound() {
-	
+
 	}
 
 	/**
 	 * Gets the volume of the backing track music
-	 * @return the volume 
+	 * @return the volume
 	 */
 	public float getMusic() {
 		return music.getVolume();
+	}
+
+	/**
+	 * Clean up disposable objects. Called automatically on game close.
+	 */
+	@Override
+	public void dispose() {
+		BaseScreen.cleanupStaticObjects();
 	}
 }

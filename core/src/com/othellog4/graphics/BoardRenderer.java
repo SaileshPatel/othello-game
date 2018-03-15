@@ -6,18 +6,16 @@ import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Disposable;
 import com.othellog4.Othello;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.FlipEvent;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.board.Position;
 import com.othellog4.game.board.ProxyGameBoard;
-//import com.badlogic.gdx.utils.BaseScreen.VIEWPORT.FitViewport;
 import com.othellog4.screens.BaseScreen;
 
 /**
@@ -30,7 +28,7 @@ import com.othellog4.screens.BaseScreen;
  * @since 30/11/2017
  * @version 08/03/2018
  */
-public class BoardRenderer {
+public class BoardRenderer implements Disposable {
 
 	final float boardPadding = 60;
 	final float boardBackgroundPadding = 30;
@@ -61,40 +59,37 @@ public class BoardRenderer {
 	private ProxyGameBoard board;
 	private GameModel model;
 
-	private float timer;
-
-	Batch spriteBatch;
-	ShapeRenderer shape;
-	Texture whitePiece, blackPiece, emptyPiece, pieceHighlight;
+	private Texture pieceHighlight;
 	private Texture background;
 
-	TextureRegion felt;
+	private Texture tempFelt;
+	private TextureRegion felt;
 
 	static Texture pieceSheet;
 	static TextureRegion[] animationFrames;
 
-	VisualBoard visualBoard;
+	private VisualBoard visualBoard;
 
 	/**
 	 * The constructor for {@link com.othellog4.graphics.BoardRender BoardRender}.
-	 * In this class, the majority of the work is initialising sprites and shapes for later use.
+	 * In this class, the majority of the work is initialising sprites and BaseScreen.SHAPE_RENDERs for later use.
 	 * @param model an instance of {@link com.othello.game.GameModel GameModel}
 	 */
 	public BoardRenderer(GameModel model) {
-		this.spriteBatch = BaseScreen.SPRITE_BATCH;
-		shape = BaseScreen.SHAPE_RENDER;
+		//this.BaseScreen.SPRITE_BATCH = BaseScreen.SPRITE_BATCH;
+		//BaseScreen.SHAPE_RENDER = BaseScreen.BaseScreen.SHAPE_RENDER_RENDER;
 		this.model = model;
 
 		/*
 		 * A series of images needed
 		 */
 		background = new Texture("wood.jpeg");
-		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
-		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
-		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
+//		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
+//		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
+//		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
 		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
 
-		Texture tempFelt = GraphicsUtil.createMipMappedTex("felt.png");
+		tempFelt = GraphicsUtil.createMipMappedTex("felt.png");
 		tempFelt.setWrap(Texture.TextureWrap.Repeat, Texture.TextureWrap.Repeat);
 		felt = new TextureRegion(tempFelt);
 		felt.setRegion(0,0,tempFelt.getWidth()*4,tempFelt.getHeight()*4);
@@ -123,8 +118,6 @@ public class BoardRenderer {
 		boardBackgroundWidth = Othello.GAME_WORLD_HEIGHT - (2 * boardBackgroundPadding);
 		boardBackgroundX = (Othello.GAME_WORLD_WIDTH / 2) - (boardBackgroundWidth / 2);
 		boardBackgroundY = (Othello.GAME_WORLD_HEIGHT / 2) - (boardBackgroundWidth / 2);
-
-		timer = 0f;
 
 		generatePieceCoordinates();
 
@@ -165,74 +158,71 @@ public class BoardRenderer {
 	/**
 	 * Deals with rendering the game board, and it renders the board itself, colours, the game grid and
 	 * @see com.othellog4.screens.GameScreen GameScreen
-	 * @param delta
-	 *            used to increment the
-	 *            {@link com.othellog4.graphics.BoardRender#Timer Timer}
+	 * @param delta time since last frame
 	 */
 	public void render(float delta) {
-		timer += delta;
 		// cam.update();
 		BaseScreen.VIEWPORT.apply();
-		// spriteBatch.setProjectionMatrix(cam.combined);
-		// shape.setProjectionMatrix(cam.combined);
+		// BaseScreen.SPRITE_BATCH.setProjectionMatrix(cam.combined);
+		// BaseScreen.SHAPE_RENDER.setProjectionMatrix(cam.combined);
 
-		spriteBatch.begin();
+		BaseScreen.SPRITE_BATCH.begin();
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		spriteBatch.end();
+		BaseScreen.SPRITE_BATCH.end();
 
 
 		// wooden background
-		spriteBatch.begin();
-		spriteBatch.draw(background, 0, 0, Othello.GAME_WORLD_WIDTH,
+		BaseScreen.SPRITE_BATCH.begin();
+		BaseScreen.SPRITE_BATCH.draw(background, 0, 0, Othello.GAME_WORLD_WIDTH,
 				Othello.GAME_WORLD_HEIGHT);
-		spriteBatch.end();
+		BaseScreen.SPRITE_BATCH.end();
 
 
-		shape.begin(ShapeType.Filled);
+		BaseScreen.SHAPE_RENDER.begin(ShapeType.Filled);
 		// Dark green background
-		shape.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the
+		BaseScreen.SHAPE_RENDER.setColor(0.01f, 0.2f, 0.022f, 1); // this line ensures that the
 												// border is kept - do not
 												// remove
-		shape.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
-		shape.setColor(0.02f, 0.4f, 0.043f, 1);
-		shape.end();
+		BaseScreen.SHAPE_RENDER.rect(boardBackgroundX, boardBackgroundY, boardBackgroundWidth, boardBackgroundWidth);
+		BaseScreen.SHAPE_RENDER.setColor(0.02f, 0.4f, 0.043f, 1);
+		BaseScreen.SHAPE_RENDER.end();
 		// Light green inner
-		spriteBatch.begin();
-		spriteBatch.draw(felt, startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
-		spriteBatch.end();
+		BaseScreen.SPRITE_BATCH.begin();
+		BaseScreen.SPRITE_BATCH.draw(felt, startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
+		BaseScreen.SPRITE_BATCH.end();
 
-		shape.begin(ShapeType.Filled);
-		//shape.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
-		shape.setColor(0.01f, 0.2f, 0.022f, 1);
+		BaseScreen.SHAPE_RENDER.begin(ShapeType.Filled);
+		//BaseScreen.SHAPE_RENDER.rect(startingPosX, startingPosY - boardWidth, boardWidth, boardWidth);
+		BaseScreen.SHAPE_RENDER.setColor(0.01f, 0.2f, 0.022f, 1);
 
 		float startingY = startingPosY - boardWidth;
 
 		// Draw board lines
 		for (int x = 0; x <= boardSize; x++) {
-			shape.rect((startingPosX + (x * columnWidth) - (lineWidth / 2)), startingY, lineWidth, boardWidth);
+			BaseScreen.SHAPE_RENDER.rect((startingPosX + (x * columnWidth) - (lineWidth / 2)), startingY, lineWidth, boardWidth);
 		}
 		for (int y = 0; y <= boardSize; y++) {
-			shape.rect(startingPosX, (startingY + (y * columnWidth) - (lineWidth / 2)), boardWidth, lineWidth);
+			BaseScreen.SHAPE_RENDER.rect(startingPosX, (startingY + (y * columnWidth) - (lineWidth / 2)), boardWidth, lineWidth);
 
 		}
-		shape.end();
+		BaseScreen.SHAPE_RENDER.end();
 
-		spriteBatch.begin();
+		BaseScreen.SPRITE_BATCH.begin();
 		for (int x = 0; x < boardSize; x++) {
 			for (int y = 0; y < boardSize; y++) {
 				// Draw tutorial highlight
 				if (tutorialHighlights[x][y] && (posUnderMouse == null ||
 						!(drawGhost && posUnderMouse.col == x && posUnderMouse.row == y))) {
-					spriteBatch.draw(pieceHighlight, pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
+					BaseScreen.SPRITE_BATCH.draw(pieceHighlight, pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
 							pieceSizeActual);
 				}
 
 				if(visualBoard.getTexture(x, y) != null)
-				spriteBatch.draw(visualBoard.getTexture(x, y), pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
+				BaseScreen.SPRITE_BATCH.draw(visualBoard.getTexture(x, y), pieceXPositions[x], pieceYPositions[y], pieceSizeActual,
 						pieceSizeActual);
 				//}
-				// spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+				// BaseScreen.SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 			}
 		}
 
@@ -248,13 +238,13 @@ public class BoardRenderer {
 		}
 
 		// Draw piece ghost
-		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 0.5f);
+		BaseScreen.SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 0.5f);
 		if (drawGhost && posUnderMouse != null && !board.view(posUnderMouse).isPresent()) {
-			spriteBatch.draw(hoverTexture, pieceXPositions[posUnderMouse.col], pieceYPositions[posUnderMouse.row],
+			BaseScreen.SPRITE_BATCH.draw(hoverTexture, pieceXPositions[posUnderMouse.col], pieceYPositions[posUnderMouse.row],
 					pieceSizeActual, pieceSizeActual);
 		}
-		spriteBatch.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		spriteBatch.end();
+		BaseScreen.SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		BaseScreen.SPRITE_BATCH.end();
 
 	}
 
@@ -457,13 +447,14 @@ public class BoardRenderer {
 	}
 
 	/**
-	 * Dispose of textures when application closes
+	 * Dispose of textures
 	 */
 	@Override
-	public void finalize() {
-		whitePiece.dispose();
-		blackPiece.dispose();
-		emptyPiece.dispose();
+	public void dispose() {
+		System.out.println("Disposing board renderer");
+		pieceSheet.dispose();
+		tempFelt.dispose();
 		pieceHighlight.dispose();
+		background.dispose();
 	}
 }
