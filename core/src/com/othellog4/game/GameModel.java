@@ -25,7 +25,7 @@ import com.othellog4.game.player.Player;
  *
  * @author 	159014260 John Berg
  * @since 	01/12/2017
- * @version 12/03/2018
+ * @version 15/03/2018
  */
 public class GameModel extends Observable
 {
@@ -130,6 +130,24 @@ public class GameModel extends Observable
 		return getCurrent().getControl().isPresent();
 	}
 	/**
+	 * Check if inputs are enabled.
+	 * 
+	 * @return The input enabled status.
+	 */
+	public final boolean isInputEnabled()
+	{
+		return manager.isInputEnabled();
+	}
+	/**
+	 * Check if events are enabled.
+	 * 
+	 * @return The status which represents if events are enabled.
+	 */
+	public final boolean isEventEnabled()
+	{
+		return manager.game().isEventEnabled();
+	}
+	/**
 	 * Get the current turn of the game.
 	 *
 	 * @return The current turn of the game.
@@ -147,6 +165,16 @@ public class GameModel extends Observable
 	public final void enableInput(final boolean enable)
 	{
 		manager.enableInput(enable);
+	}
+	/**
+	 * Set the status for the ability to singnal {@link GameEvent} objects.
+	 * 
+	 * @param enable The status of the ability to signal {@link GameEvent}
+	 * 			object.
+	 */
+	public final void enableEvent(final boolean enable)
+	{
+		manager.game().enableEvent(enable);
 	}
 	/**
 	 *

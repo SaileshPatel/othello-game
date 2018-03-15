@@ -3,6 +3,7 @@ package com.othellog4.environment;
 import com.othellog4.game.extension.FlipCounter;
 import com.othellog4.game.extension.GameExtension;
 import com.othellog4.game.extension.Logger;
+import com.othellog4.game.extension.TimeoutTimer;
 import com.othellog4.game.extension.Timer;
 
 /**
@@ -72,7 +73,12 @@ public enum GameMode
 		@Override
 		final GameExtension[] get()
 		{
-			return null;
+			return new GameExtension[]
+			{
+					new TimeoutTimer(90),
+					new Timer(),
+					new FlipCounter()
+			};
 		}
 	};
 	//=========================================================================
