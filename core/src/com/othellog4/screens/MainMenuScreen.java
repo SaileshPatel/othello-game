@@ -17,7 +17,7 @@ import com.othellog4.graphics.ScreenBoxField;
 /**
  * This is the main menu screen where the player can decide on whether they want to :
  * <ul>
- * 	<li>Play online (takes user to {@link MultiplayerScreen Multiplayer Screen})</li>
+ * 	<li>Play online (takes user to {@link MultiplayerMenuScreen Multiplayer Screen})</li>
  * 	<li>Play locally (takes user to {@link PlayerSelectScreen Selection Screen})</li>
  * 	<li>Use a tutorial (takes user to {@link TutorialScreen Tutorial Screen})</li>
  * 	<li>Access the options screen (takes user to {@link OptionScreen Options Screen})</li>
