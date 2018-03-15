@@ -21,12 +21,13 @@ import com.othellog4.game.command.GameCommand;
  * @since 16/02/2018
  * @version 10/03/2018
  */
-public final class Timer extends GameExtension
+public class Timer extends GameExtension
 {
 	//=========================================================================
 	//Fields.
 	/**
-	 * This holds the starting time of the timer. It also visible across multiple threads
+	 * This holds the starting time of the timer. It also visible across
+	 * multiple threads
 	 */
 	private volatile long timeStart;
 	/**
@@ -36,12 +37,13 @@ public final class Timer extends GameExtension
 	/**
 	 * This structure tracks the time, and holds a Piece and the time
 	 */
-	private final Map<Piece, Long> timeTracker;
+	private volatile Map<Piece, Long> timeTracker;
 	//=========================================================================
 	//Constructors.
 	/**
-	 * Initialises the start time, and tracks {@link com.othellog4.game.board.Piece Piece_A} and 
-	 * {@link com.othellog4.game.board.Piece Piece_B}
+	 * Initialises the start time, and tracks
+	 * {@link com.othellog4.game.board.Piece.Piece_A} and 
+	 * {@link com.othellog4.game.board.Piece.Piece_B}
 	 */
 	public Timer()
 	{
@@ -53,7 +55,7 @@ public final class Timer extends GameExtension
 	}
 	/**
 	 * Moves the timer onwards. 
-	 * @param manager takes a {@link com.othellog4.game.GameManager Game Manager}
+	 * @param manager takes a {@link com.othellog4.game.GameManager}
 	 */
 	private void advance(final GameManager manager)
 	{
@@ -67,7 +69,8 @@ public final class Timer extends GameExtension
 	}
 	/**
 	 * Suspends the timer. 
-	 * @param manager takes a {@link com.othellog4.game.GameManager Game Manager}
+	 * @param manager takes a
+	 * {@link com.othellog4.game.GameManager}
 	 */
 	public void suspend(final GameManager manager)
 	{
@@ -77,7 +80,8 @@ public final class Timer extends GameExtension
 	}
 	/**
 	 * Stops the timer
-	 * @param manager takes a {@link com.othellog4.game.GameManager Game Manager}
+	 * @param manager takes a
+	 * 			{@link com.othellog4.game.GameManager}
 	 */
 	private void stop(final GameManager manager)
 	{
@@ -88,6 +92,13 @@ public final class Timer extends GameExtension
 					timeTracker.get(current) + now - timeStart);
 		timeStart = 0;
 		current = null;
+	}
+	protected synchronized int realTime()
+	{
+		return current != null
+				? (int) (timeTracker.get(current) - timeStart
+						+ System.currentTimeMillis()) / 1000
+				: 0;
 	}
 	//=========================================================================
 	//Overriden methods.
@@ -103,7 +114,7 @@ public final class Timer extends GameExtension
 	 * 
 	 */
 	@Override
-	public final synchronized void onEvent(
+	public synchronized void onEvent(
 			final GameEvent event,
 			final GameManager manager)
 	{

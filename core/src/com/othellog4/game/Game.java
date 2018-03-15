@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 12/03/2018
+ * @version 15/03/2018
  * @see GameBoard
  * @see Piece
  */
@@ -47,6 +47,10 @@ public class Game
 	private static final String NULL_PIECE = "Piece cannot be null";
 	//=========================================================================
 	//Fields.
+	/**
+	 * The flag which represent if events are enabled or not.
+	 */
+	private boolean enableEvent;
 	/**
 	 * The <code>int</code> which represent the number of the turn of
 	 * <code>this</code> {@code Game}.
@@ -82,6 +86,10 @@ public class Game
 	 * @see GameState.
 	 */
 	private GameState state;
+	/**
+	 * The last {@link GameEvent} which was not broadcasted.
+	 */
+	private GameEvent lastEvent;
 	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 *
@@ -170,6 +178,7 @@ public class Game
 			throw new NullPointerException();
 		if(currentPiece == null)
 			throw new NullPointerException();
+		this.enableEvent = true;
 		this.turn = turn;
 		this.board = board;
 		conclusion = null;
@@ -205,6 +214,20 @@ public class Game
 			update(GameEvent.NEXT_TURN);
 	}
 	/**
+	 * If the last event is not <code>null</code>, then forward the
+	 * {@link GameEvent} which was ready to be issued, then set the last event
+	 * to <code>null</code>. 
+	 */
+	private void resume()
+	{
+		if(lastEvent != null)
+		{
+			final GameEvent temp = lastEvent;
+			lastEvent = null;
+			update(temp);
+		}
+	}
+	/**
 	 * Set the {@link GameState} of <code>this</code> {@code Game}.
 	 *
 	 * <p>
@@ -236,7 +259,7 @@ public class Game
 	 */
 	private synchronized void update(final GameEvent event)
 	{
-		if(event != null)
+		if(enableEvent)
 		{
 			for(final GameListener listener: listeners)
 				listener.update(event);
@@ -245,6 +268,8 @@ public class Game
 					&&  event != GameEvent.STANDBY)
 				update(GameEvent.STANDBY);
 		}
+		else if(lastEvent == null)
+			lastEvent = event;
 	}
 	/**
 	 * Set the {@link GameConclusion} of <code>this</code>
@@ -276,6 +301,16 @@ public class Game
 	public final boolean isPlaying()
 	{
 		return getCurrentState() == GameState.PLAYING;
+	}
+	/**
+	 * Check if the ability to issue {@link GameEvent} objects is enabled.
+	 * 
+	 * @return <code>true</code> if the events are enabled, otherwise, return
+	 * 			<code>false</code>.
+	 */
+	public final boolean isEventEnabled()
+	{
+		return enableEvent;
 	}
 	/**
 	 * Check if the game is over.
@@ -332,6 +367,17 @@ public class Game
 				?GameConclusion.draw()
 				:GameConclusion.winner(board.winning()));
 		update(GameEvent.END);
+	}
+	/**
+	 * Enable or disable the ability to signal {@link GameEvent} objects.
+	 * 
+	 * @param enable The status to set the event enable status to.
+	 */
+	public final void enableEvent(final boolean enable)
+	{
+		if(enable && !enableEvent)
+			resume();
+		enableEvent = enable;
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
