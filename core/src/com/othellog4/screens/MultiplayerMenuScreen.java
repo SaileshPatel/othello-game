@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
+import com.othellog4.environment.GameMode;
+import com.othellog4.environment.Launcher;
+import com.othellog4.environment.PlayerType;
 import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.graphics.ScreenBoxField;
 
@@ -27,7 +30,7 @@ import com.othellog4.graphics.ScreenBoxField;
  * @author John Berg
  * @since 08/03/2018
  */
-public class MultiplayerScreen extends BaseScreen {
+public class MultiplayerMenuScreen extends BaseScreen {
 	Texture background;
 	Texture backButton;
 	Texture numbers;
@@ -46,6 +49,8 @@ public class MultiplayerScreen extends BaseScreen {
 
 	Othello othello;
 
+	private PlayerType players = PlayerType.USER;
+
 	Boolean con;
 
 	final int GAME_WORLD_WIDTH = 1600;
@@ -54,7 +59,7 @@ public class MultiplayerScreen extends BaseScreen {
 	Stage stage;
 	private BitmapFont optionsFont;
 
-	public MultiplayerScreen(Othello othello) {
+	public MultiplayerMenuScreen(Othello othello) {
 		this.othello = othello;
 
 		background = new Texture("backgroundNew.png");
@@ -126,7 +131,7 @@ public class MultiplayerScreen extends BaseScreen {
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 
 		new ScreenBoxField(650, 450, 400, 40).before(box -> setColourNoHover())
-				.after(box -> drawTextInBox("Multiplayer", box)).hover(mousePos.x, mousePos.y);
+		.after(box -> drawTextInBox("Multiplayer", box)).hover(mousePos.x, mousePos.y);
 
 		new ScreenBoxField(0, 800, 100, 100).onHover(box -> {
 			if (Gdx.input.justTouched()) {
@@ -142,8 +147,12 @@ public class MultiplayerScreen extends BaseScreen {
 			if(textBox.getText().equals("")){
 				//do nothing
 			}else{
-			System.out.println(textBox.getText());
-			con = true;
+				String temp = "";
+				if(checkbox.isChecked()) {
+					temp = "host!:";
+				}
+				othello.runOnlineGame(Launcher.get().newGame(players, players,GameMode.CASUAL),temp + textBox.getText());
+				con = true;
 			}
 		}
 
@@ -151,7 +160,7 @@ public class MultiplayerScreen extends BaseScreen {
 
 		if (con) {
 			new ScreenBoxField(650, 300, 400, 40).before(box -> setColourNoHover())
-					.after(box -> drawTextInBox("Connecting", box)).hover(mousePos.x, mousePos.y);
+			.after(box -> drawTextInBox("Connecting", box)).hover(mousePos.x, mousePos.y);
 			SPRITE_BATCH.draw(animation.getKeyFrame(elapsedTime,true),550,25);
 
 		}
@@ -172,8 +181,7 @@ public class MultiplayerScreen extends BaseScreen {
 				true);
 	}
 
-//	protected void postResize(int width, int height){
-//		stage.getViewport().update(width, height, true);
-//	}
-
+	//	protected void postResize(int width, int height){
+	//		stage.getViewport().update(width, height, true);
+	//	}
 }

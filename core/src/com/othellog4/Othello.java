@@ -12,8 +12,9 @@ import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
 import com.othellog4.screens.BaseScreen;
 import com.othellog4.screens.MainMenuScreen;
-import com.othellog4.screens.MultiplayerScreen;
+import com.othellog4.screens.MultiplayerMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
+import com.othellog4.screens.NormalOnlineGameScreen;
 import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.PlayerSelectScreen;
 import com.othellog4.screens.TutorialScreen;
@@ -66,6 +67,11 @@ public class Othello extends Game {
 		setScreen(new NormalGameScreen(model, this));
 		model.start();
 	}
+	public final void runOnlineGame(final GameModel model, String IP)
+	{
+		setScreen(new NormalOnlineGameScreen(model, this, IP));
+		model.start();
+	}
 	public final void switchToPlayerSelect()
 	{
 		setScreen(new PlayerSelectScreen(this));
@@ -114,10 +120,10 @@ public class Othello extends Game {
 		setScreen (new OptionScreen (this));
 	}
 	/**
-	 * Change to a {@link MultiplayerScreen} object which will go to the multi-player screen
+	 * Change to a {@link MultiplayerMenuScreen} object which will go to the multi-player screen
 	 */
 	public void switchToMultiplaer(){
-		setScreen (new MultiplayerScreen(this));
+		setScreen (new MultiplayerMenuScreen(this));
 	}
 
 	/**
