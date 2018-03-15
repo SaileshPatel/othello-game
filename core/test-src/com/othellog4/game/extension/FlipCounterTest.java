@@ -24,7 +24,7 @@ public class FlipCounterTest
 	private static final AutomaticPlayer PLAYER = new AutomaticPlayer(
 			null,
 			SearchStrategies.RANDOM_SELECTION,
-			DelayStrategies.IMMIDIATE);
+			DelayStrategies.IMMEDIATE);
 	private GameManager manager;
 	private FlipCounter counter;
 	@Before
