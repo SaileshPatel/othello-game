@@ -10,17 +10,19 @@ import com.othellog4.environment.GameMode;
 import com.othellog4.environment.Launcher;
 import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
+import com.othellog4.screens.BaseScreen;
 import com.othellog4.screens.MainMenuScreen;
-import com.othellog4.screens.MultiplayerScreen;
+import com.othellog4.screens.MultiplayerMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
+import com.othellog4.screens.NormalOnlineGameScreen;
 import com.othellog4.screens.OptionScreen;
 import com.othellog4.screens.PlayerSelectScreen;
 import com.othellog4.screens.TutorialScreen;
 /**
- * This class deals with rendering the screen and elements from other classes. 
+ * This class deals with rendering the screen and elements from other classes.
  * <br />
  * It runs the game, as well as deals with the backing track and switching screens.
- * 
+ *
  * @author John Berg
  * @author James Shorthouse
  * @author Zakeria Hirsi
@@ -31,10 +33,14 @@ public class Othello extends Game {
 	public static final int GAME_WORLD_WIDTH = 1600;
 	public static final int GAME_WORLD_HEIGHT = 900;
 	public Music music;
-	public Sound sound;
+	public Sound piecePlacedSound;
+	public Sound pieceFlippedSound;
+	public Sound pieceRejectedSound;
+	public float currentVolume;
 
 	@Override
 	public void create () {
+
 		// Set blend function for alpha rendering
 		Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -42,7 +48,9 @@ public class Othello extends Game {
 		//Assets.load()
 		setScreen(new MainMenuScreen(this));
 		music = Gdx.audio.newMusic(Gdx.files.internal("OthelloMusic.mp3"));
-		sound = Gdx.audio.newSound(Gdx.files.internal("PIECE_PLACED.mp3"));
+		piecePlacedSound = Gdx.audio.newSound(Gdx.files.internal("PIECE_PLACED.mp3"));
+		pieceFlippedSound = Gdx.audio.newSound(Gdx.files.internal("PIECE_FLIPPED.mp3"));
+		pieceRejectedSound = Gdx.audio.newSound(Gdx.files.internal("PIECE_REJECTED.mp3"));
 		playMusic();
 	}
 
@@ -57,6 +65,11 @@ public class Othello extends Game {
 	public final void runGame(final GameModel model)
 	{
 		setScreen(new NormalGameScreen(model, this));
+		model.start();
+	}
+	public final void runOnlineGame(final GameModel model, String IP)
+	{
+		setScreen(new NormalOnlineGameScreen(model, this, IP));
 		model.start();
 	}
 	public final void switchToPlayerSelect()
@@ -107,10 +120,10 @@ public class Othello extends Game {
 		setScreen (new OptionScreen (this));
 	}
 	/**
-	 * Change to a {@link MultiplayerScreen} object which will go to the multi-player screen
+	 * Change to a {@link MultiplayerMenuScreen} object which will go to the multi-player screen
 	 */
 	public void switchToMultiplaer(){
-		setScreen (new MultiplayerScreen(this));
+		setScreen (new MultiplayerMenuScreen(this));
 	}
 
 	/**
@@ -123,15 +136,31 @@ public class Othello extends Game {
 	 */
 	public void playMusic() {
 		music.setLooping(true);
-		music.setVolume(0.25f);
+		music.setVolume(0.0f);
 		music.play();
 
 	}
-	
+
 	public long piecePlacedSound() {
-		return sound.play();	
+		return piecePlacedSound.play(currentVolume);
 	}
-	
+
+	public void setCurrentVolume(long volume){
+		 currentVolume = volume;
+	}
+
+	public float getCurrentVolume(){
+		return currentVolume;
+	}
+
+	public long pieceFlippedSound() {
+		return pieceFlippedSound.play();
+	}
+
+	public long pieceRejectedSound() {
+		return pieceRejectedSound.play();
+	}
+
 	/**
 	 * Sets the volume of the backing track music
 	 * @param volume the value of the volume you want
@@ -142,20 +171,32 @@ public class Othello extends Game {
 		//TODO
 		//change the decibel scale
 	}
-	
+
 	public void setSound(float volume) {
-		sound.setVolume(piecePlacedSound(), volume);
+		currentVolume=volume;
+		piecePlacedSound.setVolume(piecePlacedSound(), currentVolume);
+		pieceFlippedSound.setVolume(pieceFlippedSound(), currentVolume);
+		pieceRejectedSound.setVolume(pieceRejectedSound(), currentVolume);
+
 	}
-	
+
 	public void getSound() {
-	
+
 	}
 
 	/**
 	 * Gets the volume of the backing track music
-	 * @return the volume 
+	 * @return the volume
 	 */
 	public float getMusic() {
 		return music.getVolume();
+	}
+
+	/**
+	 * Clean up disposable objects. Called automatically on game close.
+	 */
+	@Override
+	public void dispose() {
+		BaseScreen.cleanupStaticObjects();
 	}
 }

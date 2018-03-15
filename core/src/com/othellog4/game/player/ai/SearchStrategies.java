@@ -1,12 +1,12 @@
 package com.othellog4.game.player.ai;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
 import com.othellog4.game.board.BoardView;
+import com.othellog4.game.board.InvalidMoveException;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.board.Position;
 
@@ -15,6 +15,7 @@ import com.othellog4.game.board.Position;
  * implementations of the {@link SearchStrategy} interface.
  * 
  * @author 	159014260 John Berg
+ * @author  159148026 Arvinder Chatha
  * @since 	08/12/2017
  * @version 08/12/2017
  */
@@ -29,18 +30,12 @@ public enum SearchStrategies implements SearchStrategy
 	RANDOM_SELECTION
 	{
 		//=====================================================================
-		//Static fields.
-		/**
-		 * The seed for the random number generator.
-		 */
-		private static final int RNG_SEED = 5;
-		//=====================================================================
 		//Fields.
 		/**
 		 * The {@link java.util.Random} object to generate random numbers
 		 * when selecting a {@link Position}.
 		 */
-		private final java.util.Random rng = new java.util.Random(RNG_SEED);
+		private final java.util.Random rng = new java.util.Random(new Date().getTime());
 		//=====================================================================
 		//Overriden methods.
 		/**
@@ -69,11 +64,11 @@ public enum SearchStrategies implements SearchStrategy
 	 * the {@link Position} object which would result in the best score by
 	 * the supplied {@link EvaluationStrategy}.
 	 */
-	BEST_IMMIDIATE
+	BEST_IMMEDIATE
 	{
 		/**
 		 * Search for the {@link Position} object where s {@link Piece} object
-		 * can be placed on a board for the best immidiate outcome.
+		 * can be placed on a board for the best immediate outcome.
 		 * 
 		 * @param board The {@link BoardView} which to search for moves.
 		 * @param piece The {@link Piece} object to search for moves for.
@@ -92,8 +87,8 @@ public enum SearchStrategies implements SearchStrategy
 				try
 				{
 					return eval.evaluate(board.tryPut(acc, piece), piece) >
-							eval.evaluate(board.tryPut(pos, piece), piece)
-							?acc
+					eval.evaluate(board.tryPut(pos, piece), piece)
+					?acc
 							:pos;
 				}
 				catch(final com.othellog4.game.board.InvalidMoveException e)
@@ -127,16 +122,23 @@ public enum SearchStrategies implements SearchStrategy
 				final Piece piece,
 				final EvaluationStrategy eval)
 		{
-			//MUST BE EVEN NUMBER OTHERWISE IT FAVOURS OPPONENT
-			//TOTAL TURNS IT PLAYS AHEAD IS 4 BUT DIVIDE BY 2 FOR EACH COLOUR'S TURN
+			//4 IS A REASONABLE DEPTH_LIMIT HOWEVER FOR LOW END COMPUTERS THIS MAY NEED TO BE LOWERED
 			final int DEPTH_LIMIT = 4;
-			
-			Iterator<Position> iter = minimax(board, piece, eval, DEPTH_LIMIT, true).values().iterator();
-			
-			Position finalPosition = iter.next();
+
+			final java.util.Random rng = new java.util.Random(new Date().getTime());
+
+			Position finalPosition = null;
+			try {
+				ArrayList<ScorePosition> test = minimax(board, piece, eval, DEPTH_LIMIT, DEPTH_LIMIT % 2 == 0);
+				finalPosition = test.get(rng.nextInt(test.size())).getPos(); 
+			}
+			catch (com.othellog4.game.board.InvalidMoveException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return finalPosition;
 		}
-		
+
 		/**
 		 * The recursive function used to determine the best possible {@link Position} for the current game {@link BoardView}
 		 * 
@@ -146,90 +148,92 @@ public enum SearchStrategies implements SearchStrategy
 		 * 			<code>board</code>.
 		 * @param depth The current depth of the recursive function. (Inverted, 0 is bottom of tree)
 		 * @param isMax True if maximising player, false if minimising player
-		 * @return A HashMap<Double, Position> where the Double is the best score of the function and {@link Position} is the best position associated with the score
+		 * @return An ArrayList<ScorePosition> storing the best {@link ScorePosition}s
+		 * @throws InvalidMoveException 
 		 */
-		private HashMap<Double, Position> minimax(BoardView board, Piece piece, EvaluationStrategy eval, int depth, boolean isMax) {
-			
-			int currentDepth = depth; //might not be needed
-			HashMap<Double, Position> scorePositionMap = new HashMap<Double, Position>();
+		private ArrayList<ScorePosition> minimax(BoardView board, Piece piece, EvaluationStrategy eval, int depth, boolean isMax) throws InvalidMoveException {
+			ArrayList<ScorePosition> scorePositionList = new ArrayList<ScorePosition>();
+			List<Position> currentPlayerMoveList = new ArrayList<Position>();
+			currentPlayerMoveList.addAll(board.legalMoves(piece));
 			Position bestMove = null; 
-			
-			//Leaf node
-			if(currentDepth == 0) {
-				Double score = eval.evaluate(board, piece);
-				scorePositionMap.put(score, null);
-				return scorePositionMap;
-			}
-			
+			double bestScore;
 			if(isMax) {
-				double bestScore = -1000; 
-				
-				List<Position> currentPlayerMoveList = new ArrayList<Position>();
-				currentPlayerMoveList.addAll(board.legalMoves(piece));
-				
-				for (Position move : currentPlayerMoveList) {
-					BoardView newBoard = null;
-					try {
-						newBoard = board.tryPut(move, piece);
-					} catch (com.othellog4.game.board.InvalidMoveException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					Double currentScore = -1000.0;
-					//If it is a leaf node just evaluate the move otherwise, continue recursion
-					try {
-					currentScore = (Double) minimax(newBoard, piece.flip(), eval, currentDepth-1, !isMax).keySet().toArray()[0];
-					}
-					catch(ArrayIndexOutOfBoundsException e) {
-						currentScore = eval.evaluate(newBoard, piece);
-					}
-					
-					
-					if(currentScore > bestScore) {
-						bestScore = currentScore;
-						bestMove = move;
-						scorePositionMap.clear();
-						scorePositionMap.put(bestScore, bestMove);
-					}
-				}
-				return scorePositionMap;
+				bestScore = -1000.0; 
+			} else {
+				bestScore = 1000.0;
 			}
-			//!isMax
-			else {
-				double bestScore = 1000;
+
+			//Leaf node or game ended
+			if(board.isEnd() || depth == 0) {
+				scorePositionList.add(new ScorePosition(eval.evaluate(board, piece), null));
+				return scorePositionList;
+			}
+			//Current player can't take a move due to being no available moves
+			else if(board.legalMoves(piece).isEmpty()){
+				return minimax(board, piece.flip(), eval, depth-1, !isMax);
+			}
+
+			for (Position move : currentPlayerMoveList) {
+				BoardView newBoard = board.tryPut(move, piece);;
+				ArrayList<ScorePosition> ranks = minimax(newBoard, piece.flip(), eval, depth-1, !isMax);
 				
-				
-				List<Position> currentPlayerMoveList = new ArrayList<Position>();
-				currentPlayerMoveList.addAll(board.legalMoves(piece));
-				
-				for(Position move : currentPlayerMoveList) {
-					BoardView newBoard = null;
-					try {
-						newBoard = board.tryPut(move, piece);
-					} catch (com.othellog4.game.board.InvalidMoveException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-					Double currentScore = -1000.0;
-					//If it is a leaf node just evaluate the move otherwise, continue recursion
-					try {
-					currentScore = (Double) minimax(newBoard, piece.flip(), eval, currentDepth-1, !isMax).keySet().toArray()[0];
-					}
-					catch(ArrayIndexOutOfBoundsException e) {
-						currentScore = eval.evaluate(newBoard, piece);
-					}
-					
-					if(currentScore < bestScore) {
+				if(ranks.isEmpty()) {
+					scorePositionList.add(new ScorePosition(eval.evaluate(newBoard, piece), move));
+				} else {
+					double currentScore = ranks.get(0).getScore();
+					if(currentScore==bestScore) {
+						scorePositionList.add(new ScorePosition(currentScore, move));
+					}					
+					else if(isMax && (currentScore > bestScore)) {
 						bestScore = currentScore;
 						bestMove = move;
-						scorePositionMap.clear();
-						scorePositionMap.put(bestScore, bestMove);
+						scorePositionList.clear();
+						scorePositionList.add(new ScorePosition(bestScore, bestMove));
+					}
+					else if(!isMax && (currentScore < bestScore)){
+						bestScore = currentScore;
+						bestMove = move;
+						scorePositionList.clear();
+						scorePositionList.add(new ScorePosition(bestScore, bestMove));
 					}
 				}
-				return scorePositionMap;
+			}
+			return scorePositionList;
+		}
+
+		/**
+		 * Class that exists to store the score of a given {@link Position}.
+		 * 
+		 * @author 159148026 Arvinder Chatha
+		 * @since 	14/03/2017
+		 * @version 13/03/2018
+		 */
+		class ScorePosition {
+
+			private double score;
+			private Position pos;
+
+			/**
+			 * The constructor initialises both the score and {@link Position}
+			 * @param score The score associated to the {@link Position}
+			 * @param pos The {@link Position} associated to the score
+			 */
+			private ScorePosition(Double score, Position pos) {
+				this.score = score;
+				this.pos = pos;
+			}
+			/**
+			 * @return the score
+			 */
+			public double getScore() {
+				return score;
+			}
+			/**
+			 * @return the pos
+			 */
+			public Position getPos() {
+				return pos;
 			}
 		}
-	};
-}
+	}
+};

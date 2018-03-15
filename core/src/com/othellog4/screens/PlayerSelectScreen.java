@@ -33,8 +33,7 @@ public class PlayerSelectScreen extends BaseScreen{
 	Texture blackPiece;
 	Texture blackStart;
 	Texture whiteStart;
-	Texture mascotButton;
-
+	Texture backButton;
 
 	int buttonWidth = 100;
 	int buttonHeight = 100;
@@ -46,12 +45,12 @@ public class PlayerSelectScreen extends BaseScreen{
 
 	public PlayerSelectScreen(Othello othello){
 		this.othello=othello;
-		background = new Texture("wood.jpeg");
+		background = new Texture("wood.jpg");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackStart =  GraphicsUtil.createMipMappedTex("blackStart.png");
 		whiteStart =  GraphicsUtil.createMipMappedTex("whiteStart.png");
-		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -63,6 +62,14 @@ public class PlayerSelectScreen extends BaseScreen{
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 
+		// Add disposable objects to cleanup list
+		disposables.add(background);
+		disposables.add(blackPiece);
+		disposables.add(whitePiece);
+		disposables.add(blackStart);
+		disposables.add(whiteStart);
+		disposables.add(backButton);
+		disposables.add(optionsFont);
 	}
 	private void preparePlayer1()
 	{
@@ -197,6 +204,7 @@ public class PlayerSelectScreen extends BaseScreen{
 	}
 
 
+	@Override
 	public void render (float delta){
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
@@ -213,7 +221,7 @@ public class PlayerSelectScreen extends BaseScreen{
 			}
 		})
 		.after(box -> SPRITE_BATCH.draw(
-				mascotButton,
+				backButton,
 				box.getX(),
 				box.getY(),
 				box.getWidth(),
@@ -233,15 +241,17 @@ public class PlayerSelectScreen extends BaseScreen{
 		.before(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Player 2", box))
 		.hover(mousePos.x, mousePos.y);
-		
-		
+
+
 		preparePlayer1();
 		preparePlayer2();
 		new ScreenBoxField(500, 30, 180, 180)
 		.onHover(box -> {
-			if(Gdx.input.isTouched())
+			if(Gdx.input.isTouched()) {
+				this.dispose();
 				othello.runGame(Launcher.get()
 						.newGame(getPlayer1(), getPlayer2(), GameMode.CASUAL));
+			}
 		})
 		.after(box ->
 		SPRITE_BATCH.draw(whiteStart, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
@@ -249,11 +259,13 @@ public class PlayerSelectScreen extends BaseScreen{
 
 		new ScreenBoxField(800, 30, 180, 180)
 		.onHover(box -> {
-			if(Gdx.input.isTouched())
+			if(Gdx.input.isTouched()) {
 				//START GAME
+				this.dispose();
 				othello.runGame(Launcher.get()
 						.newGame(getPlayer1(), getPlayer2(),
 								GameMode.COMPETATIVE));
+			}
 		})
 		.after(box ->
 		SPRITE_BATCH.draw(blackStart, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
@@ -318,14 +330,5 @@ public class PlayerSelectScreen extends BaseScreen{
 				box.getY(),
 				box.getHeight(),
 				box.getHeight());
-	}
-	
-	public void finalize(){
-		background.dispose();
-		blackPiece.dispose();
-		whitePiece.dispose();
-		blackStart.dispose();
-		whiteStart.dispose();
-		
 	}
 }
