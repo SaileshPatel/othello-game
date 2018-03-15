@@ -47,7 +47,7 @@ public enum PlayerType
 	{
 		private final Participant ai = new AutomaticPlayer(
 				EvaluationStrategies.WINNER,
-				SearchStrategies.BEST_IMMIDIATE,
+				SearchStrategies.BEST_IMMEDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
 		@Override
 		final Participant get()
@@ -68,7 +68,7 @@ public enum PlayerType
 	{
 		private final Participant ai = new AutomaticPlayer(
 				EvaluationStrategies.COUNT,
-				SearchStrategies.BEST_IMMIDIATE,
+				SearchStrategies.BEST_IMMEDIATE,
 				DelayStrategies.WAIT_ONE_SEC);
 		@Override
 		final Participant get()

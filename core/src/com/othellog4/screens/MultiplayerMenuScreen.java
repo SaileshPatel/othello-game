@@ -17,6 +17,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
+import com.othellog4.environment.GameMode;
+import com.othellog4.environment.Launcher;
+import com.othellog4.environment.PlayerType;
 import com.othellog4.graphics.GraphicsUtil;
 import com.othellog4.graphics.ScreenBoxField;
 
@@ -27,7 +30,7 @@ import com.othellog4.graphics.ScreenBoxField;
  * @author John Berg
  * @since 08/03/2018
  */
-public class MultiplayerScreen extends BaseScreen {
+public class MultiplayerMenuScreen extends BaseScreen {
 	Texture background;
 	Texture mascotButton;
 	Texture numbers;
@@ -45,6 +48,8 @@ public class MultiplayerScreen extends BaseScreen {
 	CheckBox checkbox;
 
 	Othello othello;
+	
+	private PlayerType players = PlayerType.USER;
 
 	Boolean con;
 
@@ -54,7 +59,7 @@ public class MultiplayerScreen extends BaseScreen {
 	Stage stage;
 	private BitmapFont optionsFont;
 
-	public MultiplayerScreen(Othello othello) {
+	public MultiplayerMenuScreen(Othello othello) {
 		this.othello = othello;
 
 		background = new Texture("backgroundNew.png");
@@ -83,8 +88,8 @@ public class MultiplayerScreen extends BaseScreen {
 		generator.dispose();
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
-		
-		
+
+
 		Skin skin = new Skin(Gdx.files.internal("uiskin.json"));
 		stage = new Stage();
 		stage.setViewport(VIEWPORT);
@@ -93,15 +98,15 @@ public class MultiplayerScreen extends BaseScreen {
 		textBox.setMessageText("Enter lobby name or IP address");
 		textBox.setPosition(620, 405);
 
-		
-		
+
+
 		textButton = new TextButton("", skin);
 		textButton.setSize(100, 30);
 		textButton.setText("Submit!");
 		textButton.setPosition(850, 405);
 		stage.addActor(textBox);
 		stage.addActor(textButton);
-		
+
 		//checkbox decleration
 		checkbox = new CheckBox("", skin);
 		checkbox.setPosition(980, 405);
@@ -114,12 +119,12 @@ public class MultiplayerScreen extends BaseScreen {
 		elapsedTime += delta;
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
-		
-		
+
+
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 
 		new ScreenBoxField(650, 450, 400, 40).before(box -> setColourNoHover())
-				.after(box -> drawTextInBox("Multiplayer", box)).hover(mousePos.x, mousePos.y);
+		.after(box -> drawTextInBox("Multiplayer", box)).hover(mousePos.x, mousePos.y);
 
 		new ScreenBoxField(0, 800, 100, 100).onHover(box -> {
 			if (Gdx.input.justTouched()) {
@@ -127,7 +132,7 @@ public class MultiplayerScreen extends BaseScreen {
 				othello.switchToMenu();
 			}
 		}).after(box -> SPRITE_BATCH.draw(mascotButton, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
-				.hover(mousePos.x, mousePos.y);
+		.hover(mousePos.x, mousePos.y);
 
 		SPRITE_BATCH.end();
 
@@ -135,8 +140,12 @@ public class MultiplayerScreen extends BaseScreen {
 			if(textBox.getText().equals("")){
 				//do nothing
 			}else{
-			System.out.println(textBox.getText());
-			con = true;
+				String temp = "";
+				if(checkbox.isChecked()) {
+					temp = "host!:";
+				}
+				othello.runOnlineGame(Launcher.get().newGame(players, players,GameMode.CASUAL),temp + textBox.getText());
+				con = true;
 			}
 		}
 
@@ -144,7 +153,7 @@ public class MultiplayerScreen extends BaseScreen {
 
 		if (con) {
 			new ScreenBoxField(650, 300, 400, 40).before(box -> setColourNoHover())
-					.after(box -> drawTextInBox("Connecting", box)).hover(mousePos.x, mousePos.y);
+			.after(box -> drawTextInBox("Connecting", box)).hover(mousePos.x, mousePos.y);
 			SPRITE_BATCH.draw(animation.getKeyFrame(elapsedTime,true),550,25);
 
 		}
@@ -164,9 +173,9 @@ public class MultiplayerScreen extends BaseScreen {
 		optionsFont.draw(SPRITE_BATCH, text, box.getX(), box.getY() + box.getHeight(), box.getWidth(), Align.left,
 				true);
 	}
-	
-//	protected void postResize(int width, int height){
-//		stage.getViewport().update(width, height, true);
-//	}
+
+	//	protected void postResize(int width, int height){
+	//		stage.getViewport().update(width, height, true);
+	//	}
 
 }
