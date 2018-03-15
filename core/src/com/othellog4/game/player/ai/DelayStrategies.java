@@ -17,10 +17,10 @@ public enum DelayStrategies implements DelayStrategy
 	/**
 	 * Executes immediately.
 	 */
-	IMMIDIATE()
+	IMMEDIATE()
 	{
 		/**
-		 * Execution a {@link Runnable} object immidietly.
+		 * Execution a {@link Runnable} object immediately.
 		 *
 		 * @param r The {@link Runnable} object to run.
 		 */
