@@ -23,7 +23,7 @@ import com.othellog4.game.board.Position;
  * @author 	159014260 John Berg
  * @author  Arvinder Chatha
  * @since 	18/10/2017
- * @version 15/03/2018
+ * @version 16/03/2018
  * @see GameBoard
  * @see Piece
  */
@@ -293,6 +293,16 @@ public class Game
 			this.conclusion = conclusion;
 	}
 	/**
+	 * Check if the {@code Game} has been started.
+	 * 
+	 * @return <code>true</code> if <code>this</code> {@code Game} has been
+	 * 			started, otherwise, returns <code>false</code>.
+	 */
+	public final boolean isStarted()
+	{
+		return getCurrentState() != GameState.READY;
+	}
+	/**
 	 * Check if the {@code Game} object is currently playing.
 	 *
 	 * @return <code>true</code> if <code>this</code> {@code Game} is playing,
@@ -303,14 +313,14 @@ public class Game
 		return getCurrentState() == GameState.PLAYING;
 	}
 	/**
-	 * Check if the ability to issue {@link GameEvent} objects is enabled.
+	 * Check if the {@code Game} object is currently paused.
 	 * 
-	 * @return <code>true</code> if the events are enabled, otherwise, return
-	 * 			<code>false</code>.
+	 * @return <code>true</code> if <code>this</code> {@code Game} is paused,
+	 * 			otherwise, returns <code>false</code>.
 	 */
-	public final synchronized boolean isEventEnabled()
+	public final boolean isPaused()
 	{
-		return enableEvent;
+		return getCurrentState() == GameState.PAUSED;
 	}
 	/**
 	 * Check if the game is over.
@@ -328,6 +338,16 @@ public class Game
 			conclude(GameConclusion.winner(board.winning()));
 		}
 		return getCurrentState() == GameState.GAME_OVER;
+	}
+	/**
+	 * Check if the ability to issue {@link GameEvent} objects is enabled.
+	 * 
+	 * @return <code>true</code> if the events are enabled, otherwise, return
+	 * 			<code>false</code>.
+	 */
+	public final synchronized boolean isEventEnabled()
+	{
+		return enableEvent;
 	}
 	/**
 	 * Get the current turn of <code>this</code> {@code Game}.
@@ -375,9 +395,10 @@ public class Game
 	 */
 	public final synchronized void enableEvent(final boolean enable)
 	{
-		if(enable && !enableEvent)
-			resume();
+		boolean temp = isEventEnabled();
 		enableEvent = enable;
+		if(!temp && enableEvent)
+			resume();
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.

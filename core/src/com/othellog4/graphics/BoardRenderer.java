@@ -151,23 +151,25 @@ public class BoardRenderer implements Disposable {
 		visualBoard.update();
 		// System.out.println(posUnderMouse);
 		//model.enableEvent(doneAnimating());
-		if(doneAnimating()) {
+		synchronized(model)
+		{
+			if(doneAnimating()) {
 			//System.out.println(model.isEventEnabled());
 			//System.out.println(x);
-			model.enableEvent(true);
+				if(!model.isEventEnabled())
+					model.enableEvent(true);
+			}
 		}
 		//System.out.println(doneAnimating());
 	}
 
 	private void update(final Observable obs, final Object o)
 	{
-		System.out.println(o);
 		if(o == GameEvent.NEXT_TURN)
-		{
-			/*Begin anim*/
-			((GameModel) obs).enableEvent(false);
-
-		}
+			synchronized(model)
+			{
+				model.enableEvent(false);
+			}
 	}
 
 	/**
