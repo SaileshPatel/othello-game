@@ -1,5 +1,6 @@
 package com.othellog4.graphics;
 
+import java.util.Observable;
 import java.util.Optional;
 import java.util.Set;
 
@@ -11,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Disposable;
 import com.othellog4.Othello;
+import com.othellog4.game.GameEvent;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.FlipEvent;
 import com.othellog4.game.board.Piece;
@@ -79,7 +81,7 @@ public class BoardRenderer implements Disposable {
 		//this.BaseScreen.SPRITE_BATCH = BaseScreen.SPRITE_BATCH;
 		//BaseScreen.SHAPE_RENDER = BaseScreen.BaseScreen.SHAPE_RENDER_RENDER;
 		this.model = model;
-
+		this.model.addObserver(this::update);
 		/*
 		 * A series of images needed
 		 */
@@ -148,8 +150,24 @@ public class BoardRenderer implements Disposable {
 		updatePosUnderMouse();
 		visualBoard.update();
 		// System.out.println(posUnderMouse);
-		model.enableInput(doneAnimating());
+		//model.enableEvent(doneAnimating());
+		if(doneAnimating()) {
+			//System.out.println(model.isEventEnabled());
+			//System.out.println(x);
+			model.enableEvent(true);
+		}
 		//System.out.println(doneAnimating());
+	}
+
+	private void update(final Observable obs, final Object o)
+	{
+		System.out.println(o);
+		if(o == GameEvent.NEXT_TURN)
+		{
+			/*Begin anim*/
+			((GameModel) obs).enableEvent(false);
+
+		}
 	}
 
 	/**
