@@ -25,7 +25,7 @@ import com.othellog4.game.player.Participant;
  *
  * @author 	159014260 John Berg
  * @since	02/12/2017
- * @since	12/03/2017
+ * @since	15/03/2017
  */
 public final class GameManager
 {
@@ -112,6 +112,15 @@ public final class GameManager
 	//=========================================================================
 	//Methods.
 	/**
+	 * Check if inputs are enabled.
+	 * 
+	 * @return The enable status.
+	 */
+	public final boolean isInputEnabled()
+	{
+		return inputEnable;
+	}
+	/**
 	 * Enable or disable input such that it is not possible to progress the
 	 * game.
 	 * 
@@ -164,14 +173,14 @@ public final class GameManager
 			throws
 			GameException
 	{
+		if(!inputEnable)
+			return false;
 		if(inputEnable && command.canExecute(current()))
 		{
 			update(command);
 			command.execute(game());
-			return true;
 		}
-		else
-			return false;
+		return true;
 	}
 	/**
 	 * Get the first {@link Participant} of the {@link Game} managed by

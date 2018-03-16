@@ -1,25 +1,30 @@
 package com.othellog4.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.othellog4.Othello;
 
 /**
- * A base screen which can be built upon later. All new screens should inherit from here. 
+ * A base screen which can be built upon later. All new screens should inherit from here.
  * @author James Shorthouse
  * @version 06/03/2017
  *
  */
-public class BaseScreen extends ScreenAdapter {
+public abstract class BaseScreen extends ScreenAdapter {
 	public final static Camera CAM;
 	public final static Viewport VIEWPORT;
 	public final static SpriteBatch SPRITE_BATCH;
 	public final static ShapeRenderer SHAPE_RENDER;
+
+	protected ArrayList<Disposable> disposables;
 
 	/**
 	 * All of the static values needed are initialised here.
@@ -42,15 +47,17 @@ public class BaseScreen extends ScreenAdapter {
 	 */
 	public BaseScreen() {
 		super();
+		disposables = new ArrayList<Disposable>();
 	}
 
 	/**
 	 * Used to resize the screen. Updates the {@link com.badlogic.gdx.utils.viewport.Viewport Viewport} and
 	 * the {@link com.badlogic.gdx.graphics.Camera Camera} position.
-	 * 
+	 *
 	 * @param width the intended width of the screen
 	 * @param height the intended height of the screen
 	 */
+	@Override
 	final public void resize(int width, int height) {
 		VIEWPORT.update(width, height);
 		CAM.position.set(Othello.GAME_WORLD_WIDTH / 2,
@@ -60,7 +67,7 @@ public class BaseScreen extends ScreenAdapter {
 	}
 
 	/**
-	 * Currently an empty default implementation required. 
+	 * Perform additional implementation specific resizing
 	 * @param width
 	 * @param height
 	 */
@@ -70,7 +77,7 @@ public class BaseScreen extends ScreenAdapter {
 
 	/**
 	 * Sets {@link com.badlogic.gdx.graphics.g2d.SpriteBatch.setProjectionMatrix Projection Matrix} of
-	 * the {@link com.othellog4.screens.BaseScreen#SPRITE_BATCH Sprite Batch} and the 
+	 * the {@link com.othellog4.screens.BaseScreen#SPRITE_BATCH Sprite Batch} and the
 	 * {@link com.othellog4.screens.BaseScreen#SHAPE_RENDER Shape Renderer}
 	 */
 	private static void updateMatricies() {
@@ -78,4 +85,23 @@ public class BaseScreen extends ScreenAdapter {
 		SHAPE_RENDER.setProjectionMatrix(CAM.combined);
 	}
 
+	/**
+	 * Dispose of all non-static objects used by the screen
+	 */
+	@Override
+	public void dispose() {
+		for(Disposable obj: disposables) {
+			System.out.println("Disposing of " + obj.getClass());
+			obj.dispose();
+		}
+		System.out.println();
+	}
+
+	/**
+	 * Dispose of all static objects used by the screen
+	 */
+	public static void cleanupStaticObjects() {
+		SPRITE_BATCH.dispose();
+		SHAPE_RENDER.dispose();
+	}
 }

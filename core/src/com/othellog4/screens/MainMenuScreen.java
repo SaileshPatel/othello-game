@@ -23,7 +23,7 @@ import com.othellog4.graphics.ScreenBoxField;
  * 	<li>Access the options screen (takes user to {@link OptionScreen Options Screen})</li>
  * 	<li>Exit the game</li>
  * </ul>
- * 
+ *
  * @author Zakeria Hirsi
  * @since 09/12/2017
  * @version 09/08/2017
@@ -70,6 +70,12 @@ public class MainMenuScreen extends BaseScreen {
 
 		OthelloText = new Texture("Othello.png");
 		background = new Texture("backgroundNew.png");
+
+		// Add disposable objects to cleanup list
+		disposables.add(background);
+		disposables.add(OthelloText);
+		disposables.add(titleFont);
+		disposables.add(optionsFont);
 	}
 
 	@Override
@@ -89,18 +95,20 @@ public class MainMenuScreen extends BaseScreen {
 			.onHover(box ->
 			{
 				setColourHover();
-				if(Gdx.input.isTouched())
+				if(Gdx.input.isTouched()) {
+					this.dispose();
 					othello.continueGame();
+				}
 			})
 			.noHover(box -> setColourNoHover())
 			.after(box -> drawTextInBox("Continue", box))
 			.hover(mousePos.x, mousePos.y);
-		
+
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 470 && mousePos.y < 520) {
 			// SPRITE_BATCH.draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 520, 500, Align.left, true);
-			
+
 			if (Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToPlayerSelect();
@@ -112,12 +120,12 @@ public class MainMenuScreen extends BaseScreen {
 			optionsFont.draw(SPRITE_BATCH, "New Game", 850, 520, 500, Align.left, true);
 
 		}
-		
+
 		if (mousePos.x > 850 && mousePos.x < 1180 && mousePos.y > 410 && mousePos.y < 460) {
 			// SPRITE_BATCH.draw(playButton, 850, 360);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
 			optionsFont.draw(SPRITE_BATCH, "Multiplayer", 850, 460, 500, Align.left, true);
-			
+
 			if (Gdx.input.isTouched()) {
 				this.dispose();
 				othello.switchToMultiplaer();
@@ -144,7 +152,7 @@ public class MainMenuScreen extends BaseScreen {
 			optionsFont.setColor(1f, 1f, 1f, 1f);
 			optionsFont.draw(SPRITE_BATCH, "Tutorial", 850, 395, 500, Align.left, true);
 		}
-		
+
 		if (mousePos.x > 850 && mousePos.x < 1080 && mousePos.y > 290 && mousePos.y < 340) {
 			// SPRITE_BATCH.draw(tutorialButton, 850, 300);
 			optionsFont.setColor(0.83f, 0.94f, 0.68f, 1f);
@@ -159,13 +167,15 @@ public class MainMenuScreen extends BaseScreen {
 			optionsFont.setColor(1f, 1f, 1f, 1f);
 			optionsFont.draw(SPRITE_BATCH, "Options", 850, 340, 500, Align.left, true);
 		}
-		
+
 		new ScreenBoxField(850, 240, 110, 40)
 		.onHover(box ->
 		{
 			setColourHover();
-			if(Gdx.input.isTouched())
+			if(Gdx.input.isTouched()) {
+				this.dispose();
 				Gdx.app.exit();
+			}
 		})
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Exit", box))
@@ -192,7 +202,7 @@ public class MainMenuScreen extends BaseScreen {
 	/**
 	 * Draw a {@link String} into at a location which is defined by a
 	 * {@link ScreenBoxField} object.
-	 * 
+	 *
 	 * @param text The {@link String} to be drawn.
 	 * @param box The {@link ScreenBoxField} which contains the details of
 	 * 			where to draw the <code>text</code>.

@@ -10,14 +10,12 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
-import com.othellog4.environment.Launcher;
-import com.othellog4.game.GameModel;
 import com.othellog4.graphics.GraphicsUtil;
 
 /**
  * Provides an option menu for users to adjust the background music volume and
  * whether sound effects should be on or off
- * 
+ *
  * @author Zak Hirsi
  * @author BRUNO ZORIMA
  * @since 06/02/2018
@@ -40,13 +38,13 @@ public class OptionScreen extends BaseScreen {
 	Texture greyPiece;
 	Texture whitePiece;
 	Texture blackPiece;
-	Texture highlightedPiece;
+	//Texture highlightedPiece;
 
 	long soundValue;
 
 	/**
 	 * The constructor where everything is initialised
-	 * 
+	 *
 	 * @param othello
 	 */
 	public OptionScreen(Othello othello) {
@@ -80,6 +78,15 @@ public class OptionScreen extends BaseScreen {
 		greyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece =  GraphicsUtil.createMipMappedTex("blackpiece.png");
+
+		// Add disposable objects to cleanup list
+		disposables.add(titleFont);
+		disposables.add(optionsFont);
+		disposables.add(background);
+		disposables.add(greyPiece);
+		disposables.add(whitePiece);
+		disposables.add(blackPiece);
+		//disposables.add(highlightedPiece);
 	}
 
 	@Override

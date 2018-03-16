@@ -25,14 +25,14 @@ import com.othellog4.graphics.ScreenBoxField;
 
 /**
  * Allows players to access online play
- * 
+ *
  * @author Zak Hirsi
  * @author John Berg
  * @since 08/03/2018
  */
 public class MultiplayerMenuScreen extends BaseScreen {
 	Texture background;
-	Texture mascotButton;
+	Texture backButton;
 	Texture numbers;
 	TextureRegion[] animationFrames;
 	Animation<TextureRegion> animation;
@@ -48,7 +48,7 @@ public class MultiplayerMenuScreen extends BaseScreen {
 	CheckBox checkbox;
 
 	Othello othello;
-	
+
 	private PlayerType players = PlayerType.USER;
 
 	Boolean con;
@@ -63,7 +63,7 @@ public class MultiplayerMenuScreen extends BaseScreen {
 		this.othello = othello;
 
 		background = new Texture("backgroundNew.png");
-		mascotButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 		numbers = new Texture("animation.png");
 
 		TextureRegion[][] tempFrames = TextureRegion.split(numbers, 400, 400);
@@ -113,8 +113,15 @@ public class MultiplayerMenuScreen extends BaseScreen {
 		checkbox.setText("  Host");
 		stage.addActor(checkbox);
 
+		// Add disposable objects to cleanup list
+		disposables.add(background);
+		disposables.add(backButton);
+		disposables.add(numbers);
+		disposables.add(stage);
+		disposables.add(optionsFont);
 	}
 
+	@Override
 	public void render(float delta) {
 		elapsedTime += delta;
 		SPRITE_BATCH.begin();
@@ -131,8 +138,8 @@ public class MultiplayerMenuScreen extends BaseScreen {
 				this.dispose();
 				othello.switchToMenu();
 			}
-		}).after(box -> SPRITE_BATCH.draw(mascotButton, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
-		.hover(mousePos.x, mousePos.y);
+		}).after(box -> SPRITE_BATCH.draw(backButton, box.getX(), box.getY(), box.getWidth(), box.getHeight()))
+				.hover(mousePos.x, mousePos.y);
 
 		SPRITE_BATCH.end();
 
@@ -177,5 +184,4 @@ public class MultiplayerMenuScreen extends BaseScreen {
 	//	protected void postResize(int width, int height){
 	//		stage.getViewport().update(width, height, true);
 	//	}
-
 }

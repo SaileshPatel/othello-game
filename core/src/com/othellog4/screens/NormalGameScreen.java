@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.math.Vector;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
@@ -27,7 +26,7 @@ import com.othellog4.graphics.GraphicsUtil;
 public final class NormalGameScreen extends GameScreen
 {
 	private GameModel model;
-	
+
 	private BitmapFont whiteFontText;
 	private BitmapFont blackFontText;
 	private String blackPieceScore;
@@ -42,7 +41,7 @@ public final class NormalGameScreen extends GameScreen
 	boolean gameOver = false;
 
 	/**
-	 * 
+	 *
 	 * @param model takes a {@link com.othellog4.game.GameModel Model} of the game
 	 * @param game takes an instance of {@link com.othellog4.Othello Othello}
 	 */
@@ -53,11 +52,11 @@ public final class NormalGameScreen extends GameScreen
 		super(model, game);
 		super.setPlacementEnabled(true);
 		this.model = model;
-		
+
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
-		play_pause_button = GraphicsUtil.createMipMappedTex("play_pause-button.png");
-		
+		play_pause_button = GraphicsUtil.createMipMappedTex("gui/pause_button.png");
+
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
 		titleparameter.size = 35; // Size in px
@@ -67,7 +66,7 @@ public final class NormalGameScreen extends GameScreen
 		titlegenerator.dispose();
 		whiteFontText.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		whiteFontText.setColor(1f, 1f, 1f, 1f);
-		
+
 		FreeTypeFontGenerator titleGen = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titlePara = new FreeTypeFontParameter();
 		titlePara.size = 35; // Size in px
@@ -87,7 +86,6 @@ public final class NormalGameScreen extends GameScreen
 
 	@Override
 	protected void postRender(float delta) {
-		// TODO Auto-generated method stub
 //		System.out.println(GraphicsUtil.getMousePos());
 		Vector2 mousePos  = GraphicsUtil.getMousePos();
 		blackPieceScore = Integer.toString(model.getBoard().count(Piece.PIECE_A));
@@ -139,7 +137,7 @@ public final class NormalGameScreen extends GameScreen
 		else {
 			whiteFontText.draw(SPRITE_BATCH, blackPieceScore, 1500, 815 , 500, Align.left, true);
 			blackFontText.draw(SPRITE_BATCH, whitePieceScore,1370 , 815, 500, Align.left, true);
-		}		
+		}
 		SPRITE_BATCH.end();
 
 	}
@@ -148,6 +146,7 @@ public final class NormalGameScreen extends GameScreen
 		setPlacementEnabled(model.isWaiting());
 		if(!gameOver && model.isGameOver()) {
 			Launcher.get().clear();
+			System.out.println("Creating new end game screen");
 			game.setScreen(new EndGameScreen(game, this, model.score()));
 			gameOver = true;
 		}

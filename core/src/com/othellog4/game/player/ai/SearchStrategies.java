@@ -124,6 +124,7 @@ public enum SearchStrategies implements SearchStrategy
 		{
 			//4 IS A REASONABLE DEPTH_LIMIT HOWEVER FOR LOW END COMPUTERS THIS MAY NEED TO BE LOWERED
 			final int DEPTH_LIMIT = 4;
+
 			final java.util.Random rng = new java.util.Random(new Date().getTime());
 
 			Position finalPosition = null;
