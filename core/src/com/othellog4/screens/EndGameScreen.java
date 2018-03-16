@@ -378,7 +378,7 @@ public class EndGameScreen extends BaseScreen {
 				animationFinished = true;
 			}
 
-			if(Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
+			if(Gdx.input.isKeyPressed(Input.Keys.ENTER) || Gdx.input.isTouched()) {
 				// Return to main menu
 				screen.dispose(); // Dispose game screen
 				this.dispose();
