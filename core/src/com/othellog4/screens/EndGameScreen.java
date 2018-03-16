@@ -219,6 +219,10 @@ public class EndGameScreen extends BaseScreen {
 				messageText = p2Name.toUpperCase() + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex
 						("mascot/end_screen/win.png");
+			} else {
+				messageText = "DRAW!";
+				mascot = GraphicsUtil.createMipMappedTex
+						("mascot/end_screen/draw.png");
 			}
 			textText[TIME_TAKEN] = "Time taken:\n" + p1Name + ": " +
 					p1PrettyTime + "     " + p2Name + ": " + p2PrettyTime;
