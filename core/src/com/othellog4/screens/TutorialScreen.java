@@ -57,7 +57,7 @@ public class TutorialScreen extends GameScreen {
 	private TutorialSequence sequence;
 	private TutorialState currentState;
 	private float timer;
-	private boolean enterPreviouslyPressed;
+	private boolean advanceKeyPreviouslyPressed;
 
 	Color gradientTop;
 	Color gradientBottom;
@@ -216,6 +216,8 @@ public class TutorialScreen extends GameScreen {
 
 		AssistedMoveState assistedMoveState = (AssistedMoveState) currentState;
 
+		advanceKeyPreviouslyPressed = true; // Stop clicking when placing incrementing the state
+
 		setPlacementEnabled(false);
 		if(assistedMoveState.isValidMove(position)) {
 			incrementState();
@@ -237,8 +239,8 @@ public class TutorialScreen extends GameScreen {
 	 */
 	@Override
 	protected void postUpdate(float delta) {
-	    if(Gdx.input.isKeyPressed(Input.Keys.ENTER)){
-			if(!enterPreviouslyPressed) {
+	    if(Gdx.input.isKeyPressed(Input.Keys.ENTER) || Gdx.input.isTouched()){
+			if(!advanceKeyPreviouslyPressed) {
 				if(currentState instanceof AssistedMoveState) {
 					AssistedMoveState assistedMoveState = (AssistedMoveState) currentState;
 					if(assistedMoveState.isMessageActive()) {
@@ -248,11 +250,11 @@ public class TutorialScreen extends GameScreen {
 					}
 				} else {
 					incrementState();
-					enterPreviouslyPressed = true;
+					advanceKeyPreviouslyPressed = true;
 				}
 			}
 		} else {
-			enterPreviouslyPressed = false;
+			advanceKeyPreviouslyPressed = false;
 		}
 	}
 
