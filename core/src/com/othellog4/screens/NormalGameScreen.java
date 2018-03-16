@@ -160,7 +160,7 @@ public final class NormalGameScreen extends GameScreen
 		setPlacementEnabled(model.isWaiting());
 		if(!gameOver && model.isGameOver()) {
 			Launcher.get().clear();
-			System.out.println("Creating new end game screen");
+			backButtonEnabled = false;
 			game.setScreen(new EndGameScreen(game, this, model.score()));
 			gameOver = true;
 		}

@@ -126,7 +126,7 @@ public abstract class BaseScreen extends ScreenAdapter {
 	 * @param game
 	 */
 	protected void renderBackButton() {
-		if(!backButtonEnabled) return;
+		//if(!backButtonEnabled) return;
 		SPRITE_BATCH.draw(backButton, backXPos, backYPos, buttonWidth, buttonWidth);
 	}
 
