@@ -106,16 +106,27 @@ public class OptionScreen extends BaseScreen {
 		// Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Music", 400, 350, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Sound Effects", 400, 250, 500, Align.left, true);
+		optionsFont.setColor(1f, 1f, 1f, 1f);
+		optionsFont.draw(SPRITE_BATCH, "Credits", 1420, 50, 500, Align.left, true);
 
 		// back button logic to exit the screen
-		if (mousePos.x > xPosition && mousePos.x < xPosition + buttonWidth && mousePos.y > yPosition
-				&& mousePos.y < yPosition + buttonHeight) {
+//		if (mousePos.x > xPosition && mousePos.x < xPosition + buttonWidth && mousePos.y > yPosition
+//				&& mousePos.y < yPosition + buttonHeight) {
+//			if (Gdx.input.justTouched()) {
+//				this.dispose();
+//				othello.switchToMenu();
+//			}
+//		}
+		backButton(othello);
+		
+
+		if (mousePos.x > 1420 && mousePos.x < 1580 && mousePos.y > 10
+				&& mousePos.y <48) {
 			if (Gdx.input.justTouched()) {
 				this.dispose();
-				othello.switchToMenu();
+				othello.switchCredits();
 			}
 		}
-
 		// Slider for music
 
 		int xPos = 800;

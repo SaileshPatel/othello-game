@@ -11,6 +11,7 @@ import com.othellog4.environment.Launcher;
 import com.othellog4.environment.PlayerType;
 import com.othellog4.game.GameModel;
 import com.othellog4.screens.BaseScreen;
+import com.othellog4.screens.CreditScreen;
 import com.othellog4.screens.MainMenuScreen;
 import com.othellog4.screens.MultiplayerMenuScreen;
 import com.othellog4.screens.NormalGameScreen;
@@ -124,6 +125,10 @@ public class Othello extends Game {
 	 */
 	public void switchToMultiplaer(){
 		setScreen (new MultiplayerMenuScreen(this));
+	}
+	
+	public void switchCredits(){
+		setScreen (new CreditScreen(this));
 	}
 
 	/**

@@ -53,6 +53,8 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		boardRenderer = new BoardRenderer(model);
 		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 
+		
+		
 		// Add disposable objects to cleanup list
 		disposables.add(boardRenderer);
 		disposables.add(backButton);
@@ -81,6 +83,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	 */
 	public final void update(final float delta) {
 		boardRenderer.update();
+		
 		if(!isPressed)
 		{
 			// when a left click happens
@@ -99,20 +102,23 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 						catch (GameException e)
 						{
 							printMessage(e.toString());
+							game.pieceRejectedSound();
 						}
 			}
 		}
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
 		postUpdate(delta);
-		Vector2 mousePos  = GraphicsUtil.getMousePos();
-		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				Launcher.get().cache(model);
-				game.switchToMenu();
-			}
-		}
+//		Vector2 mousePos  = GraphicsUtil.getMousePos();
+//		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
+//			if(Gdx.input.justTouched()){
+//				this.dispose();
+//				Launcher.get().cache(model);
+//				game.switchToMenu();
+//			}
+//		}
+		
+		backButton(model,game);
 	}
 
 	/**

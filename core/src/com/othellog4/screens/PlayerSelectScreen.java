@@ -213,22 +213,22 @@ public class PlayerSelectScreen extends BaseScreen{
 
 
 
-		new ScreenBoxField(0, 800, 100, 100)
-		.onHover(box -> {
-			if(Gdx.input.justTouched()){
-				this.dispose();
-				othello.switchToMenu();
-			}
-		})
-		.after(box -> SPRITE_BATCH.draw(
-				backButton,
-				box.getX(),
-				box.getY(),
-				box.getWidth(),
-				box.getHeight()))
-		.hover(mousePos.x, mousePos.y);
-
-
+//		new ScreenBoxField(0, 800, 100, 100)
+//		.onHover(box -> {
+//			if(Gdx.input.justTouched()){
+//				this.dispose();
+//				othello.switchToMenu();
+//			}
+//		})
+//		.after(box -> SPRITE_BATCH.draw(
+//				backButton,
+//				box.getX(),
+//				box.getY(),
+//				box.getWidth(),
+//				box.getHeight()))
+//		.hover(mousePos.x, mousePos.y);
+		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
+		backButton(othello);
 
 
 
