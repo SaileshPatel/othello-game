@@ -33,7 +33,6 @@ public class OptionScreen extends BaseScreen {
 	int buttonHeight = 100;
 	int xPosition = 0;
 	int yPosition = Othello.GAME_WORLD_HEIGHT - buttonHeight;
-	private Texture backButton;
 
 	Texture background;
 	Texture greyPiece;
@@ -50,8 +49,6 @@ public class OptionScreen extends BaseScreen {
 	 */
 	public OptionScreen(Othello othello) {
 		this.othello = othello;
-
-		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
@@ -90,8 +87,14 @@ public class OptionScreen extends BaseScreen {
 		//disposables.add(highlightedPiece);
 	}
 
+	public void update(float delta) {
+		updateBackButton(othello);
+	}
+
 	@Override
 	public void render(float delta) {
+		update(delta);
+
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		SPRITE_BATCH.begin();
@@ -106,10 +109,6 @@ public class OptionScreen extends BaseScreen {
 		optionsFont.draw(SPRITE_BATCH, "Sound Effects", 400, 250, 500, Align.left, true);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 		optionsFont.draw(SPRITE_BATCH, "Credits", 1420, 50, 500, Align.left, true);
-
-
-		renderBackButton(othello);
-		
 
 		if (mousePos.x > 1420 && mousePos.x < 1580 && mousePos.y > 10
 				&& mousePos.y <48) {
@@ -183,6 +182,8 @@ public class OptionScreen extends BaseScreen {
 			size += 10;
 
 		}
+
+		renderBackButton();
 
 		SPRITE_BATCH.end();
 	}

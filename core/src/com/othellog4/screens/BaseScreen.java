@@ -21,7 +21,7 @@ import com.othellog4.graphics.GraphicsUtil;
 /**
  * A base screen which can be built upon later. All new screens should inherit
  * from here.
- * 
+ *
  * @author James Shorthouse
  * @version 06/03/2017
  *
@@ -32,10 +32,11 @@ public abstract class BaseScreen extends ScreenAdapter {
 	public final static SpriteBatch SPRITE_BATCH;
 	public final static ShapeRenderer SHAPE_RENDER;
 
+	protected boolean backButtonEnabled = true;
+
 	int buttonWidth = 100;
-	int buttonHeight = 100;
-	float xPos = 0;
-	float yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
+	private float backXPos = 20;
+	private float backYPos = Othello.GAME_WORLD_HEIGHT - (20 + buttonWidth);
 	private Texture backButton;
 
 	protected ArrayList<Disposable> disposables;
@@ -60,6 +61,9 @@ public abstract class BaseScreen extends ScreenAdapter {
 	public BaseScreen() {
 		super();
 		disposables = new ArrayList<Disposable>();
+
+		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		disposables.add(backButton);
 	}
 
 	/**
@@ -82,7 +86,7 @@ public abstract class BaseScreen extends ScreenAdapter {
 
 	/**
 	 * Perform additional implementation specific resizing
-	 * 
+	 *
 	 * @param width
 	 * @param height
 	 */
@@ -120,34 +124,33 @@ public abstract class BaseScreen extends ScreenAdapter {
 	 * @param model
 	 * @param game
 	 */
-	public void renderBackButton(GameModel model, Othello game) {
-		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
-		
-		Vector2 mousePos = GraphicsUtil.getMousePos();
-		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos
-				&& mousePos.y < yPos + buttonHeight) {
-			if (Gdx.input.justTouched()) {
-				this.dispose();
-				Launcher.get().cache(model);
-				game.switchToMenu();
-			}
+	protected void renderBackButton() {
+		if(!backButtonEnabled) return;
+		SPRITE_BATCH.draw(backButton, backXPos, backYPos, buttonWidth, buttonWidth);
+	}
+
+	protected void updateBackButton(Othello game) {
+		if(!backButtonEnabled) return;
+		System.out.println(backButtonClicked());
+		if(backButtonClicked()) {
+			this.dispose();
+			game.switchToMenu();
 		}
 	}
 
-	/**
-	 * Creates back button logic for every other screen than the game screen
-	 */
-	public void renderBackButton(Othello game) {
-		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
-		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
-		Vector2 mousePos = GraphicsUtil.getMousePos();
-		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos
-				&& mousePos.y < yPos + buttonHeight) {
-			if (Gdx.input.justTouched()) {
-				this.dispose();
-				game.switchToMenu();
-			}
+	protected void updateBackButton(Othello game, GameModel model) {
+		if(!backButtonEnabled) return;
+		if(backButtonClicked()) {
+			Launcher.get().cache(model);
+			this.dispose();
+			game.switchToMenu();
 		}
+	}
+
+	private boolean backButtonClicked() {
+		Vector2 mousePos = GraphicsUtil.getMousePos();
+		return ((mousePos.x > backXPos && mousePos.x < backXPos + buttonWidth && mousePos.y > backYPos
+				&& mousePos.y < backYPos + buttonWidth) && Gdx.input.justTouched());
 	}
 
 	/**

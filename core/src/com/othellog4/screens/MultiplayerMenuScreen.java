@@ -32,16 +32,10 @@ import com.othellog4.graphics.ScreenBoxField;
  */
 public class MultiplayerMenuScreen extends BaseScreen {
 	Texture background;
-	Texture backButton;
 	Texture numbers;
 	TextureRegion[] animationFrames;
 	Animation<TextureRegion> animation;
 	float elapsedTime;
-
-	int buttonWidth = 100;
-	int buttonHeight = 100;
-	int xPos = 0;
-	int yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
 
 	TextField textBox;
 	TextButton textButton;
@@ -63,7 +57,6 @@ public class MultiplayerMenuScreen extends BaseScreen {
 		this.othello = othello;
 
 		background = new Texture("backgroundNew.png");
-		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 		numbers = new Texture("animation.png");
 
 		TextureRegion[][] tempFrames = TextureRegion.split(numbers, 400, 400);
@@ -115,14 +108,18 @@ public class MultiplayerMenuScreen extends BaseScreen {
 
 		// Add disposable objects to cleanup list
 		disposables.add(background);
-		disposables.add(backButton);
 		disposables.add(numbers);
 		disposables.add(stage);
 		disposables.add(optionsFont);
 	}
 
+	public void update(float delta) {
+		updateBackButton(othello);
+	}
+
 	@Override
 	public void render(float delta) {
+		update(delta);
 		elapsedTime += delta;
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
@@ -132,9 +129,6 @@ public class MultiplayerMenuScreen extends BaseScreen {
 
 		new ScreenBoxField(650, 450, 400, 40).before(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Multiplayer", box)).hover(mousePos.x, mousePos.y);
-
-		renderBackButton(othello);
-
 
 		SPRITE_BATCH.end();
 
@@ -159,6 +153,9 @@ public class MultiplayerMenuScreen extends BaseScreen {
 			SPRITE_BATCH.draw(animation.getKeyFrame(elapsedTime,true),550,25);
 
 		}
+
+		renderBackButton();
+
 		SPRITE_BATCH.end();
 
 		stage.act();

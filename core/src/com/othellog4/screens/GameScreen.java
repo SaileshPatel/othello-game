@@ -5,15 +5,11 @@ import java.util.Observer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.math.Vector2;
 import com.othellog4.Othello;
-import com.othellog4.environment.Launcher;
 import com.othellog4.game.GameException;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
 import com.othellog4.graphics.BoardRenderer;
-import com.othellog4.graphics.GraphicsUtil;
 
 /**
  * The screen which displays a game of Othello.
@@ -32,11 +28,6 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	protected Othello game;
 	protected BoardRenderer boardRenderer;
 	protected GameModel model;
-	int buttonWidth = 100;
-	int buttonHeight = 100;
-	float xPos = 0;
-	float yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
-	private Texture backButton;
 	private boolean placementEnabled;
 
 	//=========================================================================
@@ -51,12 +42,10 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		this.model.addObserver(this);
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
-		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
-		
-		
+
+
 		// Add disposable objects to cleanup list
 		disposables.add(boardRenderer);
-		disposables.add(backButton);
 	}
 	//=========================================================================
 	//Methods.
@@ -82,7 +71,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	 */
 	public final void update(final float delta) {
 		boardRenderer.update();
-		
+
 		if(!isPressed)
 		{
 			// when a left click happens
@@ -109,8 +98,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 			isPressed = false;
 		postUpdate(delta);
 
-		
-		renderBackButton(model,game);
+		updateBackButton(game, model);
 	}
 
 	/**
@@ -130,9 +118,7 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		boardRenderer.render(delta);
 		postRender(delta);
 		SPRITE_BATCH.begin();
-		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
-		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		renderBackButton();
 		SPRITE_BATCH.end();
 	}
 	@Override
