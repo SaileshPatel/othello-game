@@ -89,7 +89,7 @@ public class Game
 	/**
 	 * The last {@link GameEvent} which was not broadcasted.
 	 */
-	private GameEvent lastEvent;
+	private volatile GameEvent lastEvent;
 	/**
 	 * The {@link Set} of {@link GameListener} objects to update.
 	 *
@@ -218,7 +218,7 @@ public class Game
 	 * {@link GameEvent} which was ready to be issued, then set the last event
 	 * to <code>null</code>. 
 	 */
-	private void resume()
+	private synchronized void resume()
 	{
 		if(lastEvent != null)
 		{
@@ -308,7 +308,7 @@ public class Game
 	 * @return <code>true</code> if the events are enabled, otherwise, return
 	 * 			<code>false</code>.
 	 */
-	public final boolean isEventEnabled()
+	public final synchronized boolean isEventEnabled()
 	{
 		return enableEvent;
 	}
@@ -373,7 +373,7 @@ public class Game
 	 * 
 	 * @param enable The status to set the event enable status to.
 	 */
-	public final void enableEvent(final boolean enable)
+	public final synchronized void enableEvent(final boolean enable)
 	{
 		if(enable && !enableEvent)
 			resume();
