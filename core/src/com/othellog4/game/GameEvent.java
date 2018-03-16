@@ -6,7 +6,7 @@ package com.othellog4.game;
  *
  * @author 	159014260 John Berg
  * @since	25/01/2018
- * @version 04/03/2018
+ * @version 16/03/2018
  */
 public enum GameEvent
 {
@@ -29,5 +29,9 @@ public enum GameEvent
 	/**
 	 * Signals the game is ready to continue.
 	 */
-	STANDBY;
+	STANDBY,
+	/**
+	 * Signal the acceptance of a placement.
+	 */
+	ACCEPTED_PLACMENT;
 }
