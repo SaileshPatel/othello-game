@@ -97,8 +97,6 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
 		postUpdate(delta);
-
-		updateBackButton(game, model);
 	}
 
 	/**

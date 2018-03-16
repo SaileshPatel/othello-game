@@ -256,6 +256,8 @@ public class TutorialScreen extends GameScreen {
 		} else {
 			advanceKeyPreviouslyPressed = false;
 		}
+
+		updateBackButton(game);
 	}
 
 	/**

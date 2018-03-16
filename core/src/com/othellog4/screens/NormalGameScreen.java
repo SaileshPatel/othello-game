@@ -164,6 +164,8 @@ public final class NormalGameScreen extends GameScreen
 			game.setScreen(new EndGameScreen(game, this, model.score()));
 			gameOver = true;
 		}
+
+		updateBackButton(game, model);
 	}
 
 }
