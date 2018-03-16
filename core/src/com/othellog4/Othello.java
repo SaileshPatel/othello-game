@@ -159,11 +159,11 @@ public class Othello extends Game {
 	}
 
 	public long pieceFlippedSound() {
-		return pieceFlippedSound.play();
+		return pieceFlippedSound.play(currentVolume);
 	}
 
 	public long pieceRejectedSound() {
-		return pieceRejectedSound.play();
+		return pieceRejectedSound.play(currentVolume);
 	}
 
 	/**
