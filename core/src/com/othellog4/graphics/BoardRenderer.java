@@ -83,10 +83,7 @@ public class BoardRenderer implements Disposable {
 		/*
 		 * A series of images needed
 		 */
-		background = new Texture("wood.jpeg");
-//		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
-//		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
-//		emptyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
+		background = GraphicsUtil.createMipMappedTex("wood.jpg");
 		pieceHighlight = GraphicsUtil.createMipMappedTex("piecehighlight.png");
 
 		tempFelt = GraphicsUtil.createMipMappedTex("felt.png");

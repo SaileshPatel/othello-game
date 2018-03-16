@@ -55,7 +55,7 @@ public final class NormalGameScreen extends GameScreen
 
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
-		play_pause_button = GraphicsUtil.createMipMappedTex("play_pause-button.png");
+		play_pause_button = GraphicsUtil.createMipMappedTex("gui/pause_button.png");
 
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
