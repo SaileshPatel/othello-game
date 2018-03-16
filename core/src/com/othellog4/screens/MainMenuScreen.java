@@ -58,7 +58,7 @@ public class MainMenuScreen extends BaseScreen {
 		titleFont.setColor(0f, 0f, 0f, 1f);
 		titleFont.setColor(0f, 0f, 0f, 1f);
 
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/overpass-bold.otf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 64; // Size in px
 		parameter.spaceY = -25; // Vertical spacing
@@ -168,7 +168,7 @@ public class MainMenuScreen extends BaseScreen {
 			optionsFont.draw(SPRITE_BATCH, "Options", 850, 340, 500, Align.left, true);
 		}
 
-		new ScreenBoxField(850, 240, 110, 40)
+		new ScreenBoxField(850, 240, 150, 40)
 		.onHover(box ->
 		{
 			setColourHover();
