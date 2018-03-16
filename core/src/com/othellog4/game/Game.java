@@ -375,9 +375,10 @@ public class Game
 	 */
 	public final synchronized void enableEvent(final boolean enable)
 	{
-		if(enable && !enableEvent)
-			resume();
+		boolean temp = isEventEnabled();
 		enableEvent = enable;
+		if(!temp && enableEvent)
+			resume();
 	}
 	/**
 	 * Put the current {@link Piece} at a specific {@link Position}.
