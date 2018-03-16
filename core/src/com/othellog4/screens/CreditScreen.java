@@ -27,7 +27,7 @@ public class CreditScreen extends BaseScreen {
 		background = new Texture("credits.png");
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
-		currentY = -2600;
+		currentY = -1600;
 		
 		//largeFont = GraphicsUtil.generateFont("fonts/overpass-bold.otf", 200, 0);
 
@@ -43,7 +43,7 @@ public class CreditScreen extends BaseScreen {
 
 		if (currentY <= 900) {
 
-			SPRITE_BATCH.draw(background, 0, currentY, 1600, 2500);
+			SPRITE_BATCH.draw(background, 0, currentY, 1600, 3000);
 
 		}
 

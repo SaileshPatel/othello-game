@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
@@ -123,6 +124,10 @@ public class OptionScreen extends BaseScreen {
 		if (mousePos.x > 1420 && mousePos.x < 1580 && mousePos.y > 10
 				&& mousePos.y <48) {
 			if (Gdx.input.justTouched()) {
+				BaseScreen.SHAPE_RENDER.begin(ShapeType.Filled);
+				BaseScreen.SHAPE_RENDER.setColor(0f, 0f,0f, 1);
+				BaseScreen.SHAPE_RENDER.rect(0, 0, 1600, 900);
+				BaseScreen.SHAPE_RENDER.end();
 				this.dispose();
 				othello.switchCredits();
 			}
