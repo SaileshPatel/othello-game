@@ -52,7 +52,6 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
 		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
-
 		
 		
 		// Add disposable objects to cleanup list
@@ -109,16 +108,9 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
 			isPressed = false;
 		postUpdate(delta);
-//		Vector2 mousePos  = GraphicsUtil.getMousePos();
-//		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos && mousePos.y < yPos + buttonHeight) {
-//			if(Gdx.input.justTouched()){
-//				this.dispose();
-//				Launcher.get().cache(model);
-//				game.switchToMenu();
-//			}
-//		}
+
 		
-		backButton(model,game);
+		renderBackButton(model,game);
 	}
 
 	/**

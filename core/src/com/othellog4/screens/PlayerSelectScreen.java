@@ -209,26 +209,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, GAME_WORLD_WIDTH, GAME_WORLD_HEIGHT);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
-		//System.out.println(mousePos.x + " " + mousePos.y);
-
-
-
-//		new ScreenBoxField(0, 800, 100, 100)
-//		.onHover(box -> {
-//			if(Gdx.input.justTouched()){
-//				this.dispose();
-//				othello.switchToMenu();
-//			}
-//		})
-//		.after(box -> SPRITE_BATCH.draw(
-//				backButton,
-//				box.getX(),
-//				box.getY(),
-//				box.getWidth(),
-//				box.getHeight()))
-//		.hover(mousePos.x, mousePos.y);
-		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
-		backButton(othello);
+		renderBackButton(othello);
 
 
 

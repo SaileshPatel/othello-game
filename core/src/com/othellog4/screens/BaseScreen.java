@@ -120,7 +120,7 @@ public abstract class BaseScreen extends ScreenAdapter {
 	 * @param model
 	 * @param game
 	 */
-	public void backButton(GameModel model, Othello game) {
+	public void renderBackButton(GameModel model, Othello game) {
 		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
 		
 		Vector2 mousePos = GraphicsUtil.getMousePos();
@@ -137,8 +137,9 @@ public abstract class BaseScreen extends ScreenAdapter {
 	/**
 	 * Creates back button logic for every other screen than the game screen
 	 */
-	public void backButton(Othello game) {
+	public void renderBackButton(Othello game) {
 		backButton = GraphicsUtil.createMipMappedTex("backButton.png");
+		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 		if (mousePos.x > xPos && mousePos.x < xPos + buttonWidth && mousePos.y > yPos
 				&& mousePos.y < yPos + buttonHeight) {

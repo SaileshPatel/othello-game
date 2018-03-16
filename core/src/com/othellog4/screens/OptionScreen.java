@@ -97,28 +97,18 @@ public class OptionScreen extends BaseScreen {
 		SPRITE_BATCH.begin();
 		SPRITE_BATCH.draw(background, 0, 0, Othello.GAME_WORLD_WIDTH, Othello.GAME_WORLD_HEIGHT);
 		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-		SPRITE_BATCH.draw(backButton, xPosition, yPosition, buttonWidth, buttonHeight);
 		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 
 		optionsFont.setColor(0f, 0f, 0f, 1f);
-		// optionsFont.draw(SPRITE_BATCH, "Sound Effects", 400, 200, 500,
-		// Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Music", 400, 350, 500, Align.left, true);
 		optionsFont.draw(SPRITE_BATCH, "Sound Effects", 400, 250, 500, Align.left, true);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 		optionsFont.draw(SPRITE_BATCH, "Credits", 1420, 50, 500, Align.left, true);
 
-		// back button logic to exit the screen
-//		if (mousePos.x > xPosition && mousePos.x < xPosition + buttonWidth && mousePos.y > yPosition
-//				&& mousePos.y < yPosition + buttonHeight) {
-//			if (Gdx.input.justTouched()) {
-//				this.dispose();
-//				othello.switchToMenu();
-//			}
-//		}
-		backButton(othello);
+
+		renderBackButton(othello);
 		
 
 		if (mousePos.x > 1420 && mousePos.x < 1580 && mousePos.y > 10

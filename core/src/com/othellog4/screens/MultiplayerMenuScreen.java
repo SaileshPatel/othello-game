@@ -133,8 +133,7 @@ public class MultiplayerMenuScreen extends BaseScreen {
 		new ScreenBoxField(650, 450, 400, 40).before(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Multiplayer", box)).hover(mousePos.x, mousePos.y);
 
-		SPRITE_BATCH.draw(backButton, xPos, yPos, buttonWidth, buttonHeight);
-		backButton(othello);
+		renderBackButton(othello);
 
 
 		SPRITE_BATCH.end();
