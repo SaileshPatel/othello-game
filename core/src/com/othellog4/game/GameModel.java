@@ -25,7 +25,7 @@ import com.othellog4.game.player.Player;
  *
  * @author 	159014260 John Berg
  * @since 	01/12/2017
- * @version 15/03/2018
+ * @version 16/03/2018
  */
 public class GameModel extends Observable
 {
@@ -97,7 +97,7 @@ public class GameModel extends Observable
 	 */
 	public final boolean isStarted()
 	{
-		return manager.game().getCurrentState() != GameState.READY;
+		return manager.game().isStarted();
 	}
 	/**
 	 * Check if the game is currently being played.
@@ -107,7 +107,17 @@ public class GameModel extends Observable
 	 */
 	public final boolean isPlaying()
 	{
-		return manager.game().getCurrentState() == GameState.PLAYING;
+		return manager.game().isPlaying();
+	}
+	/**
+	 * Check if the game is currently paused.
+	 * 
+	 * @return <code>true</code> if the game is paused, otherwise, returns
+	 * 			<code>false</code>.
+	 */
+	public final boolean isPaused()
+	{
+		return manager.game().isPaused();
 	}
 	/**
 	 * Check if the {@link GameModel} has a game which has ended.
