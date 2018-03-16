@@ -3,6 +3,7 @@ package com.othellog4.screens;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -150,7 +151,8 @@ public abstract class BaseScreen extends ScreenAdapter {
 	private boolean backButtonClicked() {
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 		return ((mousePos.x > backXPos && mousePos.x < backXPos + buttonWidth && mousePos.y > backYPos
-				&& mousePos.y < backYPos + buttonWidth) && Gdx.input.justTouched());
+				&& mousePos.y < backYPos + buttonWidth) && Gdx.input.justTouched())
+				|| Gdx.input.isKeyPressed(Input.Keys.ESCAPE);
 	}
 
 	/**
