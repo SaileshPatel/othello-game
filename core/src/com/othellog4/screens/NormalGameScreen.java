@@ -86,7 +86,6 @@ public final class NormalGameScreen extends GameScreen
 
 	@Override
 	protected void postRender(float delta) {
-//		System.out.println(GraphicsUtil.getMousePos());
 		Vector2 mousePos  = GraphicsUtil.getMousePos();
 		blackPieceScore = Integer.toString(model.getBoard().count(Piece.PIECE_A));
 		whitePieceScore = Integer.toString(model.getBoard().count(Piece.PIECE_B));
@@ -99,27 +98,22 @@ public final class NormalGameScreen extends GameScreen
 		SPRITE_BATCH.draw(play_pause_button, Othello.GAME_WORLD_WIDTH - 2*buttonWidth , Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight , buttonWidth, buttonHeight);
 		//Pause functionality implemented
 		if (mousePos.x >= Othello.GAME_WORLD_WIDTH - 2*buttonWidth && mousePos.x < Othello.GAME_WORLD_WIDTH - buttonWidth && mousePos.y >= Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight && mousePos.y < Othello.GAME_WORLD_HEIGHT - 1.50f*buttonHeight) {
-			if(Gdx.input.justTouched()){
-				Launcher.get().cache(model);
-				if (model.isPlaying() && model.isWaiting()) {
-					try {
+			try {
+				if(Gdx.input.justTouched()) {
+					if(model.isPlaying()) {
 						model.pause();
-					} catch (GameException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
-				}
-				else {
-					try {
+					else {
 						model.resume();
-					} catch (GameException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
 					}
 				}
-			}
+			} catch (GameException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
 		}
-		//pause implementation
+		//pause implementation	
+		
 		//Board score implementation
 		SPRITE_BATCH.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 		if(scoreA > 9 && scoreB > 9) {
