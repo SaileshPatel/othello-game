@@ -165,15 +165,11 @@ public class BoardRenderer implements Disposable {
 
 	private void update(final Observable obs, final Object o)
 	{
-		System.out.println(o);
 		if(o == GameEvent.NEXT_TURN)
-		{
-			synchronized(obs)
+			synchronized(model)
 			{
-				((GameModel) obs).enableEvent(false);
+				model.enableEvent(false);
 			}
-
-		}
 	}
 
 	/**
