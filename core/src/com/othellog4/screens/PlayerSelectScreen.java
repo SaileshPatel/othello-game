@@ -41,7 +41,7 @@ public class PlayerSelectScreen extends BaseScreen{
 
 	public PlayerSelectScreen(Othello othello){
 		this.othello=othello;
-		background = GraphicsUtil.createMipMappedTex("wood.jpg");
+		background = GraphicsUtil.createMipMappedTex("playerSelectBG.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackStart =  GraphicsUtil.createMipMappedTex("blackStart.png");
@@ -68,7 +68,7 @@ public class PlayerSelectScreen extends BaseScreen{
 	private void preparePlayer1()
 	{
 		Vector2 mousePos = GraphicsUtil.getMousePos();
-		new ScreenBoxField(206, 540, 180, 40)
+		new ScreenBoxField(281, 480, 180, 40)
 		.before(box ->
 		{
 			if (getPlayer1() == PlayerType.USER)
@@ -83,7 +83,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Player", box))
 		.hover(mousePos.x, mousePos.y);
-		new ScreenBoxField(206, 460, 250, 40)
+		new ScreenBoxField(281, 400, 250, 40)
 		.before(box ->
 		{
 			if (getPlayer1() == PlayerType.AI_EASY)
@@ -98,7 +98,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("COM Easy", box))
 		.hover(mousePos.x, mousePos.y);
-		new ScreenBoxField(206, 380, 340, 40)
+		new ScreenBoxField(281, 320, 340, 40)
 		.before(box ->
 		{
 			if (getPlayer1() == PlayerType.AI_MEDIUM)
@@ -113,7 +113,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("COM Medium", box))
 		.hover(mousePos.x, mousePos.y);
-		new ScreenBoxField(206, 300, 250, 40)
+		new ScreenBoxField(281, 240, 250, 40)
 		.before(box ->
 		{
 			if (getPlayer1() == PlayerType.AI_HARD)
@@ -135,7 +135,7 @@ public class PlayerSelectScreen extends BaseScreen{
 	private void preparePlayer2()
 	{
 		Vector2 mousePos = GraphicsUtil.getMousePos();
-		new ScreenBoxField(900, 540, 180, 40)
+		new ScreenBoxField(1078, 480, 180, 40)
 		.before(box ->
 		{
 			if (getPlayer2() == PlayerType.USER)
@@ -150,7 +150,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("Player", box))
 		.hover(mousePos.x, mousePos.y);
-		new ScreenBoxField(900, 460, 250, 40)
+		new ScreenBoxField(1078, 400, 250, 40)
 		.before(box ->
 		{
 			if (getPlayer2() == PlayerType.AI_EASY)
@@ -165,7 +165,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("COM Easy", box))
 		.hover(mousePos.x, mousePos.y);
-		new ScreenBoxField(900, 380, 340, 40)
+		new ScreenBoxField(1078, 320, 340, 40)
 		.before(box ->
 		{
 			if (getPlayer2() == PlayerType.AI_MEDIUM)
@@ -180,7 +180,7 @@ public class PlayerSelectScreen extends BaseScreen{
 		.noHover(box -> setColourNoHover())
 		.after(box -> drawTextInBox("COM Medium", box))
 		.hover(mousePos.x, mousePos.y);
-		new ScreenBoxField(900, 300, 250, 40)
+		new ScreenBoxField(1078, 240, 250, 40)
 		.before(box ->
 		{
 			if (getPlayer2() == PlayerType.AI_HARD)
@@ -209,21 +209,20 @@ public class PlayerSelectScreen extends BaseScreen{
 		Vector2 mousePos = GraphicsUtil.getMousePos();
 
 
-
-		new ScreenBoxField(206, 626, 200, 40)
-		.before(box -> setColourNoHover())
-		.after(box -> drawTextInBox("Player 1", box))
-		.hover(mousePos.x, mousePos.y);
-
-		new ScreenBoxField(900, 626, 200, 40)
-		.before(box -> setColourNoHover())
-		.after(box -> drawTextInBox("Player 2", box))
-		.hover(mousePos.x, mousePos.y);
+//		new ScreenBoxField(206, 626, 200, 40)
+//		.before(box -> setColourNoHover())
+//		.after(box -> drawTextInBox("Player 1", box))
+//		.hover(mousePos.x, mousePos.y);
+//
+//		new ScreenBoxField(900, 626, 200, 40)
+//		.before(box -> setColourNoHover())
+//		.after(box -> drawTextInBox("Player 2", box))
+//		.hover(mousePos.x, mousePos.y);
 
 
 		preparePlayer1();
 		preparePlayer2();
-		new ScreenBoxField(500, 30, 180, 180)
+		new ScreenBoxField(600, 30, 180, 180)
 		.onHover(box -> {
 			if(Gdx.input.isTouched()) {
 				this.dispose();
