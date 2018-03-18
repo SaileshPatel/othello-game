@@ -263,9 +263,7 @@ public class Game
 		{
 			for(final GameListener listener: listeners)
 				listener.update(event);
-			if(
-					getCurrentState() == GameState.PLAYING
-					&&  event != GameEvent.STANDBY)
+			if(event == GameEvent.NEXT_TURN || event == GameEvent.BEGIN)
 				update(GameEvent.STANDBY);
 		}
 		else if(lastEvent == null)
@@ -427,6 +425,7 @@ public class Game
 		if(GameState.PLAYING == getCurrentState())
 		{
 			board.put(position, getCurrent());
+			update(GameEvent.ACCEPTED_PLACMENT);
 			advance();
 		}
 	}

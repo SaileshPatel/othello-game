@@ -26,7 +26,7 @@ public class OptionScreen extends BaseScreen {
 
 	Othello othello;
 
-	private BitmapFont titleFont;
+
 	private BitmapFont optionsFont;
 
 	int buttonWidth = 100;
@@ -50,17 +50,8 @@ public class OptionScreen extends BaseScreen {
 	public OptionScreen(Othello othello) {
 		this.othello = othello;
 
-		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
-		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
-		titleparameter.size = 120; // Size in px
-		titleparameter.spaceY = -25; // Vertical spacing
-		titleFont = titlegenerator.generateFont(titleparameter);
-		titleFont.setUseIntegerPositions(false);
-		titlegenerator.dispose();
-		titleFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
-		titleFont.setColor(1f, 1f, 1f, 1f);
 
-		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/overpass-bold.otf"));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 50; // Size in px
 		parameter.spaceY = -25; // Vertical spacing
@@ -70,7 +61,7 @@ public class OptionScreen extends BaseScreen {
 		optionsFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		optionsFont.setColor(1f, 1f, 1f, 1f);
 
-		background = new Texture("improvedMenu2.png");
+		background = GraphicsUtil.createMipMappedTex("improvedMenu2.png");
 		background.setFilter(TextureFilter.Linear, TextureFilter.Linear);
 
 		greyPiece = GraphicsUtil.createMipMappedTex("emptypiece.png");
@@ -78,7 +69,6 @@ public class OptionScreen extends BaseScreen {
 		blackPiece =  GraphicsUtil.createMipMappedTex("blackpiece.png");
 
 		// Add disposable objects to cleanup list
-		disposables.add(titleFont);
 		disposables.add(optionsFont);
 		disposables.add(background);
 		disposables.add(greyPiece);

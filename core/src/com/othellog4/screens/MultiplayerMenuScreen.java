@@ -92,7 +92,6 @@ public class MultiplayerMenuScreen extends BaseScreen {
 		textBox.setPosition(620, 405);
 
 
-
 		textButton = new TextButton("", skin);
 		textButton.setSize(100, 30);
 		textButton.setText("Submit!");
