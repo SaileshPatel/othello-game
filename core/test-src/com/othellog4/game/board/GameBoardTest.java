@@ -5,16 +5,17 @@ package com.othellog4.game.board;
 
 import static org.junit.Assert.*;
 
-import org.junit.After;
+import java.util.Optional;
+
 import org.junit.Before;
 import org.junit.Test;
 
-import com.othellog4.game.Game;
 import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.Piece;
 
 /**
- * The {@code GameBoardTest} class is a JUnit test suit for the {@link GameBoard} class.
+ * The {@code GameBoardTest} class is a JUnit test suit for the 
+ * {@link GameBoard} class.
  * Tests are applied to the standard 8x8 board.
  * 
  * @author 159148026 Arvinder Chatha
@@ -22,13 +23,13 @@ import com.othellog4.game.board.Piece;
  */
 public class GameBoardTest {
 
-	private static final Piece player1 = Piece.PIECE_A;
-	private static final Piece player2 = Piece.PIECE_B;
+	private static final Piece p1 = Piece.PIECE_A;
+	private static final Piece p2 = Piece.PIECE_B;
 	private static final int boardSize = 8;
 
 	private GameBoard board;
-	private GameBoard player1WinningBoard;
-	private GameBoard player2WinningBoard;
+	private GameBoard p1WinningBoard;
+	private GameBoard p2WinningBoard;
 
 	/**
 	 * 
@@ -36,29 +37,29 @@ public class GameBoardTest {
 	@Before
 	public void setUp(){
 		board = new GameBoard(boardSize);
-		player1WinningBoard = new GameBoard(new Piece[][]{
+		p1WinningBoard = new GameBoard(new Piece[][]{
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
-				{ null, null, null, player1, player2, null, null, null },
-				{ null, null, null, player1, player1, null, null, null },
-				{ null, null, null, player1, null, null, null, null },
+				{ null, null, null, p1, p2, null, null, null },
+				{ null, null, null, p1, p1, null, null, null },
+				{ null, null, null, p1, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null }
 		});
-		player2WinningBoard = new GameBoard(new Piece[][]{
+		p2WinningBoard = new GameBoard(new Piece[][]{
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
-				{ null, null, null, player1, player2, null, null, null },
-				{ null, null, null, player1, player2, player2, null, null },
-				{ null, null, null, player2, null, null, null, null },
-				{ null, null, player2, null, null, null, null, null },
+				{ null, null, null, p1, p2, null, null, null },
+				{ null, null, null, p1, p2, p2, null, null },
+				{ null, null, null, p2, null, null, null, null },
+				{ null, null, p2, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null }
 		});
 	}
 
-	
+
 	//=========================================================================
 	//METHODS
 	/**
@@ -68,16 +69,57 @@ public class GameBoardTest {
 	public void testIsDraw() {
 		assertTrue(board.isDraw());
 
-		assertFalse(player1WinningBoard.isDraw());
-		assertFalse(player2WinningBoard.isDraw());
+		assertFalse(p1WinningBoard.isDraw());
+		assertFalse(p2WinningBoard.isDraw());
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#put(com.othellog4.game.board.Position, com.othellog4.game.board.Piece)}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#put(
+	 * com.othellog4.game.board.Position, com.othellog4.game.board.Piece)}.
 	 */
 	@Test
 	public void testPut() {
-		fail("Not yet implemented"); // TODO
+		try {
+			board.put(Position.at(2, 4), p1);
+		}
+		catch(InvalidMoveException e) {
+			e.printStackTrace();
+		}
+		GameBoard newBoard = new GameBoard(new Piece[][]{
+				{ null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null },
+				{ null, null, null, null, p1, null, null, null },
+				{ null, null, null, p1, p1, null, null, null },
+				{ null, null, null, p2, p1, null, null, null },
+				{ null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null },
+				{ null, null, null, null, null, null, null, null }
+		});
+
+		assertEquals(newBoard.count(p1), board.count(p1));
+		assertEquals(newBoard.count(p2), board.count(p2));
+
+		assertEquals(
+				newBoard.view(Position.at(2, 4)),
+				board.view(Position.at(2, 4))
+				);
+		assertEquals(
+				newBoard.view(Position.at(3, 3)),
+				board.view(Position.at(3, 3))
+				);
+		assertEquals(
+				newBoard.view(Position.at(3, 4)),
+				board.view(Position.at(3, 4))
+				);
+		assertEquals(
+				newBoard.view(Position.at(4, 4)),
+				board.view(Position.at(4, 4))
+				);
+
+		assertEquals(
+				newBoard.view(Position.at(4, 3)),
+				board.view(Position.at(4, 3))
+				);
 	}
 
 	/**
@@ -87,19 +129,19 @@ public class GameBoardTest {
 	public void testIsEnd() {
 
 		assertFalse(board.isEnd());
-		assertFalse(player1WinningBoard.isEnd());
-		assertFalse(player2WinningBoard.isEnd());
+		assertFalse(p1WinningBoard.isEnd());
+		assertFalse(p2WinningBoard.isEnd());
 
 		//test for full board
 		GameBoard fullBoard = new GameBoard(new Piece[][]{
-				{ player1, player2, player1, player2, player2, player2, player1, player1 },
-				{ player2, player1, player1, player1, player2, player1, player1, player1 },
-				{ player2, player2, player1, player2, player2, player2, player2, player2 },
-				{ player1, player2, player2, player1, player2, player2, player2, player2 },
-				{ player2, player1, player2, player1, player2, player2, player2, player2 },
-				{ player2, player1, player2, player2, player2, player1, player2, player1 },
-				{ player1, player2, player2, player2, player1, player1, player1, player2 },
-				{ player2, player1, player2, player1, player2, player1, player2, player2 }
+				{ p1, p2, p1, p2, p2, p2, p1, p1 },
+				{ p2, p1, p1, p1, p2, p1, p1, p1 },
+				{ p2, p2, p1, p2, p2, p2, p2, p2 },
+				{ p1, p2, p2, p1, p2, p2, p2, p2 },
+				{ p2, p1, p2, p1, p2, p2, p2, p2 },
+				{ p2, p1, p2, p2, p2, p1, p2, p1 },
+				{ p1, p2, p2, p2, p1, p1, p1, p2 },
+				{ p2, p1, p2, p1, p2, p1, p2, p2 }
 		});
 		assertTrue(fullBoard.isEnd());
 
@@ -108,10 +150,10 @@ public class GameBoardTest {
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
-				{ null, null, null, player2, player2, null, null, null },
-				{ null, null, null, player2, player2, player2, null, null },
-				{ null, null, null, player2, null, null, null, null },
-				{ null, null, player2, null, null, null, null, null },
+				{ null, null, null, p2, p2, null, null, null },
+				{ null, null, null, p2, p2, p2, null, null },
+				{ null, null, null, p2, null, null, null, null },
+				{ null, null, p2, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null }
 		});
 		assertTrue(nonFullBoard.isEnd());
@@ -123,121 +165,147 @@ public class GameBoardTest {
 	@Test
 	public void testSize() {
 		assertEquals(8, board.size());
-		assertEquals(8, player1WinningBoard.size());
-		assertEquals(8, player2WinningBoard.size());
+		assertEquals(8, p1WinningBoard.size());
+		assertEquals(8, p2WinningBoard.size());
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#count(com.othellog4.game.board.Piece)}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#count(
+	 * com.othellog4.game.board.Piece)}.
 	 */
 	@Test
 	public void testCount() {
 		//standard board
-		assertEquals(2, board.count(player1));
-		assertEquals(2, board.count(player2));
-		
+		assertEquals(2, board.count(p1));
+		assertEquals(2, board.count(p2));
+
 		//player1WinningBoard
-		assertEquals(4, player1WinningBoard.count(player1));
-		assertEquals(1, player1WinningBoard.count(player2));
-		
+		assertEquals(4, p1WinningBoard.count(p1));
+		assertEquals(1, p1WinningBoard.count(p2));
+
 		//player2WinningBoard
-		assertEquals(2, player2WinningBoard.count(player1));
-		assertEquals(5, player2WinningBoard.count(player2));
+		assertEquals(2, p2WinningBoard.count(p1));
+		assertEquals(5, p2WinningBoard.count(p2));
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#countFlips(int, int, com.othellog4.game.board.Piece)}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#countFlips(
+	 * int, int, com.othellog4.game.board.Piece)}.
 	 */
 	@Test
 	public void testCountFlips() {
-		fail("Not yet implemented"); // TODO
+		//Position that flips one piece
+		assertEquals(1, board.countFlips(3, 5, p1));
+
+		//Position that flips nothing
+		assertEquals(0, board.countFlips(0, 0, p1));
+
+		//Position that flips more than one
+		assertEquals(2, p2WinningBoard.countFlips(2, 3, p2));
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#flips()}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#legalMoves(
+	 * com.othellog4.game.board.Piece)}.
 	 */
-	@Test
-	public void testFlips() {
-		fail("Not yet implemented"); // TODO
-	}
-
-	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#legalMoves(com.othellog4.game.board.Piece)}.
-	 */
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testLegalMoves() {
 		//standard board
-		assertTrue(board.legalMoves(player1).contains(new Position(4,2)));
-		assertTrue(board.legalMoves(player1).contains(new Position(5,3)));
-		assertTrue(board.legalMoves(player1).contains(new Position(3,5)));
-		assertTrue(board.legalMoves(player1).contains(new Position(2,4)));
-		assertEquals(4, board.legalMoves(player1).size());
+		assertTrue(board.legalMoves(p1).contains(Position.at(2,4)));
+		assertTrue(board.legalMoves(p1).contains(Position.at(3,5)));
+		assertTrue(board.legalMoves(p1).contains(Position.at(5,3)));
+		assertTrue(board.legalMoves(p1).contains(Position.at(4,2)));
+		assertEquals(4, board.legalMoves(p1).size());
 
-		assertTrue(board.legalMoves(player2).contains(new Position(3,2)));
-		assertTrue(board.legalMoves(player2).contains(new Position(2,3)));
-		assertTrue(board.legalMoves(player2).contains(new Position(5,4)));
-		assertTrue(board.legalMoves(player2).contains(new Position(4,5)));
-		assertEquals(4, board.legalMoves(player2).size());
+		assertTrue(board.legalMoves(p2).contains(Position.at(3,2)));
+		assertTrue(board.legalMoves(p2).contains(Position.at(2,3)));
+		assertTrue(board.legalMoves(p2).contains(Position.at(5,4)));
+		assertTrue(board.legalMoves(p2).contains(Position.at(4,5)));
+		assertEquals(4, board.legalMoves(p2).size());
 
 
 		//player1WinningBoard
-		assertTrue(player1WinningBoard.legalMoves(player1).contains(new Position(4,2)));
-		assertTrue(player1WinningBoard.legalMoves(player1).contains(new Position(5,3)));
-		assertTrue(player1WinningBoard.legalMoves(player1).contains(new Position(5,2)));
-		assertEquals(3, player1WinningBoard.legalMoves(player1).size());
+		assertTrue(p1WinningBoard.legalMoves(p1).contains(Position.at(2,4)));
+		assertTrue(p1WinningBoard.legalMoves(p1).contains(Position.at(3,5)));
+		assertTrue(p1WinningBoard.legalMoves(p1).contains(Position.at(2,5)));
+		assertEquals(3, p1WinningBoard.legalMoves(p1).size());
 
-		assertTrue(player1WinningBoard.legalMoves(player2).contains(new Position(2,3)));
-		assertTrue(player1WinningBoard.legalMoves(player2).contains(new Position(2,5)));
-		assertTrue(player1WinningBoard.legalMoves(player2).contains(new Position(4,5)));
-		assertEquals(3, player1WinningBoard.legalMoves(player2).size());
+		assertTrue(p1WinningBoard.legalMoves(p2).contains(Position.at(3,2)));
+		assertTrue(p1WinningBoard.legalMoves(p2).contains(Position.at(5,2)));
+		assertTrue(p1WinningBoard.legalMoves(p2).contains(Position.at(5,4)));
+		assertEquals(3, p1WinningBoard.legalMoves(p2).size());
 
 
 		//player2WinningBoard
-		assertTrue(player2WinningBoard.legalMoves(player1).contains(new Position(5,3)));
-		assertTrue(player2WinningBoard.legalMoves(player1).contains(new Position(3,6)));
-		assertTrue(player2WinningBoard.legalMoves(player1).contains(new Position(6,4)));
-		assertTrue(player2WinningBoard.legalMoves(player1).contains(new Position(5,2)));
-		assertTrue(player2WinningBoard.legalMoves(player1).contains(new Position(5,5)));
-		assertEquals(5, player2WinningBoard.legalMoves(player1).size());
+		assertTrue(p2WinningBoard.legalMoves(p1).contains(Position.at(3,5)));
+		assertTrue(p2WinningBoard.legalMoves(p1).contains(Position.at(6,3)));
+		assertTrue(p2WinningBoard.legalMoves(p1).contains(Position.at(4,6)));
+		assertTrue(p2WinningBoard.legalMoves(p1).contains(Position.at(2,5)));
+		assertTrue(p2WinningBoard.legalMoves(p1).contains(Position.at(5,5)));
+		assertEquals(5, p2WinningBoard.legalMoves(p1).size());
 
-		assertTrue(player2WinningBoard.legalMoves(player2).contains(new Position(2,4)));
-		assertTrue(player2WinningBoard.legalMoves(player2).contains(new Position(2,5)));
-		assertTrue(player2WinningBoard.legalMoves(player2).contains(new Position(3,2)));
-		assertTrue(player2WinningBoard.legalMoves(player2).contains(new Position(2,3)));
-		assertTrue(player2WinningBoard.legalMoves(player2).contains(new Position(2,2)));
-		assertEquals(5, player2WinningBoard.legalMoves(player2).size());
+		assertTrue(p2WinningBoard.legalMoves(p2).contains(Position.at(4,2)));
+		assertTrue(p2WinningBoard.legalMoves(p2).contains(Position.at(5,2)));
+		assertTrue(p2WinningBoard.legalMoves(p2).contains(Position.at(2,3)));
+		assertTrue(p2WinningBoard.legalMoves(p2).contains(Position.at(3,2)));
+		assertTrue(p2WinningBoard.legalMoves(p2).contains(Position.at(2,2)));
+		assertEquals(5, p2WinningBoard.legalMoves(p2).size());
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#view(com.othellog4.game.board.Position)}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#view(
+	 * com.othellog4.game.board.Position)}.
 	 */
 	@Test
 	public void testView() {
-		fail("Not yet implemented"); // TODO
+		//PIECE A value
+		assertEquals(Optional.of(Piece.PIECE_A), board.view(Position.at(3,3)));
+
+		//PIECE B value
+		assertEquals(Optional.of(Piece.PIECE_B), board.view(Position.at(3,4)));
+
+		//null value
+		assertEquals(Optional.empty(), board.view(Position.at(0,0)));
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#flip(int, int, com.othellog4.game.board.Piece)}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#flip(
+	 * int, int, com.othellog4.game.board.Piece)}.
 	 */
 	@Test
 	public void testFlip() {
-		//standard board
-		board.flip(2, 4, player1); 
-		//TODO: works not as expected, flips pieces in between but doesnt place piece?
-		
+		board.flip(2, 4, p1); 
+
 		GameBoard newBoard = new GameBoard(new Piece[][]{
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
-				{ null, null, null, player1, player2, null, null, null },
-				{ null, null, player1, player1, player1, null, null, null },
+				{ null, null, null, p1, p1, null, null, null },
+				{ null, null, null, p2, p1, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null },
 				{ null, null, null, null, null, null, null, null }
 		});
-		
-		assertTrue(board.equals(newBoard));
+
+		assertEquals(newBoard.count(p1), board.count(p1));
+		assertEquals(newBoard.count(p2), board.count(p2));
+
+		assertEquals(
+				newBoard.view(Position.at(3, 3)),
+				board.view(Position.at(3, 3))
+				);
+		assertEquals(
+				newBoard.view(Position.at(3, 4)),
+				board.view(Position.at(3, 4))
+				);
+		assertEquals(
+				newBoard.view(Position.at(4, 3)),
+				board.view(Position.at(4, 3))
+				);
+		assertEquals(
+				newBoard.view(Position.at(4, 4)),
+				board.view(Position.at(4, 4))
+				);
 	}
 
 	/**
@@ -246,8 +314,8 @@ public class GameBoardTest {
 	@Test
 	public void testWinning() {
 		assertEquals(null, board.winning());
-		assertEquals(player1, player1WinningBoard.winning());
-		assertEquals(player2, player2WinningBoard.winning());
+		assertEquals(p1, p1WinningBoard.winning());
+		assertEquals(p2, p2WinningBoard.winning());
 	}
 
 	/**
@@ -256,16 +324,30 @@ public class GameBoardTest {
 	@Test
 	public void testLosing() {
 		assertEquals(null, board.losing());
-		assertEquals(player2, player1WinningBoard.losing());
-		assertEquals(player1, player2WinningBoard.losing());
+		assertEquals(p2, p1WinningBoard.losing());
+		assertEquals(p1, p2WinningBoard.losing());
 	}
 
 	/**
-	 * Test method for {@link com.othellog4.game.board.GameBoard#tryPut(com.othellog4.game.board.Position, com.othellog4.game.board.Piece)}.
+	 * Test method for {@link com.othellog4.game.board.GameBoard#tryPut(
+	 * com.othellog4.game.board.Position, com.othellog4.game.board.Piece)}.
 	 */
 	@Test
 	public void testTryPut() {
-		fail("Not yet implemented"); // TODO
+		GameBoard newBoard = null;
+		try {
+			newBoard = board.tryPut(Position.at(2, 4), p1);
+		} catch (InvalidMoveException e) {
+			e.printStackTrace();
+		}
+
+		//Check to see if the original board has not been changed
+		assertEquals(2, board.count(p1));
+		assertEquals(2, board.count(p2));
+
+		//Check to see if newBoard has been changed with correct Pieces
+		assertEquals(4, newBoard.count(p1));
+		assertEquals(1, newBoard.count(p2));
 	}
 
 }
