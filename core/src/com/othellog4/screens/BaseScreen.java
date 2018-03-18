@@ -112,10 +112,8 @@ public abstract class BaseScreen extends ScreenAdapter {
 	@Override
 	public void dispose() {
 		for (Disposable obj : disposables) {
-			System.out.println("Disposing of " + obj.getClass());
 			obj.dispose();
 		}
-		System.out.println();
 	}
 
 	/**
@@ -132,7 +130,6 @@ public abstract class BaseScreen extends ScreenAdapter {
 
 	protected void updateBackButton(Othello game) {
 		if(!backButtonEnabled) return;
-		System.out.println(backButtonClicked());
 		if(backButtonClicked()) {
 			this.dispose();
 			game.switchToMenu();

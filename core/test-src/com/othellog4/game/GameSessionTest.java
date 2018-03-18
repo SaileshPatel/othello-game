@@ -1,5 +1,6 @@
 package com.othellog4.game;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
@@ -9,6 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.othellog4.game.board.GameBoard;
+import com.othellog4.game.board.Piece;
+import com.othellog4.game.board.Position;
 import com.othellog4.game.command.Pause;
 import com.othellog4.game.command.Put;
 import com.othellog4.game.command.Resume;
@@ -16,8 +19,10 @@ import com.othellog4.game.player.Player;
 
 /**
  * 
- * @author John
- *
+ * 
+ * @author 	159014260 John Berg
+ * @since 	
+ * @version 18/03/2018
  */
 public class GameSessionTest
 {
@@ -78,9 +83,16 @@ public class GameSessionTest
 		assertFalse(manager.game().isPaused());
 	}
 	@Test
-	public final void testGetBoard_SameAsMamager()
+	public final void testGetBoard()
+			throws
+			GameException
 	{
-		fail();
+		final Position pos = session.getBoard()
+				.legalMoves(session.current())
+				.iterator()
+				.next();
+		session.accept(new Put(manager.current(), pos));
+		assertEquals(Piece.PIECE_A, session.getBoard().view(pos).get());
 	}
 	@Test
 	public final void testCurrent_Player1()
