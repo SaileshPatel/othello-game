@@ -65,56 +65,74 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	protected abstract boolean checkInput(final Position position);
 	protected abstract void postRender(float delta);
 	protected abstract void postUpdate(float delta);
+
+
+	private void networkMove() {
+		final Position position = network.getMove();
+		if(position != null) {
+			if(placementEnabled && checkInput(position)) {
+				try
+				{
+					// place a position in a col/rol
+					model.put(position.col, position.row);
+					game.piecePlacedSound();
+				}
+				catch (GameException e)
+				{
+					printMessage(e.toString());
+				}
+				network.toggleLive();
+			}
+		}
+	}
 	/**
 	 * This method updates the screen whenever based on player inputs.
 	 * @param delta
 	 */
 	public final void update(final float delta) {
 
-		boardRenderer.update();
-		if(network.isWaiting()) {
-				// place a position in a col/rol
-				final Position position = network.getMove();
-				if(position != null)
-					if(placementEnabled && checkInput(position))
-						try
-						{
-							// place a position in a col/rol
-							model.put(position.col, position.row);
-							game.piecePlacedSound();
-						}
-						catch (GameException e)
-						{
-							printMessage(e.toString());
-						}
+		if(network.isOn()) {
 
-		} else if(!isPressed)
-		{
-			// when a left click happens
-			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			boardRenderer.update();
+			if(network.isWaiting()) {
+				if(network.isLive()) {
+					network.toggleLive();
+					new Thread(this::networkMove);
+					// place a position in a col/rol
+
+				}
+			} else if(!isPressed)
 			{
-				isPressed = true;
-				final Position position = boardRenderer.getPosUnderMouse();
-				if(position != null)
-					if(placementEnabled && checkInput(position))
-						try
-						{
-							// place a position in a col/rol
-							model.put(position.col, position.row);
-							game.piecePlacedSound();
-							network.sendMove(position);
+				// when a left click happens
+				if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+				{
+					isPressed = true;
+					final Position position = boardRenderer.getPosUnderMouse();
+					if(position != null && !network.isLive())
+						if(placementEnabled && checkInput(position)) {
+							try
+							{
+								// place a position in a col/rol
+								model.put(position.col, position.row);
+								game.piecePlacedSound();
+								network.sendMove(position);
+							}
+							catch (GameException e)
+							{
+								printMessage(e.toString());
+							}
 						}
-						catch (GameException e)
-						{
-							printMessage(e.toString());
-						}
+				}
 			}
-		}
-		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
-			isPressed = false;
-		postUpdate(delta);
+			else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+				isPressed = false;
+			postUpdate(delta);
 
-		updateBackButton(game);
+			updateBackButton(game);
+		}
+		else {
+			game.switchToMenu();
+		}
 	}
 
 	/**

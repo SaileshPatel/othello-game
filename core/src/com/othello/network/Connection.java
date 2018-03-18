@@ -69,6 +69,10 @@ public class Connection {
 			e.printStackTrace();
 		}
 	}
+	
+	public boolean isOn() {
+		return s.isClosed();
+	}
 }
 
 

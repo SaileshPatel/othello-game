@@ -5,7 +5,7 @@ import com.othellog4.game.board.Position;
 public class Network {
 
 	private Connection c;
-	private boolean waiting, host;
+	private boolean waiting, host, live;
 	
 	public Network(String connection) {
 		setup(connection);
@@ -29,6 +29,11 @@ public class Network {
 			host = false;
 		}
 		waiting = host;
+		live = host;
+	}
+	
+	public boolean isOn() {
+		return c.isOn();
 	}
 	
 	public boolean isHost() {
@@ -49,6 +54,16 @@ public class Network {
 		String temp = c.read();
 		temp = temp.substring(5);
 		return (new Position(Integer.parseInt(temp.split(",")[0]),Integer.parseInt(temp.split(",")[1])));
+	}
+
+	public boolean isLive() {
+		// TODO Auto-generated method stub
+		return live;
+		
+	}
+	
+	public void toggleLive() {
+		live = !live;
 	}
 	
 	
