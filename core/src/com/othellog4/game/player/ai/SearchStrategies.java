@@ -35,9 +35,10 @@ public enum SearchStrategies implements SearchStrategy
 		 * The {@link java.util.Random} object to generate random numbers
 		 * when selecting a {@link Position}.
 		 */
-		private final java.util.Random rng = new java.util.Random(new Date().getTime());
+		private final java.util.Random rng = new java.util.Random(
+				new Date().getTime());
 		//=====================================================================
-		//Overriden methods.
+		//Overridden methods.
 		/**
 		 * Search for a random {@link Position} where a {@link Piece} object
 		 * can be placed on a {@link BoardView} object.
@@ -106,6 +107,22 @@ public enum SearchStrategies implements SearchStrategy
 	 */
 	MINIMAX
 	{
+		//=====================================================================
+		//Fields.
+		/**
+		 * The DEPTH_LIMIT determines how deep the minimax algorithm will 
+		 * search.
+		 */
+		final int DEPTH_LIMIT = 4;
+		/**
+		 * The {@link java.util.Random} object to generate random numbers
+		 * when selecting a {@link Position}.
+		 */
+		private final java.util.Random rng = new java.util.Random(
+				new Date().getTime());
+
+		//=====================================================================
+		//Overridden methods.
 		/**
 		 * Search for the {@link Position} object where s {@link Piece} object
 		 * can be placed on a board using the MINIMAX algorithm.
@@ -122,37 +139,46 @@ public enum SearchStrategies implements SearchStrategy
 				final Piece piece,
 				final EvaluationStrategy eval)
 		{
-			//4 IS A REASONABLE DEPTH_LIMIT HOWEVER FOR LOW END COMPUTERS THIS MAY NEED TO BE LOWERED
-			final int DEPTH_LIMIT = 4;
-
-			final java.util.Random rng = new java.util.Random(new Date().getTime());
-
 			Position finalPosition = null;
 			try {
-				ArrayList<ScorePosition> test = minimax(board, piece, eval, DEPTH_LIMIT, DEPTH_LIMIT % 2 == 0);
-				finalPosition = test.get(rng.nextInt(test.size())).getPos(); 
+				ArrayList<ScorePosition> bestPossiblePositions = minimax(
+						board,
+						piece,
+						eval,
+						DEPTH_LIMIT,
+						DEPTH_LIMIT % 2 == 0);
+				finalPosition = bestPossiblePositions.get(
+						rng.nextInt(bestPossiblePositions.size())).getPos(); 
 			}
 			catch (com.othellog4.game.board.InvalidMoveException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return finalPosition;
 		}
 
 		/**
-		 * The recursive function used to determine the best possible {@link Position} for the current game {@link BoardView}
+		 * The recursive function used to determine the best possible 
+		 * {@link Position} for the current game {@link BoardView}
 		 * 
 		 * @param board The {@link BoardView} which to search for moves.
 		 * @param piece The {@link Piece} object to search for moves for.
 		 * @param eval The {@link EvaluationStrategy} used to rank the
 		 * 			<code>board</code>.
-		 * @param depth The current depth of the recursive function. (Inverted, 0 is bottom of tree)
+		 * @param depth The current depth of the recursive function. 
+		 * 		  (Inverted, 0 is bottom of tree)
 		 * @param isMax True if maximising player, false if minimising player
-		 * @return An ArrayList<ScorePosition> storing the best {@link ScorePosition}s
+		 * @return An ArrayList<ScorePosition> storing the best 
+		 * 			{@link ScorePosition}s
 		 * @throws InvalidMoveException 
 		 */
-		private ArrayList<ScorePosition> minimax(BoardView board, Piece piece, EvaluationStrategy eval, int depth, boolean isMax) throws InvalidMoveException {
-			ArrayList<ScorePosition> scorePositionList = new ArrayList<ScorePosition>();
+		private ArrayList<ScorePosition> minimax(
+				BoardView board,
+				Piece piece,
+				EvaluationStrategy eval,
+				int depth, boolean isMax)
+						throws InvalidMoveException {
+			ArrayList<ScorePosition> scorePositionList =
+					new ArrayList<ScorePosition>();
 			List<Position> currentPlayerMoveList = new ArrayList<Position>();
 			currentPlayerMoveList.addAll(board.legalMoves(piece));
 			Position bestMove = null; 
@@ -165,7 +191,8 @@ public enum SearchStrategies implements SearchStrategy
 
 			//Leaf node or game ended
 			if(board.isEnd() || depth == 0) {
-				scorePositionList.add(new ScorePosition(eval.evaluate(board, piece), null));
+				scorePositionList.add(
+						new ScorePosition(eval.evaluate(board, piece), null));
 				return scorePositionList;
 			}
 			//Current player can't take a move due to being no available moves
@@ -175,27 +202,28 @@ public enum SearchStrategies implements SearchStrategy
 
 			for (Position move : currentPlayerMoveList) {
 				BoardView newBoard = board.tryPut(move, piece);;
-				ArrayList<ScorePosition> ranks = minimax(newBoard, piece.flip(), eval, depth-1, !isMax);
-				
-				if(ranks.isEmpty()) {
-					scorePositionList.add(new ScorePosition(eval.evaluate(newBoard, piece), move));
-				} else {
-					double currentScore = ranks.get(0).getScore();
-					if(currentScore==bestScore) {
-						scorePositionList.add(new ScorePosition(currentScore, move));
-					}					
-					else if(isMax && (currentScore > bestScore)) {
-						bestScore = currentScore;
-						bestMove = move;
-						scorePositionList.clear();
-						scorePositionList.add(new ScorePosition(bestScore, bestMove));
-					}
-					else if(!isMax && (currentScore < bestScore)){
-						bestScore = currentScore;
-						bestMove = move;
-						scorePositionList.clear();
-						scorePositionList.add(new ScorePosition(bestScore, bestMove));
-					}
+				ArrayList<ScorePosition> ranks = 
+						minimax(newBoard, piece.flip(), eval, depth-1, !isMax);
+
+				//Update scorePositionList
+				double currentScore = ranks.get(0).getScore();
+				if(currentScore==bestScore) {
+					scorePositionList.add(
+							new ScorePosition(currentScore, move));
+				}					
+				else if(isMax && (currentScore > bestScore)) {
+					bestScore = currentScore;
+					bestMove = move;
+					scorePositionList.clear();
+					scorePositionList.add(
+							new ScorePosition(bestScore, bestMove));
+				}
+				else if(!isMax && (currentScore < bestScore)){
+					bestScore = currentScore;
+					bestMove = move;
+					scorePositionList.clear();
+					scorePositionList.add(
+							new ScorePosition(bestScore, bestMove));
 				}
 			}
 			return scorePositionList;
@@ -204,7 +232,7 @@ public enum SearchStrategies implements SearchStrategy
 		/**
 		 * Class that exists to store the score of a given {@link Position}.
 		 * 
-		 * @author 159148026 Arvinder Chatha
+		 * @author 	159148026 Arvinder Chatha
 		 * @since 	14/03/2017
 		 * @version 13/03/2018
 		 */

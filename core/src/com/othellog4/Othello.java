@@ -37,7 +37,7 @@ public class Othello extends Game {
 	public Sound piecePlacedSound;
 	public Sound pieceFlippedSound;
 	public Sound pieceRejectedSound;
-	public float currentVolume;
+	public float currentVolume = 0.5f;
 
 	@Override
 	public void create () {
@@ -141,7 +141,7 @@ public class Othello extends Game {
 	 */
 	public void playMusic() {
 		music.setLooping(true);
-		music.setVolume(0.0f);
+		music.setVolume(0.5f);
 		music.play();
 
 	}
@@ -159,11 +159,11 @@ public class Othello extends Game {
 	}
 
 	public long pieceFlippedSound() {
-		return pieceFlippedSound.play();
+		return pieceFlippedSound.play(currentVolume);
 	}
 
 	public long pieceRejectedSound() {
-		return pieceRejectedSound.play();
+		return pieceRejectedSound.play(currentVolume);
 	}
 
 	/**
