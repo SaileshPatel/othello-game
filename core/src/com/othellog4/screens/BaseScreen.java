@@ -132,7 +132,10 @@ public abstract class BaseScreen extends ScreenAdapter {
 
 	protected void updateBackButton(Othello game) {
 		if(!backButtonEnabled) return;
+<<<<<<< HEAD
 		//System.out.println(backButtonClicked());
+=======
+>>>>>>> John
 		if(backButtonClicked()) {
 			this.dispose();
 			game.switchToMenu();
