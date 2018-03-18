@@ -14,7 +14,6 @@ import com.othellog4.game.command.Surrender;
  * The {@link Player} class is a subclass of the {@link Participant} interface
  * which specialises as a representation of a human player.
  *
- * @author 	######### Sailesh Patel
  * @author 	######### Zak Hirsi
  * @author 	159014260 John Berg
  * @author 	######### Arvinder Chatha

@@ -16,8 +16,7 @@ import com.othellog4.game.GameSession;
  *
  * @author 159014260 John Berg
  * @author Zak Hirsi
- * @author 160034811 Sailesh Patel
- * @since 	??/10/2017
+ * @since 	01/10/2017
  * @version 04/03/2018
  * @see Control
  */

@@ -1,6 +1,6 @@
 # OthelloG4
 
-Modern implementation of othello in Java using LibGDX.
+Modern implementation of Othello in Java using LibGDX.
 
 Developed by:
 
