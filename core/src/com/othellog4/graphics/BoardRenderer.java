@@ -1,6 +1,7 @@
 package com.othellog4.graphics;
 
 import java.util.Observable;
+import java.util.Observer;
 import java.util.Optional;
 import java.util.Set;
 
@@ -60,7 +61,7 @@ public class BoardRenderer implements Disposable {
 
 	private ProxyGameBoard board;
 	private GameModel model;
-
+	private final Observer modelObserver;
 	private Texture pieceHighlight;
 	private Texture background;
 
@@ -81,7 +82,7 @@ public class BoardRenderer implements Disposable {
 		//this.BaseScreen.SPRITE_BATCH = BaseScreen.SPRITE_BATCH;
 		//BaseScreen.SHAPE_RENDER = BaseScreen.BaseScreen.SHAPE_RENDER_RENDER;
 		this.model = model;
-		this.model.addObserver(this::update);
+		this.model.addObserver(modelObserver = this::update);
 		/*
 		 * A series of images needed
 		 */
@@ -468,10 +469,10 @@ public class BoardRenderer implements Disposable {
 	 */
 	@Override
 	public void dispose() {
-		System.out.println("Disposing board renderer");
 		pieceSheet.dispose();
 		tempFelt.dispose();
 		pieceHighlight.dispose();
 		background.dispose();
+		model.deleteObserver(modelObserver);
 	}
 }

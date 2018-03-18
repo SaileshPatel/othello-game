@@ -5,7 +5,9 @@ import java.util.Observer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.utils.Disposable;
 import com.othellog4.Othello;
+import com.othellog4.game.GameEvent;
 import com.othellog4.game.GameException;
 import com.othellog4.game.GameModel;
 import com.othellog4.game.board.Position;
@@ -21,7 +23,11 @@ import com.othellog4.graphics.BoardRenderer;
  * @since 07/03/2018
  * @version 08/03/2018
  */
-public abstract class GameScreen extends BaseScreen implements Observer {
+public abstract class GameScreen extends BaseScreen
+		implements
+		Observer,
+		Disposable
+{
 	//=========================================================================
 	//Fields.
 	private boolean isPressed = false;
@@ -85,7 +91,6 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 						{
 							// place a position in a col/rol
 							model.put(position.col, position.row);
-							game.piecePlacedSound();
 						}
 						catch (GameException e)
 						{
@@ -121,7 +126,13 @@ public abstract class GameScreen extends BaseScreen implements Observer {
 	}
 	@Override
 	public final void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-
+		if(arg == GameEvent.ACCEPTED_PLACMENT)
+			game.piecePlacedSound();
+	}
+	@Override
+	public final void dispose()
+	{
+		super.dispose();
+		model.deleteObserver(this);
 	}
 }
