@@ -1,5 +1,10 @@
 package com.othellog4.game;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -7,14 +12,13 @@ import com.othellog4.game.board.GameBoard;
 import com.othellog4.game.board.InvalidMoveException;
 import com.othellog4.game.board.Piece;
 import com.othellog4.game.board.Position;
-import static org.junit.Assert.*;
 
 /**
  * The {@code GameTest} class is a Junit test suit for the {@link Game} class.
  * 
  * @author 	159014260 John Berg
  * @since 	25/01/2018
- * @version 05/03/2018
+ * @version 18/03/2018
  */
 public class GameTest
 {
@@ -60,6 +64,33 @@ public class GameTest
 	//=========================================================================
 	//Test.
 	/**
+	 * Test the {@link Game#isStarted()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isStarted()} method
+	 * returns <code>false</code> before the game has started.
+	 * </p>
+	 */
+	@Test
+	public final void testIsStarted_NotStarted()
+	{
+		assertFalse(game.isStarted());
+	}
+	/**
+	 * Test the {@link Game#isStarted()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isStarted()} method
+	 * returns <code>true</code> after the game has started.
+	 * </p>
+	 */
+	@Test
+	public final void testIsStarted_Started()
+	{
+		game.start();
+		assertTrue(game.isStarted());
+	}
+	/**
 	 * Test the {@link Game#isPlaying()} method of the {@link Game} class.
 	 * 
 	 * <p>
@@ -67,6 +98,7 @@ public class GameTest
 	 * returns <code>false</code> if the game is paused.
 	 * </p>
 	 */
+	@Test
 	public final void testIsPlaying_NotPlaying()
 	{
 		game.start();
@@ -81,10 +113,40 @@ public class GameTest
 	 * returns <code>true</code> if the game is playing.
 	 * </p>
 	 */
+	@Test
 	public final void testIsPlaying_Playing()
 	{
 		game.start();
-		assertFalse(game.isPlaying());
+		assertTrue(game.isPlaying());
+	}
+	/**
+	 * Test the {@link Game#isPaused()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isPaused()} method
+	 * returns <code>false</code> when the game is not paused.
+	 * </p>
+	 */
+	@Test
+	public final void testIsPaused_NotPaused()
+	{
+		game.start();
+		assertFalse(game.isPaused());
+	}
+	/**
+	 * Test the {@link Game#isPaused()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isPaused()} method
+	 * returns <code>true</code> when the game is paused.
+	 * </p>
+	 */
+	@Test
+	public final void testIsPaused_Paused()
+	{
+		game.start();
+		game.pause();
+		assertTrue(game.isPaused());
 	}
 	/**
 	 * Test the {@link Game#isGameOver()} method of the {@link Game} class.
@@ -129,6 +191,33 @@ public class GameTest
 		game.start();
 		game.surrender(game.getPlayer1());
 		assertTrue(game.isGameOver());
+	}
+	/**
+	 * Test the {@link Game#isEventEnabled()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isEventEnabled()}
+	 * returns <code>false</code> when {@link GameEvents} are disabled.
+	 * </p>
+	 */
+	@Test
+	public final void testIsEventEnabled_NotEnabled()
+	{
+		game.enableEvent(false);
+		assertFalse(game.isEventEnabled());
+	}
+	/**
+	 * Test the {@link Game#isEventEnabled()} method of the {@link Game} class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#isEventEnabled()}
+	 * returns <code>true</code> when {@link GameEvents} are enabled.
+	 * </p>
+	 */
+	@Test
+	public final void testIsEventEnabled_Enabled()
+	{
+		assertTrue(game.isEventEnabled());
 	}
 	/**
 	 * Test the {@link Game#turn()} method of the {@link Game} class.
@@ -344,6 +433,26 @@ public class GameTest
 	{
 		game.end();
 		game.end();
+	}
+	/**
+	 * Test the {@link Game#enableEvent(boolean)} method of the {@link Game}
+	 * class.
+	 * 
+	 * <p>
+	 * This test should only pass if the {@link Game#enableEvent(boolean)}
+	 * method does not send a {@link GameEvent} to the {@link GameListener}
+	 * objects, when {@link GameEvents} are set to <code>false</code>.
+	 * </p>
+	 */
+	public final void testEnableEvent_NoEvent()
+			throws
+			InvalidMoveException
+	{
+		game.enableEvent(false);
+		game.addListener(e -> fail());
+		game.put(game.getBoard().legalMoves(game.getCurrent())
+				.iterator()
+				.next());
 	}
 	/**
 	 * Test the {@link Game#put(Position)} method of the {@link Game} class.

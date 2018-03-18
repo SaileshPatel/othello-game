@@ -187,7 +187,11 @@ public class GameModel extends Observable
 		manager.game().enableEvent(enable);
 	}
 	/**
-	 *
+	 * Start the game.
+	 * 
+	 * <p>
+	 * This method does nothing if the game has already been started.
+	 * </p>
 	 */
 	public final void start()
 	{
@@ -195,8 +199,14 @@ public class GameModel extends Observable
 			manager.game().start();
 	}
 	/**
-	 *
-	 * @throws GameException
+	 * Signal the current {@link Participant} to pause the game.
+	 * 
+	 * <p>
+	 * This method cannot carry out the task if {@link #isWaiting()} returns
+	 * <code>false</code>.
+	 * </p>
+	 * 
+	 * @throws GameException If pausing is not possible.
 	 */
 	public final void pause() throws GameException
 	{
@@ -204,7 +214,14 @@ public class GameModel extends Observable
 			getCurrent().getControl().get().pause();
 	}
 	/**
-	 * @throws GameException
+	 * Signal the current {@link Participant} to resume the game.
+	 * 
+	 * <p>
+	 * This method cannot carry out the task if {@link #isWaiting()} returns
+	 * <code>false</code>.
+	 * </p>
+	 * 
+	 * @throws GameException If resuming is not possible.
 	 */
 	public final void resume() throws GameException
 	{
