@@ -1,11 +1,17 @@
 package com.othellog4.game;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.othellog4.game.board.GameBoard;
+import com.othellog4.game.command.Pause;
+import com.othellog4.game.command.Put;
+import com.othellog4.game.command.Resume;
 import com.othellog4.game.player.Player;
 
 /**
@@ -31,20 +37,45 @@ public class GameSessionTest
 	}
 	//=========================================================================
 	//Tests.
-	@Test
+	@Test(expected = NullPointerException.class)
 	public final void testAccept_NullArg()
+			throws
+			GameException
 	{
-		fail();
+		session.accept(null);
 	}
 	@Test
 	public final void testAccept_WrongIssuer()
+			throws
+			GameException
 	{
-		fail();
+		manager.game().addListener(e -> fail());
+		session.accept(new Put(new Player(), 0, 0));
 	}
 	@Test
 	public final void testAccept_Success()
+			throws
+			GameException
 	{
-		fail();
+		session.accept(new Pause(manager.current()));
+		assertTrue(manager.game().isPaused());
+	}
+	@Test
+	public final void testAccept_AnyTurn()
+			throws
+			GameException
+	{
+		manager.game().pause();
+		session.accept(new Resume(manager.player2()));
+		assertFalse(manager.game().isPaused());
+	}
+	@Test
+	public final void testAccept_WrongTurn()
+			throws
+			GameException
+	{
+		session.accept(new Pause(manager.player2()));
+		assertFalse(manager.game().isPaused());
 	}
 	@Test
 	public final void testGetBoard_SameAsMamager()
@@ -54,12 +85,19 @@ public class GameSessionTest
 	@Test
 	public final void testCurrent_Player1()
 	{
-		fail();
+		assertSame(manager.player1(), manager.playerOf(session.current()));
 	}
 	@Test
 	public final void testCurrent_Player2()
+			throws
+			GameException
 	{
-		fail();
+		session.accept(
+				new Put(manager.current(),
+				session.getBoard()
+					.legalMoves(session.current())
+					.iterator()
+					.next()));
+		assertSame(manager.player2(), manager.playerOf(session.current()));
 	}
-	
 }
