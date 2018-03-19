@@ -313,7 +313,7 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 	@Override
 	public final Piece losing()
 	{
-		final Piece piece = winning().flip();
+		final Piece piece = winning();
 		return piece == null? null: piece.flip();
 	}
 	/**
