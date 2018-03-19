@@ -37,10 +37,9 @@ public final class NormalGameScreen extends GameScreen
 	float yPos = Othello.GAME_WORLD_HEIGHT - buttonHeight;
 	private Texture blackPiece;
 	private Texture whitePiece;
-	private Texture play_pause_button;
+	private Texture pause_button;
 	private Texture play_button;
 	boolean gameOver = false;
-	private Boolean isNotPlaying;
 
 	/**
 	 *
@@ -55,11 +54,9 @@ public final class NormalGameScreen extends GameScreen
 		super.setPlacementEnabled(true);
 		this.model = model;
 
-		isNotPlaying = model.isPlaying();
-
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
-		play_pause_button = GraphicsUtil.createMipMappedTex("gui/pause_button.png");
+		pause_button = GraphicsUtil.createMipMappedTex("gui/pause_button.png");
 		play_button = GraphicsUtil.createMipMappedTex("gui/play_button.png");
 
 
@@ -102,13 +99,12 @@ public final class NormalGameScreen extends GameScreen
 		SPRITE_BATCH.draw(blackPiece, Othello.GAME_WORLD_WIDTH - 1.4f*buttonWidth, Othello.GAME_WORLD_HEIGHT - 1.5f*buttonHeight, buttonWidth, buttonHeight);
 		SPRITE_BATCH.draw(whitePiece, Othello.GAME_WORLD_WIDTH - 2.7f*buttonWidth , Othello.GAME_WORLD_HEIGHT - 1.5f*buttonHeight , buttonWidth, buttonHeight);
 		//check whether the game is being played and display either play or pause button according to the game state
-		if(!isNotPlaying) {
-			SPRITE_BATCH.draw(play_pause_button, Othello.GAME_WORLD_WIDTH - 2*buttonWidth , Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight , buttonWidth, buttonHeight);
+		if (model.isPaused()) {
+			SPRITE_BATCH.draw(play_button, Othello.GAME_WORLD_WIDTH - 2*buttonWidth , Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight , buttonWidth, buttonHeight);
 			if (mousePos.x >= Othello.GAME_WORLD_WIDTH - 2*buttonWidth && mousePos.x < Othello.GAME_WORLD_WIDTH - buttonWidth && mousePos.y >= Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight && mousePos.y < Othello.GAME_WORLD_HEIGHT - 1.50f*buttonHeight) {
 				if(Gdx.input.justTouched()) {
 					try {
-						model.pause();
-						isNotPlaying=true;
+						model.resume();
 					} catch(GameException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -117,21 +113,18 @@ public final class NormalGameScreen extends GameScreen
 			}
 		}
 		else {
-			SPRITE_BATCH.draw(play_button, Othello.GAME_WORLD_WIDTH - 2*buttonWidth , Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight , buttonWidth, buttonHeight);
+			SPRITE_BATCH.draw(pause_button, Othello.GAME_WORLD_WIDTH - 2*buttonWidth , Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight , buttonWidth, buttonHeight);
 			if (mousePos.x >= Othello.GAME_WORLD_WIDTH - 2*buttonWidth && mousePos.x < Othello.GAME_WORLD_WIDTH - buttonWidth && mousePos.y >= Othello.GAME_WORLD_HEIGHT - 2.50f*buttonHeight && mousePos.y < Othello.GAME_WORLD_HEIGHT - 1.50f*buttonHeight) {
 				if(Gdx.input.justTouched()) {
 					try {
-						model.resume();
-						isNotPlaying=false;
+						model.pause();
 					} catch(GameException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 			}
-
 		}
-
 		//Pause functionality implemented
 
 		//Board score implementation
