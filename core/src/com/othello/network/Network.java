@@ -29,11 +29,12 @@ public class Network {
 			host = false;
 		}
 		waiting = host;
-		live = host;
+		live = false;
 	}
 	
 	public boolean isOn() {
-		return c.isOn();
+		return true;
+		//return c.isOn();
 	}
 	
 	public boolean isHost() {
@@ -47,12 +48,15 @@ public class Network {
 	public void sendMove(Position p) {
 		String toSend = "12345" + p.col + "," + p.row;
 		c.send(toSend);
+		waiting = true;
 	}
 	
 	@SuppressWarnings("deprecation")
 	public Position getMove() {
 		String temp = c.read();
+		System.out.println(temp);
 		temp = temp.substring(5);
+		System.out.println(temp);
 		return (new Position(Integer.parseInt(temp.split(",")[0]),Integer.parseInt(temp.split(",")[1])));
 	}
 

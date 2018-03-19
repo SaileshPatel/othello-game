@@ -95,9 +95,10 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 
 			boardRenderer.update();
 			if(network.isWaiting()) {
-				if(network.isLive()) {
+				if(!network.isLive()) {
 					network.toggleLive();
 					new Thread(this::networkMove);
+					//networkMove();
 					// place a position in a col/rol
 
 				}
