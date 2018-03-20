@@ -81,7 +81,7 @@ public class EndGameScreen extends BaseScreen {
 	Texture mascot;
 	Texture enterKey;
 
-	private float statsTextFinalX = 700; //TODO rename to finalX
+	private float statsTextFinalX = 700;
 	private float animStatsTextDistance;
 	private float statsTextTop = 580;
 	private float statsTextSpacing = 40;
@@ -214,7 +214,7 @@ public class EndGameScreen extends BaseScreen {
 			if(winState == BLACK_WINS){
 				messageText = p1Name.toUpperCase() + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex
-						("mascot/end_screen/win.png"); //TODO change to actual picture
+						("mascot/end_screen/win.png");
 			} else if(winState == WHITE_WINS){
 				messageText = p2Name.toUpperCase() + " WINS!";
 				mascot = GraphicsUtil.createMipMappedTex

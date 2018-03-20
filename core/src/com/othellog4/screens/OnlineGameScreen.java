@@ -59,14 +59,6 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	//=========================================================================
 	//Methods.
 	/**
-	 * Should print a message - it still needs to be implemented fully
-	 * @param message a {@java.lang.String String} which states a message to be printed
-	 */
-	protected void printMessage(final String message)
-	{
-		//TODO implement
-	}
-	/**
 	 * This method is intended to check whether an input is a valid position or not
 	 * @param position the position to check
 	 * @return whether the position is valid or not (true/false)
@@ -147,7 +139,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 		updateBackButton(game);
 
 	}
-	
+
 
 	@Override
 	public final void dispose()
@@ -179,7 +171,6 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	}
 	@Override
 	public final void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
 
 	}
 }

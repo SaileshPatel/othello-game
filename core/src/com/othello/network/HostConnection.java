@@ -25,7 +25,6 @@ public class HostConnection extends Connection {
 			reader = new DataInputStream(s.getInputStream());
 			writer = new DataOutputStream(s.getOutputStream());
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -35,7 +34,6 @@ public class HostConnection extends Connection {
 			server.close();
 			s.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

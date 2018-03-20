@@ -41,7 +41,7 @@ public final class GraphicsUtil {
 	 * @return            created bitmap font
 	 */
 	public static BitmapFont generateFont(String path, int size, int vertSpacing) {
-		FreeTypeFontGenerator.setMaxTextureSize(2048); //TODO move this somewhere else
+		FreeTypeFontGenerator.setMaxTextureSize(2048);
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(path));
 
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();

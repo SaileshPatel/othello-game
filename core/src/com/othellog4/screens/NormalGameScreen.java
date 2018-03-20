@@ -106,7 +106,6 @@ public final class NormalGameScreen extends GameScreen
 					try {
 						model.resume();
 					} catch(GameException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -119,7 +118,6 @@ public final class NormalGameScreen extends GameScreen
 					try {
 						model.pause();
 					} catch(GameException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
