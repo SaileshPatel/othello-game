@@ -20,5 +20,6 @@ public class MyRunnable implements Runnable {
 			n.sendMove(messageOut);
 		}
 		messageIn = n.getMove();
+		return;
 	}
 }

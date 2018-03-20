@@ -29,7 +29,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	protected Othello game;
 	protected BoardRenderer boardRenderer;
 	protected GameModel model;
-	private boolean placementEnabled, waiting;
+	private boolean placementEnabled, waiting, test;
 	private MyRunnable myRunnable;
 	private Thread t;
 
@@ -47,6 +47,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 		} else {
 			waiting = false;
 		}
+		test = false;
 		myRunnable = new MyRunnable(IP);
 		t = new Thread(myRunnable);
 		this.model = model;
@@ -103,7 +104,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 
 		boardRenderer.update();
 		if(waiting) {
-			if(!t.isAlive()) {
+			if(!t.isAlive()&& !test) {
 				t.start();
 				//Thread t = new Thread(networkMove());
 				// place a position in a col/rol
@@ -111,6 +112,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 			} else {
 				Position position = myRunnable.messageIn;
 				if(position != null && !t.isAlive()) {
+					
 					if(placementEnabled && checkInput(position)) {
 						try
 						{

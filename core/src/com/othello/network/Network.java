@@ -48,12 +48,10 @@ public class Network {
 	@SuppressWarnings("deprecation")
 	public Position getMove() {
 		String temp = c.read();
-		System.out.println(temp);
 		temp = temp.substring(5);
-		System.out.println(temp);
 		int a,b;
-		a = Integer.parseInt(temp.split(",")[0]);
-		b = Integer.parseInt(temp.split(",")[1]);
+		b = Integer.parseInt(temp.split(",")[0]);
+		a = Integer.parseInt(temp.split(",")[1]);
 		System.out.println(a + " : " + b);
 		return (new Position(a,b));
 	}
