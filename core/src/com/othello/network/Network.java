@@ -52,10 +52,12 @@ public class Network {
 		int a,b;
 		b = Integer.parseInt(temp.split(",")[0]);
 		a = Integer.parseInt(temp.split(",")[1]);
-		System.out.println(a + " : " + b);
 		return (new Position(a,b));
 	}
 
+	public void close() {
+		c.close();
+	}
 	
 	
 }

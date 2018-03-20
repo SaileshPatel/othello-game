@@ -147,6 +147,15 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 		updateBackButton(game);
 
 	}
+	
+
+	@Override
+	public final void dispose()
+	{
+		super.dispose();
+		model.deleteObserver(this);
+		myRunnable.close();
+	}
 
 	/**
 	 * Enable or disable piece placement and ghosting under cursor

@@ -102,14 +102,18 @@ public final class NormalOnlineGameScreen extends OnlineGameScreen
 		SPRITE_BATCH.end();
 
 	}
+
 	@Override
 	protected void postUpdate(float delta) {
 		setPlacementEnabled(model.isWaiting());
 		if(!gameOver && model.isGameOver()) {
 			Launcher.get().clear();
-			//game.setScreen(new EndGameScreen(game, this, model.score()));
+			backButtonEnabled = false;
+			game.setScreen(new OnlineEndGameScreen(game, this, model.score()));
 			gameOver = true;
 		}
+
+		updateBackButton(game, model);
 	}
 
 }
