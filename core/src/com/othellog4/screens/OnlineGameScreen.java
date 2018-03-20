@@ -5,7 +5,7 @@ import java.util.Observer;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.othello.network.Network;
+import com.othello.network.MyRunnable;
 import com.othellog4.Othello;
 import com.othellog4.game.GameException;
 import com.othellog4.game.GameModel;
@@ -29,8 +29,9 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	protected Othello game;
 	protected BoardRenderer boardRenderer;
 	protected GameModel model;
-	private boolean placementEnabled;
-	private Network network;
+	private boolean placementEnabled, waiting;
+	private MyRunnable myRunnable;
+	private Thread t;
 
 	//=========================================================================
 	//Constructors.
@@ -40,12 +41,19 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	 * @param game the {@link com.othellog4.Othello Game} of Othello used
 	 */
 	public OnlineGameScreen(final GameModel model, Othello game, String IP) {
-
-		network = new Network(IP);
+		
+		if(IP.startsWith("host!:")) {
+			waiting = true;
+		} else {
+			waiting = false;
+		}
+		myRunnable = new MyRunnable(IP);
+		t = new Thread(myRunnable);
 		this.model = model;
 		this.model.addObserver(this);
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
+		
 	}
 	//=========================================================================
 	//Methods.
@@ -67,62 +75,81 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	protected abstract void postUpdate(float delta);
 
 
-	private void networkMove() {
-		final Position position = network.getMove();
-		if(position != null) {
-			if(placementEnabled && checkInput(position)) {
-				try
-				{
-					// place a position in a col/rol
-					model.put(position.col, position.row);
-					game.piecePlacedSound();
-				}
-				catch (GameException e)
-				{
-					printMessage(e.toString());
-				}
-				network.toggleLive();
-			}
-		}
-	}
+	//	private void networkMove() {
+	//		Position position = network.getMove();
+	//		if(position != null) {
+	//			if(placementEnabled && checkInput(position)) {
+	//				try
+	//				{
+	//					// place a position in a col/rol
+	//					model.put(position.col, position.row);
+	//					game.piecePlacedSound();
+	//				}
+	//				catch (GameException e)
+	//				{
+	//					printMessage(e.toString());
+	//				}
+	//				network.toggleLive();
+	//			}
+	//		}
+	//	}
 	/**
 	 * This method updates the screen whenever based on player inputs.
 	 * @param delta
 	 */
 	public final void update(final float delta) {
 
-		if(network.isOn()) {
 
-			boardRenderer.update();
-			if(network.isWaiting()) {
-				if(!network.isLive()) {
-					network.toggleLive();
-					new Thread(this::networkMove);
-					//networkMove();
-					// place a position in a col/rol
 
-				}
-			} else if(!isPressed)
-			{
-				// when a left click happens
-				if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
-				{
-					isPressed = true;
-					final Position position = boardRenderer.getPosUnderMouse();
-					if(position != null && !network.isLive())
-						if(placementEnabled && checkInput(position)) {
-							try
-							{
-								// place a position in a col/rol
-								model.put(position.col, position.row);
-								game.piecePlacedSound();
-								network.sendMove(position);
-							}
-							catch (GameException e)
-							{
-								printMessage(e.toString());
-							}
+		boardRenderer.update();
+		if(waiting) {
+			if(!t.isAlive()) {
+				t.start();
+				//Thread t = new Thread(networkMove());
+				// place a position in a col/rol
+
+			} else {
+				Position position = myRunnable.messageIn;
+				if(position != null && !t.isAlive()) {
+					if(placementEnabled && checkInput(position)) {
+						try
+						{
+							// place a position in a col/rol
+							model.put(position.col, position.row);
+							game.piecePlacedSound();
+							myRunnable.messageIn = null;;
+							waiting = false;
 						}
+						catch (GameException e)
+						{
+							printMessage(e.toString());
+						}
+					}
+				}
+			}
+		} else if(!isPressed)
+		{
+			// when a left click happens
+			if(Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			{
+				isPressed = true;
+				Position position = boardRenderer.getPosUnderMouse();
+				if(position != null && !t.isAlive()) {
+					if(placementEnabled && checkInput(position)) {
+						try
+						{
+							// place a position in a col/rol
+							model.put(position.col, position.row);
+							game.piecePlacedSound();
+							myRunnable.messageOut = position;
+							waiting = true;
+							t = new Thread(myRunnable);
+						}
+						catch (GameException e)
+						{
+							printMessage(e.toString());
+						}
+					}
 				}
 			}
 			else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
