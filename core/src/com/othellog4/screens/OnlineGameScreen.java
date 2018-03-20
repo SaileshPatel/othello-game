@@ -106,6 +106,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 		if(waiting) {
 			if(!t.isAlive()&& !test) {
 				t.start();
+				test = true;
 				//Thread t = new Thread(networkMove());
 				// place a position in a col/rol
 
@@ -121,6 +122,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 							game.piecePlacedSound();
 							myRunnable.messageIn = null;;
 							waiting = false;
+							test = false;
 						}
 						catch (GameException e)
 						{
