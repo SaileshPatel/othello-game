@@ -56,14 +56,6 @@ public abstract class GameScreen extends BaseScreen
 	//=========================================================================
 	//Methods.
 	/**
-	 * Should print a message - it still needs to be implemented fully
-	 * @param message a {@java.lang.String String} which states a message to be printed
-	 */
-	protected void printMessage(final String message)
-	{
-		//TODO implement
-	}
-	/**
 	 * This method is intended to check whether an input is a valid position or not
 	 * @param position the position to check
 	 * @return whether the position is valid or not (true/false)

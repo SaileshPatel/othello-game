@@ -32,10 +32,10 @@ import com.othellog4.graphics.GraphicsUtil;
  * @author James Shorthouse
  * @version 13/02/2018
  */
-public class EndGameScreen extends BaseScreen {
+public class OnlineEndGameScreen extends BaseScreen {
 
 	// The screen of the game to be displayed behind the victory screen
-	private GameScreen screen;
+	private OnlineGameScreen screen;
 	private Othello game;
 	private BitmapFont largeFont;
 	private BitmapFont mediumFont;
@@ -91,9 +91,9 @@ public class EndGameScreen extends BaseScreen {
 
 	private boolean animationFinished = false;
 
-	public EndGameScreen(Othello game, GameScreen screen, GameScore gameScore) {
+	public OnlineEndGameScreen(Othello game, NormalOnlineGameScreen normalOnlineGameScreen, GameScore gameScore) {
 
-		this.screen = screen;
+		this.screen = normalOnlineGameScreen;
 		this.game = game;
 
 		GameConclusion conclusion = gameScore.conclusion();

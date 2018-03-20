@@ -25,16 +25,13 @@ public class Connection {
 				reader = new DataInputStream(s.getInputStream());
 				writer = new DataOutputStream(s.getOutputStream());
 			} catch (UnknownHostException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
 			}
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected Connection() {
 	}
 
@@ -42,7 +39,6 @@ public class Connection {
 		try {
 			writer.writeUTF(output);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -52,7 +48,6 @@ public class Connection {
 		try {
 			return reader.readUTF();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -65,11 +60,10 @@ public class Connection {
 		try {
 			s.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean isOn() {
 		return s.isClosed();
 	}

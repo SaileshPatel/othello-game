@@ -6,8 +6,6 @@ import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.math.Vector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Align;
 import com.othellog4.Othello;
 import com.othellog4.environment.Launcher;
@@ -26,7 +24,7 @@ import com.othellog4.graphics.GraphicsUtil;
 public final class NormalOnlineGameScreen extends OnlineGameScreen
 {
 	protected GameModel model;
-	
+
 	private BitmapFont scoreFont;
 	private BitmapFont whiteFont;
 	private String blackScore;
@@ -40,7 +38,7 @@ public final class NormalOnlineGameScreen extends OnlineGameScreen
 	boolean gameOver = false;
 
 	/**
-	 * 
+	 *
 	 * @param model takes a {@link com.othellog4.game.GameModel Model} of the game
 	 * @param game takes an instance of {@link com.othellog4.Othello Othello}
 	 */
@@ -52,10 +50,10 @@ public final class NormalOnlineGameScreen extends OnlineGameScreen
 		super(model, game, IP);
 		super.setPlacementEnabled(true);
 		this.model = model;
-		
+
 		whitePiece = GraphicsUtil.createMipMappedTex("whitepiece.png");
 		blackPiece = GraphicsUtil.createMipMappedTex("blackpiece.png");
-		
+
 		FreeTypeFontGenerator titlegenerator = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titleparameter = new FreeTypeFontParameter();
 		titleparameter.size = 35; // Size in px
@@ -65,7 +63,7 @@ public final class NormalOnlineGameScreen extends OnlineGameScreen
 		titlegenerator.dispose();
 		scoreFont.getRegion().getTexture().setFilter(TextureFilter.Linear, TextureFilter.Linear);
 		scoreFont.setColor(1f, 1f, 1f, 1f);
-		
+
 		FreeTypeFontGenerator titleGen = new FreeTypeFontGenerator(Gdx.files.internal("segoeuib.ttf"));
 		FreeTypeFontParameter titlePara = new FreeTypeFontParameter();
 		titlePara.size = 35; // Size in px
@@ -85,9 +83,6 @@ public final class NormalOnlineGameScreen extends OnlineGameScreen
 
 	@Override
 	protected void postRender(float delta) {
-		// TODO Auto-generated method stub
-//		System.out.println(GraphicsUtil.getMousePos());
-		
 		blackScore = Integer.toString(model.getBoard().count(Piece.PIECE_A));
 		whiteScore = Integer.toString(model.getBoard().count(Piece.PIECE_B));
 		int ScoreB = model.getBoard().count(Piece.PIECE_B);
@@ -102,14 +97,18 @@ public final class NormalOnlineGameScreen extends OnlineGameScreen
 		SPRITE_BATCH.end();
 
 	}
+
 	@Override
 	protected void postUpdate(float delta) {
 		setPlacementEnabled(model.isWaiting());
 		if(!gameOver && model.isGameOver()) {
 			Launcher.get().clear();
-			//game.setScreen(new EndGameScreen(game, this, model.score()));
+			backButtonEnabled = false;
+			game.setScreen(new OnlineEndGameScreen(game, this, model.score()));
 			gameOver = true;
 		}
+
+		updateBackButton(game, model);
 	}
 
 }

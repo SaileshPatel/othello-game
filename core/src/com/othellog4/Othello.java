@@ -126,7 +126,7 @@ public class Othello extends Game {
 	public void switchToMultiplaer(){
 		setScreen (new MultiplayerMenuScreen(this));
 	}
-	
+
 	public void switchCredits(){
 		setScreen (new CreditScreen(this));
 	}
@@ -172,9 +172,6 @@ public class Othello extends Game {
 	 */
 	public void setMusic(float volume) {
 		music.setVolume(volume);
-
-		//TODO
-		//change the decibel scale
 	}
 
 	public void setSound(float volume) {

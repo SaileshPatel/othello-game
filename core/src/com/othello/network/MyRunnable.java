@@ -22,4 +22,8 @@ public class MyRunnable implements Runnable {
 		messageIn = n.getMove();
 		return;
 	}
+	
+	public void close() {
+		n.close();
+	}
 }

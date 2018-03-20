@@ -154,14 +154,12 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 
 	@Override
 	public boolean isEnd() {
-		// TODO Auto-generated method stub
 		return legalMoves(Piece.PIECE_A).isEmpty()
 				&& legalMoves(Piece.PIECE_B).isEmpty();
 				}
 
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
 		return grid.length;
 	}
 	@Override
@@ -218,7 +216,6 @@ public final class GameBoard implements BoardView, Cloneable, Serializable {
 
 	@Override
 	public Optional<Piece> view(Position pos) {
-		// TODO Auto-generated method stub
 
 		return Optional.ofNullable(read(pos.col, pos.row));
 	}
