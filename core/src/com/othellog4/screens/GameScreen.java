@@ -86,7 +86,7 @@ public abstract class GameScreen extends BaseScreen
 						}
 						catch (GameException e)
 						{
-							printMessage(e.toString());
+							//printMessage(e.toString());
 							game.pieceRejectedSound();
 						}
 			}

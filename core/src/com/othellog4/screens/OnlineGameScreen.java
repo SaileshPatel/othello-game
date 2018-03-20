@@ -101,7 +101,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 						}
 						catch (GameException e)
 						{
-							printMessage(e.toString());
+							//printMessage(e.toString());
 						}
 					}
 				}
@@ -126,7 +126,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 						}
 						catch (GameException e)
 						{
-							printMessage(e.toString());
+							//printMessage(e.toString());
 						}
 					}
 				}
