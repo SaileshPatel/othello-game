@@ -41,7 +41,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	 * @param game the {@link com.othellog4.Othello Game} of Othello used
 	 */
 	public OnlineGameScreen(final GameModel model, Othello game, String IP) {
-		
+
 		if(IP.startsWith("host!:")) {
 			waiting = true;
 		} else {
@@ -54,7 +54,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 		this.model.addObserver(this);
 		this.game = game;
 		boardRenderer = new BoardRenderer(model);
-		
+
 	}
 	//=========================================================================
 	//Methods.
@@ -76,24 +76,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 	protected abstract void postUpdate(float delta);
 
 
-	//	private void networkMove() {
-	//		Position position = network.getMove();
-	//		if(position != null) {
-	//			if(placementEnabled && checkInput(position)) {
-	//				try
-	//				{
-	//					// place a position in a col/rol
-	//					model.put(position.col, position.row);
-	//					game.piecePlacedSound();
-	//				}
-	//				catch (GameException e)
-	//				{
-	//					printMessage(e.toString());
-	//				}
-	//				network.toggleLive();
-	//			}
-	//		}
-	//	}
+
 	/**
 	 * This method updates the screen whenever based on player inputs.
 	 * @param delta
@@ -113,7 +96,7 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 			} else {
 				Position position = myRunnable.messageIn;
 				if(position != null && !t.isAlive()) {
-					
+
 					if(placementEnabled && checkInput(position)) {
 						try
 						{
@@ -156,15 +139,13 @@ public abstract class OnlineGameScreen extends BaseScreen implements Observer {
 					}
 				}
 			}
-			else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
-				isPressed = false;
-			postUpdate(delta);
+		}
+		else if(!Gdx.input.isButtonPressed(Input.Buttons.LEFT))
+			isPressed = false;
+		postUpdate(delta);
 
-			updateBackButton(game);
-		}
-		else {
-			game.switchToMenu();
-		}
+		updateBackButton(game);
+
 	}
 
 	/**
