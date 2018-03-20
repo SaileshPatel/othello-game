@@ -112,30 +112,6 @@ public final class GameManager
 	//=========================================================================
 	//Methods.
 	/**
-	 * Check if inputs are enabled.
-	 * 
-	 * @return The enable status.
-	 */
-	public final boolean isInputEnabled()
-	{
-		return inputEnable;
-	}
-	/**
-	 * Enable or disable input such that it is not possible to progress the
-	 * game.
-	 * 
-	 * <p>
-	 * When enabled, it will prompt the {@link Game} to update with the last
-	 * event.
-	 * </p>
-	 * 
-	 * @param enable The enable status.
-	 */
-	public final void enableInput(final boolean enable)
-	{
-		inputEnable = enable;
-	}
-	/**
 	 * Update all the {@link GameExtension} objects in <code>this</code>
 	 * {@code GameManager} about a {@link GameEvent}.
 	 *
@@ -158,6 +134,30 @@ public final class GameManager
 	{
 		for(final GameExtension e: extensions)
 			e.onCommand(command, this);
+	}
+	/**
+	 * Check if inputs are enabled.
+	 * 
+	 * @return The enable status.
+	 */
+	public final boolean isInputEnabled()
+	{
+		return inputEnable;
+	}
+	/**
+	 * Enable or disable input such that it is not possible to progress the
+	 * game.
+	 * 
+	 * <p>
+	 * When enabled, it will prompt the {@link Game} to update with the last
+	 * event.
+	 * </p>
+	 * 
+	 * @param enable The enable status.
+	 */
+	public final void enableInput(final boolean enable)
+	{
+		inputEnable = enable;
 	}
 	/**
 	 * Execute a {@link GameCommand} on the {@link Game} managed by
