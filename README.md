@@ -4,7 +4,7 @@ Modern implementation of Othello in Java using LibGDX.
 
 Developed by:
 
-* John Berg (JohnBeeBlue)
+* John Berg (Jekberg)
 * Arvinder Chatha (chathaas)
 * Zakeria Hirsi (zakeria-hirsi)
 * Aleksander Kozina
